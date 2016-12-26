@@ -159,6 +159,13 @@ class Episode_model extends BaseModel {
 		return $query->num_rows() > 0;
 	}
 
+	public function getWatchEpisode($user_id, $episode_id){
+		$this->db->where('episode_id', $episode_id);
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get('user_watch');
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
+	}
+
 	public function addWatchEpisode($params) {
 		$this->db->insert('user_watch', $params);
 		return $this->db->insert_id();

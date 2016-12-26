@@ -115,6 +115,8 @@ class Product extends BR_Controller {
 				$comments[$key]['replies'] = $replies;
 				$comments[$key]['has_like'] = $this->episode_model->hasLikeComment($comment['comment_id'], $this->user_id);
 			}
+			$watch = $this->episode_model->getWatchEpisode($this->user_id, $episode['episode_id']);
+            $episode['start_time'] = $watch != null ? $watch['start_time'] : 0;
 		}else{
 			$episode['has_like'] = 0;
 			$episode['has_dislike'] = 0;
