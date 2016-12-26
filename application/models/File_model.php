@@ -1,37 +1,25 @@
-<?php 
+<?php
 
 require APPPATH . '/libraries/ImageManipulator.php';
 
 require APPPATH . '/libraries/SimpleImage.php';
 
 
-
 define('AVATAR_IMAGE_PATH', 'media/avatar/user/');
-
 define('COVER_IMAGE_PATH', 'media/covers/');
-
 define('PRODUCT_IMAGE_PATH', 'media/product/');
-
 define('PRODUCT_IMAGE_THUMB_PATH', 'media/product_thumb/');
-
 define('MESSAGES_IMAGE_PATH', 'media/imessage/');
-
 define('ORDER_MESSAGES_IMAGE_PATH', 'media/iomessage/');
-
 define('BRAND_IMAGE_PATH', 'media/brand/');
-
 define('CRM_IMAGE_PATH', 'media/crm/');
-
 define('CATEGORY_ICON_PATH', 'media/category/');
-
 define('BANNER_IMAGE_PATH', 'media/banner/');
-
 define('POST_IMAGE_PATH', 'media/post_upload/');
 
 
 class File_model extends CI_Model {
 
-	
 
 	public function __construct() {
 
@@ -39,25 +27,20 @@ class File_model extends CI_Model {
 
 	}
 
-	
-
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $image
-
 	 * @return boolean
-
 	 */
 
 	public function checkFileImage($image) {
-		
+
 		$extension = pathinfo($image["name"])['extension'];
 
 		if (($image['size'] < 300000000) && in_array($extension, File_model::$allowedExts)
 
-				&& in_array($image['type'], File_model::$allowedType)) {
+			&& in_array($image['type'], File_model::$allowedType)
+		) {
 
 			if ($image['error'] > 0) {
 
@@ -75,16 +58,11 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $image
-
 	 * @param unknown $path
-
 	 */
 
 	public function saveFile($image, $path) {
@@ -99,22 +77,14 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $image
-
 	 * @param unknown $con_id
-
 	 * @param unknown $uid
-
 	 * @param unknown $time
-
 	 * @return string
-
 	 */
 
 	public function saveMessageFile($image, $con_id, $uid, $time) {
@@ -129,31 +99,24 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $image
-
 	 * @param number $width
-
 	 * @param number $height
-
 	 * @param string $path
-
 	 */
 
 	public function reSizeFile($image, $width = 200, $height = 200, $path = '') {
 
 		$manipulator = new ImageManipulator($image['tmp_name']);
 
-        // resizing to 200x200
+		// resizing to 200x200
 
-        $newImage = $manipulator->resample($width, $height);
+		$newImage = $manipulator->resample($width, $height);
 
-        // saving file to uploads folder
+		// saving file to uploads folder
 
 		if ($path == '') {
 
@@ -161,37 +124,29 @@ class File_model extends CI_Model {
 
 		}
 
-        $manipulator->save($path);
+		$manipulator->save($path);
 
 	}
 
 
-
-	
-
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $image
-
 	 * @param string $path
-
 	 */
 
 	public function cropFile($image, $path = '') {
 
 		$manipulator = new ImageManipulator($image['tmp_name']);
 
-        $width  = $manipulator->getWidth();
+		$width = $manipulator->getWidth();
 
-        $height = $manipulator->getHeight();
+		$height = $manipulator->getHeight();
 
-		
 
 		$size = $width > $height ? $height : $width;
 
-        $newImage = $manipulator->crop(0, 0, $size, $size);
+		$newImage = $manipulator->crop(0, 0, $size, $size);
 
 		if ($path == '') {
 
@@ -199,29 +154,23 @@ class File_model extends CI_Model {
 
 		}
 
-		
 
-        $manipulator->save($path);
+		$manipulator->save($path);
 
 	}
 
-	
 
 	/**
-
 	 *
-
 	 * @param unknown $image
-
 	 * @param string $path
-
 	 */
 
 	public function cropCenteralFile($oldPath, $path) {
 
 		$manipulator = new ImageManipulator($oldPath);
 
-		$width  = $manipulator->getWidth();
+		$width = $manipulator->getWidth();
 
 		$height = $manipulator->getHeight();
 
@@ -231,7 +180,6 @@ class File_model extends CI_Model {
 
 // 			return;
 
-	
 
 		$size = $width > $height ? $height : $width;
 
@@ -239,113 +187,30 @@ class File_model extends CI_Model {
 
 		$dy = (int)(($height - $size) / 2);
 
-		
 
 		$newImage = $manipulator->crop($dx, $dy, $dx + $size, $dy + $size);
-
 
 
 		$manipulator->save($path);
 
 	}
 
-	
-
-
 
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $image
-
 	 * @param string $path
-
 	 * @param number $mSize
-
 	 */
 
 	public function cropAndResize($image, $path = '', $mSize = 512) {
 
 		$manipulator = new ImageManipulator($image['tmp_name']);
 
-        $width  = $manipulator->getWidth();
-
-        $height = $manipulator->getHeight();
-
-		
-
-		$size = $width > $height ? $height : $width;
-
-        $newImage = $manipulator->crop(0, 0, $size, $size);
-
-		$newImage = $manipulator->resample($mSize, $mSize);
-
-        // saving file to uploads folder
-
-		if ($path == '') {
-
-			$path = 'media/uploads/' . $image['name'];
-
-		}
-
-		if (file_exists($path)) {
-
-			unlink($path);
-
-		}
-
-        $manipulator->save($path);
-
-	}
-
-	
-
-	
-
-	public function createThumbnailName($path) {
-
-		$pos = strripos($path, '.');
-
-		return substr($path, 0, $pos) . '-thumb' . substr($path, $pos);
-
-	}
-
-	
-
-	public function createThumbProduct($path) {
-
-		$pos = strrpos($path, '/');
-
-		$new_path = PRODUCT_IMAGE_THUMB_PATH . substr($path, $pos + 1);
-
-		$this->cropAndResizeThumbNail($path, $new_path, 300);
-
-		return $new_path;
-
-	}
-
-	/**
-
-	 * 
-
-	 * @param unknown $oldpath
-
-	 * @param string $path
-
-	 * @param number $mSize
-
-	 */
-
-	public function cropAndResizeThumbNail($oldpath, $path = '', $mSize = 200) {
-
-		$manipulator = new ImageManipulator($oldpath);
-
-		$width  = $manipulator->getWidth();
+		$width = $manipulator->getWidth();
 
 		$height = $manipulator->getHeight();
 
-	
 
 		$size = $width > $height ? $height : $width;
 
@@ -371,18 +236,74 @@ class File_model extends CI_Model {
 
 	}
 
-	
+
+	public function createThumbnailName($path) {
+
+		$pos = strripos($path, '.');
+
+		return substr($path, 0, $pos) . '-thumb' . substr($path, $pos);
+
+	}
+
+
+	public function createThumbProduct($path) {
+
+		$pos = strrpos($path, '/');
+
+		$new_path = PRODUCT_IMAGE_THUMB_PATH . substr($path, $pos + 1);
+
+		$this->cropAndResizeThumbNail($path, $new_path, 300);
+
+		return $new_path;
+
+	}
 
 	/**
+	 *
+	 * @param unknown $oldpath
+	 * @param string $path
+	 * @param number $mSize
+	 */
 
-	 * 
+	public function cropAndResizeThumbNail($oldpath, $path = '', $mSize = 200) {
 
+		$manipulator = new ImageManipulator($oldpath);
+
+		$width = $manipulator->getWidth();
+
+		$height = $manipulator->getHeight();
+
+
+		$size = $width > $height ? $height : $width;
+
+		$newImage = $manipulator->crop(0, 0, $size, $size);
+
+		$newImage = $manipulator->resample($mSize, $mSize);
+
+		// saving file to uploads folder
+
+		if ($path == '') {
+
+			$path = 'media/uploads/' . $image['name'];
+
+		}
+
+		if (file_exists($path)) {
+
+			unlink($path);
+
+		}
+
+		$manipulator->save($path);
+
+	}
+
+
+	/**
+	 *
 	 * @param unknown $uid
-
 	 * @param unknown $image
-
 	 * @return string
-
 	 */
 
 	public function createPathAvatar($uid, $image) {
@@ -395,22 +316,22 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	public function createFilePath($image, $pre = 'media/') {
 
 		// $extension = end(explode('.', $image['name']));
 		$extension = pathinfo($image["name"])['extension'];
 
-		return $pre . $image['name'] . '_' . time(). '.' . $extension;
+		return $pre . $image['name'] . '_' . time() . '.' . $extension;
 
 	}
+
 	public function createFileName($image, $pre = 'media/', $name) {
 
 		// $extension = end(explode('.', $image['name']));
 		$extension = pathinfo($image["name"])['extension'];
 
-		return $pre . $name . '_' . time(). '.' . $extension;
+		return $pre . $name . '_' . time() . '.' . $extension;
 
 	}
 
@@ -418,20 +339,18 @@ class File_model extends CI_Model {
 
 		$extension = end(explode('.', $file['name']));
 
-		return $pre . '-' . time(). '.' . $extension;
+		return $pre . '-' . time() . '.' . $extension;
 
 	}
-
 
 
 	public function createFileIdScan($file, $pre = 'media/idscan/') {
 
 		$extension = end(explode('.', $file['name']));
 
-		return $pre . time(). '.' . $extension;
+		return $pre . time() . '.' . $extension;
 
 	}
-
 
 
 	public function createPathCover($uid, $image) {
@@ -452,7 +371,7 @@ class File_model extends CI_Model {
 		return CRM_IMAGE_PATH . "crm-$crm_id.$extension";
 
 	}
-        
+
 
 	public function createPathBrandImage($brand_id, $image) {
 
@@ -462,7 +381,6 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	public function createPathCateIcon($cat_id, $image) {
 
@@ -472,46 +390,33 @@ class File_model extends CI_Model {
 
 	}
 
-    
 
-    public function createPathBannerImage($banner_id,$image) {
+	public function createPathBannerImage($banner_id, $image) {
 
 		$extension = end(explode('.', $image['name']));
 
-		return BANNER_IMAGE_PATH . 'banner-' . $banner_id . '_'. time(). '.' . $extension;
+		return BANNER_IMAGE_PATH . 'banner-' . $banner_id . '_' . time() . '.' . $extension;
 
 	}
 
-    /**
-
-	 * 
-
+	/**
+	 *
 	 * @param unknown $image
-
 	 * @param number $width
-
 	 * @param number $height
-
 	 * @param string $path
-
 	 */
 
 	public function createThumbImageByDimension($image, $width, $height, $path = '') {
 
-		
 
 	}
 
 
-
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $images
-
 	 * @return boolean
-
 	 */
 
 	public function checkArrayImage($images) {
@@ -520,17 +425,14 @@ class File_model extends CI_Model {
 
 			return false;
 
-		
 
 		$numOfImage = count($images['name']);
 
-		
 
 		if ($numOfImage <= 0)
 
 			return false;
 
-		
 
 		for ($i = 0; $i < $numOfImage; $i++) {
 
@@ -538,7 +440,8 @@ class File_model extends CI_Model {
 
 			if (($images['size'][$i] < 30000000) && in_array($extension, File_model::$allowedExts)
 
-					&& in_array($images['type'][$i], File_model::$allowedType)) {
+				&& in_array($images['type'][$i], File_model::$allowedType)
+			) {
 
 				if ($images['error'][$i] > 0) {
 
@@ -558,20 +461,13 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $images
-
 	 * @param unknown $product_id
-
 	 * @param unknown $time
-
 	 * @return multitype:string
-
 	 */
 
 	public function saveArrayImage($images, $product_id, $time) {
@@ -586,7 +482,7 @@ class File_model extends CI_Model {
 
 			$path = PRODUCT_IMAGE_PATH . 'prdid' . $product_id . '-'
 
-						. ($i + 1) . '-' . $time . '.' . $extension;
+				. ($i + 1) . '-' . $time . '.' . $extension;
 
 			if (file_exists($path)) {
 
@@ -605,17 +501,11 @@ class File_model extends CI_Model {
 	}
 
 
-
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $images
-
 	 * @param unknown $time
-
 	 * @return multitype:string
-
 	 */
 
 	public function saveArrayMessageImage($images, $time) {
@@ -646,14 +536,10 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	/**
-
 	 * @param array $images
-
 	 * @param int $time
-
 	 */
 
 	public function saveArrayPostImage($images, $time) {
@@ -684,21 +570,15 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	/**
-
-	 * 
-
+	 *
 	 * @param unknown $images
-
 	 * @param unknown $time
-
 	 * @return multitype:string
-
 	 */
 
-	public function saveArrayOrderMessageImage($images, $order_id , $time) {
+	public function saveArrayOrderMessageImage($images, $order_id, $time) {
 
 		$numOfImage = count($images['name']);
 
@@ -708,7 +588,7 @@ class File_model extends CI_Model {
 
 			$extension = end(explode('.', $images['name'][$i]));
 
-			$path = ORDER_MESSAGES_IMAGE_PATH . 'iom' . $order_id  . ($i + 1) . '-' . $time . '.' . $extension;
+			$path = ORDER_MESSAGES_IMAGE_PATH . 'iom' . $order_id . ($i + 1) . '-' . $time . '.' . $extension;
 
 			if (file_exists($path)) {
 
@@ -726,11 +606,9 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	public function removeFileAndThumb($path) {
 
-		
 
 		if ($path == 'media/avatar/sys/noavatar.jpg') {
 
@@ -744,7 +622,6 @@ class File_model extends CI_Model {
 
 		}
 
-		
 
 		$thumb = $this->createThumbnailName($path);
 
@@ -756,20 +633,13 @@ class File_model extends CI_Model {
 
 	}
 
-	
 
 	/**
-
 	 *
-
 	 * @param unknown $image
-
 	 * @param number $width
-
 	 * @param number $height
-
 	 * @param string $path
-
 	 */
 
 	public function createThumbByDimension($image, $width, $height) {
@@ -780,13 +650,12 @@ class File_model extends CI_Model {
 
 		$path = substr($image, 0, $pos) . '-thumb_' . $width . 'x' . $height . substr($image, $pos);
 
-		$img->load($image)->thumbnail($width,$height)->save($path);
+		$img->load($image)->thumbnail($width, $height)->save($path);
 
 		return $path;
 
 	}
 
-	
 
 	public function makeThumb($image, $width) {
 
@@ -819,25 +688,25 @@ class File_model extends CI_Model {
 		return $path;
 
 	}
-	
-	public function uploadCustom($param, $album_dir){
-		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-			if($_FILES[$param]["name"]){
-				if(!is_dir($album_dir)){
+
+	public function uploadCustom($param, $album_dir) {
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			if ($_FILES[$param]["name"]) {
+				if (!is_dir($album_dir)) {
 					create_dir($album_dir);
 				}
-				
-				$config['upload_path']		= 	$album_dir;
-				$config['allowed_types']	= 	'*';
-				$config['max_size']			= 	100000000000000;
-					
+
+				$config['upload_path'] = $album_dir;
+				$config['allowed_types'] = '*';
+				$config['max_size'] = 100000000000000;
+
 				$this->load->library('upload', $config);
 				$this->upload->initialize($config);
-				$video						= 	$this->upload->do_upload($param);
-				$video_data 				= 	$this->upload->data();
-				if($video) {
+				$video = $this->upload->do_upload($param);
+				$video_data = $this->upload->data();
+				if ($video) {
 					#upload execute.
-					return $config['upload_path'].$video_data['file_name'];
+					return $config['upload_path'] . $video_data['file_name'];
 				} else {
 					return null;
 				}
@@ -846,13 +715,12 @@ class File_model extends CI_Model {
 		return null;
 	}
 
-	
 
-	private static 	$allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
+	private static $allowedExts = array("gif", "jpeg", "jpg", "png", "GIF", "JPEG", "JPG", "PNG");
 
-	private static 	$allowedType = array("image/gif", "image/jpeg", "image/jpg", 
+	private static $allowedType = array("image/gif", "image/jpeg", "image/jpg",
 
-			"image/pjpeg", "image/x-png", "image/png",);
+		"image/pjpeg", "image/x-png", "image/png",);
 
 }
 

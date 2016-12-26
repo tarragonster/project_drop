@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/core/BR_Controller.php';
@@ -18,11 +18,11 @@ class User extends BR_Controller {
 		if ($dtype_id == '' || $device_id == '' || $reg_id == '') {
 			$this->create_error(-1);
 		}
-		
+
 		if (!$this->user_model->checkDeviceId($device_id)) {
 			$q = array('dtype_id' => $dtype_id, 'device_id' => $device_id, 'reg_id' => $reg_id,
-					 'regtime' => $time, 'last_activity' => $time, 'user_id' => $user_id);
-			
+				'regtime' => $time, 'last_activity' => $time, 'user_id' => $user_id);
+
 			$this->db->insert('device_user', $q);
 		} else {
 			$q = array("reg_id" => $reg_id, "last_activity" => $time);
@@ -39,16 +39,16 @@ class User extends BR_Controller {
 		$email = $this->post('email');
 		$password = $this->post('password');
 		$device_id = $this->post('device_id');
-		
+
 		if (!$this->user_model->checkDeviceId($device_id)) {
 			$this->create_error(-47);
 		}
-		
+
 		$user_id = $this->user_model->getUidByAccount($email, $password);
 		if ($user_id == -1) {
 			$this->create_error(-4);
 		}
-		
+
 		$this->user_model->insertLogin($time, $user_id, $device_id);
 		$this->user_model->updateDeviceUser($user_id, $device_id);
 		$params = array();
@@ -70,20 +70,20 @@ class User extends BR_Controller {
 
 		$this->create_success(null, "Success");
 	}
-	
+
 	public function register_post() {
 		$email = $this->c_getEmail('email');
 		$password = $this->c_getWithLength('password', 32, 6);
 
-		if ($this->user_model->checkEmail($email)){
+		if ($this->user_model->checkEmail($email)) {
 			$this->create_error(-5);
 		}
-		
+
 		$this->create_success(null, 'Check success');
 	}
 
 
-	public function registerProfile_post(){
+	public function registerProfile_post() {
 		$time = time();
 		$email = $this->c_getEmail('email');
 		$password = $this->c_getWithLength('password', 32, 6);
@@ -91,7 +91,7 @@ class User extends BR_Controller {
 		$user_name = $this->c_getNotNull('user_name');
 		$full_name = $this->c_getNotNull('full_name');
 
-		if ($this->user_model->checkUserName($user_name)){
+		if ($this->user_model->checkUserName($user_name)) {
 			$this->create_error(-78);
 		}
 
@@ -115,10 +115,10 @@ class User extends BR_Controller {
 				$this->file_model->saveFile($avatar, $path);
 				$params['avatar'] = $path;
 				$path_thumb = $this->file_model->createThumbnailName($path);
-				$this->file_model->cropAndResizeThumbNail($path, $path_thumb);				
+				$this->file_model->cropAndResizeThumbNail($path, $path_thumb);
 			}
 		}
-		
+
 		// add in-app notification
 		$this->load->model('notify_model');
 		$this->notify_model->createNotify($user_id, 55);
@@ -126,7 +126,7 @@ class User extends BR_Controller {
 		$this->user_model->update($params, $user_id);
 		$this->user_model->updateDeviceUser($user_id, $device_id);
 		$this->user_model->insertLogin($time, $user_id, $device_id);
-		
+
 		$data = $this->__getUserProfile($user_id);
 		$this->load->library('oauths');
 		$data['access_token'] = $this->oauths->success($user_id, $device_id);
@@ -146,14 +146,14 @@ class User extends BR_Controller {
 		$product_id = $this->c_getNotNull('product_id');
 		$this->load->model('product_model');
 		$product = $this->product_model->checkProduct($product_id);
-		if(!$product){
+		if (!$product) {
 			$this->create_error(-35);
 		}
 		$watch = $this->user_model->checkWatchList($this->user_id, $product_id);
-		if($watch){
+		if ($watch) {
 			$this->create_error(-76);
 		}
-		$this->user_model->addWatch(array('product_id'=>$product_id, 'user_id'=> $this->user_id));
+		$this->user_model->addWatch(array('product_id' => $product_id, 'user_id' => $this->user_id));
 		$this->load->model('notify_model');
 		$this->notify_model->createNotify($this->user_id, 4, array('user_id' => $this->user_id, 'product_id' => $product_id));
 		$this->create_success(null);
@@ -165,12 +165,12 @@ class User extends BR_Controller {
 			$this->create_error(-10);
 		}
 		$product_id = $this->c_getNotNull('product_id');
-		if($product_id == 0){
+		if ($product_id == 0) {
 
-		}else{
+		} else {
 			$this->load->model('product_model');
 			$product = $this->product_model->checkProduct($product_id);
-			if(!$product){
+			if (!$product) {
 				$this->create_error(-35);
 			}
 		}
@@ -186,42 +186,42 @@ class User extends BR_Controller {
 		$episode_id = $this->post('episode_id') * 1;
 		$product_id = $this->post('product_id') * 1;
 		$time = $this->c_getNotNull('time');
-		if($episode_id != 0){
+		if ($episode_id != 0) {
 			//update for episode
 			$this->load->model('episode_model');
 			$episode = $this->episode_model->checkEpisode($episode_id);
-			if(!$episode){
+			if (!$episode) {
 				$this->create_error(-77);
 			}
-			if($time == -1){
+			if ($time == -1) {
 				$this->episode_model->removeWatchEpisode($episode_id, $this->user_id);
-			}else{
+			} else {
 				$watch = $this->episode_model->checkWatchEpisode($this->user_id, $episode_id);
-				if($watch){
+				if ($watch) {
 					$this->episode_model->updateWatchEpisode($episode_id, $this->user_id, array('start_time' => $time, 'update_time' => time()));
-				}else{
+				} else {
 					$product_id = $this->episode_model->getProdutID($episode['season_id']);
-					$this->user_model->update(array('product_id'=>$product_id), $this->user_id);
+					$this->user_model->update(array('product_id' => $product_id), $this->user_id);
 					$this->load->model('notify_model');
-					$this->notify_model->createNotify($this->user_id, 1, array('user_id' => $this->user_id, 'product_id'=>$product_id));
-					$this->episode_model->addWatchEpisode(array('episode_id'=>$episode_id, 'user_id'=> $this->user_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id, 'start_time' => $time, 'update_time' => time()));
+					$this->notify_model->createNotify($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id));
+					$this->episode_model->addWatchEpisode(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id, 'start_time' => $time, 'update_time' => time()));
 				}
 			}
-		}else{
+		} else {
 			//update for trailler
 			$this->load->model('product_model');
 			$product = $this->product_model->checkProduct($product_id);
-			if(!$product){
+			if (!$product) {
 				$this->create_error(-35);
 			}
-			if($time == -1){
+			if ($time == -1) {
 				$this->product_model->removeWatchTrailler($product_id, $this->user_id);
-			}else{
+			} else {
 				$watch = $this->product_model->checkWatchTrailler($this->user_id, $product_id);
-				if($watch){
+				if ($watch) {
 					$this->product_model->updateWatchTrailler($product_id, $this->user_id, array('start_time' => $time));
-				}else{
-					$this->product_model->addWatchTrailler(array('product_id'=>$product_id, 'user_id'=> $this->user_id, 'start_time' => $time));
+				} else {
+					$this->product_model->addWatchTrailler(array('product_id' => $product_id, 'user_id' => $this->user_id, 'start_time' => $time));
 				}
 			}
 		}
@@ -237,12 +237,12 @@ class User extends BR_Controller {
 		if (!$this->user_model->checkUid($follower_id)) {
 			$this->create_error(-10);
 		}
-		if($this->user_model->checkFollower($this->user_id, $follower_id)){
+		if ($this->user_model->checkFollower($this->user_id, $follower_id)) {
 			$this->user_model->removeFollow($this->user_id, $follower_id);
 			$this->load->model('notify_model');
 			$this->notify_model->removeNotify($follower_id, 51, array('user_id' => $this->user_id));
-		}else{
-			$this->user_model->addFollow(array('user_id'=> $this->user_id, 'follower_id'=> $follower_id, 'timestamp' => time()));
+		} else {
+			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
 			$this->load->model('notify_model');
 			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id));
 		}
@@ -258,32 +258,32 @@ class User extends BR_Controller {
 		$status = $this->c_getNotNull('status');
 		$this->load->model('episode_model');
 		$episode = $this->episode_model->checkEpisode($episode_id);
-		if(!$episode){
+		if (!$episode) {
 			$this->create_error(-77);
 		}
 		$this->load->model('notify_model');
 		$isCheck = $this->user_model->checkEpisodeExits($this->user_id, $episode_id);
 		$product_id = $this->episode_model->getProdutID($episode['season_id']);
-		if($isCheck == -1){
-			$this->user_model->addLike(array('episode_id'=>$episode_id, 'user_id'=> $this->user_id, 'status' => $status));
-			if($status == 1){
+		if ($isCheck == -1) {
+			$this->user_model->addLike(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'status' => $status));
+			if ($status == 1) {
 				$this->notify_model->createNotify($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id));
-			}else{
+			} else {
 				$this->notify_model->createNotify($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id));
 			}
-		}else{
-			if($isCheck != $status){
+		} else {
+			if ($isCheck != $status) {
 				$this->user_model->updateLike($episode_id, $this->user_id, $status);
-				if($status == 1){
-					$this->notify_model->updateNotify($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 2, 'content' => Notify_model::$templates[2], 'timestamp' =>time()));
-				}else{
-					$this->notify_model->updateNotify($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 3, 'content' => Notify_model::$templates[3], 'timestamp' =>time()));
+				if ($status == 1) {
+					$this->notify_model->updateNotify($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 2, 'content' => Notify_model::$templates[2], 'timestamp' => time()));
+				} else {
+					$this->notify_model->updateNotify($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 3, 'content' => Notify_model::$templates[3], 'timestamp' => time()));
 				}
-			}else{
+			} else {
 				$this->user_model->deleteLike($episode_id, $this->user_id);
-				if($status == 1){
+				if ($status == 1) {
 					$this->notify_model->removeNotify($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id));
-				}else{
+				} else {
 					$this->notify_model->removeNotify($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id));
 				}
 			}
@@ -308,9 +308,9 @@ class User extends BR_Controller {
 		}
 		$user = $this->__getUserProfile($user_id);
 		$user['is_follow'] = '0';
-		if($this->user_id != null){
-			if($this->user_model->checkFollower($this->user_id, $user_id)){
-				$user['is_follow'] = '1';				
+		if ($this->user_id != null) {
+			if ($this->user_model->checkFollower($this->user_id, $user_id)) {
+				$user['is_follow'] = '1';
 			}
 		}
 		$this->create_success(array('user' => $user));
@@ -324,28 +324,28 @@ class User extends BR_Controller {
 
 	public function following_get($user_id = -1) {
 
-		if($user_id != -1){
+		if ($user_id != -1) {
 			if (!$this->user_model->checkUid($user_id)) {
 				$this->create_error(-10);
 			}
 			$following = $this->user_model->getFollowing($user_id);
-			if($this->user_id != null){
+			if ($this->user_id != null) {
 				$follow_user = $this->user_model->getFollowing($this->user_id);
 				foreach ($following as $key => $user) {
 					$following[$key]['isFollow'] = '0';
 					foreach ($follow_user as $follow) {
-						if($user['user_id'] == $follow['follower_id']){
+						if ($user['user_id'] == $follow['follower_id']) {
 							$following[$key]['is_follow'] = '1';
 							break;
 						}
 					}
 				}
-			}else{
+			} else {
 				foreach ($following as $key => $follow) {
 					$following[$key]['is_follow'] = 0;
-				}	
+				}
 			}
-		}else{
+		} else {
 			$following = $this->user_model->getFollowing($this->user_id);
 			foreach ($following as $key => $follow) {
 				$following[$key]['is_follow'] = 1;
@@ -355,35 +355,35 @@ class User extends BR_Controller {
 	}
 
 	public function followers_get($user_id = -1) {
-		if($user_id != -1){
+		if ($user_id != -1) {
 			if (!$this->user_model->checkUid($user_id)) {
 				$this->create_error(-10);
 			}
 			$followers = $this->user_model->getFollowers($user_id);
-			if($this->user_id != null){
+			if ($this->user_id != null) {
 				$following = $this->user_model->getFollowing($this->user_id);
 				foreach ($followers as $key => $user) {
 					$followers[$key]['isFollow'] = '0';
 					foreach ($following as $follow) {
-						if($user['user_id'] == $follow['follower_id']){
+						if ($user['user_id'] == $follow['follower_id']) {
 							$followers[$key]['is_follow'] = '1';
 							break;
 						}
 					}
 				}
-			}else{
+			} else {
 				foreach ($followers as $key => $follow) {
 					$followers[$key]['is_follow'] = 0;
-				}	
+				}
 			}
-			
-		}else{
+
+		} else {
 			$followers = $this->user_model->getFollowers($this->user_id);
 			$following = $this->user_model->getFollowing($this->user_id);
 			foreach ($followers as $key => $user) {
 				$followers[$key]['isFollow'] = '0';
 				foreach ($following as $follow) {
-					if($user['user_id'] == $follow['follower_id']){
+					if ($user['user_id'] == $follow['follower_id']) {
 						$followers[$key]['is_follow'] = '1';
 						break;
 					}
@@ -428,25 +428,25 @@ class User extends BR_Controller {
 				$this->file_model->cropAndResizeThumbNail($path, $path_thumb);
 				$params['avatar'] = $path;
 			}
-		}else{
+		} else {
 			$this->create_error(-1);
 		}
 
 		$oldavatar = $this->user_model->getAvatarUser($this->user_id);
-		
+
 		$this->user_model->update($params, $this->user_id);
-		if($oldavatar != 'media/avatar/user/user.png')
+		if ($oldavatar != 'media/avatar/user/user.png')
 			$this->file_model->removeFileAndThumb($oldavatar);
-		$profile = $this->__getUserProfile($this->user_id);		
+		$profile = $this->__getUserProfile($this->user_id);
 		$this->create_success(array('profile' => $profile), 'Edit success');
 
 	}
 
-	
-	public function forgotPassword_post(){
+
+	public function forgotPassword_post() {
 		$email = $this->c_getEmail("email");
 		$user = $this->user_model->checkEmail($email);
-		if (!$user){
+		if (!$user) {
 			$this->create_error(-9);
 		}
 		$time = time();

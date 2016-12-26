@@ -21,7 +21,7 @@ function validate_socialid($str) {
 	return (!preg_match("/^([0-9a-zA-Z]+)$/ix", $str)) ? FALSE : TRUE;
 }
 
-function base_dir($path = ''){
+function base_dir($path = '') {
 	return config_item('base_dir') . $path;
 }
 
@@ -44,22 +44,22 @@ function createThumbnailName($path) {
 
 if (!function_exists('showTime')) {
 	function showTime($old_time, $time = '') {
-		if($time == '')
+		if ($time == '')
 			$time = time();
 		$diff = $time - $old_time;
 		if ($diff <= 1) {
 			return 'one second ago';
-		} else if($diff <= 5) {
-			return $diff. ' seconds ago';
-		} else if ($diff <= 60){
+		} else if ($diff <= 5) {
+			return $diff . ' seconds ago';
+		} else if ($diff <= 60) {
 			return 5 * (int)($diff / 5) . ' seconds ago';
 		} else if ($diff < 600) {
 			return (int)($diff / 60) . ' minutes ago';
 		} else if ($diff <= 3600) {
 			return 5 * (int)($diff / 300) . ' minutes ago';
-		} else if($diff < 86400) {
+		} else if ($diff < 86400) {
 			return (int)($diff / 3600) . ' hours ago';
-		} else if($diff < 172800) {
+		} else if ($diff < 172800) {
 			return 'yesterday';
 		} else if ($diff < 4322000) {
 			return (int)($diff / 86400) . ' days ago';
@@ -72,15 +72,15 @@ if (!function_exists('showTime')) {
 function showAvgResponse($diff) {
 	if ($diff < 0) {
 		return "many time";
-	} else if ($diff <= 60){
+	} else if ($diff <= 60) {
 		return 'about sec';
 	} else if ($diff < 600) {
 		return "about " . (int)($diff / 60) . ' min';
 	} else if ($diff <= 3600) {
 		return "about " . 5 * (int)($diff / 300) . ' min';
-	} else if($diff < 86400) {
+	} else if ($diff < 86400) {
 		return "about " . (int)($diff / 3600) . ' hours';
-	} else if($diff < 172800) {
+	} else if ($diff < 172800) {
 		return "about 1 day";
 	} else if ($diff < 4322000) {
 		return "about " . (int)($diff / 86400) . ' days';
@@ -96,11 +96,16 @@ function timeFormat($timestamp) {
 
 function getTypeMember($type) {
 	switch ($type) {
-		case 1: return 'Shop Online';
-		case 2: return 'Store';
-		case 3: return 'Big Onnline';
-		case 10: return 'Members';
-		default: 'Members';
+		case 1:
+			return 'Shop Online';
+		case 2:
+			return 'Store';
+		case 3:
+			return 'Big Onnline';
+		case 10:
+			return 'Members';
+		default:
+			'Members';
 	}
 }
 
@@ -139,34 +144,45 @@ function checkEndDot($string) {
 	}
 }
 
-function startsWith($haystack, $needle)
-{
+function startsWith($haystack, $needle) {
 	return $needle === "" || strpos($haystack, $needle) === 0;
 }
-function endsWith($haystack, $needle)
-{
+
+function endsWith($haystack, $needle) {
 	return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
 }
 
 function getOrderStatus($payment_status) {
-	switch($payment_status) {
-		case -1: return 'Cancle';
-		case 1: return 'In Process';
-		case 2: return 'Wait Shipping';
-		case 3: return 'Delivered';
-		case 3: return 'Completed';
-		default: return 'No defined';
-	} 
+	switch ($payment_status) {
+		case -1:
+			return 'Cancle';
+		case 1:
+			return 'In Process';
+		case 2:
+			return 'Wait Shipping';
+		case 3:
+			return 'Delivered';
+		case 3:
+			return 'Completed';
+		default:
+			return 'No defined';
+	}
 }
 
 function getParcelStatus($parcel_status) {
-	switch($parcel_status) {
-		case PARCEL_PROCESSING: return 'Processing';
-		case PARCEL_PRE_TRANSIT: return 'Preparing Shipment';
-		case PARCEL_IN_TRANSIT: return 'In Transit';
-		case PARCEL_DELIVERED: return 'Complete';
-		case PARCEL_CANCELLED: return 'Cancelled';
-		default: return 'No defined';
+	switch ($parcel_status) {
+		case PARCEL_PROCESSING:
+			return 'Processing';
+		case PARCEL_PRE_TRANSIT:
+			return 'Preparing Shipment';
+		case PARCEL_IN_TRANSIT:
+			return 'In Transit';
+		case PARCEL_DELIVERED:
+			return 'Complete';
+		case PARCEL_CANCELLED:
+			return 'Cancelled';
+		default:
+			return 'No defined';
 	}
 }
 

@@ -1,11 +1,11 @@
 <?php
 
-class Email_model extends CI_Model{
-	public function __construct(){
+class Email_model extends CI_Model {
+	public function __construct() {
 		parent::__construct();
 	}
-	
-	public function emailForgotPassword($email, $params){
+
+	public function emailForgotPassword($email, $params) {
 		$this->createNewEmail();
 		$this->email->to($email);
 		$this->email->subject('Reset your Second Screen password');
@@ -22,7 +22,8 @@ class Email_model extends CI_Model{
 		$this->load->library('email', $config);
 		$this->email->from($from_email, $from_name);
 	}
-	protected function loadTemplate($template){
+
+	protected function loadTemplate($template) {
 		$path = APPPATH . 'libraries/templates/' . $template . '.html';
 		if (file_exists($path)) {
 			$html = file_get_contents($path);

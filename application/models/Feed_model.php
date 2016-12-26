@@ -39,8 +39,8 @@ class Feed_model extends BaseModel {
 		$query = $this->db->get($this->table);
 		return $query->num_rows() > 0 ? $query->first_row()->position : 0;
 	}
-	
-	public function remove($item){
+
+	public function remove($item) {
 		$this->db->where('position >', $item['position']);
 		$this->db->set('position', 'position-1', false);
 		$this->db->update($this->table);
@@ -56,7 +56,7 @@ class Feed_model extends BaseModel {
 		$this->db->set('position', 'position-1', false);
 		$this->db->update($this->table);
 	}
-	
+
 	public function down($item) {
 		$this->db->where('position', $item['position'] + 1);
 		$this->db->set('position', 'position-1', false);
@@ -66,15 +66,15 @@ class Feed_model extends BaseModel {
 		$this->db->update($this->table);
 	}
 
-	public function getOthers($query = ''){
-		if($query != ''){
-			$temp = " AND name LIKE '%".$query."%' ";
-		}else{
+	public function getOthers($query = '') {
+		if ($query != '') {
+			$temp = " AND name LIKE '%" . $query . "%' ";
+		} else {
 			$temp = "";
 		}
-		$sql = "SELECT * FROM product WHERE status = 1 ".$temp." AND product_id NOT IN (SELECT product_id FROM feed GROUP BY product_id) ORDER BY product_id DESC";
+		$sql = "SELECT * FROM product WHERE status = 1 " . $temp . " AND product_id NOT IN (SELECT product_id FROM feed GROUP BY product_id) ORDER BY product_id DESC";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-	
+
 }

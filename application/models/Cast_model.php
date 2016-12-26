@@ -16,11 +16,13 @@ class Cast_model extends BaseModel {
 	public function getCastById($cast_id) {
 		return $this->getObjectById($cast_id);
 	}
-	public function getCastOthers($product_id, $name){
-		$sql = "SELECT * FROM `cast` WHERE status = 1 AND name LIKE '%".$name."%' AND cast_id NOT IN (SELECT cast_id FROM film_cast WHERE product_id = '$product_id' GROUP BY cast_id) ORDER BY cast_id DESC";
+
+	public function getCastOthers($product_id, $name) {
+		$sql = "SELECT * FROM `cast` WHERE status = 1 AND name LIKE '%" . $name . "%' AND cast_id NOT IN (SELECT cast_id FROM film_cast WHERE product_id = '$product_id' GROUP BY cast_id) ORDER BY cast_id DESC";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
 	public function getOthers($product_id) {
 		$sql = "SELECT * FROM `cast` WHERE status = 1 AND  cast_id NOT IN (SELECT cast_id FROM film_cast WHERE product_id = '$product_id' GROUP BY cast_id) ORDER BY cast_id DESC";
 		$query = $this->db->query($sql);
@@ -46,6 +48,7 @@ class Cast_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
 	public function deleteCast($cast_id) {
 		$this->db->trans_start();
 		$this->db->where($this->id_name, $cast_id);

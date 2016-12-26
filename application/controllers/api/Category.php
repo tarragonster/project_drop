@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/core/BR_Controller.php';
@@ -15,7 +15,7 @@ class Category extends BR_Controller {
 		$page = $this->post('page');
 		$categories = $this->category_model->getCategories($page);
 		if (is_array($categories)) {
-			foreach($categories as $k => $row) {
+			foreach ($categories as $k => $row) {
 				$products = $this->product_model->getListProductByCategory($row['category_id'], 0);
 				$categories[$k]['products'] = $products;
 			}

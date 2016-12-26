@@ -16,8 +16,8 @@ class Product_model extends BaseModel {
 	public function getProductById($product_id) {
 		return $this->getObjectById($product_id);
 	}
-	
-	public function check_watchlist_added($user_id, $product_id){
+
+	public function check_watchlist_added($user_id, $product_id) {
 		$this->db->select('*');
 		$this->db->from('watch_list');
 		$this->db->where('user_id', $user_id);
@@ -26,7 +26,7 @@ class Product_model extends BaseModel {
 		return $query->num_rows() > 0 ? 1 : 0;
 	}
 
-	public function getProductContinue($user_id, $product_id){
+	public function getProductContinue($user_id, $product_id) {
 		$this->db->select('*');
 		$this->db->from('user_watch');
 		$this->db->where('user_id', $user_id);
@@ -64,7 +64,7 @@ class Product_model extends BaseModel {
 			$this->db->where('season_id', $result['season_id']);
 			$this->db->update('episode', array('status' => 0));
 		}
-		$this->db->where('data LIKE \'%"product_id":"'.$product_id.'"%\'');
+		$this->db->where('data LIKE \'%"product_id":"' . $product_id . '"%\'');
 		$this->db->delete('user_notify');
 
 		$this->db->trans_complete();
@@ -74,7 +74,7 @@ class Product_model extends BaseModel {
 		$this->db->select('p.*');
 		$this->db->from('product_view p');
 		$this->db->where('p.status', 1);
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(PERPAGE_ADMIN, PERPAGE_ADMIN * $page);
 		}
 		$this->db->order_by('product_id', 'desc');
@@ -107,7 +107,7 @@ class Product_model extends BaseModel {
 		$this->db->from('product_view p');
 		$this->db->where('p.category_id', $category_id);
 		$this->db->order_by('priority', 'asc');
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
@@ -121,7 +121,7 @@ class Product_model extends BaseModel {
 		$this->db->where('cp.collection_id', $collection_id);
 		$this->db->where('p.status', 1);
 		$this->db->order_by('cp.priority', 'asc');
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
@@ -169,19 +169,19 @@ class Product_model extends BaseModel {
 
 	public function getMaxPriority() {
 		$this->db->order_by('priority', 'desc');
-        $query = $this->db->get($this->table);
-        $this->db->limit(1);
+		$query = $this->db->get($this->table);
+		$this->db->limit(1);
 		return $query->num_rows() > 0 ? $query->first_row()->priority : 0;
 	}
 
-	public function getProductOthers($cast_id, $name){
-		$sql = "SELECT * FROM product WHERE status = 1 AND name LIKE '%".$name."%' AND product_id NOT IN (SELECT product_id FROM film_cast WHERE cast_id = '$cast_id' GROUP BY product_id) ORDER BY product_id DESC";
+	public function getProductOthers($cast_id, $name) {
+		$sql = "SELECT * FROM product WHERE status = 1 AND name LIKE '%" . $name . "%' AND product_id NOT IN (SELECT product_id FROM film_cast WHERE cast_id = '$cast_id' GROUP BY product_id) ORDER BY product_id DESC";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 
 
-	public function checkWatchTrailler($user_id, $product_id){
+	public function checkWatchTrailler($user_id, $product_id) {
 		$this->db->select('id');
 		$this->db->where('episode_id', 0);
 		$this->db->where('product_id', $product_id);
@@ -209,15 +209,15 @@ class Product_model extends BaseModel {
 		$this->db->update('user_watch', $params);
 	}
 
-	public function getFirstEpisode($product_id){
+	public function getFirstEpisode($product_id) {
 		$this->db->select('*');
 		$this->db->from('episode');
-		$this->db->where('season_id = (SELECT season_id FROM season WHERE product_id='.$product_id.' LIMIT 0, 1)');
+		$this->db->where('season_id = (SELECT season_id FROM season WHERE product_id=' . $product_id . ' LIMIT 0, 1)');
 		$query = $this->db->get();
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function countUserWatching($product_id, $user_id = -1){
+	public function countUserWatching($product_id, $user_id = -1) {
 		$this->db->select('*');
 		$this->db->from('user_watch');
 		$this->db->where('episode_id !=', 0);

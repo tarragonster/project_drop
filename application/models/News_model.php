@@ -15,7 +15,7 @@ class News_model extends BaseModel {
 		$this->db->where('un.user_id', $user_id);
 		$this->db->where('type <', 50);
 		$this->db->order_by('un.notify_id', 'desc');
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
@@ -28,7 +28,7 @@ class News_model extends BaseModel {
 		$this->db->where('user_id', $user_id);
 		$this->db->where('type >', 50);
 		$this->db->order_by('notify_id', 'desc');
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
@@ -40,7 +40,7 @@ class News_model extends BaseModel {
 		$this->db->where('user_id', $user_id);
 		$this->db->where('status', 1);
 		$query = $this->db->get('user');
-		return $query->num_rows() > 0 ? $query->first_row('array') : null;	
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
 
@@ -57,7 +57,7 @@ class News_model extends BaseModel {
 		$this->db->where('season_id', $season_id);
 		$this->db->where('status', 1);
 		$query = $this->db->get('season');
-		return $query->num_rows() > 0 ? $query->first_row('array') : null;	
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
 	public function getEpisodeForNotify($episode_id) {
@@ -65,7 +65,7 @@ class News_model extends BaseModel {
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('status', 1);
 		$query = $this->db->get('episode');
-		return $query->num_rows() > 0 ? $query->first_row('array') : null;	
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
 	public function getPartEpisodeForNotify($episode_id) {
@@ -73,18 +73,18 @@ class News_model extends BaseModel {
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('status', 1);
 		$query = $this->db->get('episode');
-		return $query->num_rows() > 0 ? $query->first_row('array') : null;	
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function countNotification($user_id){
+	public function countNotification($user_id) {
 		$this->db->select('*');
 		$this->db->from('user_notify');
 		$this->db->where('user_id', $user_id);
 		$this->db->where('status', 1);
 		return $this->db->count_all_results();
 	}
-	
-	public function updateAll($user_id, $params){
+
+	public function updateAll($user_id, $params) {
 		$this->db->where('user_id', $user_id);
 		$this->db->update($this->table, $params);
 	}

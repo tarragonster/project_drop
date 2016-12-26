@@ -53,19 +53,19 @@ class Episode_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function updatePosition($season_id, $position){
+	public function updatePosition($season_id, $position) {
 		$this->db->where('season_id', $season_id);
-        $this->db->where('position >', $position);
-        $this->db->set('position', 'position-1', false);
-        $this->db->update('episode');
+		$this->db->where('position >', $position);
+		$this->db->set('position', 'position-1', false);
+		$this->db->update('episode');
 	}
 
-	public function getPosition($season_id)	{
+	public function getPosition($season_id) {
 		$this->db->where('season_id', $season_id);
 		$this->db->where('status', 1);
-        $this->db->order_by('position', 'desc');
-        $query = $this->db->get($this->table);
-        $this->db->limit(1);
+		$this->db->order_by('position', 'desc');
+		$query = $this->db->get($this->table);
+		$this->db->limit(1);
 		return $query->num_rows() > 0 ? $query->first_row()->position : 0;
 	}
 
@@ -83,7 +83,7 @@ class Episode_model extends BaseModel {
 	}
 
 	public function getComments($episode_id, $type, $page = -1) {
-		if($type == 1){
+		if ($type == 1) {
 			$this->db->select('c.comment_id, c.user_id, c.content, c.timestamp, u.user_name, u.full_name, u.avatar, u.user_id');
 			$this->db->from('episode_comment c');
 			$this->db->join('user u', 'u.user_id = c.user_id');
@@ -92,7 +92,7 @@ class Episode_model extends BaseModel {
 			if ($page >= 0)
 				$this->db->limit(10, 10 * $page);
 			$query = $this->db->get();
-		}else{
+		} else {
 			$this->db->select('c.comment_id, c.user_id, c.content, c.timestamp, u.user_name, u.full_name, u.avatar, u.user_id, (count(l.id) + count(r.replies_id)) as votes');
 			$this->db->from('episode_comment c');
 			$this->db->join('user u', 'u.user_id = c.user_id');
@@ -108,7 +108,7 @@ class Episode_model extends BaseModel {
 		return $query->result_array('array');
 	}
 
-	public function getReplies($comment_id){
+	public function getReplies($comment_id) {
 		$this->db->select('r.replies_id, r.user_id, r.content, r.timestamp, u.user_name, u.full_name, u.avatar, u.user_id');
 		$this->db->from('episode_replies r');
 		$this->db->join('user u', 'u.user_id = r.user_id');
@@ -117,7 +117,8 @@ class Episode_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array('array');
 	}
-	public function hasLikeEpisode($episode_id, $user_id, $status){
+
+	public function hasLikeEpisode($episode_id, $user_id, $status) {
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('user_id', $user_id);
 		$this->db->where('status', $status);
@@ -125,14 +126,14 @@ class Episode_model extends BaseModel {
 		return $query->num_rows() > 0 ? 1 : 0;
 	}
 
-	public function hasLikeComment($comment_id, $user_id){
+	public function hasLikeComment($comment_id, $user_id) {
 		$this->db->where('comment_id', $comment_id);
 		$this->db->where('user_id', $user_id);
 		$query = $this->db->get('comment_like');
 		return $query->num_rows() > 0 ? 1 : 0;
 	}
 
-	public function hasLikeReplies($replies_id, $user_id){
+	public function hasLikeReplies($replies_id, $user_id) {
 		$this->db->where('replies_id', $replies_id);
 		$this->db->where('user_id', $user_id);
 		$query = $this->db->get('replies_like');
@@ -151,7 +152,7 @@ class Episode_model extends BaseModel {
 		return $this->db->count_all_results();
 	}
 
-	public function checkWatchEpisode($user_id, $episode_id){
+	public function checkWatchEpisode($user_id, $episode_id) {
 		$this->db->select('id');
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('user_id', $user_id);
@@ -159,7 +160,7 @@ class Episode_model extends BaseModel {
 		return $query->num_rows() > 0;
 	}
 
-	public function getWatchEpisode($user_id, $episode_id){
+	public function getWatchEpisode($user_id, $episode_id) {
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('user_id', $user_id);
 		$query = $this->db->get('user_watch');
@@ -196,9 +197,9 @@ class Episode_model extends BaseModel {
 		$this->db->trans_complete();
 	}
 
-    public function down($season_id, $position, $episode_id) {
-    	$this->db->trans_start();
-    	$this->db->where('season_id', $season_id);
+	public function down($season_id, $position, $episode_id) {
+		$this->db->trans_start();
+		$this->db->where('season_id', $season_id);
 		$this->db->where('position', $position + 1);
 		$this->db->set('position', 'position-1', false);
 		$this->db->update('episode');
@@ -208,15 +209,15 @@ class Episode_model extends BaseModel {
 		$this->db->trans_complete();
 	}
 
-    public function getMaxEpisode($season_id){
-        $this->db->order_by('position', 'desc');
-        $this->db->where('season_id', $season_id);
-        $query = $this->db->get('episode');
-        $this->db->limit(1);
+	public function getMaxEpisode($season_id) {
+		$this->db->order_by('position', 'desc');
+		$this->db->where('season_id', $season_id);
+		$query = $this->db->get('episode');
+		$this->db->limit(1);
 		return $query->num_rows() > 0 ? $query->first_row()->position : 0;
-    }
+	}
 
-    public function getNextEpisode($position, $season_id){
+	public function getNextEpisode($position, $season_id) {
 		$this->db->select('e.*, p.rate_name as rate_name, s.name as season_name, p.name as product_name, p.product_id');
 		$this->db->from('episode e');
 		$this->db->join('season s', 's.season_id = e.season_id');
@@ -225,5 +226,5 @@ class Episode_model extends BaseModel {
 		$this->db->where('e.season_id', $season_id);
 		$query = $this->db->get();
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
-    }
+	}
 }

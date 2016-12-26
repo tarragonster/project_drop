@@ -8,9 +8,11 @@ class Season_model extends BaseModel {
 		$this->table = 'season';
 		$this->id_name = 'season_id';
 	}
+
 	public function getSeasons($page = -1) {
 		return $this->getList($page, 'season_id', 'desc');
 	}
+
 	public function getSeasonById($season_id) {
 		return $this->getObjectById($season_id);
 	}
@@ -33,26 +35,28 @@ class Season_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array('array');
 	}
+
 	public function getListEpisodes($season_id, $page = -1) {
 		$this->db->select('*');
 		$this->db->from('episode');
 		$this->db->where('season_id', $season_id);
 		$this->db->order_by('position', 'asc');
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
 		return $query->result_array('array');
 	}
-	
-	public function getListContinue($user_id, $season_id){
+
+	public function getListContinue($user_id, $season_id) {
 		$this->db->select('*');
 		$this->db->from('user_watch');
 		$this->db->where('user_id', $user_id);
 		$this->db->where('season_id', $season_id);
 		$query = $this->db->get();
-		return $query->result_array('array');	
+		return $query->result_array('array');
 	}
+
 	public function getNumEpisode($season_id) {
 		$this->db->from('episode');
 		$this->db->where('season_id', $season_id);

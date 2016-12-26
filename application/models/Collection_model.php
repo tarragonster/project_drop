@@ -17,7 +17,7 @@ class Collection_model extends BaseModel {
 		return $this->getObjectById($collection_id);
 	}
 
-	public function feeds(){
+	public function feeds() {
 		$this->db->select('f.feed_id, f.position, f.feed_image, p.*');
 		$this->db->from('feed f');
 		$this->db->join('product_view p', 'p.product_id = f.product_id');
@@ -26,7 +26,7 @@ class Collection_model extends BaseModel {
 		return $query->result_array('array');
 	}
 
-	public function addFilm($params){
+	public function addFilm($params) {
 		$this->db->insert('collection_product', $params);
 		return $this->db->insert_id();
 	}
@@ -56,9 +56,9 @@ class Collection_model extends BaseModel {
 		$this->db->trans_complete();
 	}
 
-    public function downFilm($collection_id, $priority, $id) {
-    	$this->db->trans_start();
-    	$this->db->where('collection_id', $collection_id);
+	public function downFilm($collection_id, $priority, $id) {
+		$this->db->trans_start();
+		$this->db->where('collection_id', $collection_id);
 		$this->db->where('priority', $priority + 1);
 		$this->db->set('priority', 'priority-1', false);
 		$this->db->update('collection_product');
@@ -69,24 +69,24 @@ class Collection_model extends BaseModel {
 		$this->db->trans_complete();
 	}
 
-    public function getMaxFilm($collection_id){
-        $this->db->order_by('priority', 'desc');
-        $this->db->where('collection_id', $collection_id);
-        $query = $this->db->get('collection_product');
-        $this->db->limit(1);
+	public function getMaxFilm($collection_id) {
+		$this->db->order_by('priority', 'desc');
+		$this->db->where('collection_id', $collection_id);
+		$query = $this->db->get('collection_product');
+		$this->db->limit(1);
 		return $query->num_rows() > 0 ? $query->first_row()->priority : 0;
-    }
+	}
 
-	public function getProductCollection($product_id){
+	public function getProductCollection($product_id) {
 		$this->db->where('product_id', $product_id);
 		$query = $this->db->get('collection_product');
 		return $query->result_array();
 	}
 
-    public function getProductOthers($collection_id){
-    	$sql = "SELECT * FROM product_view WHERE status = 1 AND product_id NOT IN (SELECT product_id FROM collection_product WHERE collection_id = '$collection_id' GROUP BY product_id) ORDER BY product_id DESC";
+	public function getProductOthers($collection_id) {
+		$sql = "SELECT * FROM product_view WHERE status = 1 AND product_id NOT IN (SELECT product_id FROM collection_product WHERE collection_id = '$collection_id' GROUP BY product_id) ORDER BY product_id DESC";
 		$query = $this->db->query($sql);
 		return $query->result_array();
-    }
-	
+	}
+
 }

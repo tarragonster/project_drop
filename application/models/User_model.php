@@ -26,21 +26,21 @@ class User_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function getUserByUserName($user_name){
+	public function getUserByUserName($user_name) {
 		$this->db->where('status', 1);
 		$this->db->where('user_name', $user_name);
 		$query = $this->db->get('user_view');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function getUserByName($user_name){
+	public function getUserByName($user_name) {
 		return $this->getObjectByName('user_name', $user_name);
 	}
 
-	public function searchUser($user_name, $user_id = -1){
+	public function searchUser($user_name, $user_id = -1) {
 		$this->db->select('user_id, user_name, avatar, full_name');
-		if($user_id != -1){
-			$this->db->where('user_id !=', $user_id);	
+		if ($user_id != -1) {
+			$this->db->where('user_id !=', $user_id);
 		}
 		$this->db->where('status', 1);
 		$this->db->like('user_name', $user_name);
@@ -53,7 +53,7 @@ class User_model extends BaseModel {
 		$this->db->from('watch_list w');
 		$this->db->join('product_view p', 'p.product_id = w.product_id');
 		$this->db->where('w.user_id', $user_id);
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$this->db->order_by('w.id', 'desc');
@@ -68,7 +68,7 @@ class User_model extends BaseModel {
 		$this->db->where('w.user_id', $user_id);
 		$this->db->where('w.episode_id !=', 0);
 		$this->db->where("w.start_time != 'nan'");
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$this->db->group_by('w.product_id');
@@ -82,18 +82,18 @@ class User_model extends BaseModel {
 		return $this->db->insert_id();
 	}
 
-	public function addFollow($params){
+	public function addFollow($params) {
 		$this->db->insert('user_follow', $params);
-		return $this->db->insert_id();	
+		return $this->db->insert_id();
 	}
 
-	public function removeFollow($user_id, $follower_id){
+	public function removeFollow($user_id, $follower_id) {
 		$this->db->where('follower_id', $follower_id);
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('user_follow');
 	}
 
-	public function checkWatchList($user_id, $product_id){
+	public function checkWatchList($user_id, $product_id) {
 		$this->db->select('id');
 		$this->db->where('product_id', $product_id);
 		$this->db->where('user_id', $user_id);
@@ -101,14 +101,14 @@ class User_model extends BaseModel {
 		return $query->num_rows() > 0;
 	}
 
-	public function removeWatchList($user_id, $product_id){
-		if($product_id != 0)
+	public function removeWatchList($user_id, $product_id) {
+		if ($product_id != 0)
 			$this->db->where('product_id', $product_id);
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('watch_list');
 	}
 
-	public function checkFollower($user_id, $follower_id){
+	public function checkFollower($user_id, $follower_id) {
 		$this->db->select('follow_id');
 		$this->db->where('follower_id', $follower_id);
 		$this->db->where('user_id', $user_id);
@@ -116,7 +116,7 @@ class User_model extends BaseModel {
 		return $query->num_rows() > 0;
 	}
 
-	public function checkEpisodeExits($user_id, $episode_id){
+	public function checkEpisodeExits($user_id, $episode_id) {
 		$this->db->select('status');
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('user_id', $user_id);
@@ -163,7 +163,7 @@ class User_model extends BaseModel {
 		$this->db->from('user_follow uf');
 		$this->db->join('user u', 'u.user_id = uf.follower_id');
 		$this->db->where('uf.user_id', $user_id);
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
@@ -175,7 +175,7 @@ class User_model extends BaseModel {
 		$this->db->from('user_follow uf');
 		$this->db->join('user u', 'u.user_id = uf.user_id');
 		$this->db->where('uf.follower_id', $follower_id);
-		if($page >= 0){
+		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
@@ -193,7 +193,7 @@ class User_model extends BaseModel {
 		$this->db->where('follower_id', $follower_id);
 		return $this->db->count_all_results();
 	}
-	
+
 	public function getTerms() {
 		$this->db->from('user_terms');
 		$result = $this->db->get();
@@ -202,14 +202,14 @@ class User_model extends BaseModel {
 		} else {
 			return null;
 		}
-	}	
+	}
 
 	public function getUidByAccount($account, $password) {
 		$sql = 'select user_id from user '
-			   . "where (upper(email) = upper('$account') or upper(user_name) = upper('$account')) "
-			   . "and password=md5('$password') and status = 1";
+			. "where (upper(email) = upper('$account') or upper(user_name) = upper('$account')) "
+			. "and password=md5('$password') and status = 1";
 		$result = $this->db->query($sql);
-		
+
 		if ($result->num_rows() > 0) {
 			$item = $result->first_row('array');
 			return $item['user_id'];
@@ -220,7 +220,7 @@ class User_model extends BaseModel {
 
 	public function insertLogin($time, $user_id, $device_id) {
 		$sql = 'insert into log_login(timestamp, user_id, device_id) values ' .
-				"('$time', '$user_id', '$device_id')";
+			"('$time', '$user_id', '$device_id')";
 		$this->db->query($sql);
 	}
 
@@ -228,13 +228,13 @@ class User_model extends BaseModel {
 		$this->db->where('device_id', $device_id);
 		$this->db->update('device_user', array('user_id' => $user_id, 'last_activity' => time()));
 	}
-	
+
 	public function checkDeviceId($device_id) {
 		$this->db->where('device_id', $device_id);
 		$query = $this->db->get('device_user');
 		return $query->num_rows() > 0;
 	}
-	
+
 	public function checkEmail($email) {
 		$sql = "select user_id, full_name from user where upper(email) = upper('$email')";
 		$result = $this->db->query($sql);
@@ -252,7 +252,7 @@ class User_model extends BaseModel {
 	}
 
 	public function checkUid($user_id) {
-		$sql =  "select user_id from user where user_id ='$user_id'";
+		$sql = "select user_id from user where user_id ='$user_id'";
 		$result = $this->db->query($sql);
 		return $result->num_rows() > 0;
 	}
@@ -260,9 +260,9 @@ class User_model extends BaseModel {
 	public function logoutDevice($user_id, $device_id) {
 		$this->db->where('device_id', $device_id);
 		$this->db->where('user_id', $user_id);
-		$this->db->update('device_user', array('user_id' => 0) );
+		$this->db->update('device_user', array('user_id' => 0));
 	}
-	
+
 	public function insertTimeUse($params) {
 		$this->db->insert('user_timeuse', $params);
 	}
@@ -283,7 +283,7 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function clearData($user_id){
+	public function clearData($user_id) {
 		$this->db->trans_start();
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('user_watch');
@@ -297,20 +297,22 @@ class User_model extends BaseModel {
 		$this->db->delete('episode_comment');
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('user_notify');
-		$this->db->like('data', '"user_id":'.$user_id);
+		$this->db->like('data', '"user_id":' . $user_id);
 		$this->db->delete('user_notify');
 		$this->db->trans_complete();
 	}
+
 	public function insertCodeResetPassword($params) {
 		$this->db->insert("code_reset_password", $params);
 		return $this->db->insert_id();
 	}
+
 	public function updateCodeResetPassword($user_id, $code) {
 		$this->db->where('user_id', $user_id);
 		$this->db->where('code', $code);
 		$this->db->update("code_reset_password", array('has_reset' => 1, 'created' => time()));
 	}
-	
+
 	public function checkCode($user_id, $code) {
 		if ($code == '')
 			return 1;
@@ -320,7 +322,7 @@ class User_model extends BaseModel {
 			$row = $query->first_row('array');
 			if ($row['has_reset'] == 1) {
 				return 2;
-			} else if ($row['created'] + 86400 < time()){
+			} else if ($row['created'] + 86400 < time()) {
 				return 3;
 			}
 			return 0;

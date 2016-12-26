@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH . '/core/BR_Controller.php';
@@ -12,26 +12,26 @@ class Search extends BR_Controller {
 	}
 
 	public function get_get($type, $key) {
-		if($type == 1){
+		if ($type == 1) {
 			$products = $this->product_model->getProductByName($key);
 			$this->create_success(array('products' => $products));
-		}else if($type == 2){
+		} else if ($type == 2) {
 			$casts = $this->cast_model->getCastByName($key);;
 			$this->create_success(array('casts' => $casts));
-		}else if($type == 3){
-			if($this->user_id != null){
+		} else if ($type == 3) {
+			if ($this->user_id != null) {
 				$users = $this->user_model->searchUser($key, $this->user_id);
 				$following = $this->user_model->getFollowing($this->user_id);
 				foreach ($users as $key => $user) {
 					$users[$key]['isFollow'] = '0';
 					foreach ($following as $follow) {
-						if($user['user_id'] == $follow['follower_id']){
+						if ($user['user_id'] == $follow['follower_id']) {
 							$users[$key]['is_follow'] = '1';
 							break;
 						}
 					}
 				}
-			}else{
+			} else {
 				$users = $this->user_model->getUserByName($key);
 				foreach ($users as $key => $user) {
 					$users[$key]['is_follow'] = '0';
@@ -41,5 +41,5 @@ class Search extends BR_Controller {
 		}
 		$this->create_error(-1);
 	}
-	
+
 }

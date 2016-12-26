@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Home extends CI_Controller {
-		
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model("user_model");
@@ -21,7 +21,7 @@ class Home extends CI_Controller {
 			$this->session->set_flashdata('error', 'Requested password has been expired.');
 		} else if ($isCheck == 3) {
 			$this->session->set_flashdata('error', 'You have changed this code.');
-		} else if($this->input->server('REQUEST_METHOD') == 'POST') {
+		} else if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$password = $this->input->post('password');
 			$re_password = $this->input->post('re_password');
 			if ($password != $re_password) {
