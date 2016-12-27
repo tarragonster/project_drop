@@ -218,15 +218,19 @@ class User_model extends BaseModel {
 		}
 	}
 
-	public function insertLogin($time, $user_id, $device_id) {
-		$sql = 'insert into log_login(timestamp, user_id, device_id) values ' .
-			"('$time', '$user_id', '$device_id')";
-		$this->db->query($sql);
+	public function updateDeviceUser($user_id, $device_id) {
+		if ($this->checkDeviceId($device_id)) {
+			$this->db->where('device_id', $device_id);
+			$this->db->update('device_user', array('user_id' => $user_id, 'last_activity' => time()));
+		} else {
+			$this->db->insert('device_user', array('user_id' => $user_id, 'device_id'=> $device_id, 'timestamp' => time(), 'last_activity' => time()));
+		}
 	}
 
-	public function updateDeviceUser($user_id, $device_id) {
+	public function logoutDevice($user_id, $device_id) {
 		$this->db->where('device_id', $device_id);
-		$this->db->update('device_user', array('user_id' => $user_id, 'last_activity' => time()));
+		$this->db->where('user_id', $user_id);
+		$this->db->update('device_user', array('user_id' => 0));
 	}
 
 	public function checkDeviceId($device_id) {
@@ -255,12 +259,6 @@ class User_model extends BaseModel {
 		$sql = "select user_id from user where user_id ='$user_id'";
 		$result = $this->db->query($sql);
 		return $result->num_rows() > 0;
-	}
-
-	public function logoutDevice($user_id, $device_id) {
-		$this->db->where('device_id', $device_id);
-		$this->db->where('user_id', $user_id);
-		$this->db->update('device_user', array('user_id' => 0));
 	}
 
 	public function insertTimeUse($params) {

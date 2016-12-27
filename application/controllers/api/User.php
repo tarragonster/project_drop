@@ -49,7 +49,6 @@ class User extends BR_Controller {
 			$this->create_error(-4);
 		}
 
-		$this->user_model->insertLogin($time, $user_id, $device_id);
 		$this->user_model->updateDeviceUser($user_id, $device_id);
 		$params = array();
 		$params['last_login'] = $time;
@@ -65,6 +64,10 @@ class User extends BR_Controller {
 		if (!$this->user_model->checkUid($this->user_id)) {
 			$this->create_error(-10);
 		}
+
+		$device_id = $this->post('device_id');
+		$this->user_model->logoutDevice($this->user_id, $device_id);
+
 		$this->load->library('oauths');
 		$this->oauths->remove($this->user_id, $this->access_token);
 
@@ -124,8 +127,8 @@ class User extends BR_Controller {
 		$this->notify_model->createNotify($user_id, 55);
 
 		$this->user_model->update($params, $user_id);
+
 		$this->user_model->updateDeviceUser($user_id, $device_id);
-		$this->user_model->insertLogin($time, $user_id, $device_id);
 
 		$data = $this->__getUserProfile($user_id);
 		$this->load->library('oauths');
