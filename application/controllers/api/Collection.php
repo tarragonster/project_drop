@@ -13,9 +13,20 @@ class Collection extends BR_Controller {
 	public function list_get() {
 		$collections = $this->collection_model->getCollections();
 		if (is_array($collections)) {
-			foreach ($collections as $k => $row) {
-				$products = $this->product_model->getListProductByCollection($row['collection_id'], 0);
-				$collections[$k]['products'] = $products;
+			foreach ($collections as &$collection) {
+				$products = $this->product_model->getListProductByCollection($collection['collection_id'], 0);
+				$collection['products'] = $products;
+				if ($collection['collection_id'] == 4) {
+					$episode_products = $this->product_model->getContinueWatching($this->user_id);
+					if (is_array($episode_products)) {
+						foreach ($episode_products as &$product) {
+							$episode = $this->product_model->getEpisode($product['episode_id']);
+							$episode['start_time'] = $product['start_time'];
+							$product['episode'] = $episode;
+						}
+					}
+					$collection['episode_products'] = $episode_products;
+				}
 			}
 		}
 		$feeds = $this->collection_model->feeds();

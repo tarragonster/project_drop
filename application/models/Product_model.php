@@ -242,4 +242,22 @@ class Product_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array('array');
 	}
+
+	public function getContinueWatching($user_id) {
+		$this->db->select('p.*, w.start_time, w.episode_id');
+		$this->db->from('user_watch w');
+		$this->db->join('product p', 'p.product_id = w.product_id');
+		$this->db->where('w.user_id =', $user_id);
+		$this->db->where('w.start_time >', 0);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getEpisode($episode_id) {
+		$this->db->from('episode');
+		$this->db->where('episode_id', $episode_id);
+		$query = $this->db->get();
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
+	}
+
 }

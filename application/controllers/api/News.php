@@ -7,6 +7,7 @@ class News extends BR_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('news_model');
+		$this->load->model('user_model');
 	}
 
 	public function get_get() {
@@ -52,7 +53,6 @@ class News extends BR_Controller {
 	}
 
 	public function fillData($item, $checkFill) {
-
 		$notify = array();
 		$notify['notify_id'] = $item['notify_id'];
 		$notify['type'] = $item['type'];
@@ -60,12 +60,14 @@ class News extends BR_Controller {
 		$notify['user_name'] = '';
 		$notify['product_name'] = '';
 		$notify['avatar'] = '';
+		$notify['has_followed'] = '0';
 
 		if ($notify['data'] != null) {
 			if (isset($notify['data']['user_id'])) {
 				$user = $this->news_model->getUserForNotify($notify['data']['user_id']);
 				$notify['avatar'] = $user['avatar'];
 				$notify['user_name'] = $user['user_name'];
+				$notify['has_followed'] = $this->user_model->checkFollower($this->user_id, $notify['data']['user_id']) ? '1' : '0';
 			}
 			if (isset($notify['data']['uid_comment'])) {
 				if ($notify['data']['uid_comment'] == $notify['data']['user_id']) {
