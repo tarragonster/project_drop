@@ -21,6 +21,7 @@ class Collection extends BR_Controller {
 					if (is_array($episode_products)) {
 						foreach ($episode_products as &$product) {
 							$episode = $this->product_model->getEpisode($product['episode_id']);
+							$episode['product_name'] = $product['name'];
 							$episode['start_time'] = $product['start_time'];
 							$product['episode'] = $episode;
 						}
