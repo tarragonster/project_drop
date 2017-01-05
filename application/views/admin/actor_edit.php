@@ -81,14 +81,14 @@
 										</button>
 									</span>
 										<input type="text" name="twitter" class="form-control" placeholder="Tiwtter link"
-                                        value="<?php if($twitter != null && $twitter != '') echo 'https://twitter.com/'.$twitter;?>" >
+                                        value="<?php if($twitter != null && $twitter != '') echo $twitter;?>" >
 									</div>
 									<div class="input-group m-t-10">
 									<span class="input-group-btn">
 										<button type="button" style='width: 48px' class="btn waves-effect waves-light btn-instagram"><i class="fa fa-instagram"></i>
 										</button>
 									</span>
-										<input type="text" name="instagram" class="form-control" placeholder="Instagram link" value="<?php if($instagram != null && $instagram != '') echo 'https://www.instagram.com/'.$instagram;?>" >
+										<input type="text" name="instagram" class="form-control" placeholder="Instagram link" value="<?php if($instagram != null && $instagram != '') echo $instagram;?>" >
 									</div>
 								</div>
 								<div class="form-group m-b-0">

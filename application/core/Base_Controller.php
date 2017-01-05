@@ -54,16 +54,18 @@ class Base_Controller extends CI_Controller {
 			if ($this->input->post('link_imdb') != '')
 				$params['link_imdb'] = $this->input->post('link_imdb');
 			$params['facebook_link'] = $this->input->post('facebook_link');
-			if ($this->input->post('facebook') != '')
-				$params['facebook'] = $this->input->post('facebook');
-			if ($this->input->post('twitter') != '') {
-				$twitter = explode('/', trim(trim($this->input->post('twitter')), "/"));
-				$params['twitter'] = explode('?', $twitter[3])[0];
-			}
-			if ($this->input->post('instagram') != '') {
-				$instagram = explode('/', trim(trim($this->input->post('instagram')), "/"));
-				$params['instagram'] = explode('?', $instagram[3])[0];
-			}
+//			if ($this->input->post('facebook') != '')
+			$params['facebook'] = $this->input->post('facebook');
+			$params['twitter'] = $this->input->post('twitter');
+			$params['instagram'] = $this->input->post('instagram');
+//			if ($this->input->post('twitter') != '') {
+//				$twitter = explode('/', trim(trim($this->input->post('twitter')), "/"));
+//				$params['twitter'] = explode('?', $twitter[3])[0];
+//			}
+//			if ($this->input->post('instagram') != '') {
+//				$instagram = explode('/', trim(trim($this->input->post('instagram')), "/"));
+//				$params['instagram'] = explode('?', $instagram[3])[0];
+//			}
 			if ($this->input->post('product_id') != '')
 				$product_id = $this->input->post('product_id');
 			$image = isset($_FILES['image']) ? $_FILES['image'] : null;

@@ -69,7 +69,7 @@ class Product extends BR_Controller {
 		}
 		$episode = $this->episode_model->getNextEpisode($episodeOld['position'], $episodeOld['season_id']);
 		if (!$episode) {
-			$this->create_success(null);
+			$this->create_success(array('episode' => null));
 		}
 		$episode = $this->loadEpisode($episode);
 		$this->create_success(array('episode' => $episode));
