@@ -36,7 +36,7 @@ class Episode_model extends BaseModel {
 	}
 
 	public function checkEpisode($episode_id) {
-		$this->db->select('episode_id, season_id, position');
+//		$this->db->select('episode_id, season_id, position');
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('status', 1);
 		$query = $this->db->get('episode');
@@ -72,6 +72,13 @@ class Episode_model extends BaseModel {
 	public function countComment($episode_id) {
 		$this->db->from('episode_comment');
 		$this->db->where('episode_id', $episode_id);
+		return $this->db->count_all_results();
+	}
+
+	public function countAllSubComment($episode_id) {
+		$this->db->from('episode_replies er');
+		$this->db->join('episode_comment ec', 'ec.comment_id = er.comment_id');
+		$this->db->where('ec.episode_id', $episode_id);
 		return $this->db->count_all_results();
 	}
 
@@ -167,23 +174,27 @@ class Episode_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
+	public function getWatchProduct($user_id, $product_id) {
+		$this->db->where('product_id', $product_id);
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get('user_watch');
+		return $query->first_row('array');
+	}
+
 	public function addWatchEpisode($params) {
 		$this->db->insert('user_watch', $params);
 		return $this->db->insert_id();
 	}
 
-	public function removeWatchEpisode($episode_id, $user_id) {
-		$this->db->where('episode_id', $episode_id);
-		$this->db->where('user_id', $user_id);
+	public function removeWatchEpisode($id) {
+		$this->db->where('id', $id);
 		$this->db->delete('user_watch');
 	}
 
-	public function updateWatchEpisode($episode_id, $user_id, $params) {
-		$this->db->where('episode_id', $episode_id);
-		$this->db->where('user_id', $user_id);
+	public function updateWatchEpisode($params, $id) {
+		$this->db->where('id', $id);
 		$this->db->update('user_watch', $params);
 	}
-
 
 	public function up($season_id, $position, $episode_id) {
 		$this->db->trans_start();
@@ -227,4 +238,30 @@ class Episode_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
+
+	public function updateOrAddUserWatch($user_id, $product_id, $episode_id, $time) {
+		$episode = $this->checkEpisode($episode_id);
+		if ($episode == null) {
+			return false;
+		}
+		$watch = $this->getWatchProduct($user_id, $product_id);
+		if ($watch != null) {
+			if ($time == -1) {
+				$episodeNext = $this->getNextEpisode($episode['position'], $episode['season_id']);
+				if ($episodeNext == null) {
+					$this->removeWatchEpisode($watch['id']);
+				} else {
+					$this->updateWatchEpisode(array('episode_id' => $episodeNext['episode_id'], 'start_time' => 0, 'update_time' => time()), $watch['id']);
+				}
+			} else {
+				$this->updateWatchEpisode(array('episode_id' => $episode_id, 'start_time' => $time, 'update_time' => time()), $watch['id']);
+			}
+		} else {
+			if ($time != -1) {
+				$this->episode_model->addWatchEpisode(array('episode_id' => $episode_id, 'user_id' => $user_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id, 'start_time' => $time, 'update_time' => time()));
+			}
+		}
+		return true;
+	}
+
 }

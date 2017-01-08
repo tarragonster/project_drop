@@ -187,22 +187,31 @@ class User extends BR_Controller {
 			$this->create_error(-10);
 		}
 		$episode_id = $this->post('episode_id') * 1;
-		$product_id = $this->post('product_id') * 1;
+		$product_id = $this->c_getNotNull('product_id') * 1;
 		$time = $this->c_getNotNull('time');
 		if ($episode_id != 0) {
 			//update for episode
 			$this->load->model('episode_model');
+			$this->episode_model = new Episode_model();
 			$episode = $this->episode_model->checkEpisode($episode_id);
 			if (!$episode) {
 				$this->create_error(-77);
 			}
-			if ($time == -1) {
-				$this->episode_model->removeWatchEpisode($episode_id, $this->user_id);
-			} else {
-				$watch = $this->episode_model->checkWatchEpisode($this->user_id, $episode_id);
-				if ($watch) {
-					$this->episode_model->updateWatchEpisode($episode_id, $this->user_id, array('start_time' => $time, 'update_time' => time()));
+			$watch = $this->episode_model->getWatchProduct($this->user_id, $product_id);
+			if ($watch != null) {
+				if ($time == -1) {
+					$episodeNext = $this->episode_model->getNextEpisode($episode['position'], $episode['season_id']);
+//					pre_print($episodeNext);
+					if ($episodeNext == null) {
+						$this->episode_model->removeWatchEpisode($watch['id']);
+					} else {
+						$this->episode_model->updateWatchEpisode(array('episode_id' => $episodeNext['episode_id'], 'start_time' => 0, 'update_time' => time()), $watch['id']);
+					}
 				} else {
+					$this->episode_model->updateWatchEpisode(array('episode_id' => $episode_id, 'start_time' => $time, 'update_time' => time()), $watch['id']);
+				}
+			} else {
+				if ($time != -1) {
 					$product_id = $this->episode_model->getProdutID($episode['season_id']);
 					$this->user_model->update(array('product_id' => $product_id), $this->user_id);
 					$this->load->model('notify_model');

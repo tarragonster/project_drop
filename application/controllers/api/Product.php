@@ -52,6 +52,10 @@ class Product extends BR_Controller {
 		if (!$episode) {
 			$this->create_error(-77);
 		}
+		$productWatch = $this->episode_model->getWatchProduct($this->user_id, $episode['product_id']);
+		if ($productWatch != null || $productWatch['episode_id'] != $episode_id) {
+			$this->episode_model->updateOrAddUserWatch($this->user_id, $episode['product_id'], $episode_id, '0.001');
+		}
 		$episode = $this->loadEpisode($episode);
 		$this->create_success(array('episode' => $episode));
 	}
@@ -102,7 +106,7 @@ class Product extends BR_Controller {
 		$episode['num_like'] = $this->episode_model->countLike($episode['episode_id'], 1);
 		$episode['num_dislike'] = $this->episode_model->countLike($episode['episode_id'], 0);
 		$comments = $this->episode_model->getComments($episode['episode_id'], 1, 0);
-		$episode['num_comment'] = $this->episode_model->countComment($episode['episode_id']);
+		$episode['num_comment'] = $this->episode_model->countComment($episode['episode_id']) + $this->episode_model->countAllSubComment($episode['episode_id']);
 		if ($this->user_id != null) {
 			$episode['has_like'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 1);
 			$episode['has_dislike'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 0);
