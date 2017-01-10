@@ -15,7 +15,7 @@ class Notify_model extends CI_Model {
 		'10' => "replied to <<username>> comment on",
 		'11' => "mentioned <<username>> in a comment on",
 		'51' => "started following you.",
-		'52' => "mentioned you in a comment of",
+		'52' => "mentioned you in a comment on",
 		'53' => "liked your comment on",
 		'54' => "replied to your comment on",
 		'55' => "Welcome to Second Screen Beta",
@@ -80,7 +80,7 @@ class Notify_model extends CI_Model {
 		$this->db->insert('user_notify', $params);
 	}
 
-	public function createNotifyMany($users, $type, $data = null) {
+	public function createNotifyMany($users, $type, $data = null, $sound = 'default') {
 		if ($users != null) {
 			$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
 			foreach ($users as $user) {

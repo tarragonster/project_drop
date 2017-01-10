@@ -61,6 +61,14 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function checkInWatchList($product_id, $user_id) {
+		$this->db->where('product_id', $product_id);
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get('watch_list');
+
+		return $query->first_row('array');
+	}
+
 	public function getListContinue($user_id, $page = -1) {
 		$this->db->select('w.user_id, p.*');
 		$this->db->from('user_watch w');
@@ -157,7 +165,6 @@ class User_model extends BaseModel {
 		$this->db->delete('episode_like');
 	}
 
-
 	public function getFollowing($user_id, $page = -1) {
 		$this->db->select('u.user_id, uf.follower_id, u.user_name, u.full_name, u.avatar');
 		$this->db->from('user_follow uf');
@@ -223,7 +230,7 @@ class User_model extends BaseModel {
 			$this->db->where('device_id', $device_id);
 			$this->db->update('device_user', array('user_id' => $user_id, 'last_activity' => time()));
 		} else {
-			$this->db->insert('device_user', array('user_id' => $user_id, 'device_id'=> $device_id, 'timestamp' => time(), 'last_activity' => time()));
+			$this->db->insert('device_user', array('user_id' => $user_id, 'device_id' => $device_id, 'timestamp' => time(), 'last_activity' => time()));
 		}
 	}
 
