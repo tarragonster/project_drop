@@ -20,6 +20,8 @@ class Product extends BR_Controller {
 		$product['casts'] = $this->product_model->getListCast($product_id);
 		$seasons = $this->product_model->getListSeason($product_id);
 		$product['num_season'] = count($seasons);
+		$this->load->model('user_model');
+		$product['watchlist_added'] = $this->user_model->checkInWatchList($product_id, $this->user_id * 1) == null ? '0' : '1';
 		$product['num_watching'] = $this->product_model->countUserWatching($product_id);
 		$this->load->model('season_model');
 		foreach ($seasons as $key => $season) {
@@ -52,9 +54,11 @@ class Product extends BR_Controller {
 		if (!$episode) {
 			$this->create_error(-77);
 		}
-		$productWatch = $this->episode_model->getWatchProduct($this->user_id, $episode['product_id']);
-		if ($productWatch == null || $productWatch['episode_id'] != $episode_id) {
-			$this->episode_model->updateOrAddUserWatch($this->user_id, $episode['product_id'], $episode_id, '0.001');
+		if ($this->user_id) {
+			$productWatch = $this->episode_model->getWatchProduct($this->user_id, $episode['product_id']);
+			if ($productWatch == null || $productWatch['episode_id'] != $episode_id) {
+				$this->episode_model->updateOrAddUserWatch($this->user_id, $episode['product_id'], $episode_id, '0.001');
+			}
 		}
 		$episode = $this->loadEpisode($episode);
 		$this->create_success(array('episode' => $episode));
