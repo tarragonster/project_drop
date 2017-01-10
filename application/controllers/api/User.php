@@ -186,22 +186,29 @@ class User extends BR_Controller {
 		if (!$this->user_model->checkUid($this->user_id)) {
 			$this->create_error(-10);
 		}
-		$episode_id = $this->post('episode_id') * 1;
 		$product_id = $this->c_getNotNull('product_id') * 1;
+		$this->load->model('product_model');
+		$product = $this->product_model->checkProduct($product_id);
+
+		if ($product == null) {
+			$this->create_error(-17, 'Unknown resource');
+		}
+
+		$episode_id = $this->post('episode_id') * 1;
 		$time = $this->c_getNotNull('time');
 		if ($episode_id != 0) {
 			//update for episode
 			$this->load->model('episode_model');
 			$this->episode_model = new Episode_model();
-			$episode = $this->episode_model->checkEpisode($episode_id);
-			if (!$episode) {
-				$this->create_error(-77);
+			$episode = $this->episode_model->getEpisode($episode_id);
+			if ($episode == null || $episode['product_id'] != $product_id) {
+				$this->create_error(-17, 'Unknow episode_id');
 			}
 			$watch = $this->episode_model->getWatchProduct($this->user_id, $product_id);
 			if ($watch != null) {
 				if ($time == -1) {
+					$this->episode_model->update(array('is_watched' => 1), $episode_id);
 					$episodeNext = $this->episode_model->getNextEpisode($episode['position'], $episode['season_id']);
-//					pre_print($episodeNext);
 					if ($episodeNext == null) {
 						$this->episode_model->removeWatchEpisode($watch['id']);
 					} else {

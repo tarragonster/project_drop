@@ -53,7 +53,7 @@ class Product extends BR_Controller {
 			$this->create_error(-77);
 		}
 		$productWatch = $this->episode_model->getWatchProduct($this->user_id, $episode['product_id']);
-		if ($productWatch != null || $productWatch['episode_id'] != $episode_id) {
+		if ($productWatch == null || $productWatch['episode_id'] != $episode_id) {
 			$this->episode_model->updateOrAddUserWatch($this->user_id, $episode['product_id'], $episode_id, '0.001');
 		}
 		$episode = $this->loadEpisode($episode);
