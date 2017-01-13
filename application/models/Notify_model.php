@@ -28,26 +28,41 @@ class Notify_model extends CI_Model {
 
 	public function createNotify($user_id, $type, $data = null, $sound = 'default') {
 		$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
-		if ($type >= 50) {
-			if ($type == 55) {
-				//only send in-app notification when added new user
-				$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
-			} else {
-				$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
-				$this->sendNotification($user_id, $type, $alert, $data, $sound);
-			}
+		if ($type == 55) {
+			//only send in-app notification when added new user
+			$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
 		} else {
-			$users = $this->getUserFollow($user_id);
-			if ($users != null) {
-				foreach ($users as $user) {
-					if (!$this->checkNotify($user['user_id'], $type, $data)) {
-						$this->insertUserNotify($user['user_id'], $type, Notify_model::$templates[$type], $data);
-					} else {
-						$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
-					}
-					if ($type == 2 || $type == 3 || $type == 11)
-						$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, false);
+			$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
+			$this->sendNotification($user_id, $type, $alert, $data, $sound);
+		}
+	}
+
+	public function createNotifyToFollower($user_id, $type, $data = null, $sound = 'default') {
+		$users = $this->getUserFollow($user_id);
+//		pre_print($users);
+		if ($users != null) {
+			$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
+			foreach ($users as $user) {
+				if (!$this->checkNotify($user['user_id'], $type, $data)) {
+					$this->insertUserNotify($user['user_id'], $type, Notify_model::$templates[$type], $data);
+				} else {
+					$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
 				}
+				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, false);
+			}
+		}
+	}
+
+	public function createNotifyMany($users, $type, $data = null, $sound = 'default') {
+		if ($users != null) {
+			$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
+			foreach ($users as $user) {
+				if (!$this->checkNotify($user['user_id'], $type, $data)) {
+					$this->insertUserNotify($user['user_id'], $type, Notify_model::$templates[$type], $data);
+				} else {
+					$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
+				}
+				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, false);
 			}
 		}
 	}
@@ -79,21 +94,6 @@ class Notify_model extends CI_Model {
 		$params['status'] = 1;
 		$this->db->insert('user_notify', $params);
 	}
-
-	public function createNotifyMany($users, $type, $data = null, $sound = 'default') {
-		if ($users != null) {
-			$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
-			foreach ($users as $user) {
-				if (!$this->checkNotify($user['user_id'], $type, $data)) {
-					$this->insertUserNotify($user['user_id'], $type, Notify_model::$templates[$type], $data);
-				} else {
-					$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
-				}
-				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, false);
-			}
-		}
-	}
-
 
 	public function fillDataToTemplate($template, $data, $type) {
 		$user_name = '';
@@ -227,7 +227,6 @@ class Notify_model extends CI_Model {
 		$query = $this->db->get('user');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
-
 
 	public function getProductForNotify($product_id) {
 		$this->db->select('name');
