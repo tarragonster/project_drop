@@ -38,7 +38,7 @@ class Notify_model extends CI_Model {
 		}
 	}
 
-	public function createNotifyToFollower($user_id, $type, $data = null, $sound = 'default') {
+	public function createNotifyToFollower($user_id, $type, $data = null, $sound = 'default', $sendPush = true) {
 		$users = $this->getUserFollow($user_id);
 //		pre_print($users);
 		if ($users != null) {
@@ -50,7 +50,8 @@ class Notify_model extends CI_Model {
 				} else {
 					$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
 				}
-				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $count < 20);
+				if ($sendPush)
+					$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $count < 20);
 			}
 		}
 	}

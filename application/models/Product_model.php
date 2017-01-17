@@ -210,7 +210,8 @@ class Product_model extends BaseModel {
 	}
 
 	public function getFirstEpisode($product_id) {
-		$query = $this->db->query('select * from episode where season_id = (SELECT season_id FROM season WHERE product_id=' . $product_id . ' and status = 1 order by season_id LIMIT 0, 1)');
+		$query = $this->db->query('select * from episode where season_id = (SELECT season_id FROM season WHERE product_id=' . $product_id . ' and status = 1 order by season_id LIMIT 0, 1) and status = 1 order by position limit 0, 1');
+
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
