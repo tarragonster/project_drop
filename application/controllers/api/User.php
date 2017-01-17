@@ -216,14 +216,20 @@ class User extends BR_Controller {
 					}
 				} else {
 					$this->episode_model->updateWatchEpisode(array('episode_id' => $episode_id, 'start_time' => $time, 'update_time' => time()), $watch['id']);
+					$this->load->model('notify_model');
+					if ($this->post('start_play') == 1) {
+						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id));
+					}
 				}
 			} else {
 				if ($time != -1) {
 					$product_id = $this->episode_model->getProdutID($episode['season_id']);
 					$this->user_model->update(array('product_id' => $product_id), $this->user_id);
-					$this->load->model('notify_model');
-					$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id));
 					$this->episode_model->addWatchEpisode(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id, 'start_time' => $time, 'update_time' => time()));
+					$this->load->model('notify_model');
+					if ($this->post('start_play') == 1) {
+						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id));
+					}
 				}
 			}
 		} else {
@@ -264,6 +270,7 @@ class User extends BR_Controller {
 			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
 			$this->load->model('notify_model');
 			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id));
+			$this->notify_model->createNotifyToFollower($this->user_id, 12, array('user_id' => $this->user_id, 'uid_comment' => $follower_id));
 		}
 		$this->create_success(null);
 	}

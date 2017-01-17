@@ -11,9 +11,10 @@ class Notify_model extends CI_Model {
 		'6' => "commented on",
 		'7' => "Second Screen Series Suggestion:",
 		'8' => "New Season:",
-		'9' => "liked <<username>> comment on",
-		'10' => "replied to <<username>> comment on",
+		'9' => "liked <<username>> 's comment on",
+		'10' => "replied to <<username>> 's comment on",
 		'11' => "mentioned <<username>> in a comment on",
+		'12' => "started following <<username>> ",
 		'51' => "started following you.",
 		'52' => "mentioned you in a comment on",
 		'53' => "liked your comment on",
@@ -42,13 +43,14 @@ class Notify_model extends CI_Model {
 //		pre_print($users);
 		if ($users != null) {
 			$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
+			$count = count($users);
 			foreach ($users as $user) {
 				if (!$this->checkNotify($user['user_id'], $type, $data)) {
 					$this->insertUserNotify($user['user_id'], $type, Notify_model::$templates[$type], $data);
 				} else {
 					$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
 				}
-				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, false);
+				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $count < 20);
 			}
 		}
 	}
@@ -56,13 +58,14 @@ class Notify_model extends CI_Model {
 	public function createNotifyMany($users, $type, $data = null, $sound = 'default') {
 		if ($users != null) {
 			$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
+			$count = count($users);
 			foreach ($users as $user) {
 				if (!$this->checkNotify($user['user_id'], $type, $data)) {
 					$this->insertUserNotify($user['user_id'], $type, Notify_model::$templates[$type], $data);
 				} else {
 					$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
 				}
-				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, false);
+				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $count < 20);
 			}
 		}
 	}
