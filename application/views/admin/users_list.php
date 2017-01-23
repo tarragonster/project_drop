@@ -33,7 +33,8 @@
 								echo "<a href='" . base_url('admin/user/block/' . $row['user_id'] . '?redirect=' . uri_string())."' /><button class='btn btn-danger btn-sm'>Block</button></a>";
 							else
 								echo "<a href='" . base_url('admin/user/block/' . $row['user_id'] . '?redirect=' . uri_string())."' /><button class='btn btn-success btn-sm'>Unblock</button></a>";
-							echo '</div></td>';	
+								echo "<a href='" . base_url('admin/user/delete/' . $row['user_id'] . '?redirect=' . uri_string())."' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
+							echo '</div></td>';
 							echo '</tr>';			
 						}
 					}

@@ -7,8 +7,8 @@ class User extends Base_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model("admin_model");
-        $this->load->model("user_model");
-        $admin = $this->session->userdata('admin');
+		$this->load->model("user_model");
+		$admin = $this->session->userdata('admin');
 		if ($admin == null) {
 			redirect(base_url('admin/login'));
 		}
@@ -17,30 +17,28 @@ class User extends Base_Controller {
 			redirect(base_url('admin/lockscreen'));
 		}
 		$this->account = $this->admin_model->getAdminAccountByEmail($admin['email']);
-        $this->load->helper(array('form'));
+		$this->load->helper(array('form'));
 	}
-
-	
 
 	public function index($page = 1) {
 
-        if ($this->input->server('REQUEST_METHOD') == 'POST'){
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 
-            $submited = $this->input->post('search');
-            $search = array();
-            $post = $this->input->post(NULL, TRUE);
-            if ($submited) {               
-                $this->handle_post('admin/user');
-            } else {
-                $submited = $this->input->post('export');
-                if ($submited) {
-                    $search = $this->handle_post('admin/user', true);
-                    $this->exportEmail($search);
-                }
-            }
-        }
+			$submited = $this->input->post('search');
+			$search = array();
+			$post = $this->input->post(NULL, TRUE);
+			if ($submited) {
+				$this->handle_post('admin/user');
+			} else {
+				$submited = $this->input->post('export');
+				if ($submited) {
+					$search = $this->handle_post('admin/user', true);
+					$this->exportEmail($search);
+				}
+			}
+		}
 
-        $condition = array(); 
+		$condition = array();
 
 		$this->load->library('pagination');
 
@@ -51,11 +49,11 @@ class User extends Base_Controller {
 		$config['total_rows'] = $this->user_model->getNumOfUser(1);
 		$config['per_page'] = PERPAGE_ADMIN;
 		$config['cur_page'] = $page;
-        $config['add_query_string'] = TRUE;
+		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
 		$pinfo = array(
-			'from' 	=> PERPAGE_ADMIN * ($page - 1) + 1 ,
-			'to' 	=> min(array(PERPAGE_ADMIN * $page, $config['total_rows'])) ,
+			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
+			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
 		$users = $this->user_model->getUsersForAdmin($page - 1, 1);
@@ -71,11 +69,9 @@ class User extends Base_Controller {
 
 	}
 
-	
-
 	public function blocked($page = 1) {
 
-		if ($this->input->server('REQUEST_METHOD') == 'POST'){
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$submited = $this->input->post('search');
 			$search = array();
 			$post = $this->input->post(NULL, TRUE);
@@ -98,9 +94,9 @@ class User extends Base_Controller {
 		$config['cur_page'] = $page;
 		$this->pagination->initialize($config);
 		$pinfo = array(
-				'from' 	=> PERPAGE_ADMIN * ($page - 1) + 1 ,
-				'to' 	=> min(array(PERPAGE_ADMIN * $page, $config['total_rows'])) ,
-				'total' => $config['total_rows'],
+			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
+			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
+			'total' => $config['total_rows'],
 		);
 		$users = $this->user_model->getUsersForAdmin($page - 1, 0);
 
@@ -115,7 +111,7 @@ class User extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	 public function block($user_id = '') {
+	public function block($user_id = '') {
 
 		$user = $this->user_model->getUserForAdmin($user_id);
 
@@ -130,9 +126,54 @@ class User extends Base_Controller {
 
 	}
 
+	public function delete($user_id = '') {
+
+		$user = $this->user_model->getUserForAdmin($user_id);
+
+		if ($user != null) {
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('watch_list');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('user_watch');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('user_notify');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->or_where('follower_id', $user_id);
+			$this->db->delete('user_follow');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('user_access_token');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('replies_like');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('log_login');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('episode_replies');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('episode_like');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('episode_comment');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('comment_like');
+
+			$this->db->where('user_id', $user_id);
+			$this->db->delete('user');
+		}
+		$this->redirect('admin/user');
+	}
+
 	public function edit($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
-		if($user == null){
+		if ($user == null) {
 			redirect(base_url('admin/user'));
 		}
 		$cmd = $this->input->post('cmd');
@@ -158,7 +199,7 @@ class User extends Base_Controller {
 			if ($cmd == 'Save') {
 				redirect(base_url('admin/user'));
 			} else if ($cmd == 'SaveContinue') {
-				redirect(base_url('admin/edit/'.$user_id));
+				redirect(base_url('admin/edit/' . $user_id));
 			}
 		} else {
 			$user = $this->user_model->getUserForAdmin($user_id);
@@ -180,10 +221,10 @@ class User extends Base_Controller {
 
 	public function profile($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
-		if($user == null){
+		if ($user == null) {
 			redirect(base_url('admin/user'));
 		}
-		
+
 		$data = array();
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
