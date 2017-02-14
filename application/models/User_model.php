@@ -48,6 +48,21 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function getUsers($user_id = -1) {
+		$this->db->from('user u');
+		$this->db->join('user_follow uf', 'uf.follower_id = u.user_id', 'left');
+		$this->db->select('u.user_id, user_name, avatar, full_name, count(if(uf.user_id is not null, 1, 0)) as followers');
+		if ($user_id != -1) {
+			$this->db->where('u.user_id !=', $user_id);
+		}
+		$this->db->where('u.status', 1);
+		$this->db->group_by('u.user_id');
+		$this->db->order_by('followers', 'desc');
+		$this->db->order_by('user_name');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function getListWatching($user_id, $page = -1) {
 		$this->db->select('w.user_id, p.*');
 		$this->db->from('watch_list w');

@@ -11,7 +11,7 @@ class Search extends BR_Controller {
 		$this->load->model('user_model');
 	}
 
-	public function get_get($type, $key) {
+	public function get_get($type, $key='') {
 		if ($type == 1) {
 			$products = $this->product_model->getProductByName($key);
 			$this->create_success(array('products' => $products));
@@ -20,7 +20,12 @@ class Search extends BR_Controller {
 			$this->create_success(array('casts' => $casts));
 		} else if ($type == 3) {
 			if ($this->user_id != null) {
-				$users = $this->user_model->searchUser($key, $this->user_id);
+				if (empty($key)) {
+					$users = $this->user_model->getUsers($this->user_id);
+				} else {
+					$users = $this->user_model->searchUser($key, $this->user_id);
+				}
+
 				$following = $this->user_model->getFollowing($this->user_id);
 				foreach ($users as $key => $user) {
 					$users[$key]['isFollow'] = '0';

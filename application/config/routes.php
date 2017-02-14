@@ -31,6 +31,7 @@ $route['user/addComment'] = 'comment/add';
 
 //search
 $route['search/(:num)/(:any)'] = 'search/get/$1/$2';
+$route['search/(:num)'] = 'search/get/$1';
 
 //news
 $route['news/(:num)'] = 'news/get/$1';
