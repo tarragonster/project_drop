@@ -37,7 +37,7 @@ class Search extends BR_Controller {
 					}
 				}
 			} else {
-				$users = $this->user_model->getUserByName($key);
+				$users = $this->user_model->searchUser($key, -1);
 				foreach ($users as $key => $user) {
 					$users[$key]['is_follow'] = '0';
 				}

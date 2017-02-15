@@ -38,13 +38,25 @@ class User_model extends BaseModel {
 	}
 
 	public function searchUser($user_name, $user_id = -1) {
-		$this->db->select('user_id, user_name, avatar, full_name');
+//		$this->db->select('user_id, user_name, avatar, full_name');
+//		if ($user_id != -1) {
+//			$this->db->where('user_id !=', $user_id);
+//		}
+//		$this->db->where('status', 1);
+//		$this->db->like('user_name', $user_name);
+//		$query = $this->db->get($this->table);
+		$this->db->from('user u');
+		$this->db->join('user_follow uf', 'uf.follower_id = u.user_id', 'left');
+		$this->db->select('u.user_id, user_name, avatar, full_name, count(if(uf.user_id is not null, 1, 0)) as followers');
 		if ($user_id != -1) {
-			$this->db->where('user_id !=', $user_id);
+			$this->db->where('u.user_id !=', $user_id);
 		}
-		$this->db->where('status', 1);
-		$this->db->like('user_name', $user_name);
-		$query = $this->db->get($this->table);
+		$this->db->where('u.status', 1);
+		$this->db->group_by('u.user_id');
+		$this->db->like('user_name', $user_name, 'both');
+		$this->db->order_by('followers', 'desc');
+		$this->db->order_by('user_name');
+		$query = $this->db->get();
 		return $query->result_array();
 	}
 
