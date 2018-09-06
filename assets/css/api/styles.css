@@ -1,0 +1,88 @@
+.content-page{
+    margin-left: 0px;
+}
+#wrapper.enlarged .content-page {
+     margin-left: 0px; 
+}
+#wrapper.enlarged .footer {
+    left: 0px;
+}
+.footer{
+    left: 0px;
+}
+.calendar-aca {
+    width: 100%;
+}
+
+.calendar-day-head {
+    background: #ebeff2;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 10px 0px;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+}
+
+.day-number {
+    text-align: right;
+    padding: 8px;
+    vertical-align: top;
+    min-height: 60px;
+}
+.header-calender {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+}
+.calendar-day:hover {
+    background-color: #f4f8fb!important;
+    cursor: pointer;
+}
+.day-number.active {
+    color: #648bff;
+    background-color: #eff2f5;
+}
+td.calendar-day, td.calendar-day-np {
+    padding: 0px !important;
+    margin: 0px;
+}
+.link-signup{
+    text-align: center;
+}
+.link-signup a{
+    color: #427fed;
+    cursor: pointer;
+    text-decoration: none;
+}
+span.name-user {
+    padding-right: 8px;
+}
+
+.top-day {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+}
+.name-order {
+    width: 100%;
+    text-decoration: underline;
+    text-align: left;
+}
+.number-active{
+    font-weight: bold;
+    float: right;
+}
+.content-page{
+    margin-left: 0px;
+}
+.btn-destroy {
+    margin-left: 32px;
+}
+td.calendar-day {
+    width: 14.2%;
+}

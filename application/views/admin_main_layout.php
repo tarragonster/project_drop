@@ -179,27 +179,25 @@
         <script src="<?php echo base_url('assets/js/wow.min.js');?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.nicescroll.js');?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.scrollTo.min.js');?>"></script>
+
         <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js');?>"></script>
         <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.js');?>"></script>
-
         <script src="<?php echo base_url('assets/plugins/peity/jquery.peity.min.js');?>"></script>
-
         <script src="<?php echo base_url('assets/plugins/jquery-sparkline/jquery.sparkline.min.js');?>"></script>
+
 		<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>		
-		<script src="<?php echo base_url('assets/pages/jquery.dashboard_3.js');?>"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
+        <script src="<?php echo base_url('assets/pages/jquery.dashboard_3.js');?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.core.js');?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.app.js');?>"></script>
-		
-		</script>
-        <?php          
+
+        <?php
             if (isset($customJs) && is_array($customJs)){
                 foreach($customJs as $script){
                    echo '<script type="text/javascript" src="' . base_url(). $script . '"></script>' . "\n";
                 }
             }
         ?>
-        
     </body>
 </html>
