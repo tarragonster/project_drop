@@ -64,23 +64,25 @@ class Comment extends BR_Controller {
 			$comment_id = $this->comment_model->insert(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'content' => $content, 'timestamp' => time()));
 			$comment = $this->comment_model->getCommentById($comment_id);
 			$uid_comment = $comment['user_id'];
-		} else if ($comment_id != 0) {
-			$check = $this->comment_model->checkComment($comment_id);
-			if ($check == null) {
-				$this->create_error(-14);
-			}
-			$episode = $this->episode_model->checkEpisode($check['episode_id']);
-			$product_id = $this->episode_model->getProdutID($episode['season_id']);
-
-			$this->notify_model->createNotify($check['user_id'], 54, array('user_id' => $this->user_id, 'episode_id' => $check['episode_id'], 'season_id' => $episode['season_id'], 'product_id' => $product_id));
-			$this->notify_model->createNotifyToFollower($this->user_id, 10, array('user_id' => $this->user_id, 'uid_comment' => $check['user_id'], 'episode_id' => $check['episode_id'], 'season_id' => $episode['season_id'], 'product_id' => $product_id), 'default', false);
-			$replies_id = $this->comment_model->insertReplies(array('comment_id' => $comment_id, 'user_id' => $this->user_id, 'content' => $content, 'timestamp' => time()));
-
-			$comment = $this->comment_model->getRepliesById($replies_id);
-			$episode_id = $check['episode_id'];
-			$uid_comment = $check['user_id'];
 		} else {
-			$this->create_error(-1000);
+			if ($comment_id != 0) {
+				$check = $this->comment_model->checkComment($comment_id);
+				if ($check == null) {
+					$this->create_error(-14);
+				}
+				$episode = $this->episode_model->checkEpisode($check['episode_id']);
+				$product_id = $this->episode_model->getProdutID($episode['season_id']);
+
+				$this->notify_model->createNotify($check['user_id'], 54, array('user_id' => $this->user_id, 'episode_id' => $check['episode_id'], 'season_id' => $episode['season_id'], 'product_id' => $product_id));
+				$this->notify_model->createNotifyToFollower($this->user_id, 10, array('user_id' => $this->user_id, 'uid_comment' => $check['user_id'], 'episode_id' => $check['episode_id'], 'season_id' => $episode['season_id'], 'product_id' => $product_id), 'default', false);
+				$replies_id = $this->comment_model->insertReplies(array('comment_id' => $comment_id, 'user_id' => $this->user_id, 'content' => $content, 'timestamp' => time()));
+
+				$comment = $this->comment_model->getRepliesById($replies_id);
+				$episode_id = $check['episode_id'];
+				$uid_comment = $check['user_id'];
+			} else {
+				$this->create_error(-1000);
+			}
 		}
 		$users = $this->__checkMentioned($content, $this->user_id);
 		if (count($users) > 0) {
@@ -129,27 +131,29 @@ class Comment extends BR_Controller {
 			}
 			$data['num_like'] = $this->episode_model->countCommentLike($comment_id);
 			$data['has_like'] = $this->episode_model->hasLikeComment($comment_id, $this->user_id);
-		} else if ($replies_id != 0) {
-			$replies = $this->comment_model->checkRepliesById($replies_id);
-			$comment = $this->comment_model->checkComment($replies['comment_id']);
-
-			$isCheck = $this->comment_model->checkLikeReplies($this->user_id, $replies_id);
-			$episode = $this->episode_model->checkEpisode($comment['episode_id']);
-			$product_id = $this->episode_model->getProdutID($episode['season_id']);
-			if (!$isCheck) {
-				$this->comment_model->insertRepliesLike(array('replies_id' => $replies_id, 'user_id' => $this->user_id));
-				if ($this->user_id != $comment['user_id']) {
-					$this->notify_model->createNotify($comment['user_id'], 53, array('user_id' => $this->user_id, 'episode_id' => $comment['episode_id'], 'season_id' => $episode['season_id'], 'product_id' => $product_id));
-				}
-			} else {
-				$this->comment_model->removeRepliesLike($this->user_id, $replies_id);
-				$this->notify_model->removeNotify($this->user_id, 9, array('user_id' => $this->user_id, 'episode_id' => $comment['episode_id'], 'uid_comment' => $comment['user_id'], 'product_id' => $product_id));
-			}
-
-			$data['num_like'] = $this->episode_model->countRepliesLike($replies_id);
-			$data['has_like'] = $this->episode_model->hasLikeReplies($replies_id, $this->user_id);
 		} else {
-			$this->create_error(-1000);
+			if ($replies_id != 0) {
+				$replies = $this->comment_model->checkRepliesById($replies_id);
+				$comment = $this->comment_model->checkComment($replies['comment_id']);
+
+				$isCheck = $this->comment_model->checkLikeReplies($this->user_id, $replies_id);
+				$episode = $this->episode_model->checkEpisode($comment['episode_id']);
+				$product_id = $this->episode_model->getProdutID($episode['season_id']);
+				if (!$isCheck) {
+					$this->comment_model->insertRepliesLike(array('replies_id' => $replies_id, 'user_id' => $this->user_id));
+					if ($this->user_id != $comment['user_id']) {
+						$this->notify_model->createNotify($comment['user_id'], 53, array('user_id' => $this->user_id, 'episode_id' => $comment['episode_id'], 'season_id' => $episode['season_id'], 'product_id' => $product_id));
+					}
+				} else {
+					$this->comment_model->removeRepliesLike($this->user_id, $replies_id);
+					$this->notify_model->removeNotify($this->user_id, 9, array('user_id' => $this->user_id, 'episode_id' => $comment['episode_id'], 'uid_comment' => $comment['user_id'], 'product_id' => $product_id));
+				}
+
+				$data['num_like'] = $this->episode_model->countRepliesLike($replies_id);
+				$data['has_like'] = $this->episode_model->hasLikeReplies($replies_id, $this->user_id);
+			} else {
+				$this->create_error(-1000);
+			}
 		}
 		$this->create_success(array('likes' => $data));
 	}

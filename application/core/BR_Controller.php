@@ -230,4 +230,15 @@ class BR_Controller extends REST_Controller {
 		}
 		return null;
 	}
+
+	public function __getUserProfile($user_id) {
+		$profile = $this->user_model->getProfileUser($user_id);
+		$profile['num_following'] = $this->user_model->countFollowing($user_id);
+		$profile['num_followers'] = $this->user_model->countFollowers($user_id);
+		$profile['watch_list'] = $this->user_model->getListWatching($user_id);
+		$profile['continue_watching'] = $this->user_model->getListContinue($user_id);
+		$this->load->model('news_model');
+		$profile['num_news'] = $this->news_model->countNotification($this->user_id);
+		return $profile;
+	}
 }

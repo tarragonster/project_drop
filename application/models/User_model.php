@@ -362,4 +362,12 @@ class User_model extends BaseModel {
 			return 1;
 		}
 	}
+
+	public function getUserByAccount($account) {
+		$this->db->from('user');
+		$this->db->where("((upper(email) = upper('$account') or upper(user_name) = upper('$account')))");
+		$this->db->where("status", 1);
+		$user = $this->db->get()->first_row('array');
+		return $user;
+	}
 }

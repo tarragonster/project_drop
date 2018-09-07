@@ -26,8 +26,9 @@ class User extends BR_Controller {
 			$this->db->insert('device_user', $q);
 		} else {
 			$q = array("reg_id" => $reg_id, "last_activity" => $time);
-			if ($user_id != 0)
+			if ($user_id != 0) {
 				$q['user_id'] = $user_id;
+			}
 			$this->db->where('device_id', $device_id);
 			$this->db->update('device_user', $q);
 		}
@@ -461,8 +462,9 @@ class User extends BR_Controller {
 		$oldavatar = $this->user_model->getAvatarUser($this->user_id);
 
 		$this->user_model->update($params, $this->user_id);
-		if ($oldavatar != 'media/avatar/user/user.png')
+		if ($oldavatar != 'media/avatar/user/user.png') {
 			$this->file_model->removeFileAndThumb($oldavatar);
+		}
 		$profile = $this->__getUserProfile($this->user_id);
 		$this->create_success(array('profile' => $profile), 'Edit success');
 
@@ -488,16 +490,5 @@ class User extends BR_Controller {
 		$this->load->model("email_model");
 		$this->email_model->emailForgotPassword($email, $params);
 		$this->create_success(null, 'Check email for get new password');
-	}
-
-	public function __getUserProfile($user_id) {
-		$profile = $this->user_model->getProfileUser($user_id);
-		$profile['num_following'] = $this->user_model->countFollowing($user_id);
-		$profile['num_followers'] = $this->user_model->countFollowers($user_id);
-		$profile['watch_list'] = $this->user_model->getListWatching($user_id);
-		$profile['continue_watching'] = $this->user_model->getListContinue($user_id);
-		$this->load->model('news_model');
-		$profile['num_news'] = $this->news_model->countNotification($this->user_id);
-		return $profile;
 	}
 }
