@@ -57,7 +57,7 @@ class Login extends BR_Controller {
 		if ($user == null) {
 			$full_name = $this->c_getNotNull('full_name');
 			$user_name = $this->c_getNotNull('user_name');
-			$avatar = $this->c_getNotNull('avatar');
+			$avatar = $this->post('avatar');
 
 			$params = [
 				'email' => $email,
