@@ -208,6 +208,26 @@ class BR_Controller extends REST_Controller {
 		return $value;
 	}
 
+	public function c_getDate($key = 'date', $required = true) {
+		$value = $this->post($key, '');
+		if ($value == '') {
+			if ($required) {
+				$this->create_error(-5, $key . ' is required params');
+			} else {
+				return $value;
+			}
+		}
+		if (strlen($value) != 10)
+			$this->create_error(-6, $key . ' must be with format yyyy-mm-dd.');
+
+		if (!validate_date($value)) {
+			$this->create_error(-6, $key . ' must be with format yyyy-mm-dd');
+		}
+
+		$date = date('Y-m-d', strtotime($value));
+		return $date;
+	}
+
 	public function c_getOnlyContainNumber($key) {
 		$value = $this->post($key, '');
 		if ($value == '')

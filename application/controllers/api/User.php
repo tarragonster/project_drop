@@ -329,6 +329,45 @@ class User extends BR_Controller {
 		$this->create_success(array('profile' => $profile));
 	}
 
+	public function edit_post() {
+		$this->validate_authorization();
+
+		$user = $this->user_model->get($this->user_id);
+		if ($user == null) {
+			$this->create_error(-9);
+		}
+
+		$email = $this->c_getEmail('email');
+		$user_name = $this->c_getNotNull('user_name');
+		$full_name = $this->c_getNotNull('full_name');
+		$birthday = $this->c_getDate('birthday');
+		$bio = $this->c_getNotNull('bio');
+
+		$user = $this->user_model->getByEmail($email);
+		if ($user != null && $user['user_id'] != $this->user_id) {
+			$this->create_error(-78);
+		}
+
+		$user = $this->user_model->getByUsername($user_name);
+		if ($user != null && $user['user_id'] != $this->user_id) {
+			$this->create_error(-78);
+		}
+
+		$params = array();
+
+		$params['email'] = $email;
+		$params['last_login'] = time();
+		$params['user_name'] = $user_name;
+		$params['full_name'] = $full_name;
+		$params['bio'] = $bio;
+		$params['birthday'] = $birthday;
+
+		$this->user_model->update($params, $this->user_id);
+
+		$profile = $this->__getUserProfile($this->user_id);
+		$this->create_success(['profile' => $profile], 'Edit success');
+	}
+
 	public function user_get($user_id) {
 		if (!$this->user_model->checkUid($user_id)) {
 			$this->create_error(-10);

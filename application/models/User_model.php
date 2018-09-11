@@ -26,15 +26,18 @@ class User_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function getUserByUserName($user_name) {
+	public function getByUsername($user_name) {
 		$this->db->where('status', 1);
 		$this->db->where('user_name', $user_name);
 		$query = $this->db->get('user_view');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function getUserByName($user_name) {
-		return $this->getObjectByName('user_name', $user_name);
+	public function getByEmail($email) {
+		$this->db->where('status', 1);
+		$this->db->where('email', $email);
+		$query = $this->db->get('user_view');
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
 	public function searchUser($user_name, $user_id = -1) {
