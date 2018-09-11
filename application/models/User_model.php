@@ -370,4 +370,16 @@ class User_model extends BaseModel {
 		$user = $this->db->get()->first_row('array');
 		return $user;
 	}
+
+	public function getFeaturedProfiles() {
+		$this->db->from('featured_profiles fp');
+		$this->db->join('user u', 'fp.user_id = u.user_id');
+		$this->db->select('u.user_id, user_name, full_name, email, avatar, level, joined');
+		$this->db->where('u.status', 1);
+		$this->db->where('fp.status', 1);
+		$this->db->group_by('u.user_id');
+		$this->db->order_by('user_name');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }
