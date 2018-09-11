@@ -22,10 +22,9 @@ class BR_Controller extends REST_Controller {
 	}
 
 	protected function create_error($code, $message = '') {
-		$response = array();
-		if ($message != '')
-			$message = ': ' . $message;
-		$message = $this->getErrorMessage($code) . $message;
+		if (empty($message)) {
+			$message = $this->getErrorMessage($code);
+		}
 		$response = array('code' => $code,
 			'message' => $message,
 			'data' => null);
@@ -175,7 +174,7 @@ class BR_Controller extends REST_Controller {
 	public function c_getWithLength($key, $to, $from = 0) {
 		$value = $this->post($key, '');
 		if (strlen($value) > $to || strlen($value) < $from)
-			$this->create_error(-8, $key . ' lenght from ' . $from . ' to ' . $to);
+			$this->create_error(-8, $key . ' length from ' . $from . ' to ' . $to);
 		return $value;
 	}
 

@@ -470,6 +470,27 @@ class User extends BR_Controller {
 
 	}
 
+	public function changePassword_post() {
+		$this->validate_authorization();
+
+		$user = $this->user_model->getObjectById($this->user_id);
+		if ($user == null) {
+			$this->create_error(-9);
+		}
+
+		$password = $this->c_getWithLength('password', 32, 6);
+		$new_password = $this->c_getWithLength('new_password', 32, 6);
+		if (md5($password) != $user['password']) {
+			$this->create_error(-4, 'Sory, your current password is incorrect.');
+		}
+		$params = array();
+		$params['password'] = md5($new_password);
+		$this->user_model->update($params, $this->user_id);
+
+		$profile = $this->__getUserProfile($this->user_id);
+		$this->create_success(['profile' => $profile], 'Change password successfully');
+	}
+
 
 	public function forgotPassword_post() {
 		$email = $this->c_getEmail("email");
