@@ -144,4 +144,18 @@ class Product extends BR_Controller {
 		return $episode;
 	}
 
+	public function recentlyWatched_get() {
+		$recently = $this->product_model->getRecentlyWatched($this->user_id);
+//		if (is_array($recently)) {
+//			foreach ($recently as &$product) {
+//				$episode = $this->product_model->getEpisode($product['episode_id']);
+//				$episode['product_id'] = $product['product_id'];
+//				$episode['product_name'] = $product['name'];
+//				$episode['start_time'] = $product['start_time'];
+//				$product['episode'] = $episode;
+//			}
+//		}
+		$this->create_success(['recently' => $recently]);
+	}
+
 }

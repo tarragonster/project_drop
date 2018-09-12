@@ -551,4 +551,42 @@ class User extends BR_Controller {
 		$this->email_model->emailForgotPassword($email, $params);
 		$this->create_success(null, 'Check email for get new password');
 	}
+
+	// Add Series to Your Picks
+	public function addPick_post() {
+		$this->load->model('product_model');
+		$product_id = $this->c_getNumberNotNull('product_id');
+		$quote = $this->c_getNotNull('quote');
+		$product = $this->product_model->get($product_id);
+		if ($product == null) {
+			$this->create_error(-17);
+		}
+		$pick = $this->user_model->getUserPick($this->user_id, $product_id);
+		if ($pick != null) {
+			$pick_id = $pick['pick_id'];
+			$this->user_model->updatePick(['quote' => $quote], $pick_id);
+		} else {
+			$params = [
+				'product_id' => $product_id,
+				'user_id' => $this->user_id,
+				'quote' => $quote,
+				'created_at' => time(),
+			];
+			$pick_id = $this->user_model->insertPick($params);
+		}
+		$this->create_success(['pick' => $this->user_model->getPick($pick_id)]);
+	}
+
+	// Edit Your Picks
+	public function editPick_post($pick_id) {
+		$quote = $this->c_getNotNull('quote');
+		$pick = $this->user_model->getPick($pick_id);
+		if ($pick == null) {
+			$this->create_error(-1005);
+		}
+		if ($pick != null) {
+			$this->user_model->updatePick(['quote' => $quote], $pick['pick_id']);
+		}
+		$this->create_success(['pick' => $this->user_model->getPick($pick_id)]);
+	}
 }

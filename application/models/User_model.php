@@ -385,4 +385,28 @@ class User_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function getUserPick($user_id, $product_id) {
+		$this->db->where('product_id', $product_id);
+		$this->db->where('user_id', $user_id);
+		return $this->db->get('user_picks')->first_row('array');
+	}
+
+	public function getPick($pick_id) {
+		$this->db->select('p.*, up.pick_id, up.quote');
+		$this->db->from('user_picks up');
+		$this->db->where('up.pick_id', $pick_id);
+		$this->db->join('product p', 'p.product_id = up.product_id');
+		return $this->db->get()->first_row('array');
+	}
+
+	public function insertPick($params) {
+		$this->db->insert('user_picks', $params);
+	}
+
+	public function updatePick($params, $pick_id) {
+		$this->db->where('pick_id', $pick_id);
+		$this->db->update('user_picks', $params);
+	}
+
 }

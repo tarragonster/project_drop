@@ -269,4 +269,14 @@ class Product_model extends BaseModel {
 		$this->db->where('ep.status', 1);
 		return $this->db->get()->result_array();
 	}
+
+	public function getRecentlyWatched($user_id) {
+		$this->db->select('p.*');
+		$this->db->from('watch_list w');
+		$this->db->join('product p', 'p.product_id = w.product_id');
+		$this->db->where('w.user_id =', $user_id);
+		$this->db->order_by('w.id', 'desc');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }

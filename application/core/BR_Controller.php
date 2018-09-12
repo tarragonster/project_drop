@@ -51,7 +51,7 @@ class BR_Controller extends REST_Controller {
 		}
 	}
 
-	protected function create_success($data, $message = 'Success') {
+	protected function create_success($data = null, $message = 'Success') {
 		if ($this->input->get_request_header('Devicetype') == 'Android') {
 			if ($data == null) {
 				$response = array();
