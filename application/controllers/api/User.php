@@ -589,4 +589,30 @@ class User extends BR_Controller {
 		}
 		$this->create_success(['pick' => $this->user_model->getPick($pick_id)]);
 	}
+
+	public function updateConfigs_post() {
+		$params = [];
+		$configs = $this->input->post();
+		if (array_key_exists('picks_enabled', $configs)) {
+			$params['picks_enabled'] = $configs['picks_enabled'] > 0 ? 1 : 0;
+		}
+		if (array_key_exists('continue_enabled', $configs)) {
+			$params['continue_enabled'] = $configs['continue_enabled'] > 0 ? 1 : 0;
+		}
+		if (array_key_exists('watch_enabled', $configs)) {
+			$params['watch_enabled'] = $configs['watch_enabled'] > 0 ? 1 : 0;
+		}
+		if (array_key_exists('thumbs_up_enabled', $configs)) {
+			$params['thumbs_up_enabled'] = $configs['thumbs_up_enabled'] > 0 ? 1 : 0;
+		}
+		if (count($params) > 0) {
+			$this->user_model->updateProfileConfigs($params, $this->user_id);
+		}
+		$this->create_success(['configs' => $this->user_model->getProfileConfigs($this->user_id)]);
+	}
+
+	public function configs_get() {
+		$configs = $this->user_model->getProfileConfigs($this->user_id);
+		$this->create_success(['configs' => $configs]);
+	}
 }

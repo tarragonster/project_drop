@@ -392,11 +392,20 @@ class User_model extends BaseModel {
 		return $this->db->get('user_picks')->first_row('array');
 	}
 
+	public function getUserPicks($user_id) {
+		$this->db->select('p.*, up.pick_id, up.quote');
+		$this->db->from('user_picks up');
+		$this->db->where('up.user_id', $user_id);
+		$this->db->group_by('up.pick_id');
+		$this->db->join('product_view p', 'p.product_id = up.product_id');
+		return $this->db->get()->result_array();
+	}
+
 	public function getPick($pick_id) {
 		$this->db->select('p.*, up.pick_id, up.quote');
 		$this->db->from('user_picks up');
 		$this->db->where('up.pick_id', $pick_id);
-		$this->db->join('product p', 'p.product_id = up.product_id');
+		$this->db->join('product_view p', 'p.product_id = up.product_id');
 		return $this->db->get()->first_row('array');
 	}
 
@@ -407,6 +416,32 @@ class User_model extends BaseModel {
 	public function updatePick($params, $pick_id) {
 		$this->db->where('pick_id', $pick_id);
 		$this->db->update('user_picks', $params);
+	}
+
+	public function getProfileConfigs($user_id) {
+		$this->db->where('user_id', $user_id);
+		$item = $this->db->get('user_profile_configs')->first_row('array');
+		if ($item != null) {
+			return $item;
+		}
+		return [
+			'user_id' => $user_id,
+			'picks_enabled' => 1,
+			'continue_enabled' => 1,
+			'watch_enabled' => 1,
+			'thumbs_up_enabled' => 1,
+		];
+	}
+
+	public function updateProfileConfigs($configs, $user_id) {
+		$this->db->where('user_id', $user_id);
+		$item = $this->db->get('user_profile_configs')->first_row('array');
+		if ($item != null) {
+			$this->db->update('user_profile_configs', $configs);
+		} else {
+			$configs['user_id'] = $user_id;
+			$this->db->insert('user_profile_configs', $configs);
+		}
 	}
 
 }
