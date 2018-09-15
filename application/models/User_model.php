@@ -444,4 +444,13 @@ class User_model extends BaseModel {
 		}
 	}
 
+	public function getTopPicks() {
+		$this->db->select('p.*, up.pick_id, up.quote');
+		$this->db->from('user_picks up');
+		$this->db->group_by('up.pick_id');
+		$this->db->join('product_view p', 'p.product_id = up.product_id');
+		$this->db->order_by('up.pick_id', 'desc');
+		$this->db->limit(100);
+		return $this->db->get()->result_array();
+	}
 }

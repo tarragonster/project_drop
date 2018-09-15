@@ -12,12 +12,11 @@ class Collection extends BR_Controller {
 
 	public function list_get() {
 		$collections = $this->collection_model->getCollections();
+		$feeds = [];
 		if (is_array($collections)) {
 			$this->load->model('episode_model');
 			foreach ($collections as &$collection) {
-				$products = $this->product_model->getListProductByCollection($collection['collection_id'], 0);
-				$collection['products'] = $products;
-				if ($collection['collection_id'] == 4) {
+				if ($collection['collection_type'] == 3) {
 					$episode_products = $this->product_model->getContinueWatching($this->user_id);
 					if (is_array($episode_products)) {
 						foreach ($episode_products as &$product) {
@@ -29,25 +28,34 @@ class Collection extends BR_Controller {
 						}
 					}
 					$collection['episode_products'] = $episode_products;
+				} else if ($collection['collection_type'] == 4) {
+					$top_picks = $this->user_model->getTopPicks();
+					$collection['top_picks'] = $top_picks;
+				} else if ($collection['collection_type'] == 2) {
+					$feeds = $this->collection_model->feeds();
+					if (is_array($feeds)) {
+						if ($this->user_id == null) {
+							foreach ($feeds as $key => $row) {
+								$feeds[$key]['start_time'] = 0;
+								$first_episode = $this->product_model->getFirstEpisode($row['product_id']);
+								$feeds[$key]['feed_episode'] = $first_episode;
+							}
+						} else {
+							foreach ($feeds as $key => $row) {
+								$feeds[$key]['start_time'] = $this->product_model->getProductContinue($this->user_id, $row['product_id']);
+								$first_episode = $this->product_model->getFirstEpisode($row['product_id']);
+								$feeds[$key]['feed_episode'] = $first_episode;
+							}
+						}
+					}
+					$collection['feeds'] = $feeds;
+				} else {
+					$products = $this->product_model->getListProductByCollection($collection['collection_id'], 0);
+					$collection['products'] = $products;
 				}
 			}
 		}
-		$feeds = $this->collection_model->feeds();
-		if (is_array($feeds)) {
-			if ($this->user_id == null) {
-				foreach ($feeds as $key => $row) {
-					$feeds[$key]['start_time'] = 0;
-					$first_episode = $this->product_model->getFirstEpisode($row['product_id']);
-					$feeds[$key]['feed_episode'] = $first_episode;
-				}
-			} else {
-				foreach ($feeds as $key => $row) {
-					$feeds[$key]['start_time'] = $this->product_model->getProductContinue($this->user_id, $row['product_id']);
-					$first_episode = $this->product_model->getFirstEpisode($row['product_id']);
-					$feeds[$key]['feed_episode'] = $first_episode;
-				}
-			}
-		}
+
 		$this->create_success(array('collections' => $collections, 'feeds' => $feeds));
 	}
 }
