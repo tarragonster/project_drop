@@ -40,3 +40,13 @@ ALTER TABLE `collection`
 --
 ALTER TABLE `collection`
   MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+UPDATE `collection` SET `collection_type` = '5' WHERE `collection`.`collection_id` = 2;
+
+CREATE TABLE `watched` (
+  `user_id` INT(11) NOT NULL ,
+  `product_id` INT(11) NOT NULL ,
+  `updated_at` INT(11) NOT NULL DEFAULT '0' ,
+  PRIMARY KEY (`user_id`, `product_id`)
+) ENGINE = InnoDB;
+

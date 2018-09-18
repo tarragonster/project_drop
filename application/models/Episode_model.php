@@ -182,6 +182,8 @@ class Episode_model extends BaseModel {
 	}
 
 	public function addWatchEpisode($params) {
+		$this->addRecentlyWatched($params['user_id'], $params['product_id']);
+
 		$this->db->insert('user_watch', $params);
 		return $this->db->insert_id();
 	}
@@ -194,6 +196,21 @@ class Episode_model extends BaseModel {
 	public function updateWatchEpisode($params, $id) {
 		$this->db->where('id', $id);
 		$this->db->update('user_watch', $params);
+
+		$this->addRecentlyWatched($params['user_id'], $params['product_id']);
+	}
+
+	public function addRecentlyWatched($user_id, $product_id) {
+		$this->db->where('user_id', $user_id);
+		$this->db->where('product_id', $product_id);
+		$item = $this->db->get('watched')->first_row();
+		if ($item != null) {
+			$this->db->where('user_id', $user_id);
+			$this->db->where('product_id', $product_id);
+			$this->db->update('watched', ['updated_at' => time()]);
+		} else {
+			$this->db->insert('watched', ['user_id' => $user_id, 'product_id'=> $product_id, 'updated_at' => time()]);
+		}
 	}
 
 	public function up($season_id, $position, $episode_id) {

@@ -272,10 +272,10 @@ class Product_model extends BaseModel {
 
 	public function getRecentlyWatched($user_id) {
 		$this->db->select('p.*');
-		$this->db->from('watch_list w');
+		$this->db->from('watched w');
 		$this->db->join('product p', 'p.product_id = w.product_id');
 		$this->db->where('w.user_id =', $user_id);
-		$this->db->order_by('w.id', 'desc');
+		$this->db->order_by('w.updated_at', 'desc');
 		$query = $this->db->get();
 		return $query->result_array();
 	}
