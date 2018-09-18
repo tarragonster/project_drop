@@ -195,6 +195,8 @@ class User extends BR_Controller {
 			$this->create_error(-17, 'Unknown resource');
 		}
 
+		$this->episode_model->addRecentlyWatched($this->user_id, $product_id);
+
 		$episode_id = $this->post('episode_id') * 1;
 		$time = $this->c_getNotNull('time');
 		if ($episode_id != 0) {
