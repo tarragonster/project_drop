@@ -194,14 +194,14 @@ class User extends BR_Controller {
 		if ($product == null) {
 			$this->create_error(-17, 'Unknown resource');
 		}
-
+		
+		$this->load->model('episode_model');
 		$this->episode_model->addRecentlyWatched($this->user_id, $product_id);
 
 		$episode_id = $this->post('episode_id') * 1;
 		$time = $this->c_getNotNull('time');
 		if ($episode_id != 0) {
 			//update for episode
-			$this->load->model('episode_model');
 			$this->episode_model = new Episode_model();
 			$episode = $this->episode_model->getEpisode($episode_id);
 			if ($episode == null || $episode['product_id'] != $product_id) {
