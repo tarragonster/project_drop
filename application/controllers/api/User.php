@@ -94,12 +94,32 @@ class User extends BR_Controller {
 		$device_id = $this->c_getNotNull('device_id');
 		$user_name = $this->c_getNotNull('user_name');
 		$full_name = $this->c_getNotNull('full_name');
+		$facebook_id = $this->post('facebook_id');
+		$google_id = $this->post('google_id');
 
 		if ($this->user_model->checkUserName($user_name)) {
 			$this->create_error(-78);
 		}
 
+		if ($this->user_model->checkEmail($email)) {
+			$this->create_error(-5);
+		}
+
 		$params = array();
+		if (!empty($facebook_id)) {
+			if ($this->user_model->getUserByFacebookId($facebook_id) != null) {
+				$this->create_error(-81);
+			} else {
+				$params['facebook_id'] = $facebook_id;
+			}
+		}
+		if (!empty($google_id)) {
+			if ($this->user_model->getUserByGoogleId($google_id) != null) {
+				$this->create_error(-81);
+			} else {
+				$params['google_id'] = $google_id;
+			}
+		}
 
 		$params['email'] = $email;
 		$params['password'] = ($password != '' ? md5($password) : '');

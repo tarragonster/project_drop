@@ -40,6 +40,20 @@ class User_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
+	public function getUserByFacebookId($facebook_id) {
+		$this->db->from('user');
+		$this->db->where('facebook_id', $facebook_id);
+		$user = $this->db->get()->first_row('array');
+		return $user;
+	}
+
+	public function getUserByGoogleId($google_id) {
+		$this->db->from('user');
+		$this->db->where('google_id', $google_id);
+		$user = $this->db->get()->first_row('array');
+		return $user;
+	}
+
 	public function searchUser($user_name, $user_id = -1) {
 //		$this->db->select('user_id, user_name, avatar, full_name');
 //		if ($user_id != -1) {
@@ -260,7 +274,7 @@ class User_model extends BaseModel {
 			$this->db->where('device_id', $device_id);
 			$this->db->update('device_user', array('user_id' => $user_id, 'last_activity' => time()));
 		} else {
-			$this->db->insert('device_user', array('user_id' => $user_id, 'device_id' => $device_id, 'timestamp' => time(), 'last_activity' => time()));
+			$this->db->insert('device_user', array('user_id' => $user_id, 'device_id' => $device_id, 'last_activity' => time()));
 		}
 	}
 
