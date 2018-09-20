@@ -30,7 +30,6 @@ class Collection extends BR_Controller {
 					$collection['episode_products'] = $episode_products;
 				} else if ($collection['collection_type'] == 4) {
 					$top_picks = $this->user_model->getTopPicks();
-					die($this->db->last_query());
 					$collection['top_picks'] = $top_picks;
 				} else if ($collection['collection_type'] == 2) {
 					$feeds = $this->collection_model->feeds();
