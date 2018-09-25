@@ -262,14 +262,25 @@ class BR_Controller extends REST_Controller {
 		$configs = $this->user_model->getProfileConfigs($user_id);
 		$profile['configs'] = $configs;
 
-
+		$this->load->model('product_model');
 		if ($this->user_id == $user_id || $configs['picks_enabled'] == 1) {
 			$profile['your_picks'] = $this->user_model->getUserPicks($user_id);
 		} else {
 			$profile['your_picks'] = [];
 		}
 		if ($this->user_id == $user_id || $configs['continue_enabled'] == 1) {
-			$profile['continue_watching'] = $this->user_model->getListContinue($user_id);
+			$continue_watching = $this->user_model->getListContinue($user_id);
+
+			if (is_array($continue_watching)) {
+				foreach ($continue_watching as &$cwItem) {
+					$episode = $this->product_model->getEpisode($cwItem['episode_id']);
+					$episode['product_id'] = $cwItem['product_id'];
+					$episode['product_name'] = $cwItem['name'];
+					$episode['start_time'] = $cwItem['start_time'];
+					$cwItem['episode'] = $episode;
+				}
+			}
+			$profile['continue_watching'] = $continue_watching;
 		} else {
 			$profile['continue_watching'] = [];
 		}
