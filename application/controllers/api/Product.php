@@ -66,7 +66,15 @@ class Product extends BR_Controller {
 
 	public function numWatching_get($product_id) {
 		$watching = $this->product_model->countUserWatching($product_id);
-		$this->create_success(array('num_watching' => $watching));
+
+		$watchers = $this->product_model->getProductWatchers($product_id);
+
+		$response = [
+			'num_watching' => $watching,
+			'watchers' => $watchers
+		];
+
+		$this->create_success($response);
 	}
 
 	public function nextEpisode_get($episode_id) {

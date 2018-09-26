@@ -279,4 +279,16 @@ class Product_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function getProductWatchers($product_id) {
+		$this->db->select('w.*, u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user_watch w');
+		$this->db->join('user u', 'u.user_id = w.user_id');
+		$this->db->where('w.episode_id !=', 0);
+		$this->db->where('w.product_id', $product_id);
+		$this->db->group_by('w.user_id');
+		$this->db->limit(3);
+		$query = $this->db->get();
+		return $query->result_array('array');
+	}
 }
