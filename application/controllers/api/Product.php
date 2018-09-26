@@ -45,7 +45,15 @@ class Product extends BR_Controller {
 			$seasons[$key]['films'] = $films;
 		}
 		$product['seasons'] = $seasons;
-		$this->create_success(array('product' => $product));
+
+		$watchers = $this->product_model->getProductWatchers($product_id);
+
+		$response = [
+			'product' => $product,
+			'watchers' => $watchers
+		];
+
+		$this->create_success($response);
 	}
 
 	public function episode_get($episode_id) {
