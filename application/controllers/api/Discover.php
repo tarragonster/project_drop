@@ -31,4 +31,32 @@ class Discover extends BR_Controller {
 		$response['explore_previews'] = $explore_previews;
 		$this->create_success($response, 'Successfully');
 	}
+
+	public function featured_get() {
+		$this->load->model('product_model');
+		$featured_profiles = $this->user_model->getFeaturedProfiles();
+
+		$following = $this->user_model->getFollowing($this->user_id);
+		foreach ($featured_profiles as $key => $user) {
+			$featured_profiles[$key]['isFollow'] = '0';
+			foreach ($following as $follow) {
+				if ($user['user_id'] == $follow['follower_id']) {
+					$featured_profiles[$key]['is_follow'] = '1';
+					break;
+				}
+			}
+		}
+		$response = ['featured_profiles' => $featured_profiles];
+
+		$this->create_success($response, 'Successfully');
+
+	}
+
+	public function previews_get() {
+		$this->load->model('product_model');
+
+		$explore_previews = $this->product_model->getExplorePreviews();
+		$response = ['explore_previews' => $explore_previews];
+		$this->create_success($response, 'Successfully');
+	}
 }
