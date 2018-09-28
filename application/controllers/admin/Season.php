@@ -32,7 +32,7 @@ public function __construct() {
 		$data['sub_id'] = 71;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
-        $data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js', 'assets/app/toogle.js');
+        $data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js');
         $data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css');
 		$this->load->view('admin_main_layout', $data);
 	}
@@ -86,7 +86,7 @@ public function __construct() {
         $data['sub_id'] = 71;
         $data['account'] = $this->account;
         $data['content'] = $this->load->view('admin/episode_list', $season, true);
-        $data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js', 'assets/app/toogle.js');
+        $data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js');
         $data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css');
         $this->load->view('admin_main_layout', $data);
     }

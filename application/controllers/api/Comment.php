@@ -190,7 +190,9 @@ class Comment extends BR_Controller {
 
 	public function report_post() {
 		$comment_id = $this->post('comment_id');
-		$this->comment_model->insertReport($comment_id, $this->user_id);
+		if ($this->comment_model->getCommentById($comment_id) != null) {
+			$this->comment_model->insertReport($comment_id, $this->user_id);
+		}
 
 		$this->create_success();
 	}

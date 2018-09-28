@@ -640,8 +640,9 @@ class User extends BR_Controller {
 
 	public function report_post() {
 		$user_id = $this->post('user_id');
-		$this->user_model->insertReport($user_id, $this->user_id);
-
+		if ($this->user_model->getUserById($user_id) != null) {
+			$this->user_model->insertReport($user_id, $this->user_id);
+		}
 		$this->create_success();
 	}
 }

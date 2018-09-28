@@ -132,4 +132,23 @@ class Comment_model extends BaseModel {
 			'created_at' => time(),
 		]);
 	}
+
+	public function getNumReports() {
+		$this->db->from('comment_reports cr');
+		$this->db->join('episode_comment c', 'c.comment_id = cr.comment_id');
+		$this->db->join('user u2', 'u2.user_id = cr.reporter_id');
+		$this->db->select('cr.report_id, u1.full_name, u2.full_name as reporter_name, cr.created_at');
+		return $this->db->count_all_results();
+	}
+
+	public function getReports($page = 0) {
+		$this->db->from('comment_reports cr');
+		$this->db->join('episode_comment c', 'c.comment_id = cr.comment_id');
+		$this->db->join('user u2', 'u2.user_id = cr.reporter_id');
+		$this->db->select('cr.report_id, c.content, u2.full_name as reporter_name, cr.created_at');
+		$this->db->order_by('report_id', 'desc');
+		$this->db->limit(PERPAGE_ADMIN, $page * PERPAGE_ADMIN);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }

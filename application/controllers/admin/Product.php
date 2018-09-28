@@ -43,7 +43,7 @@ class Product extends Base_Controller {
 		$data['content'] = $this->load->view('admin/product_list', array(
 			'products' => $products,
 			'pinfo' => $pinfo), true);
-        $data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js', 'assets/app/toogle.js');
+        $data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js');
         $data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css');
 		$this->load->view('admin_main_layout', $data);
 	}

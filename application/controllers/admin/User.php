@@ -198,8 +198,10 @@ class User extends Base_Controller {
 			$this->user_model->update($params, $user_id);
 			if ($cmd == 'Save') {
 				redirect(base_url('admin/user'));
-			} else if ($cmd == 'SaveContinue') {
-				redirect(base_url('admin/edit/' . $user_id));
+			} else {
+				if ($cmd == 'SaveContinue') {
+					redirect(base_url('admin/edit/' . $user_id));
+				}
 			}
 		} else {
 			$user = $this->user_model->getUserForAdmin($user_id);
@@ -231,5 +233,41 @@ class User extends Base_Controller {
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/user_profile', array('user' => $user), true);
 		$this->load->view('admin_main_layout', $data);
+	}
+
+	public function reports($page = 1) {
+		$this->load->library('pagination');
+
+		$page = ($page <= 0) ? 1 : $page;
+
+		$config['base_url'] = base_url('admin/user/reports');
+
+		$config['total_rows'] = $this->user_model->getNumReports();
+		$config['per_page'] = PERPAGE_ADMIN;
+		$config['cur_page'] = $page;
+		$config['add_query_string'] = TRUE;
+		$this->pagination->initialize($config);
+		$pinfo = array(
+			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
+			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
+			'total' => $config['total_rows'],
+		);
+		$reports = $this->user_model->getReports($page - 1);
+
+		$content = $this->load->view('admin/users/report', array('reports' => $reports, 'pinfo' => $pinfo), true);
+
+		$data = array();
+		$data['parent_id'] = 2;
+		$data['sub_id'] = 23;
+		$data['account'] = $this->account;
+		$data['content'] = $content;
+		$this->load->view('admin_main_layout', $data);
+	}
+
+	public function deleteReport($report_id) {
+		$this->db->where('report_id', $report_id);
+		$this->db->delete('user_reports');
+
+		$this->redirect('admin/user/reports');
 	}
 }
