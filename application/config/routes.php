@@ -18,7 +18,7 @@ $route['admin/product/(:num)'] = 'admin/product/index/$1';
 //product
 $route['product/(:num)'] = 'product/get/$1';
 
-//collection
+//collectionn
 $route['collection/list'] = 'collection/list';
 $route['feeds'] = 'collection/feeds';
 

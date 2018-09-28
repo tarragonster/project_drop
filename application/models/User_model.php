@@ -154,8 +154,9 @@ class User_model extends BaseModel {
 	}
 
 	public function removeWatchList($user_id, $product_id) {
-		if ($product_id != 0)
+		if ($product_id != 0) {
 			$this->db->where('product_id', $product_id);
+		}
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('watch_list');
 	}
@@ -363,16 +364,19 @@ class User_model extends BaseModel {
 	}
 
 	public function checkCode($user_id, $code) {
-		if ($code == '')
+		if ($code == '') {
 			return 1;
+		}
 		$sql = "select * from code_reset_password where code = '$code' and user_id='$user_id'";
 		$query = $this->db->query($sql);
 		if ($query->num_rows() > 0) {
 			$row = $query->first_row('array');
 			if ($row['has_reset'] == 1) {
 				return 2;
-			} else if ($row['created'] + 86400 < time()) {
-				return 3;
+			} else {
+				if ($row['created'] + 86400 < time()) {
+					return 3;
+				}
 			}
 			return 0;
 		} else {
@@ -468,5 +472,23 @@ class User_model extends BaseModel {
 		$this->db->limit(100);
 		$query = $this->db->get();
 		return $query->result_array();
+	}
+
+	public function findReport($user_id, $reporter_id) {
+		$this->db->where('user_id', $user_id);
+		$this->db->where('reporter_id', $reporter_id);
+
+		return $this->db->get('user_reports')->first_row('array');
+	}
+
+	public function insertReport($user_id, $reporter_id) {
+		if ($this->findReport($user_id, $reporter_id) != null) {
+			return;
+		}
+		$this->db->insert('user_reports', [
+			'user_id' => $user_id,
+			'reporter_id' => $reporter_id,
+			'created_at' => time(),
+		]);
 	}
 }

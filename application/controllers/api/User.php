@@ -637,4 +637,11 @@ class User extends BR_Controller {
 		$configs = $this->user_model->getProfileConfigs($this->user_id);
 		$this->create_success(['configs' => $configs]);
 	}
+
+	public function report_post() {
+		$user_id = $this->post('user_id');
+		$this->user_model->insertReport($user_id, $this->user_id);
+
+		$this->create_success();
+	}
 }

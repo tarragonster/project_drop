@@ -187,4 +187,11 @@ class Comment extends BR_Controller {
 		}
 		return $comment;
 	}
+
+	public function report_post() {
+		$comment_id = $this->post('comment_id');
+		$this->comment_model->insertReport($comment_id, $this->user_id);
+
+		$this->create_success();
+	}
 }

@@ -114,4 +114,22 @@ class Comment_model extends BaseModel {
 		$query = $this->db->get('replies_like');
 		return $query->num_rows() > 0 ? 1 : 0;
 	}
+
+	public function findReport($comment_id, $reporter_id) {
+		$this->db->where('comment_id', $comment_id);
+		$this->db->where('reporter_id', $reporter_id);
+
+		return $this->db->get('comment_reports')->first_row('array');
+	}
+
+	public function insertReport($comment_id, $reporter_id) {
+		if ($this->findReport($comment_id, $reporter_id) != null) {
+			return;
+		}
+		$this->db->insert('comment_reports', [
+			'comment_id' => $comment_id,
+			'reporter_id' => $reporter_id,
+			'created_at' => time(),
+		]);
+	}
 }
