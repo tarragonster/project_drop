@@ -227,11 +227,22 @@ class User extends Base_Controller {
 			redirect(base_url('admin/user'));
 		}
 
+		$this->load->model('product_model');
+		$layoutParams = [
+			'user' => $user
+		];
+		$layoutParams['your_picks'] = $this->user_model->getUserPicks($user_id, -1);
+		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
+		$layoutParams['thumbs_up'] = $this->user_model->getThumbUpList($user_id, -1);
+
 		$data = array();
+		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css');
+		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/sweet-alerts.js');
+
 		$data['parent_id'] = 2;
-		$data['sub_id'] = 21;
+		$data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
 		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/user_profile', array('user' => $user), true);
+		$data['content'] = $this->load->view('admin/user_profile', $layoutParams, true);
 		$this->load->view('admin_main_layout', $data);
 	}
 
@@ -269,5 +280,53 @@ class User extends Base_Controller {
 		$this->db->delete('user_reports');
 
 		$this->redirect('admin/user/reports');
+	}
+
+	public function removePick($pick_id) {
+		$pick = $this->user_model->getPick($pick_id);
+		if ($pick == null) {
+			$this->redirect();
+		}
+		$this->user_model->removePick($pick_id);
+		$this->redirect();
+	}
+
+	public function removeWatch($id) {
+		$watch = $this->user_model->getWatch($id);
+		if ($watch == null) {
+			$this->redirect();
+		}
+		$this->user_model->removeWatch($id);
+		$this->redirect();
+	}
+
+	public function removeLike($id) {
+		$like = $this->user_model->getLike($id);
+		if ($like == null) {
+			$this->redirect();
+		}
+		$this->user_model->removeLike($id);
+		$this->redirect();
+	}
+
+	public function editPick($pick_id) {
+		$pick = $this->user_model->getPick($pick_id);
+		if ($pick == null) {
+			$this->redirect();
+		}
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			$quote = $this->input->post('quote');
+			$this->user_model->updatePick(['quote' => $quote], $pick_id);
+
+			$this->redirect(make_url('admin/user/profile/' . $pick['user_id'], ['active' => 'your-picks']));
+		}
+
+		$user = $this->user_model->get($pick['user_id']);
+		$data = array();
+		$data['parent_id'] = 2;
+		$data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		$data['account'] = $this->account;
+		$data['content'] = $this->load->view('admin/users/edit_pick', $pick, true);
+		$this->load->view('admin_main_layout', $data);
 	}
 }

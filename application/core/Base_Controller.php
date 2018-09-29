@@ -7,23 +7,29 @@ class Base_Controller extends CI_Controller {
 
 	public function redirect($default = '') {
 		$redirect = $this->input->get('redirect');
-		if ($redirect != '')
-			redirect($redirect);
-		else if ($default != '')
-			redirect($default);
-		else
-			redirect('admin');
+		if ($redirect != '') {
+			redirect(urldecode($redirect));
+		} else {
+			if ($default != '') {
+				redirect($default);
+			} else {
+				redirect('admin');
+			}
+		}
 	}
 
 	public function addMusic($type) {
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$params = array();
-			if ($this->input->post('name') != '')
+			if ($this->input->post('name') != '') {
 				$params['name'] = $this->input->post('name');
-			if ($this->input->post('singer') != '')
+			}
+			if ($this->input->post('singer') != '') {
 				$params['singer'] = $this->input->post('singer');
-			if ($this->input->post('product_id') != '')
+			}
+			if ($this->input->post('product_id') != '') {
 				$params['product_id'] = $this->input->post('product_id');
+			}
 			$url = isset($_FILES['music_url']) ? $_FILES['music_url'] : null;
 			$this->load->model('file_model');
 			if ($url != null && $url['error'] == 0) {
@@ -51,8 +57,9 @@ class Base_Controller extends CI_Controller {
 			$params['name'] = $this->input->post('name');
 			$params['country'] = $this->input->post('country');
 			$params['description'] = $this->input->post('description');
-			if ($this->input->post('link_imdb') != '')
+			if ($this->input->post('link_imdb') != '') {
 				$params['link_imdb'] = $this->input->post('link_imdb');
+			}
 			$params['facebook_link'] = $this->input->post('facebook_link');
 //			if ($this->input->post('facebook') != '')
 			$params['facebook'] = $this->input->post('facebook');
@@ -66,8 +73,9 @@ class Base_Controller extends CI_Controller {
 //				$instagram = explode('/', trim(trim($this->input->post('instagram')), "/"));
 //				$params['instagram'] = explode('?', $instagram[3])[0];
 //			}
-			if ($this->input->post('product_id') != '')
+			if ($this->input->post('product_id') != '') {
 				$product_id = $this->input->post('product_id');
+			}
 			$image = isset($_FILES['image']) ? $_FILES['image'] : null;
 			$this->load->model('file_model');
 			if ($image != null && $image['error'] == 0) {
@@ -78,8 +86,9 @@ class Base_Controller extends CI_Controller {
 			if ($type == 0) {
 				$this->db->trans_start();
 				$id = $this->cast_model->insert($params);
-				if (isset($product_id))
+				if (isset($product_id)) {
 					$this->db->insert('film_cast', array('product_id' => $product_id, 'cast_id' => $id));
+				}
 				$this->db->trans_complete();
 			} else {
 				$id = $this->cast_model->update($params, $type);
@@ -102,8 +111,9 @@ class Base_Controller extends CI_Controller {
 				}
 			}
 		}
-		if ($isExport)
+		if ($isExport) {
 			return $search;
+		}
 		$query = "";
 		if (count($search) > 0) {
 			$query = "?" . implode('&', $search);

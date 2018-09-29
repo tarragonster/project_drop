@@ -93,7 +93,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getListWatching($user_id, $page = -1) {
-		$this->db->select('w.user_id, p.*');
+		$this->db->select('w.id, w.user_id, p.*');
 		$this->db->from('watch_list w');
 		$this->db->join('product_view p', 'p.product_id = w.product_id');
 		$this->db->where('w.user_id', $user_id);
@@ -153,11 +153,22 @@ class User_model extends BaseModel {
 		return $query->num_rows() > 0;
 	}
 
+	public function getWatch($id) {
+		$this->db->where('id', $id);
+		$query = $this->db->get('watch_list');
+		return $query->first_row('array');
+	}
+
 	public function removeWatchList($user_id, $product_id) {
 		if ($product_id != 0) {
 			$this->db->where('product_id', $product_id);
 		}
 		$this->db->where('user_id', $user_id);
+		$this->db->delete('watch_list');
+	}
+
+	public function removeWatch($id) {
+		$this->db->where('id', $id);
 		$this->db->delete('watch_list');
 	}
 
@@ -202,6 +213,32 @@ class User_model extends BaseModel {
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('user_id', $user_id);
 		$this->db->update('episode_like', array('status' => $status));
+	}
+
+	public function getLike($id) {
+		$this->db->where('id', $id);
+		$query = $this->db->get('episode_like');
+		return $query->first_row('array');
+	}
+
+	public function removeLike($id) {
+		$this->db->where('id', $id);
+		$this->db->update('episode_like', array('status' => 0));
+	}
+
+	public function getThumbUpList($user_id, $page = -1) {
+		$this->db->select('e.*, el.id, e.status as episode_status');
+		$this->db->from('episode_like el');
+		$this->db->join('episode e', 'e.episode_id = el.episode_id');
+		$this->db->join('season s', 'e.season_id = s.season_id');
+		$this->db->join('product p', 's.product_id = p.product_id');
+		$this->db->where('el.user_id', $user_id);
+		$this->db->where('el.status', 1);
+		if ($page >= 0) {
+			$this->db->limit(10, 10 * $page);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
 	}
 
 	public function deleteLike($episode_id, $user_id) {
@@ -420,7 +457,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getPick($pick_id) {
-		$this->db->select('p.*, up.pick_id, up.quote');
+		$this->db->select('p.*, up.user_id, up.pick_id, up.quote');
 		$this->db->from('user_picks up');
 		$this->db->where('up.pick_id', $pick_id);
 		$this->db->join('product_view p', 'p.product_id = up.product_id');
@@ -434,6 +471,11 @@ class User_model extends BaseModel {
 	public function updatePick($params, $pick_id) {
 		$this->db->where('pick_id', $pick_id);
 		$this->db->update('user_picks', $params);
+	}
+
+	public function removePick($pick_id) {
+		$this->db->where('pick_id', $pick_id);
+		$this->db->delete('user_picks');
 	}
 
 	public function getProfileConfigs($user_id) {

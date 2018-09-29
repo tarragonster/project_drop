@@ -65,7 +65,7 @@ public function __construct() {
         $data['parent_id'] = 6;
         $data['sub_id'] = 61;
         $data['account'] = $this->account;
-        $data['content'] = $this->load->view('admin/music_edit', $music, true);;
+        $data['content'] = $this->load->view('admin/music_edit', $music, true);
         $this->load->view('admin_main_layout', $data);
     }
 

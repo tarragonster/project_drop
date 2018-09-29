@@ -26,14 +26,16 @@ function base_dir($path = '') {
 }
 
 function validate_username($str) {
-	if (strlen($str) < 6)
+	if (strlen($str) < 6) {
 		return false;
+	}
 	return (!preg_match("/^[a-zA-Z_]([a-zA-Z0-9_\.]*)([a-zA-Z0-9_]+)$/ix", $str)) ? FALSE : TRUE;
 }
 
 function validate_identifier($str) {
-	if (strlen($str) < 3)
+	if (strlen($str) < 3) {
 		return false;
+	}
 	return (!preg_match("/^[a-zA-Z_]([a-zA-Z0-9_\.]*)([a-zA-Z0-9_]+)$/ix", $str)) ? FALSE : TRUE;
 }
 
@@ -48,27 +50,42 @@ function createThumbnailName($path) {
 
 if (!function_exists('showTime')) {
 	function showTime($old_time, $time = '') {
-		if ($time == '')
+		if ($time == '') {
 			$time = time();
+		}
 		$diff = $time - $old_time;
 		if ($diff <= 1) {
 			return 'one second ago';
-		} else if ($diff <= 5) {
-			return $diff . ' seconds ago';
-		} else if ($diff <= 60) {
-			return 5 * (int)($diff / 5) . ' seconds ago';
-		} else if ($diff < 600) {
-			return (int)($diff / 60) . ' minutes ago';
-		} else if ($diff <= 3600) {
-			return 5 * (int)($diff / 300) . ' minutes ago';
-		} else if ($diff < 86400) {
-			return (int)($diff / 3600) . ' hours ago';
-		} else if ($diff < 172800) {
-			return 'yesterday';
-		} else if ($diff < 4322000) {
-			return (int)($diff / 86400) . ' days ago';
 		} else {
-			return date('M. d, Y', $old_time);
+			if ($diff <= 5) {
+				return $diff . ' seconds ago';
+			} else {
+				if ($diff <= 60) {
+					return 5 * (int)($diff / 5) . ' seconds ago';
+				} else {
+					if ($diff < 600) {
+						return (int)($diff / 60) . ' minutes ago';
+					} else {
+						if ($diff <= 3600) {
+							return 5 * (int)($diff / 300) . ' minutes ago';
+						} else {
+							if ($diff < 86400) {
+								return (int)($diff / 3600) . ' hours ago';
+							} else {
+								if ($diff < 172800) {
+									return 'yesterday';
+								} else {
+									if ($diff < 4322000) {
+										return (int)($diff / 86400) . ' days ago';
+									} else {
+										return date('M. d, Y', $old_time);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
@@ -76,20 +93,32 @@ if (!function_exists('showTime')) {
 function showAvgResponse($diff) {
 	if ($diff < 0) {
 		return "many time";
-	} else if ($diff <= 60) {
-		return 'about sec';
-	} else if ($diff < 600) {
-		return "about " . (int)($diff / 60) . ' min';
-	} else if ($diff <= 3600) {
-		return "about " . 5 * (int)($diff / 300) . ' min';
-	} else if ($diff < 86400) {
-		return "about " . (int)($diff / 3600) . ' hours';
-	} else if ($diff < 172800) {
-		return "about 1 day";
-	} else if ($diff < 4322000) {
-		return "about " . (int)($diff / 86400) . ' days';
 	} else {
-		return "many time";
+		if ($diff <= 60) {
+			return 'about sec';
+		} else {
+			if ($diff < 600) {
+				return "about " . (int)($diff / 60) . ' min';
+			} else {
+				if ($diff <= 3600) {
+					return "about " . 5 * (int)($diff / 300) . ' min';
+				} else {
+					if ($diff < 86400) {
+						return "about " . (int)($diff / 3600) . ' hours';
+					} else {
+						if ($diff < 172800) {
+							return "about 1 day";
+						} else {
+							if ($diff < 4322000) {
+								return "about " . (int)($diff / 86400) . ' days';
+							} else {
+								return "many time";
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -212,8 +241,9 @@ function getShippingPrice($package) {
 
 function stringtotime($cdate) {
 	$aDate = explode('-', $cdate);
-	if (count($aDate) != 3)
+	if (count($aDate) != 3) {
 		return 0;
+	}
 	return mktime(0, 0, 0, $aDate[1], $aDate[2], $aDate[0]);
 }
 
@@ -227,8 +257,31 @@ function strptimestamp($date) {
 function getUsernameCanbe($content) {
 	$pattern = '/(\s|^|:)@([a-zA-Z_]([a-zA-Z0-9_\.]*)([a-zA-Z0-9_]+))/';
 	preg_match_all($pattern, $content, $matches, PREG_PATTERN_ORDER);
-	if (count($matches) > 2)
+	if (count($matches) > 2) {
 		return $matches[2];
-	else
+	} else {
 		return null;
+	}
+}
+
+function media_url($mediaUri, $default = 'assets/images/placeholder.png') {
+	if (startsWith($mediaUri, 'http')) {
+		return $mediaUri;
+	}
+	if (empty($mediaUri) || !file_exists($mediaUri)) {
+		$mediaUri = $default;
+	}
+	return base_url($mediaUri);
+}
+
+function make_url($url = '', $query_data = []) {
+	if (is_array($query_data) && count($query_data) > 0) {
+		return $url . '?' . http_build_query($query_data);
+	} else {
+		return $url;
+	}
+}
+
+function redirect_url($url = '', $query_data = []) {
+	return base_url($url . '?redirect=' . urlencode(make_url(uri_string(), $query_data)));
 }
