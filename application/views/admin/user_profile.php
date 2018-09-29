@@ -38,6 +38,10 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 								<td><?php echo $user['email']; ?></td>
 							</tr>
 							<tr>
+								<th>Email</th>
+								<td><?= getTypeMember($user['user_type']) ?></td>
+							</tr>
+							<tr>
 								<th>Profile picture :</th>
 								<td><img width='80' src='<?php echo media_url($user['avatar']); ?>'/></td>
 							</tr>

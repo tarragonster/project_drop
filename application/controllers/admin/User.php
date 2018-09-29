@@ -21,25 +21,6 @@ class User extends Base_Controller {
 	}
 
 	public function index($page = 1) {
-
-		if ($this->input->server('REQUEST_METHOD') == 'POST') {
-
-			$submited = $this->input->post('search');
-			$search = array();
-			$post = $this->input->post(NULL, TRUE);
-			if ($submited) {
-				$this->handle_post('admin/user');
-			} else {
-				$submited = $this->input->post('export');
-				if ($submited) {
-					$search = $this->handle_post('admin/user', true);
-					$this->exportEmail($search);
-				}
-			}
-		}
-
-		$condition = array();
-
 		$this->load->library('pagination');
 
 		$page = ($page <= 0) ? 1 : $page;
@@ -57,8 +38,12 @@ class User extends Base_Controller {
 			'total' => $config['total_rows'],
 		);
 		$users = $this->user_model->getUsersForAdmin($page - 1, 1);
-
-		$content = $this->load->view('admin/users_list', array('users' => $users, 'pinfo' => $pinfo), true);
+		$layoutParams = [
+			'title' => 'Active Users',
+			'users' => $users,
+			'pinfo' => $pinfo
+		];
+		$content = $this->load->view('admin/users_list', $layoutParams, true);
 
 		$data = array();
 		$data['parent_id'] = 2;
@@ -99,8 +84,13 @@ class User extends Base_Controller {
 			'total' => $config['total_rows'],
 		);
 		$users = $this->user_model->getUsersForAdmin($page - 1, 0);
+		$layoutParams = [
+			'title' => 'Blocked Users',
+			'users' => $users,
+			'pinfo' => $pinfo
+		];
 
-		$content = $this->load->view('admin/users_list', array('users' => $users, 'pinfo' => $pinfo), true);
+		$content = $this->load->view('admin/users_list', $layoutParams, true);
 
 		$data = array();
 		$data['parent_id'] = 2;
@@ -174,15 +164,15 @@ class User extends Base_Controller {
 	public function edit($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
 		if ($user == null) {
-			redirect(base_url('admin/user'));
+			redirect('admin/user');
 		}
-		$cmd = $this->input->post('cmd');
 
-		if ($cmd != '') {
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$params = array();
 			$params['email'] = $this->input->post('email');
 			$params['user_name'] = $this->input->post('user_name');
 			$params['full_name'] = $this->input->post('full_name');
+			$params['user_type'] = $this->input->post('user_type');
 
 			$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
 			if ($avatar != null) {
@@ -196,29 +186,17 @@ class User extends Base_Controller {
 				}
 			}
 			$this->user_model->update($params, $user_id);
-			if ($cmd == 'Save') {
-				redirect(base_url('admin/user'));
-			} else {
-				if ($cmd == 'SaveContinue') {
-					redirect(base_url('admin/edit/' . $user_id));
-				}
-			}
-		} else {
-			$user = $this->user_model->getUserForAdmin($user_id);
-			if ($user != null) {
-				$content = $this->load->view('admin/user_edit', $user, true);
-			} else {
-				$content = 'Not exists user';
 
-			}
-			$data = array();
-			$data['parent_id'] = 2;
-			$data['sub_id'] = 21;
-			$data['account'] = $this->account;
-			$data['content'] = $content;
-
-			$this->load->view('admin_main_layout', $data);
+			redirect(base_url('admin/user/edit/' . $user_id));
 		}
+
+		$data = array();
+		$data['parent_id'] = 2;
+		$data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		$data['account'] = $this->account;
+		$data['content'] = $this->load->view('admin/user_edit', $user, true);
+
+		$this->load->view('admin_main_layout', $data);
 	}
 
 	public function profile($user_id = '') {

@@ -130,15 +130,11 @@ function timeFormat($timestamp) {
 function getTypeMember($type) {
 	switch ($type) {
 		case 1:
-			return 'Shop Online';
+			return 'Verified user';
 		case 2:
-			return 'Store';
-		case 3:
-			return 'Big Onnline';
-		case 10:
-			return 'Members';
+			return 'SS Curators';
 		default:
-			'Members';
+			return 'Normal user';
 	}
 }
 

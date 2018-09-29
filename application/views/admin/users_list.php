@@ -3,55 +3,60 @@
 		<div class="box">
 			<div class="card-box table-responsive">
 				<div class="box-header">
-					<h3 class="box-title">User list</h3>
+					<h3 class="box-title"><?= $title ?></h3>
 				</div>
 				<table id="example3" class="table table-bordered table-hover">
 					<thead>
-						<tr>
-							<th>#</th>
-							<th>Email</th>
-							<th>User Name</th>
-							<th>Full Name</th>
-							<th>Image</th>
-							<th>Action</th>
-						</tr>
+					<tr>
+						<th>#</th>
+						<th>Image</th>
+						<th>Email</th>
+						<th>User Name</th>
+						<th>Full Name</th>
+						<th>Type</th>
+						<th>Action</th>
+					</tr>
 					</thead>
 					<tbody>
-					<?php 
+					<?php
 					if (isset($users) && is_array($users)) {
 						foreach ($users as $row) {
-							echo '<tr>';			
+							echo '<tr>';
 							echo '<td align="center">' . $row['user_id'] . '</td>';
+							echo '<td><img width="70" height="70" src="' . media_url($row['avatar']) . '" /></td>';
 							echo '<td>' . $row['email'] . '</td>';
 							echo '<td>' . $row['user_name'] . '</td>';
 							echo '<td>' . $row['full_name'] . '</td>';
-							echo '<td><img width="70" height="70" src="'.base_url($row['avatar']) .'" /></td>';
+							echo '<td>' . getTypeMember($row['user_type']) . '</td>';
 							echo "<td><div class='button-list'>
-									<a href='" . base_url('admin/user/edit/' . $row['user_id'])."' /><button class='btn btn-info btn-sm'>Edit</button></a>";
-                            echo "<a class='btn btn-primary btn-sm' href='" . base_url('admin/user/profile/' . $row['user_id']) . "' >View Profile</a>";
-							if ($row['status'] == 1)
-								echo "<a href='" . base_url('admin/user/block/' . $row['user_id'] . '?redirect=' . uri_string())."' /><button class='btn btn-danger btn-sm'>Block</button></a>";
-							else
-								echo "<a href='" . base_url('admin/user/block/' . $row['user_id'] . '?redirect=' . uri_string())."' /><button class='btn btn-success btn-sm'>Unblock</button></a>";
-								echo "<a href='" . base_url('admin/user/delete/' . $row['user_id'] . '?redirect=' . uri_string())."' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
+									<a href='" . base_url('admin/user/edit/' . $row['user_id']) . "' /><button class='btn btn-info btn-sm'>Edit</button></a>";
+							echo "<a class='btn btn-primary btn-sm' href='" . base_url('admin/user/profile/' . $row['user_id']) . "' >View Profile</a>";
+							if ($row['status'] == 1) {
+								echo "<a href='" . base_url('admin/user/block/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Block</button></a>";
+							} else {
+								echo "<a href='" . base_url('admin/user/block/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-success btn-sm'>Unblock</button></a>";
+							}
+							echo "<a href='" . base_url('admin/user/delete/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
 							echo '</div></td>';
-							echo '</tr>';			
+							echo '</tr>';
 						}
 					}
 					?>
 					</tbody>
 				</table>
 				<div class="row">
-					<div class="col-xs-6">
-						<div class="dataTables_info" id="example3_info">
-							<?php echo "Showing {$pinfo['from']} to {$pinfo['to']} of {$pinfo['total']} entries"?>
+					<?php if ($pinfo['total'] > 0): ?>
+						<div class="col-xs-6">
+							<div class="dataTables_info" id="example3_info">
+								<?php echo "Showing {$pinfo['from']} to {$pinfo['to']} of {$pinfo['total']} entries" ?>
+							</div>
 						</div>
-					</div>
-					<div class="col-xs-6">
-						<div class="dataTables_paginate paging_bootstrap">
-							<?php echo $this->pagination->create_links();?>
+						<div class="col-xs-6">
+							<div class="dataTables_paginate paging_bootstrap">
+								<?php echo $this->pagination->create_links(); ?>
+							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

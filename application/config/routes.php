@@ -37,6 +37,7 @@ $route['search/(:num)'] = 'search/get/$1';
 $route['news/(:num)'] = 'news/get/$1';
 
 $route['user/(:num)'] = 'user/user/$1';
+$route['admin/user/(:num)'] = 'admin/user/index/$1';
 
 $route['user/following/(:num)'] = 'user/following/$1';
 
