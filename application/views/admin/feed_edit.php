@@ -17,7 +17,7 @@
                             <label>Image</label>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <img id='image' width='120' height='120'  style='border: 4px solid #c6c6c6; border-radius: 4px' src="<?php if(isset($feed)) echo base_url($feed['feed_image'])?>"/>
+                                    <img id='image' width='120' height='120'  style='border: 4px solid #c6c6c6; border-radius: 4px' src="<?php if(isset($feed)) echo media_url($feed['feed_image'])?>"/>
                                 </div>
                                 <div class="col-md-8">
                                     <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">

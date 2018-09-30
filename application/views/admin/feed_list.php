@@ -35,7 +35,7 @@
                                 foreach ($feeds as $row): ?>
                             <tr>
                                 <td align="center"><?php echo $row['product_id'];?></td>
-                                <td><img style="max-width: 70px; max-height: 70px" src="<?php echo base_url($row['feed_image']); ?>"/></td>
+                                <td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['feed_image']); ?>"/></td>
                                 <td><?php echo $row['product_name']?></td>
                                 <td><?php echo timeFormat($row['timestamp']); ?></td>
                                 <?php
@@ -128,7 +128,7 @@
                                     echo '<tr>';
                                     echo '<td align="center">' . $row['product_id'] . '</td>';
                                     echo '<td>' . $row['name'] . '</td>';
-                                    echo '<td><img style="max-width: 70px; max-height: 70px" src="'.base_url($row['image']).'"/></td>';
+                                    echo '<td><img style="max-width: 70px; max-height: 70px" src="'.media_url($row['image']).'"/></td>';
                                     echo '<td>' . $row['publish_year'] . '</td>';
                                     echo "<td><div class='button-list'>";
                                     echo "<a href='" . base_url('admin/feed/add/'. $row['product_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Add</button></a>";

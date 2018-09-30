@@ -35,7 +35,7 @@ if($this->session->flashdata('error')){
 							foreach ($products as $row): ?>
 						<tr>
 							<td align="center"><?php echo $row['product_id'];?></td>
-							<td><img style="max-width: 70px; max-height: 70px" src="<?php echo base_url($row['image']); ?>"/></td>
+							<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
 							<td><?php echo $row['name']?></td>
 							<td><?php echo $row['publish_year']; ?></td>
 							<td><?php echo ($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>

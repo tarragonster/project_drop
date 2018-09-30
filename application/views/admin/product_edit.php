@@ -53,7 +53,7 @@
                     <label>Image</label>
                     <div class="row">
                         <div class="col-md-4">
-                            <img id='image' width='120' height='120' src="<?php echo base_url($image);?>"  style='border: 4px solid #c6c6c6; border-radius: 4px'/>
+                            <img id='image' width='120' height='120' src="<?php echo media_url($image);?>"  style='border: 4px solid #c6c6c6; border-radius: 4px'/>
                         </div>
                         <div class="col-md-8">
                             <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
@@ -67,7 +67,7 @@
                     <label>Trailler Image</label>
                     <div class="row">
                         <div class="col-md-4">
-                            <img id='coverimg' width='120' height='120' src="<?php echo base_url($trailler_image);?>" style='border: 4px solid #c6c6c6; border-radius: 4px'/>
+                            <img id='coverimg' width='120' height='120' src="<?php echo media_url($trailler_image);?>" style='border: 4px solid #c6c6c6; border-radius: 4px'/>
                         </div>
                         <div class="col-md-8">
                             <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">

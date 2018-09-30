@@ -43,7 +43,7 @@ if($this->session->flashdata('error')){
 									foreach ($products as $row): ?>
 								<tr>
 									<td align="center"><?php echo $row['product_id'];?></td>
-									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo base_url($row['image']); ?>"/></td>
+									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
 									<td><?php echo $row['name']?></td>
 									<td><?php echo $row['publish_year']; ?></td>
 									<?php echo '<td><div class="button-list">';
@@ -91,7 +91,7 @@ if($this->session->flashdata('error')){
                             if ($others != null && count($others) > 0) {
                                 foreach ($others as $row) {?>
                                 	<td align="center"><?php echo $row['product_id'];?></td>
-									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo base_url($row['image']); ?>"/></td>
+									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
 									<td><?php echo $row['name']?></td>
 									<td><?php echo $row['publish_year']; ?></td>
 									<td><div class='button-list'>
