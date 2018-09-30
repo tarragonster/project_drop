@@ -5,19 +5,10 @@ require_once APPPATH . '/core/Base_Controller.php';
 class Episode extends Base_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model("admin_model");
-        $this->load->model("episode_model");
-        $admin = $this->session->userdata('admin');
-		if ($admin == null) {
-			redirect(base_url('admin/login'));
-		}
-		$lockdata = $this->session->userdata('lockdata');
-		if ($lockdata != null) {
-			redirect(base_url('admin/lockscreen'));
-		}
-		
-		$this->account = $this->admin_model->getAdminAccountByEmail($admin['email']);
-        $this->load->helper(array('form'));
+		$this->verifyAdmin();
+
+
+		$this->load->model("episode_model");
 	}
 
 	public function index($page = 1) {

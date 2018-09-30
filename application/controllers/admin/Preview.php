@@ -2,65 +2,17 @@
 
 require_once APPPATH . '/core/Base_Controller.php';
 
-class Collection extends Base_Controller {
+class Preview extends Base_Controller {
 
 	public function __construct() {
 		parent::__construct();
 		$this->verifyAdmin();
+
+
 		$this->load->model("collection_model");
 	}
 
 	public function index() {
-		$collections = $this->collection_model->getCollections();
-		$content = $this->load->view('admin/collection_list', array('collections' => $collections), true);
-		$data = array();
-		$data['parent_id'] = 4;
-		$data['sub_id'] = 41;
-		$data['account'] = $this->account;
-		$data['content'] = $content;
-		$this->load->view('admin_main_layout', $data);
-	}
-
-	public function add() {
-		if ($this->input->server('REQUEST_METHOD') == 'POST') {
-			$params = array();
-			$params['name'] = $this->input->post('shop_name');
-			$params['short_bio'] = $this->input->post('short_bio');
-			$params['priority'] = $this->collection_model->getMax() + 1;
-			$params['created'] = time();
-			$this->collection_model->insert($params);
-			redirect(base_url('admin/collection'));
-		}
-
-		$data = array();
-		$data['parent_id'] = 4;
-		$data['sub_id'] = 41;
-		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/collection_add', array(), true);
-		$this->load->view('admin_main_layout', $data);
-	}
-
-	public function edit($collection_id) {
-		$collection = $this->collection_model->getCollectionById($collection_id);
-		if ($collection == null) {
-			redirect('admin/collection');
-		}
-		if ($this->input->server('REQUEST_METHOD') == 'POST') {
-			$params = array();
-			$params['name'] = $this->input->post('name');
-			$params['short_bio'] = $this->input->post('short_bio');
-			$this->collection_model->update($params, $collection_id);
-			redirect(base_url('admin/collection'));
-		}
-		$data = array();
-		$data['parent_id'] = 4;
-		$data['sub_id'] = 41;
-		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/collection_edit', $collection, true);;
-		$this->load->view('admin_main_layout', $data);
-	}
-
-	public function films($collection_id) {
 		$collection = $this->collection_model->getCollectionById($collection_id);
 		if ($collection == null) {
 			redirect('admin/collection');

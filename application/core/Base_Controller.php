@@ -1,8 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Base_Controller extends CI_Controller {
+	protected $account;
 	public function __construct() {
 		parent::__construct();
+
+		$this->load->model("admin_model");
+		$this->load->helper(array('form'));
 	}
 
 	public function redirect($default = '') {
@@ -16,6 +20,19 @@ class Base_Controller extends CI_Controller {
 				redirect('admin');
 			}
 		}
+	}
+
+	protected function verifyAdmin() {
+		$admin = $this->session->userdata('admin');
+		if ($admin == null) {
+			redirect(base_url('admin/login'));
+		}
+		$lockdata = $this->session->userdata('lockdata');
+		if ($lockdata != null) {
+			redirect(base_url('admin/lockscreen'));
+		}
+
+		$this->account = $this->admin_model->getAdminAccountByEmail($admin['email']);
 	}
 
 	public function addMusic($type) {

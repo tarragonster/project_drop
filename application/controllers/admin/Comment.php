@@ -6,18 +6,9 @@ class Comment extends Base_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->load->model("admin_model");
+		$this->verifyAdmin();
+
 		$this->load->model("comment_model");
-		$admin = $this->session->userdata('admin');
-		if ($admin == null) {
-			redirect(base_url('admin/login'));
-		}
-		$lockdata = $this->session->userdata('lockdata');
-		if ($lockdata != null) {
-			redirect(base_url('admin/lockscreen'));
-		}
-		$this->account = $this->admin_model->getAdminAccountByEmail($admin['email']);
-		$this->load->helper(array('form'));
 	}
 
 	public function index() {
