@@ -436,6 +436,7 @@ class User_model extends BaseModel {
 		$this->db->where('u.status', 1);
 		$this->db->where('fp.status', 1);
 		$this->db->group_by('u.user_id');
+		$this->db->order_by('fp.priority');
 		$this->db->order_by('user_name');
 		$query = $this->db->get();
 		return $query->result_array();
