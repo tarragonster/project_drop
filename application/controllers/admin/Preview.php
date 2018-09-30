@@ -10,63 +10,44 @@ class Preview extends Base_Controller {
 
 
 		$this->load->model("collection_model");
+		$this->load->model("preview_model");
+		$this->load->model("product_model");
 	}
 
 	public function index() {
-		$collection = $this->collection_model->getCollectionById($collection_id);
-		if ($collection == null) {
-			redirect('admin/collection');
-		}
-
-		$this->load->model("product_model");
-		$collection['products'] = $this->product_model->getListProductByCollection($collection_id);
-		$collection['others'] = $this->collection_model->getProductOthers($collection_id);
-		$collection['max'] = $this->collection_model->getMaxFilm($collection_id);
+		$layoutParams = [];
+		$layoutParams['products'] = $this->preview_model->getListProducts();
+		$layoutParams['others'] = $this->preview_model->getProductOthers();
+		$layoutParams['max'] = $this->preview_model->getMaxFilm();
 		$data = array();
-		$data['parent_id'] = 4;
-		$data['sub_id'] = 41;
+		$data['parent_id'] = 10;
+		$data['sub_id'] = 101;
 		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/collection_films', $collection, true);;
+		$data['content'] = $this->load->view('admin/preview/preview_list', $layoutParams, true);;
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function addFilm($product_id, $collection_id) {
-		$collection = $this->collection_model->getCollectionById($collection_id);
-		if ($collection == null) {
-			redirect('admin/collection');
+	public function addFilm($product_id) {
+		$product = $this->product_model->get($product_id);
+		if ($product == null) {
+			redirect('admin/preview');
 		}
-		$params = array();
-		$params['collection_id'] = $collection_id;
-		$params['product_id'] = $product_id;
-		$params['priority'] = $this->collection_model->getMaxFilm($collection_id) + 1;
-		$this->collection_model->addFilm($params);
-		redirect(base_url('admin/collection/films/' . $collection_id));
+		$this->preview_model->addFilm($product_id);
+		redirect(make_url('admin/preview', ['active' => 'add']));
 	}
 
-	public function removeFilm($collection_id, $product_id, $priority) {
-		$collection = $this->collection_model->getCollectionById($collection_id);
-		if ($collection == null) {
-			redirect('admin/collection');
-		}
-		$this->collection_model->removeFilm($collection_id, $product_id, $priority);
-		redirect(base_url('admin/collection/films/' . $collection_id));
+	public function removeFilm($product_id) {
+		$this->preview_model->removeFilm($product_id);
+		redirect('admin/preview');
 	}
 
-	public function upFilm($collection_id, $priority, $id) {
-		$collection = $this->collection_model->getCollectionById($collection_id);
-		if ($collection == null) {
-			redirect('admin/collection');
-		}
-		$this->collection_model->upFilm($collection_id, $priority, $id);
-		redirect(base_url('admin/collection/films/' . $collection_id));
+	public function upFilm($product_id) {
+		$this->preview_model->upFilm($product_id);
+		redirect('admin/preview');
 	}
 
-	public function downFilm($collection_id, $priority, $id) {
-		$collection = $this->collection_model->getCollectionById($collection_id);
-		if ($collection == null) {
-			redirect('admin/collection');
-		}
-		$this->collection_model->downFilm($collection_id, $priority, $id);
-		redirect(base_url('admin/collection/films/' . $collection_id));
+	public function downFilm($product_id) {
+		$this->preview_model->downFilm($product_id);
+		redirect('admin/preview');
 	}
 }

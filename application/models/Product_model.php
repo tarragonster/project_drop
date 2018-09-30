@@ -260,13 +260,13 @@ class Product_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-
 	public function getExplorePreviews() {
 		$this->db->select('p.*');
 		$this->db->from('explore_previews ep');
 		$this->db->join('product_view p', 'p.product_id = ep.product_id');
 		$this->db->where('p.status', 1);
 		$this->db->where('ep.status', 1);
+		$this->db->order_by('ep.priority');
 		return $this->db->get()->result_array();
 	}
 
