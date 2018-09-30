@@ -9,7 +9,6 @@ class Preview extends Base_Controller {
 		$this->verifyAdmin();
 
 
-		$this->load->model("collection_model");
 		$this->load->model("preview_model");
 		$this->load->model("product_model");
 	}

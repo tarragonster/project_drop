@@ -5,8 +5,9 @@ require_once APPPATH . '/core/BaseModel.php';
 class Preview_model extends BaseModel {
 	public function __construct() {
 		parent::__construct();
-		$this->table = 'collection';
-		$this->id_name = 'collection_id';
+
+		$this->table = 'explore_previews';
+		$this->id_name = 'id';
 	}
 
 	public function getListProducts($page = -1) {

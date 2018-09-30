@@ -106,7 +106,7 @@
 							<li <?php echo($sub_id == 23 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('admin/user/reports'); ?>">Reported Users</a>
 							</li>
-							<li <?php echo($sub_id == 23 ? 'class="active"' : ''); ?>>
+							<li <?php echo($sub_id == 24 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('admin/featured'); ?>">Featured Users</a>
 							</li>
 						</ul>
