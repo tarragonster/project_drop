@@ -9,7 +9,6 @@ class BaseModel extends CI_Model {
 	}
 
 	public function getList($page = -1, $column = '', $order = 'desc') {
-		$this->db->where('status', 1);
 		if ($column == '') {
 			$this->db->order_by($this->id_name, $order);
 		} else {

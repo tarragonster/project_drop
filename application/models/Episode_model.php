@@ -10,6 +10,7 @@ class Episode_model extends BaseModel {
 	}
 
 	public function getEpisodes($page = -1) {
+		$this->db->where('status', 1);
 		return $this->getList($page);
 	}
 

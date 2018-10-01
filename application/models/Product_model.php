@@ -10,6 +10,7 @@ class Product_model extends BaseModel {
 	}
 
 	public function getProducts($page = -1) {
+		$this->db->where('status', 1);
 		return $this->getList($page, 'priority', 'asc');
 	}
 

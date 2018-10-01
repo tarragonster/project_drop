@@ -10,6 +10,7 @@ class Cast_model extends BaseModel {
 	}
 
 	public function getCasts($page = -1) {
+		$this->db->where('status', 1);
 		return $this->getList($page);
 	}
 

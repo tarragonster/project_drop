@@ -10,6 +10,7 @@ class Season_model extends BaseModel {
 	}
 
 	public function getSeasons($page = -1) {
+		$this->db->where('status', 1);
 		return $this->getList($page, 'season_id', 'desc');
 	}
 

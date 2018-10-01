@@ -10,6 +10,7 @@ class Collection_model extends BaseModel {
 	}
 
 	public function getCollections($page = -1) {
+		$this->db->where('status', 1);
 		return $this->getList($page, 'priority', 'asc');
 	}
 

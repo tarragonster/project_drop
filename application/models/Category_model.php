@@ -10,6 +10,7 @@ class Category_model extends BaseModel {
 	}
 
 	public function getCategories($page = -1) {
+		$this->db->where('status', 1);
 		return $this->getList($page, 'priority', 'asc');
 	}
 

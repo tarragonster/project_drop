@@ -10,6 +10,7 @@ class Music_model extends BaseModel {
 	}
 
 	public function getMusics($page = -1) {
+		$this->db->where('status', 1);
 		return $this->getList($page);
 	}
 
