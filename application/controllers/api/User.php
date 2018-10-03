@@ -298,6 +298,24 @@ class User extends BR_Controller {
 		$this->create_success(null);
 	}
 
+	public function addFollowAll_post() {
+		$this->validate_authorization();
+		$type = $this->post('type');
+		if ($type == 1) {
+			$friends = $this->user_model->getUnFollowContactFriends($this->user_id);
+		} else {
+			$friends = $this->user_model->getUnFollowFacebookFriends($this->user_id);
+		}
+
+		$this->load->model('notify_model');
+		foreach ($friends as $friend) {
+			$follower_id = $friend['user_id'];
+			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
+			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id));
+		}
+		$this->create_success(null);
+	}
+
 	public function likeEpisode_post() {
 		$this->validate_authorization();
 		if (!$this->user_model->checkUid($this->user_id)) {

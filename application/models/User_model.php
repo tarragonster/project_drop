@@ -609,4 +609,32 @@ class User_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function getUnFollowContactFriends($user_id) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email');
+		$this->db->from('contact_friends cf');
+		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
+		$this->db->join('user u', 'u.user_id = cc.reference_id');
+		$this->db->join('(select * from user_follow where user_id = ' . $user_id . ') uf', 'uf.follower_id = cc.reference_id', 'left');
+
+		$this->db->where('cf.user_id', $user_id);
+		$this->db->where('(cc.contact_type = ' . CONTACT_TYPE_EMAIL . ' or cc.contact_type = ' . CONTACT_TYPE_PHONE . ')');
+		$this->db->where('uf.follower_id is null');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getUnFollowFacebookFriends($user_id) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email');
+		$this->db->from('contact_friends cf');
+		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
+		$this->db->join('user u', 'u.user_id = cc.reference_id');
+		$this->db->join('(select * from user_follow where user_id = ' . $user_id . ') uf', 'uf.follower_id = cc.reference_id', 'left');
+
+		$this->db->where('cf.user_id', $user_id);
+		$this->db->where('(cc.contact_type = ' . CONTACT_TYPE_EMAIL . ' or cc.contact_type = ' . CONTACT_TYPE_PHONE . ')');
+		$this->db->where('uf.follower_id is null');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }

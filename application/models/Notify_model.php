@@ -27,14 +27,14 @@ class Notify_model extends CI_Model {
 		$this->load->library('cipush');
 	}
 
-	public function createNotify($user_id, $type, $data = null, $sound = 'default') {
+	public function createNotify($user_id, $type, $data = null, $sound = 'default', $sendPush = true) {
 		$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
 		if ($type == 55) {
 			//only send in-app notification when added new user
 			$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
 		} else {
 			$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
-			$this->sendNotification($user_id, $type, $alert, $data, $sound);
+			$this->sendNotification($user_id, $type, $alert, $data, $sound, $sendPush);
 		}
 	}
 
