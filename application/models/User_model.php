@@ -553,4 +553,60 @@ class User_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function countContactFriends($user_id) {
+		$this->db->from('contact_friends cf');
+		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
+		$this->db->join('user u', 'u.user_id = cc.reference_id');
+
+		$this->db->where('cf.user_id', $user_id);
+		$this->db->where('(cc.contact_type = ' . CONTACT_TYPE_EMAIL . ' or cc.contact_type = ' . CONTACT_TYPE_PHONE . ')');
+		return $this->db->count_all_results();
+	}
+
+	public function getContactFriends($user_id, $page = -1) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email, if(uf.follower_id is null, 0, 1) as is_follow');
+		$this->db->from('contact_friends cf');
+		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
+		$this->db->join('user u', 'u.user_id = cc.reference_id');
+		$this->db->join('(select * from user_follow where user_id = ' . $user_id . ') uf', 'uf.follower_id = cc.reference_id', 'left');
+
+		$this->db->where('cf.user_id', $user_id);
+		$this->db->where('(cc.contact_type = ' . CONTACT_TYPE_EMAIL . ' or cc.contact_type = ' . CONTACT_TYPE_PHONE . ')');
+		if ($page >= 0) {
+			$this->db->limit(10, 10 * $page);
+		}
+		$this->db->order_by('is_follow');
+		$this->db->order_by('full_name');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function countFacebookFriends($user_id) {
+		$this->db->from('contact_friends cf');
+		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
+		$this->db->join('user u', 'u.user_id = cc.reference_id');
+
+		$this->db->where('cf.user_id', $user_id);
+		$this->db->where('cc.contact_type = ' . CONTACT_TYPE_FACEBOOK);
+		return $this->db->count_all_results();
+	}
+
+	public function getFacebookFriends($user_id, $page = -1) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email, if(uf.follower_id is null, 0, 1) as is_follow');
+		$this->db->from('contact_friends cf');
+		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
+		$this->db->join('user u', 'u.user_id = cc.reference_id');
+		$this->db->join('(select * from user_follow where user_id = ' . $user_id . ') uf', 'uf.follower_id = cc.reference_id', 'left');
+
+		$this->db->where('cf.user_id', $user_id);
+		$this->db->where('cc.contact_type = ' . CONTACT_TYPE_FACEBOOK);
+		if ($page >= 0) {
+			$this->db->limit(10, 10 * $page);
+		}
+		$this->db->order_by('is_follow');
+		$this->db->order_by('full_name');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }

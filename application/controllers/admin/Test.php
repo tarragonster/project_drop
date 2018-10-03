@@ -51,4 +51,9 @@ class Test extends CI_Controller {
 		else
 			die('Message successfully delivered');
 	}
+
+	public function contact() {
+		$this->load->library('contact_lib');
+		$this->contact_lib->migration();
+	}
 }
