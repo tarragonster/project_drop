@@ -5,7 +5,7 @@ require APPPATH . '/libraries/ImageManipulator.php';
 require APPPATH . '/libraries/SimpleImage.php';
 
 
-define('AVATAR_IMAGE_PATH', 'media/avatar/user/');
+define('AVATAR_IMAGE_PATH', 'media/avatar/');
 define('COVER_IMAGE_PATH', 'media/covers/');
 define('PRODUCT_IMAGE_PATH', 'media/product/');
 define('PRODUCT_IMAGE_THUMB_PATH', 'media/product_thumb/');

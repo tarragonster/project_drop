@@ -23,6 +23,14 @@
 				<div class="box-header">
 					<h3 class="box-title">Account</h3>
 				</div>
+				<?php
+				$error_message = $this->session->flashdata('error_message');
+				if (!empty($error_message)) {
+					echo '<div class="row"><div class="col-xs-12">';
+					echo '<div class="alert alert-danger">' . $error_message . '</div>';
+					echo '</div></div>';
+				}
+				?>
 				<div class="box-body">
 					<div class="form-group">
 						<label>Email</label>

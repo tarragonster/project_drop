@@ -127,7 +127,6 @@ class User extends BR_Controller {
 		$params['last_login'] = $time;
 		$params['user_name'] = $user_name;
 		$params['full_name'] = $full_name;
-		$params['avatar'] = 'media/avatar/user/user.png';
 
 		$user_id = $this->user_model->insert($params);
 
@@ -550,11 +549,11 @@ class User extends BR_Controller {
 			$this->create_error(-1);
 		}
 
-		$oldavatar = $this->user_model->getAvatarUser($this->user_id);
+		$old_avatar = $this->user_model->getAvatarUser($this->user_id);
 
 		$this->user_model->update($params, $this->user_id);
-		if ($oldavatar != 'media/avatar/user/user.png') {
-			$this->file_model->removeFileAndThumb($oldavatar);
+		if (!empty($old_avatar) && file_exists($old_avatar)) {
+			$this->file_model->removeFileAndThumb($old_avatar);
 		}
 		$profile = $this->__getUserProfile($this->user_id);
 		$this->create_success(array('profile' => $profile), 'Edit success');

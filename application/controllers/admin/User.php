@@ -165,11 +165,13 @@ class User extends Base_Controller {
 
 			$userEmail = $this->user_model->getByEmail($params['email']);
 			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
+				$this->session->set_flashdata('error_message', 'Sorry, this email is already linked to an existing account');
 				redirect(base_url('admin/user/edit/' . $user_id));
 			}
 
 			$userX = $this->user_model->getByUsername($params['user_name']);
 			if ($userX != null && $userX['user_id'] != $user_id) {
+				$this->session->set_flashdata('error_message', 'Sorry, this username is already linked to an existing account');
 				redirect(base_url('admin/user/edit/' . $user_id));
 			}
 

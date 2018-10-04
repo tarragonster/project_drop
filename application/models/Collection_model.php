@@ -90,4 +90,11 @@ class Collection_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function getMax() {
+		$this->db->order_by('priority', 'desc');
+		$query = $this->db->get('collection');
+		$this->db->limit(1);
+		return $query->num_rows() > 0 ? $query->first_row()->priority : 0;
+	}
+
 }
