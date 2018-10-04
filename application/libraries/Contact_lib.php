@@ -96,6 +96,37 @@ class Contact_lib {
 		}
 	}
 
+	public function updateContact($type, $contact, $reference_id) {
+		$this->CI->db->where('contact_type', $type);
+		$this->CI->db->where('contact', $contact);
+
+		$item = $this->CI->db->get('contact_contacts')->first_row('array');
+		if ($item != null) {
+			if ($reference_id > 0) {
+				$this->CI->db->where('contact_id', $item['contact_id']);
+				$this->CI->db->update('contact_contacts', ['reference_id' => $reference_id]);
+				return $item['contact_id'];
+			} else {
+				$this->CI->db->where('contact_id', $item['contact_id']);
+				$this->CI->db->delete('contact_contacts');
+
+				$this->CI->db->where('contact_id', $item['contact_id']);
+				$this->CI->db->delete('contact_friends');
+				return 0;
+			}
+		} else {
+			if ($reference_id > 0) {
+				$this->CI->db->insert('contact_contacts', [
+					'contact_type' => $type,
+					'contact' => $contact,
+					'reference_id' => $reference_id,
+					'created_at' => time(),
+				]);
+				return $this->CI->db->insert_id();
+			}
+		}
+	}
+
 	public function pushFriends($user_id, $type, $contacts) {
 		foreach ($contacts as $contact) {
 			$contact_id = $this->pushContact($type, $contact);

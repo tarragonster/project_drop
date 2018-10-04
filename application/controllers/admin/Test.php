@@ -55,5 +55,7 @@ class Test extends CI_Controller {
 	public function contact() {
 		$this->load->library('contact_lib');
 		$this->contact_lib->migration();
+
+		$this->contact_lib->pushContact(CONTACT_TYPE_FACEBOOK, 'adsshaeiuweojkcjklk');
 	}
 }

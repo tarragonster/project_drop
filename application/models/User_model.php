@@ -632,7 +632,7 @@ class User_model extends BaseModel {
 		$this->db->join('(select * from user_follow where user_id = ' . $user_id . ') uf', 'uf.follower_id = cc.reference_id', 'left');
 
 		$this->db->where('cf.user_id', $user_id);
-		$this->db->where('(cc.contact_type = ' . CONTACT_TYPE_EMAIL . ' or cc.contact_type = ' . CONTACT_TYPE_PHONE . ')');
+		$this->db->where('cc.contact_type = ' . CONTACT_TYPE_FACEBOOK);
 		$this->db->where('uf.follower_id is null');
 		$query = $this->db->get();
 		return $query->result_array();

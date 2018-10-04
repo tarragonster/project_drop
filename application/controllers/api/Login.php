@@ -17,6 +17,12 @@ class Login extends BR_Controller {
 		$user = $this->user_model->getUserByFacebookId($facebook_id);
 		if ($user == null && !empty($email)) {
 			$user = $this->user_model->getUserByAccount($email);
+			if ($user != null) {
+				$this->user_model->update(['facebook_id' => $facebook_id], $user['user_id']);
+
+				$this->load->library('contact_lib');
+				$this->contact_lib->updateContact(CONTACT_TYPE_FACEBOOK, $facebook_id, $user['user_id']);
+			}
 		}
 		if ($user != null) {
 			$user_id = $user['user_id'];
@@ -40,6 +46,9 @@ class Login extends BR_Controller {
 		$user = $this->user_model->getUserByGoogleId($google_id);
 		if ($user == null && !empty($email)) {
 			$user = $this->user_model->getUserByAccount($email);
+			if ($user != null) {
+				$this->user_model->update(['google_id' => $google_id], $user['user_id']);
+			}
 		}
 		if ($user != null) {
 			$user_id = $user['user_id'];

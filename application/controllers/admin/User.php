@@ -163,6 +163,16 @@ class User extends Base_Controller {
 			$params['full_name'] = $this->input->post('full_name');
 			$params['user_type'] = $this->input->post('user_type');
 
+			$userEmail = $this->user_model->getByEmail($params['email']);
+			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
+				redirect(base_url('admin/user/edit/' . $user_id));
+			}
+
+			$userX = $this->user_model->getByUsername($params['user_name']);
+			if ($userX != null && $userX['user_id'] != $user_id) {
+				redirect(base_url('admin/user/edit/' . $user_id));
+			}
+
 			$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
 			if ($avatar != null) {
 				$this->load->model('file_model');
@@ -175,6 +185,12 @@ class User extends Base_Controller {
 				}
 			}
 			$this->user_model->update($params, $user_id);
+
+			$this->load->library('contact_lib');
+			if ($params['email'] != $user['email']) {
+				$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $user['email'], 0);
+				$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $params['email'], $user_id);
+			}
 
 			redirect(base_url('admin/user/edit/' . $user_id));
 		}

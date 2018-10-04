@@ -154,6 +154,12 @@ class User extends BR_Controller {
 		$data = $this->__getUserProfile($user_id);
 		$this->load->library('oauths');
 		$data['access_token'] = $this->oauths->success($user_id, $device_id);
+
+		$this->load->library('contact_lib');
+		$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $email, $user_id);
+		if (!empty($facebook_id)) {
+			$this->contact_lib->updateContact(CONTACT_TYPE_FACEBOOK, $facebook_id, $user_id);
+		}
 		$this->create_success(array('profile' => $data), 'Register success');
 	}
 
@@ -311,7 +317,7 @@ class User extends BR_Controller {
 		foreach ($friends as $friend) {
 			$follower_id = $friend['user_id'];
 			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
-			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id));
+			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id), false);
 		}
 		$this->create_success(null);
 	}
@@ -403,6 +409,12 @@ class User extends BR_Controller {
 		$params['birthday'] = $birthday;
 
 		$this->user_model->update($params, $this->user_id);
+
+		$this->load->library('contact_lib');
+		if ($email != $user['email']) {
+			$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $user['email'], 0);
+			$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $email, $this->user_id);
+		}
 
 		$profile = $this->__getUserProfile($this->user_id);
 		$this->create_success(['profile' => $profile], 'Edit success');

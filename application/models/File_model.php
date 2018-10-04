@@ -34,28 +34,19 @@ class File_model extends CI_Model {
 	 */
 
 	public function checkFileImage($image) {
-
-		$extension = pathinfo($image["name"])['extension'];
-
-		if (($image['size'] < 300000000) && in_array($extension, File_model::$allowedExts)
-
-			&& in_array($image['type'], File_model::$allowedType)
-		) {
-
-			if ($image['error'] > 0) {
-
-				return false;
-
-			}
-
-		} else {
+		if ($image['error'] > 0) {
 
 			return false;
 
 		}
 
-		return true;
+		$extension = strtolower(pathinfo($image["name"])['extension']);
 
+		if (($image['size'] < 300000000) && in_array($extension, File_model::$allowedExts) && in_array($image['type'], File_model::$allowedType)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
@@ -421,17 +412,17 @@ class File_model extends CI_Model {
 
 	public function checkArrayImage($images) {
 
-		if ($images == null)
-
+		if ($images == null) {
 			return false;
+		}
 
 
 		$numOfImage = count($images['name']);
 
 
-		if ($numOfImage <= 0)
-
+		if ($numOfImage <= 0) {
 			return false;
+		}
 
 
 		for ($i = 0; $i < $numOfImage; $i++) {
