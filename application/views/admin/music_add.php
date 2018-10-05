@@ -29,7 +29,7 @@
                     </div>
 					<div class="form-group">
                     	<label>Mp3</label>
-						<input type="file" class="form-control" name="music_url"/>
+						<input type="file" class="form-control" name="music_url" accept="audio/*" required/>
 					</div>
 					<div class="form-group m-b-0">
                         <button type="submit" class="btn btn-inverse btn-custom" name='cmd' value='Save'>Save</button>

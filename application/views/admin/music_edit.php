@@ -37,7 +37,7 @@
 							Your browser does not support the audio element.
 						</audio>
 						</p>
-						<input type="file" class="form-control" accept=".mp3,audio/*" name="music_url"/>
+						<input type="file" class="form-control" accept="audio/*" name="music_url"/>
 					</div>
 					<div class="form-group m-b-0">
                         <button type="submit" class="btn btn-inverse btn-custom" name='cmd' value='Save'>Update</button>
