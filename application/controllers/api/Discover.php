@@ -28,6 +28,10 @@ class Discover extends BR_Controller {
 		$response = ['featured_profiles' => $featured_profiles];
 
 		$explore_previews = $this->product_model->getExplorePreviews();
+		foreach ($explore_previews as $key => $product) {
+			$explore_previews[$key]['number_like'] = $this->product_model->countProductLikes($product['product_id']);
+			$explore_previews[$key]['num_watching'] = $this->product_model->countUserWatching($product['product_id']);
+		}
 		$response['explore_previews'] = $explore_previews;
 		$this->create_success($response, 'Successfully');
 	}
@@ -56,6 +60,10 @@ class Discover extends BR_Controller {
 		$this->load->model('product_model');
 
 		$explore_previews = $this->product_model->getExplorePreviews();
+		foreach ($explore_previews as $key => $product) {
+			$explore_previews[$key]['number_like'] = $this->product_model->countProductLikes($product['product_id']);
+			$explore_previews[$key]['num_watching'] = $this->product_model->countUserWatching($product['product_id']);
+		}
 		$response = ['explore_previews' => $explore_previews];
 		$this->create_success($response, 'Successfully');
 	}

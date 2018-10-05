@@ -23,6 +23,7 @@ class Product extends BR_Controller {
 		$this->load->model('user_model');
 		$product['watchlist_added'] = $this->user_model->checkInWatchList($product_id, $this->user_id * 1) == null ? '0' : '1';
 		$product['num_watching'] = $this->product_model->countUserWatching($product_id);
+		$product['number_like'] = $this->product_model->countProductLikes($product_id);
 		$this->load->model('season_model');
 		foreach ($seasons as $key => $season) {
 			$films = $this->season_model->getListEpisodes($season['season_id']);
@@ -172,6 +173,33 @@ class Product extends BR_Controller {
 //			}
 //		}
 		$this->create_success(['recently' => $recently]);
+	}
+
+
+
+	public function like_post() {
+		$this->validate_authorization();
+		$product_id = $this->c_getNotNull('product_id');
+		$status = $this->c_getNotNull('status');
+
+		$product = $this->product_model->get($product_id);
+		if ($product == null) {
+			$this->create_error(-17);
+		}
+		$userLike = $this->product_model->getUserProductLike($this->user_id, $product_id);
+		if ($userLike) {
+			if ($status == 0) {
+				$this->product_model->removeProductLike($this->user_id, $product_id);
+			}
+		} else {
+			if ($status == 1) {
+				$this->product_model->addProductLike($this->user_id, $product_id);
+			}
+		}
+		$response = [
+			'number_like' => $this->product_model->countProductLikes($product_id)
+		];
+		$this->create_success($response);
 	}
 
 }

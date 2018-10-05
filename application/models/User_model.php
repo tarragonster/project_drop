@@ -432,7 +432,7 @@ class User_model extends BaseModel {
 	public function getFeaturedProfiles() {
 		$this->db->from('featured_profiles fp');
 		$this->db->join('user u', 'fp.user_id = u.user_id');
-		$this->db->select('u.user_id, user_name, full_name, email, avatar, level, joined');
+		$this->db->select('u.user_id, user_name, user_type, full_name, email, avatar, level, joined');
 		$this->db->where('u.status', 1);
 		$this->db->where('fp.status', 1);
 		$this->db->group_by('u.user_id');

@@ -181,7 +181,6 @@ class Product_model extends BaseModel {
 		return $query->result_array();
 	}
 
-
 	public function checkWatchTrailler($user_id, $product_id) {
 		$this->db->select('id');
 		$this->db->where('episode_id', 0);
@@ -291,5 +290,34 @@ class Product_model extends BaseModel {
 		$this->db->limit(3);
 		$query = $this->db->get();
 		return $query->result_array('array');
+	}
+
+	public function getUserProductLike($user_id, $product_id) {
+		$this->db->from('product_likes');
+		$this->db->where('user_id', $user_id);
+		$this->db->where('product_id', $product_id);
+
+		$query = $this->db->get();
+		return $query->first_row('array');
+	}
+
+	public function addProductLike($user_id, $product_id) {
+		$this->db->insert('product_likes', [
+			'user_id' => $user_id,
+			'product_id' => $product_id,
+			'added_at' => time(),
+		]);
+	}
+
+	public function removeProductLike($user_id, $product_id) {
+		$this->db->where('user_id', $user_id);
+		$this->db->where('product_id', $product_id);
+		$this->db->delete('product_likes');
+	}
+
+	public function countProductLikes($product_id) {
+		$this->db->where('product_id', $product_id);
+		$this->db->from('product_likes');
+		return $this->db->count_all_results();
 	}
 }
