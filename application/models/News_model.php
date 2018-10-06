@@ -38,7 +38,6 @@ class News_model extends BaseModel {
 	public function getUserForNotify($user_id) {
 		$this->db->select('user_name, avatar, full_name');
 		$this->db->where('user_id', $user_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('user');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
@@ -47,15 +46,25 @@ class News_model extends BaseModel {
 	public function getProductForNotify($product_id) {
 		$this->db->select('*');
 		$this->db->where('product_id', $product_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('product');
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
+	}
+
+	public function getComment($comment_id) {
+		$this->db->where('comment_id', $comment_id);
+		$query = $this->db->get('episode_comment');
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
+	}
+
+	public function getReplies($replies_id) {
+		$this->db->where('replies_id', $replies_id);
+		$query = $this->db->get('episode_replies');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
 	public function getSeasonForNotify($season_id) {
 		$this->db->select('name');
 		$this->db->where('season_id', $season_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('season');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}

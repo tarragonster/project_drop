@@ -11,7 +11,7 @@ class Notify_model extends CI_Model {
 		'6' => "commented on",
 		'7' => "Second Screen Series Suggestion:",
 		'8' => "New Season:",
-		'9' => "liked <<username>> 's comment on",
+		'9' => "liked <<username>> 's comment: ",
 		'10' => "replied to <<username>> 's comment on",
 		'11' => "mentioned <<username>> in a comment on",
 		'12' => "started following <<username>> ",
@@ -227,7 +227,6 @@ class Notify_model extends CI_Model {
 	public function getUserForNotify($user_id) {
 		$this->db->select('user_name, avatar, full_name');
 		$this->db->where('user_id', $user_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('user');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
@@ -235,15 +234,19 @@ class Notify_model extends CI_Model {
 	public function getProductForNotify($product_id) {
 		$this->db->select('name');
 		$this->db->where('product_id', $product_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('product');
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
+	}
+
+	public function getComment($comment_id) {
+		$this->db->where('comment_id', $comment_id);
+		$query = $this->db->get('episode_comment');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
 	public function getSeasonForNotify($season_id) {
 		$this->db->select('name');
 		$this->db->where('season_id', $season_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('season');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
@@ -251,7 +254,6 @@ class Notify_model extends CI_Model {
 	public function getEpisodeForNotify($episode_id) {
 		$this->db->select('name');
 		$this->db->where('episode_id', $episode_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('episode');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
@@ -267,7 +269,6 @@ class Notify_model extends CI_Model {
 	public function getPartEpisodeForNotify($episode_id) {
 		$this->db->select('position');
 		$this->db->where('episode_id', $episode_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('episode');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}

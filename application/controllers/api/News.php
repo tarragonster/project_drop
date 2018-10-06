@@ -76,12 +76,16 @@ class News extends BR_Controller {
 					} else {
 						$item['content'] = str_replace("<<username>>", 'to their', $item['content']);
 					}
-
 				} else {
 					$user = $this->news_model->getUserForNotify($notify['data']['uid_comment']);
 					$notify['user_name'] .= '*' . $user['user_name'];
 					$notify['avatar2'] = $user['avatar'];
 					$item['content'] = str_replace(" <<username>> ", '*', $item['content']);
+				}
+
+				if ($item['type'] == 9 && isset($notify['data']['comment_id'])) {
+					$comment = $this->news_model->getComment($notify['data']['comment_id']);
+					$item['content'] .= $comment['content'];
 				}
 			}
 			if ($checkFill == 1) {
@@ -116,6 +120,10 @@ class News extends BR_Controller {
 					} else {
 						$notify['product_name'] = $product['name'];
 					}
+				}
+				if (isset($notify['data']['replies_id'])) {
+					$replies = $this->news_model->getReplies($notify['data']['replies_id']);
+					$item['content'] .= $replies['content'];
 				}
 			}
 		}

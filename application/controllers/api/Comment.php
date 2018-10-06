@@ -59,13 +59,7 @@ class Comment extends BR_Controller {
 				$this->create_error(-77);
 			}
 			$product_id = $this->episode_model->getProdutID($episode['season_id']);
-			$meta = [
-				'user_id' => $this->user_id,
-				'episode_id' => $episode_id,
-				'season_id' => $episode['season_id'],
-				'product_id' => $product_id
-			];
-			$this->notify_model->createNotifyToFollower($this->user_id, 6, $meta, 'default', false);
+			$uid_comment = $this->user_id;
 
 			$commentParams = [
 				'episode_id' => $episode_id,
@@ -75,7 +69,15 @@ class Comment extends BR_Controller {
 			];
 			$comment_id = $this->comment_model->insert($commentParams);
 			$comment = $this->comment_model->getCommentById($comment_id);
-			$uid_comment = $comment['user_id'];
+
+			// Push notification to followers of the user
+			$meta = [
+				'user_id' => $this->user_id,
+				'episode_id' => $episode_id,
+				'season_id' => $episode['season_id'],
+				'product_id' => $product_id
+			];
+			$this->notify_model->createNotifyToFollower($this->user_id, 6, $meta, 'default', false);
 		} else {
 			if ($comment_id == 0) {
 				$this->create_error(-1000);
@@ -86,22 +88,8 @@ class Comment extends BR_Controller {
 			}
 			$episode = $this->episode_model->checkEpisode($check['episode_id']);
 			$product_id = $this->episode_model->getProdutID($episode['season_id']);
-
-			$meta = [
-				'user_id' => $this->user_id,
-				'episode_id' => $check['episode_id'],
-				'season_id' => $episode['season_id'],
-				'product_id' => $product_id
-			];
-			$this->notify_model->createNotify($check['user_id'], 54, $meta);
-			$meta = [
-				'user_id' => $this->user_id,
-				'uid_comment' => $check['user_id'],
-				'episode_id' => $check['episode_id'],
-				'season_id' => $episode['season_id'],
-				'product_id' => $product_id
-			];
-			$this->notify_model->createNotifyToFollower($this->user_id, 10, $meta, 'default', false);
+			$episode_id = $check['episode_id'];
+			$uid_comment = $check['user_id'];
 
 			$replyParams = [
 				'comment_id' => $comment_id,
@@ -110,10 +98,28 @@ class Comment extends BR_Controller {
 				'timestamp' => time()
 			];
 			$replies_id = $this->comment_model->insertReplies($replyParams);
-
 			$comment = $this->comment_model->getRepliesById($replies_id);
-			$episode_id = $check['episode_id'];
-			$uid_comment = $check['user_id'];
+
+			// Push notification to owner of comment
+			$meta = [
+				'user_id' => $this->user_id,
+				'episode_id' => $check['episode_id'],
+				'season_id' => $episode['season_id'],
+				'product_id' => $product_id,
+				'comment_id' => $comment_id,
+				'replies_id' => $replies_id
+			];
+			$this->notify_model->createNotify($check['user_id'], 54, $meta);
+			$meta = [
+				'user_id' => $this->user_id,
+				'uid_comment' => $check['user_id'],
+				'episode_id' => $check['episode_id'],
+				'season_id' => $episode['season_id'],
+				'product_id' => $product_id,
+				'comment_id' => $comment_id,
+				'replies_id' => $replies_id
+			];
+			$this->notify_model->createNotifyToFollower($this->user_id, 10, $meta, 'default', false);
 		}
 		$users = $this->__checkMentioned($content, $this->user_id);
 		if (count($users) > 0) {
@@ -163,7 +169,7 @@ class Comment extends BR_Controller {
 			$episode = $this->episode_model->checkEpisode($comment['episode_id']);
 			$product_id = $this->episode_model->getProdutID($episode['season_id']);
 			if (!$hasLikeComment) {
-				$this->comment_model->insertCommentLike(array('comment_id' => $comment_id, 'user_id' => $this->user_id));
+				$this->comment_model->insertCommentLike(['comment_id' => $comment_id, 'user_id' => $this->user_id]);
 				if ($this->user_id != $comment['user_id']) {
 					$meta = [
 						'user_id' => $this->user_id,
@@ -176,9 +182,10 @@ class Comment extends BR_Controller {
 					$meta = [
 						'user_id' => $this->user_id,
 						'episode_id' => $comment['episode_id'],
-						'uid_comment' => $comment['user_id'],
 						'season_id' => $episode['season_id'],
-						'product_id' => $product_id
+						'product_id' => $product_id,
+						'uid_comment' => $comment['user_id'],
+						'comment_id' => $comment_id
 					];
 					$this->notify_model->createNotifyToFollower($this->user_id, 9, $meta, 'default', false);
 				}
@@ -187,8 +194,10 @@ class Comment extends BR_Controller {
 				$meta = [
 					'user_id' => $this->user_id,
 					'episode_id' => $comment['episode_id'],
+					'season_id' => $episode['season_id'],
+					'product_id' => $product_id,
 					'uid_comment' => $comment['user_id'],
-					'product_id' => $product_id
+					'comment_id' => $comment_id
 				];
 				$this->notify_model->removeNotify($this->user_id, 9, $meta);
 			}
@@ -206,25 +215,24 @@ class Comment extends BR_Controller {
 			$product_id = $this->episode_model->getProdutID($episode['season_id']);
 			if (!$hasLikeReply) {
 				$this->comment_model->insertRepliesLike(array('replies_id' => $replies_id, 'user_id' => $this->user_id));
-				if ($this->user_id != $comment['user_id']) {
+				if ($this->user_id != $replies['user_id']) {
 					$meta = [
 						'user_id' => $this->user_id,
 						'episode_id' => $comment['episode_id'],
 						'season_id' => $episode['season_id'],
 						'product_id' => $product_id
 					];
-					$this->notify_model->createNotify($comment['user_id'], 53, $meta);
+					$this->notify_model->createNotify($replies['user_id'], 53, $meta);
 				}
 			} else {
 				$this->comment_model->removeRepliesLike($this->user_id, $replies_id);
 				$meta = [
 					'user_id' => $this->user_id,
 					'episode_id' => $comment['episode_id'],
-					'uid_comment' => $comment['user_id'],
-					'comment_id' => $comment['comment_id'],
+					'season_id' => $episode['season_id'],
 					'product_id' => $product_id
 				];
-				$this->notify_model->removeNotify($this->user_id, 9, $meta);
+				$this->notify_model->removeNotify($replies['user_id'], 53, $meta);
 			}
 
 			$data['num_like'] = $this->episode_model->countRepliesLike($replies_id);
