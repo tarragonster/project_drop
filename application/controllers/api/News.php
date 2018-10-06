@@ -91,10 +91,6 @@ class News extends BR_Controller {
 					$product = $this->news_model->getProductForNotify($notify['data']['product_id']);
 					$notify['product_name'] = $product['name'];
 				}
-				// if(isset($notify['data']['season_id'])){
-				// 	$season = $this->news_model->getSeasonForNotify($notify['data']['season_id']);
-				// 	$content = $content.' '.$season['name'];
-				// }
 				if (isset($notify['data']['episode_id'])) {
 					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
 					$notify['episode_image'] = $episode['image'];
@@ -105,10 +101,6 @@ class News extends BR_Controller {
 				}
 			} else {
 				$name = '';
-				// if(isset($notify['data']['season_id'])){
-				// 	$season = $this->news_model->getSeasonForNotify($notify['data']['season_id']);
-				// 	$content = $content.' '.$season['name'];
-				// }
 				if (isset($notify['data']['episode_id'])) {
 					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
 					$notify['episode_image'] = $episode['image'];
