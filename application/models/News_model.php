@@ -45,7 +45,7 @@ class News_model extends BaseModel {
 
 
 	public function getProductForNotify($product_id) {
-		$this->db->select('name');
+		$this->db->select('*');
 		$this->db->where('product_id', $product_id);
 		$this->db->where('status', 1);
 		$query = $this->db->get('product');
@@ -61,17 +61,15 @@ class News_model extends BaseModel {
 	}
 
 	public function getEpisodeForNotify($episode_id) {
-		$this->db->select('name');
+		$this->db->select('*');
 		$this->db->where('episode_id', $episode_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('episode');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
 	public function getPartEpisodeForNotify($episode_id) {
-		$this->db->select('position');
+		$this->db->select('*');
 		$this->db->where('episode_id', $episode_id);
-		$this->db->where('status', 1);
 		$query = $this->db->get('episode');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}

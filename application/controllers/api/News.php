@@ -80,6 +80,7 @@ class News extends BR_Controller {
 				} else {
 					$user = $this->news_model->getUserForNotify($notify['data']['uid_comment']);
 					$notify['user_name'] .= '*' . $user['user_name'];
+					$notify['avatar2'] = $user['avatar'];
 					$item['content'] = str_replace(" <<username>> ", '*', $item['content']);
 				}
 			}
@@ -96,26 +97,33 @@ class News extends BR_Controller {
 				// }
 				if (isset($notify['data']['episode_id'])) {
 					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
-					$content = $content . 'part ' . $episode['position'];
+					$notify['episode_image'] = $episode['image'];
+					$content = $content . $episode['name'];
 				}
 				if ($content != '') {
 					$item['content'] = $item['content'] . ' ' . $content . ' of';
 				}
 			} else {
-				$content = '';
+				$name = '';
 				// if(isset($notify['data']['season_id'])){
 				// 	$season = $this->news_model->getSeasonForNotify($notify['data']['season_id']);
 				// 	$content = $content.' '.$season['name'];
 				// }
 				if (isset($notify['data']['episode_id'])) {
 					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
-					$content = $content . 'part ' . $episode['position'];
+					$notify['episode_image'] = $episode['image'];
+					$name = $name . $episode['name'];
+				}
+				if ($name != '') {
+					$item['content'] = $item['content'] . ' ' . $name . ' of';
 				}
 				if (isset($notify['data']['product_id'])) {
 					$product = $this->news_model->getProductForNotify($notify['data']['product_id']);
-				}
-				if ($content != '') {
-					$notify['product_name'] = $content . ' of ' . $product['name'];
+					if ($notify['type'] == 54) {
+						$item['content'] = $item['content'] . ' ' . $product['name'] .': ';
+					} else {
+						$notify['product_name'] = $product['name'];
+					}
 				}
 			}
 		}
