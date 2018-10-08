@@ -45,7 +45,11 @@ class Contact extends BR_Controller {
 			}
 		}
 
-		$this->create_success([]);
+		$response = [];
+		$response['num_of_friends'] = $this->user_model->countContactFriends($this->user_id);
+		$response['friends'] = $this->user_model->getContactFriends($this->user_id, 0);
+
+		$this->create_success($response);
 	}
 
 	public function syncFacebook_post() {
