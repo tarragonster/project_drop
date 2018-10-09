@@ -54,12 +54,12 @@
                     <label>Image</label>
                     <div class="row">
                         <div class="col-md-4">
-                            <img id='image' width='120' height='120' src='<?php  ?>' style='border: 4px solid #c6c6c6; border-radius: 4px'/>
+                            <img id='image' width='120' height='120' style='border: 4px solid #c6c6c6; border-radius: 4px'/>
                         </div>
                         <div class="col-md-8">
                             <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
                             <div class="uploader" onclick="$('#imagePhoto').click()">
-                                <input type="file" accept="img/*" name="image" id="imagePhoto"/>
+                                <input type="file" accept="image/*" name="image" id="imagePhoto"/>
                             </div>
                         </div>
                     </div>
@@ -73,14 +73,14 @@
                         <div class="col-md-8">
                             <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
                             <div class="uploader" onclick="$('#coverPhoto').click()">
-                                <input type="file" accept="img/*" name="trailler_image" id="coverPhoto"/>
+                                <input type="file" accept="image/*" name="trailler_image" id="coverPhoto"/>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <label>Trailler Video</label>
-                    <input name="trailler_url" class="form-control" type="file"  onchange="setFileInfo(this.files)"/>
+                    <input name="trailler_url" class="form-control" type="file" accept="video/*" onchange="setFileInfo(this.files)"/>
                     <div id="infos" style="margin-top: 8px;"></div>
                     <input id="duration" name="duration" style='opacity: 0; z-index: -1000'/>
                 </div>

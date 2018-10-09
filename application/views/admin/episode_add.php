@@ -52,14 +52,14 @@
                         <div class="col-md-8">
                             <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
                             <div class="uploader" onclick="$('#imagePhoto').click()">
-                                <input type="file" accept="img/*" name="image" id="imagePhoto"/>
+                                <input type="file" accept="image/*" name="image" id="imagePhoto"/>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <label>Video</label>
-                    <input name="url" class="form-control" type="file"  onchange="setFileInfo(this.files)"/>
+                    <input name="url" class="form-control" type="file" accept="video/*"  onchange="setFileInfo(this.files)"/>
                     <div id="infos" style="margin-top: 8px;"></div>
                     <input id="duration" name="duration" style='opacity: 0; z-index: -1000'/>
                 </div>

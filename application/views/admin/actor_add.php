@@ -44,7 +44,7 @@
 						<div class="col-md-8">
 							<img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png') ?>">
 							<div class="uploader" onclick="$('#imagePhoto').click()">
-								<input type="file" accept="img/*" name="image" id="imagePhoto"/>
+								<input type="file" accept="image/*" name="image" id="imagePhoto"/>
 							</div>
 						</div>
 					</div>
