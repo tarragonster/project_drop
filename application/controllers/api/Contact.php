@@ -52,26 +52,6 @@ class Contact extends BR_Controller {
 		$this->create_success($response);
 	}
 
-	public function syncFacebook_post() {
-		$this->load->library('contact_lib');
-		$list_facebook_id = $this->post('list_facebook_id');
-		if (!is_array($list_facebook_id)) {
-			$this->create_error(-8, 'list_facebook_id must be an array');
-		}
-
-		$contacts = [];
-		foreach ($list_facebook_id as $facebook_id) {
-			if (!empty($facebook_id)) {
-				$contacts[] = $facebook_id;
-			}
-		}
-		if (count($contacts) > 0) {
-			$this->contact_lib->pushFriends($this->user_id, CONTACT_TYPE_FACEBOOK, $contacts);
-		}
-
-		$this->create_success([]);
-	}
-
 	public function contactFriends_get() {
 		$page = $this->get('page') * 1;
 		$response = [];
@@ -82,6 +62,36 @@ class Contact extends BR_Controller {
 	}
 
 	public function facebookFriends_get() {
+		$user = $this->user_model->get($this->user_id);
+		if ($user == null) {
+			$this->create_error(-10);
+		}
+		if (empty($user['facebook_id'])) {
+			$this->create_error(-59);
+		}
+		if (empty($user['fb_token']) || $user['fb_expired_at'] < time()) {
+			$this->create_error(-83);
+		}
+		$this->load->library('facebook_lib');
+		$response = $this->facebook_lib->friends($user['fb_token']);
+		if (!$response['success']) {
+			if (is_numeric($response['data']) && $response['data'] == 190) {
+				$this->create_error(-83);
+			} else {
+				$this->create_error(-82);
+			}
+		}
+
+		$facebook_friends = $response['data']['friends'];
+		$contacts = [];
+		foreach ($facebook_friends as $friend) {
+			$contacts[] = $friend['id'];
+		}
+		if (count($contacts) > 0) {
+			$this->load->library('contact_lib');
+			$this->contact_lib->pushFriends($this->user_id, CONTACT_TYPE_FACEBOOK, $contacts);
+		}
+
 		$page = $this->get('page') * 1;
 		$response = [];
 		$response['num_of_friends'] = $this->user_model->countFacebookFriends($this->user_id);

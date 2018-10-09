@@ -86,6 +86,40 @@ class User extends BR_Controller {
 		$this->create_success(null, 'Check success');
 	}
 
+	public function connectFacebook_post() {
+		$this->validate_authorization();
+		$access_token = $this->c_getNotNull('access_token');
+
+		$this->load->library('facebook_lib');
+		$response = $this->facebook_lib->me($access_token);
+		if (!$response['success']) {
+			$this->create_error(-82);
+		}
+
+		$facebook_id = $response['data']['id'];
+		$otherUser = $this->user_model->getUserByFacebookId($facebook_id);
+		if ($otherUser != null && $otherUser['user_id'] != $this->user_id) {
+			$this->create_error(-63);
+		}
+
+		$params = ['facebook_id' => $facebook_id];
+
+		$this->load->library('contact_lib');
+		$this->contact_lib->updateContact(CONTACT_TYPE_FACEBOOK, $facebook_id,  $this->user_id);
+
+		// Try to get long-live token
+		$tokenResponse = $this->facebook_lib->longLive($access_token);
+		if ($tokenResponse['success']) {
+			$params['fb_token'] = $tokenResponse['data']['token'];
+			$params['fb_expired_at'] = $tokenResponse['data']['expired_at']; // time() + 60 * 86400; // 60 days
+		} else {
+			$params['fb_token'] = $access_token;
+			$params['fb_expired_at'] = time() + 2 * 3600; // 2 hours
+		}
+		$this->user_model->update($params, $this->user_id);
+
+		$this->create_success();
+	}
 
 	public function registerProfile_post() {
 		$time = time();
@@ -94,7 +128,7 @@ class User extends BR_Controller {
 		$device_id = $this->c_getNotNull('device_id');
 		$user_name = $this->c_getNotNull('user_name');
 		$full_name = $this->c_getNotNull('full_name');
-		$facebook_id = $this->post('facebook_id');
+		$access_token = $this->post('access_token');
 		$google_id = $this->post('google_id');
 
 		if ($this->user_model->checkUserName($user_name)) {
@@ -105,12 +139,30 @@ class User extends BR_Controller {
 			$this->create_error(-5);
 		}
 
-		$params = array();
-		if (!empty($facebook_id)) {
-			if ($this->user_model->getUserByFacebookId($facebook_id) != null) {
-				$this->create_error(-81);
+		$facebook_id = '';
+		$params = [];
+		if (!empty($access_token)) {
+			$this->load->library('facebook_lib');
+			$response = $this->facebook_lib->me($access_token);
+			if (!$response['success']) {
+				$this->create_error(-82);
+			}
+
+			$facebook_id = $response['data']['id'];
+			$otherUser = $this->user_model->getUserByFacebookId($facebook_id);
+			if ($otherUser != null) {
+				$this->create_error(-63);
+			}
+
+			$params['facebook_id'] = $facebook_id;
+
+			$tokenResponse = $this->facebook_lib->longLive($access_token);
+			if ($tokenResponse['success']) {
+				$params['fb_token'] = $tokenResponse['data']['token'];
+				$params['fb_expired_at'] = $tokenResponse['data']['expired_at']; // time() + 60 * 86400; // 60 days
 			} else {
-				$params['facebook_id'] = $facebook_id;
+				$params['fb_token'] = $access_token;
+				$params['fb_expired_at'] = time() + 2 * 3600; // 2 hours
 			}
 		}
 		if (!empty($google_id)) {
