@@ -24,7 +24,7 @@ class Collection extends Base_Controller {
 	public function add() {
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$params = array();
-			$params['name'] = $this->input->post('shop_name');
+			$params['name'] = $this->input->post('name');
 			$params['short_bio'] = $this->input->post('short_bio');
 			$params['priority'] = $this->collection_model->getMax() + 1;
 			$params['created'] = time();
@@ -68,17 +68,19 @@ class Collection extends Base_Controller {
 
 		$this->load->model("product_model");
 		$content_layout = '';
-		if ($collection['collection_type'] == 1 || $collection['collection_type'] == 5) {
-			$collection['products'] = $this->product_model->getListProductByCollection($collection_id);
-			$collection['others'] = $this->collection_model->getProductOthers($collection_id);
-			$collection['max'] = $this->collection_model->getMaxFilm($collection_id);
-			$content_layout = 'collection_films';
-		} else if ($collection['collection_type'] == 3) {
+		if ($collection['collection_type'] == 3) {
 			$collection['products'] = [];
 			$content_layout = 'collection_continue';
 		} else {
-			$collection['products'] = $this->user_model->getTopPicks();
-			$content_layout = 'collection_top_picks';
+			if ($collection['collection_type'] == 4) {
+				$collection['products'] = $this->user_model->getTopPicks();
+				$content_layout = 'collection_top_picks';
+			} else {
+				$collection['products'] = $this->product_model->getListProductByCollection($collection_id);
+				$collection['others'] = $this->collection_model->getProductOthers($collection_id);
+				$collection['max'] = $this->collection_model->getMaxFilm($collection_id);
+				$content_layout = 'collection_films';
+			}
 		}
 
 		$data = array();
@@ -92,23 +94,10 @@ class Collection extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function addFilm($product_id, $collection_id) {
-		$collection = $this->collection_model->getCollectionById($collection_id);
-		if ($collection == null) {
-			redirect('admin/collection');
-		}
-		$params = array();
-		$params['collection_id'] = $collection_id;
-		$params['product_id'] = $product_id;
-		$params['priority'] = $this->collection_model->getMaxFilm($collection_id) + 1;
-		$this->collection_model->addFilm($params);
-		redirect(base_url('admin/collection/films/' . $collection_id));
-	}
-
 	public function addToCollection() {
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$collection_id = $this->input->post('collection_id') * 1;
-			$product_id= $this->input->post('product_id') * 1;
+			$product_id = $this->input->post('product_id') * 1;
 
 			$collection = $this->collection_model->getCollectionById($collection_id);
 			if ($collection == null) {
@@ -121,15 +110,15 @@ class Collection extends Base_Controller {
 				redirect('admin/collection');
 			}
 
-			$previewImg = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
-			if ($previewImg != null && $previewImg['error'] == 0) {
+			$promoImage = isset($_FILES['promo_image']) ? $_FILES['promo_image'] : null;
+			if ($promoImage != null && $promoImage['error'] == 0) {
 				$this->load->model('file_model');
-				$path = $this->file_model->createFileName($previewImg, 'media/feeds/', 'collection');
-				$this->file_model->saveFile($previewImg, $path);
+				$path = $this->file_model->createFileName($promoImage, 'media/feeds/', 'collection');
+				$this->file_model->saveFile($promoImage, $path);
 				$params = [
 					'product_id' => $product_id,
 					'collection_id' => $collection_id,
-					'preview_img' => $path,
+					'promo_image' => $path,
 					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
 				];
 				$this->collection_model->addFilm($params);
@@ -166,5 +155,27 @@ class Collection extends Base_Controller {
 		}
 		$this->collection_model->downFilm($collection_id, $priority, $id);
 		redirect(base_url('admin/collection/films/' . $collection_id));
+	}
+
+	public function ajaxProduct() {
+		$q = $this->input->get('q');
+		if (!empty($q)) {
+			$this->db->like('name', $q, 'both');
+		}
+		$this->db->where('status', 1);
+		$this->db->order_by('name', 'asc');
+		$this->db->limit(15);
+
+		$query = $this->db->get('product');
+		$products = $query->result_array();
+		$items = array();
+		if (is_array($products)) {
+			foreach ($products as $row) {
+				$item = array('value' => $row['product_id'], 'label' => $row['name'],);
+				$items[] = $item;
+			}
+		}
+		header('Content-Type: application/json');
+		echo json_encode($items);
 	}
 }

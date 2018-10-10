@@ -18,15 +18,6 @@ class Collection_model extends BaseModel {
 		return $this->getObjectById($collection_id);
 	}
 
-	public function feeds() {
-		$this->db->select('f.feed_id, f.position, f.feed_image, p.*');
-		$this->db->from('feed f');
-		$this->db->join('product_view p', 'p.product_id = f.product_id');
-		$this->db->where('f.status', 1);
-		$query = $this->db->get();
-		return $query->result_array('array');
-	}
-
 	public function addFilm($params) {
 		$this->db->insert('collection_product', $params);
 		return $this->db->insert_id();

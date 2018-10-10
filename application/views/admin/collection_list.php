@@ -26,17 +26,13 @@
                                 echo '<td align="center">' . $row['collection_id'] . '</td>';
                                 echo '<td>' . $row['name'] . '</td>';
                                 echo "<td><div class='button-list'>";
-                                if ($row['collection_type'] == 1 || $row['collection_type'] == 5) {
-	                                echo "<a href='" . base_url('admin/collection/films/' . $row['collection_id']) . "?active=add' /><button class='btn btn-inverse btn-custom btn-xs'>Add Film</button></a>";
-                                } else if ($row['collection_type'] == 2) {
-	                                echo "<a href='" . base_url('admin/feed') . "?active=add' /><button class='btn btn-inverse btn-custom btn-xs'>Add Film</button></a>";
-                                }
                                 echo "<a href='" . base_url('admin/collection/edit/' . $row['collection_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Edit</button></a>";
-                                if ($row['collection_type'] == 2) {
-	                                echo "<a href='" . base_url('admin/feed') . "' /><button class='btn btn-inverse btn-custom btn-xs'>View films</button></a>";
-                                } else if ($row['collection_type'] != 3) {
+                                if ($row['collection_type'] != 3) {
 	                                echo "<a href='" . base_url('admin/collection/films/' . $row['collection_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>View films</button></a>";
                                 }
+                                if ($row['collection_type'] == 1 || $row['collection_type'] == 5 || $row['collection_type'] == 2) {
+		                            echo "<a href='" . base_url('admin/collection/films/' . $row['collection_id']) . "?active=add' /><button class='btn btn-inverse btn-custom btn-xs'>Add Film</button></a>";
+	                            }
                                 echo "</div></td>";
                                 echo '</tr>';
                             }

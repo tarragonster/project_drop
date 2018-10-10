@@ -1,15 +1,3 @@
-<?php
-if ($this->session->flashdata('alert')) {
-	echo '<div class="row"><div class="col-xs-12 alert alert-success">';
-	echo $this->session->flashdata('alert');
-	echo '</div></div>';
-}
-if ($this->session->flashdata('error')) {
-	echo '<div class="col-xs-12"><div class="alert alert-danger">';
-	echo $this->session->flashdata('error');
-	echo '</div></div>';
-}
-?>
 <div class="row">
 	<div class="col-xs-12">
 		<h3 class="m-t-0 m-b-20 header-title"><?php echo $name ?></h3>

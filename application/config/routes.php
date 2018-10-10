@@ -20,7 +20,6 @@ $route['product/(:num)'] = 'product/get/$1';
 
 //collectionn
 $route['collection/list'] = 'collection/list';
-$route['feeds'] = 'collection/feeds';
 
 //actor
 $route['actor/(:num)'] = 'actor/get/$1';
