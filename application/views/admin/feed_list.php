@@ -1,5 +1,6 @@
 <?php
 $active = isset($_GET['active']) ? $_GET['active'] : 'list';
+$name = isset($collection) && $collection != null ? $collection['name'] : 'Slides';
 ?>
 <div class="row">
 	<?php if ($this->session->flashdata('msg')) {
@@ -8,16 +9,18 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 		echo '</div></div>';
 	} ?>
 	<div class="col-xs-12">
-		<h3 class="m-t-0 m-b-20 header-title">Slides</h3>
+		<h3 class="m-t-0 m-b-20 header-title">
+			<?= $name ?>
+		</h3>
 	</div>
 </div>
 
 <ul class="nav nav-tabs">
 	<li <?= $active == 'list' ? 'class="active"' : '' ?>>
-		<a data-toggle="tab" href="#list">List</a>
+		<a data-toggle="tab" href="#list">List Films on <?= $name ?></a>
 	</li>
 	<li <?= $active == 'add' ? 'class="active"' : '' ?>>
-		<a data-toggle="tab" href="#add">Add Slide</a>
+		<a data-toggle="tab" href="#add">Add Film to <?= $name ?></a>
 	</li>
 </ul>
 <div class="row card-box">
@@ -62,14 +65,14 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 										?>
 										<td>
 											<div class='button-list'>
-												<a href='<?php echo base_url("admin/feed/edit/" . $row["feed_id"]) ?>'>
-													<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
-												</a>
+												<!--												<a href='--><?php //echo base_url("admin/feed/edit/" . $row["feed_id"]) ?><!--'>-->
+												<!--													<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>-->
+												<!--												</a>-->
 												<a href='<?php echo base_url('admin/feed/remove/' . $row['feed_id']) ?>'>
 													<button class='btn btn-danger btn-custom btn-xs'>Remove</button>
 												</a>
-												<?php echo "<a href='" . base_url('admin/feed/active/' . $row['feed_id']) . "'><button class='btn btn-custom btn-xs "
-													. ($row['status'] != 1 ? "btn-success'>Active" : "btn-inverse'>Deactive") . "</button></a>"; ?>
+												<!--												--><?php //echo "<a href='" . base_url('admin/feed/active/' . $row['feed_id']) . "'><button class='btn btn-custom btn-xs "
+												//													. ($row['status'] != 1 ? "btn-success'>Active" : "btn-inverse'>Deactive") . "</button></a>"; ?>
 											</div>
 										</td>
 									</tr>

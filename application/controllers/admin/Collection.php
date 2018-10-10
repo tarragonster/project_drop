@@ -80,7 +80,11 @@ class Collection extends Base_Controller {
 			$collection['products'] = $this->user_model->getTopPicks();
 			$content_layout = 'collection_top_picks';
 		}
+
 		$data = array();
+		$data['customCss'] = array('assets/css/jquery-ui.css', 'assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');
+		$data['customJs'] = array('assets/js/jquery-ui.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/feed_autocomplete.js');
+
 		$data['parent_id'] = 4;
 		$data['sub_id'] = 41;
 		$data['account'] = $this->account;
@@ -99,6 +103,42 @@ class Collection extends Base_Controller {
 		$params['priority'] = $this->collection_model->getMaxFilm($collection_id) + 1;
 		$this->collection_model->addFilm($params);
 		redirect(base_url('admin/collection/films/' . $collection_id));
+	}
+
+	public function addToCollection() {
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			$collection_id = $this->input->post('collection_id') * 1;
+			$product_id= $this->input->post('product_id') * 1;
+
+			$collection = $this->collection_model->getCollectionById($collection_id);
+			if ($collection == null) {
+				redirect('admin/collection');
+			}
+
+			$this->load->model("product_model");
+			$product = $this->product_model->getProductForAdmin($product_id);
+			if ($product == null) {
+				redirect('admin/collection');
+			}
+
+			$previewImg = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
+			if ($previewImg != null && $previewImg['error'] == 0) {
+				$this->load->model('file_model');
+				$path = $this->file_model->createFileName($previewImg, 'media/feeds/', 'collection');
+				$this->file_model->saveFile($previewImg, $path);
+				$params = [
+					'product_id' => $product_id,
+					'collection_id' => $collection_id,
+					'preview_img' => $path,
+					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
+				];
+				$this->collection_model->addFilm($params);
+			} else {
+				$this->session->set_flashdata('msg', 'Missing data field required: image');
+			}
+			redirect('admin/collection/films/' . $collection_id);
+		}
+		redirect('admin/collection');
 	}
 
 	public function removeFilm($collection_id, $product_id, $priority) {

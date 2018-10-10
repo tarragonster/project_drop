@@ -116,7 +116,7 @@ class Product_model extends BaseModel {
 	}
 
 	public function getListProductByCollection($collection_id, $page = -1) {
-		$this->db->select('p.*, cp.priority as priority_collection, cp.id');
+		$this->db->select('p.*, cp.priority as priority_collection, cp.id, cp.preview_img');
 		$this->db->from('collection_product cp');
 		$this->db->join('product_view p', 'p.product_id = cp.product_id');
 		$this->db->where('cp.collection_id', $collection_id);

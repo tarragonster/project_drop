@@ -12,11 +12,11 @@ if ($this->session->flashdata('error')) {
 ?>
 <div class="row">
 	<div class="col-xs-12">
-		<h3 class="m-t-0 m-b-20 header-title">Collection: <?php echo $name ?></h3>
+		<h3 class="m-t-0 m-b-20 header-title"><?php echo $name ?></h3>
 	</div>
 </div>
 <ul class="nav nav-tabs">
-	<li class="active"><a data-toggle="tab" href="#list">List Films</a></li>
+	<li class="active"><a data-toggle="tab" href="#list">List Films on <?php echo $name ?></a></li>
 </ul>
 
 <div class="row card-box">

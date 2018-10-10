@@ -38,7 +38,15 @@ class Feed extends Base_Controller {
 			}
 			$this->redirect('admin/feed');
 		}
-		$content = $this->load->view('admin/feed_list', array('feeds' => $feeds, 'max' => $this->feed_model->getMax()), true);
+		$this->load->model('collection_model');
+		$collection = $this->collection_model->getCollectionById(5);
+
+		$layoutParams = [
+			'collection' => $collection,
+			'feeds' => $feeds,
+			'max' => $this->feed_model->getMax()
+		];
+		$content = $this->load->view('admin/feed_list', $layoutParams, true);
 		$data = array();
 		$data['parent_id'] = 4;
 		$data['sub_id'] = 41;

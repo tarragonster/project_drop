@@ -170,7 +170,7 @@
 			</div> <!-- container -->
 		</div> <!-- content -->
 		<footer class="footer text-right">
-			2016 © <a href="#">ss.vapemail.us</a>
+			2018 © <a href="http://secondscreentv.us">www.secondscreentv.us</a>
 		</footer>
 
 	</div>
