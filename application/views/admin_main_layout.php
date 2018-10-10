@@ -148,9 +148,6 @@
 							</li>
 						</ul>
 					</li>
-					<li>
-						<a href="<?php echo base_url('admin/feed'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 8 ? ' active' : ''; ?>"><i class="fa fa-align-left"></i> <span>Main Feeds</span></a>
-					</li>
 				</ul>
 				<div class="clearfix"></div>
 			</div>

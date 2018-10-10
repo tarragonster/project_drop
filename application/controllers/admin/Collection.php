@@ -67,14 +67,24 @@ class Collection extends Base_Controller {
 		}
 
 		$this->load->model("product_model");
-		$collection['products'] = $this->product_model->getListProductByCollection($collection_id);
-		$collection['others'] = $this->collection_model->getProductOthers($collection_id);
-		$collection['max'] = $this->collection_model->getMaxFilm($collection_id);
+		$content_layout = '';
+		if ($collection['collection_type'] == 1 || $collection['collection_type'] == 5) {
+			$collection['products'] = $this->product_model->getListProductByCollection($collection_id);
+			$collection['others'] = $this->collection_model->getProductOthers($collection_id);
+			$collection['max'] = $this->collection_model->getMaxFilm($collection_id);
+			$content_layout = 'collection_films';
+		} else if ($collection['collection_type'] == 3) {
+			$collection['products'] = [];
+			$content_layout = 'collection_continue';
+		} else {
+			$collection['products'] = $this->user_model->getTopPicks();
+			$content_layout = 'collection_top_picks';
+		}
 		$data = array();
 		$data['parent_id'] = 4;
 		$data['sub_id'] = 41;
 		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/collection_films', $collection, true);;
+		$data['content'] = $this->load->view('admin/' . $content_layout, $collection, true);;
 		$this->load->view('admin_main_layout', $data);
 	}
 

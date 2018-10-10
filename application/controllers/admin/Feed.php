@@ -40,8 +40,8 @@ class Feed extends Base_Controller {
 		}
 		$content = $this->load->view('admin/feed_list', array('feeds' => $feeds, 'max' => $this->feed_model->getMax()), true);
 		$data = array();
-		$data['parent_id'] = 8;
-		$data['sub_id'] = 81;
+		$data['parent_id'] = 4;
+		$data['sub_id'] = 41;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
 

@@ -26,21 +26,18 @@
                                 echo '<tr>';
                                 echo '<td align="center">' . $row['collection_id'] . '</td>';
                                 echo '<td>' . $row['name'] . '</td>';
-                                // echo '<td><div class="button-list">';
-                                // if ($row['priority'] > 1) {
-                                //     echo "<a href='" . base_url('admin/collection/up/' . $row['collection_id']) . "'>
-		                              //       <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-up'></i> Up</button>
-		                              //   </a>";
-                                // }
-                                // if ($row['priority'] < count($collections)) {
-                                //     echo "<a href='" . base_url('admin/collection/down/' . $row['collection_id']) . "'>
-		                              //       <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-down'></i> Down</button>
-		                              //   </a>";
-                                // }
-                                // echo '</div></td>';
                                 echo "<td><div class='button-list'>";
+                                if ($row['collection_type'] == 1 || $row['collection_type'] == 5) {
+	                                echo "<a href='" . base_url('admin/collection/films/' . $row['collection_id']) . "?active=add' /><button class='btn btn-inverse btn-custom btn-xs'>Add Film</button></a>";
+                                } else if ($row['collection_type'] == 2) {
+	                                echo "<a href='" . base_url('admin/feed') . "?active=add' /><button class='btn btn-inverse btn-custom btn-xs'>Add Film</button></a>";
+                                }
                                 echo "<a href='" . base_url('admin/collection/edit/' . $row['collection_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Edit</button></a>";
-                                echo "<a href='" . base_url('admin/collection/films/' . $row['collection_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>View films</button></a>";
+                                if ($row['collection_type'] == 2) {
+	                                echo "<a href='" . base_url('admin/feed') . "' /><button class='btn btn-inverse btn-custom btn-xs'>View films</button></a>";
+                                } else {
+	                                echo "<a href='" . base_url('admin/collection/films/' . $row['collection_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>View films</button></a>";
+                                }
                                 echo "</div></td>";
                                 echo '</tr>';
                             }
