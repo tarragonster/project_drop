@@ -35,7 +35,7 @@
                                 echo "<a href='" . base_url('admin/collection/edit/' . $row['collection_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Edit</button></a>";
                                 if ($row['collection_type'] == 2) {
 	                                echo "<a href='" . base_url('admin/feed') . "' /><button class='btn btn-inverse btn-custom btn-xs'>View films</button></a>";
-                                } else {
+                                } else if ($row['collection_type'] != 3) {
 	                                echo "<a href='" . base_url('admin/collection/films/' . $row['collection_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>View films</button></a>";
                                 }
                                 echo "</div></td>";
