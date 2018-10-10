@@ -21,3 +21,15 @@ function handleCoverImage(e) {
     }
     reader.readAsDataURL(e.target.files[0]);
 }
+
+var backgroundImgLoader = document.getElementById('backgroundImg');
+backgroundImgLoader.addEventListener('change', handleBackgroundImage, false);
+
+function handleBackgroundImage(e) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+
+        $('#background_photo').attr('src',event.target.result);
+    }
+    reader.readAsDataURL(e.target.files[0]);
+}

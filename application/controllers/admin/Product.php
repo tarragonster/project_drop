@@ -72,6 +72,12 @@ class Product extends Base_Controller {
 				$this->file_model->saveFile($trailler_image, $path);
 				$params['trailler_image'] = $path;
 			}
+			$background_img = isset($_FILES['background_img']) ? $_FILES['background_img'] : null;
+			if ($background_img != null && $background_img['error'] == 0) {
+				$path = $this->file_model->createFileName($background_img, 'media/films/', 'background');
+				$this->file_model->saveFile($background_img, $path);
+				$params['background_img'] = $path;
+			}
             $product_id = $this->product_model->insert($params);
             
             if ($cmd == 'Save') {
@@ -132,6 +138,12 @@ class Product extends Base_Controller {
 				$this->file_model->saveFile($trailler_image, $path);
 				$params['trailler_image'] = $path;
 			}
+	        $background_img = isset($_FILES['background_img']) ? $_FILES['background_img'] : null;
+	        if ($background_img != null && $background_img['error'] == 0) {
+		        $path = $this->file_model->createFileName($background_img, 'media/films/', 'background');
+		        $this->file_model->saveFile($background_img, $path);
+		        $params['background_img'] = $path;
+	        }
 
             $this->product_model->update($params, $product_id);
             
