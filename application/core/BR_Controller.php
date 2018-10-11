@@ -266,12 +266,12 @@ class BR_Controller extends REST_Controller {
 
 		$this->load->model('product_model');
 		if ($this->user_id == $user_id || $configs['picks_enabled'] == 1) {
-			$profile['your_picks'] = $this->user_model->getUserPicks($user_id);
+			$profile['your_picks'] = $this->user_model->getUserPicks($user_id, $this->user_id == $user_id);
 		} else {
 			$profile['your_picks'] = [];
 		}
 		if ($this->user_id == $user_id || $configs['continue_enabled'] == 1) {
-			$continue_watching = $this->user_model->getListContinue($user_id);
+			$continue_watching = $this->user_model->getListContinue($user_id, -1, $this->user_id == $user_id);
 
 			if (is_array($continue_watching)) {
 				foreach ($continue_watching as &$cwItem) {
@@ -287,12 +287,12 @@ class BR_Controller extends REST_Controller {
 			$profile['continue_watching'] = [];
 		}
 		if ($this->user_id == $user_id || $configs['watch_enabled'] == 1) {
-			$profile['watch_list'] =  $this->user_model->getListWatching($user_id);
+			$profile['watch_list'] =  $this->user_model->getListWatching($user_id, -1, $this->user_id == $user_id);
 		} else {
 			$profile['watch_list'] = [];
 		}
 		if ($this->user_id == $user_id || $configs['thumbs_up_enabled'] == 1) {
-			$profile['thumbs_up'] =  $this->user_model->getListWatching($user_id);
+			$profile['thumbs_up'] =  $this->user_model->getThumbUpList($user_id, -1, $this->user_id == $user_id);
 		} else {
 			$profile['thumbs_up'] = [];
 		}

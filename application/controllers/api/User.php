@@ -726,4 +726,27 @@ class User extends BR_Controller {
 		}
 		$this->create_success();
 	}
+
+	public function hidden_post() {
+		$list_type = $this->post('list_type');
+		$id = $this->post('id');
+		$is_hidden = $this->post('is_hidden');
+
+		if ($list_type == 1) {
+			// your_picks
+			$this->user_model->hiddenYourPick($id, $is_hidden);
+
+		} else if ($list_type == 2) {
+			// continue_watching
+			$this->user_model->hiddenContinueWatching($id, $is_hidden);
+		} else if ($list_type == 3) {
+			// watch_list
+			$this->user_model->hiddenWatchList($id, $is_hidden);
+		} else if ($list_type == 4) {
+			// thumbs_up
+			$this->user_model->hiddenThumbsUp($id, $is_hidden);
+		}
+
+		$this->create_success();
+	}
 }

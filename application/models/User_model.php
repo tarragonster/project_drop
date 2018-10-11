@@ -92,41 +92,12 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getListWatching($user_id, $page = -1) {
-		$this->db->select('w.id, w.user_id, p.*');
-		$this->db->from('watch_list w');
-		$this->db->join('product_view p', 'p.product_id = w.product_id');
-		$this->db->where('w.user_id', $user_id);
-		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
-		}
-		$this->db->order_by('w.id', 'desc');
-		$query = $this->db->get();
-		return $query->result_array();
-	}
-
 	public function checkInWatchList($product_id, $user_id) {
 		$this->db->where('product_id', $product_id);
 		$this->db->where('user_id', $user_id);
 		$query = $this->db->get('watch_list');
 
 		return $query->first_row('array');
-	}
-
-	public function getListContinue($user_id, $page = -1) {
-		$this->db->select('w.user_id, p.*, w.start_time, w.episode_id');
-		$this->db->from('user_watch w');
-		$this->db->join('product p', 'p.product_id = w.product_id');
-		$this->db->where('w.user_id', $user_id);
-		$this->db->where('w.episode_id !=', 0);
-		$this->db->where("w.start_time != 'nan'");
-		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
-		}
-		$this->db->group_by('w.product_id');
-		$this->db->order_by('w.id', 'desc');
-		$query = $this->db->get();
-		return $query->result_array();
 	}
 
 	public function addWatch($params) {
@@ -224,21 +195,6 @@ class User_model extends BaseModel {
 	public function removeLike($id) {
 		$this->db->where('id', $id);
 		$this->db->update('episode_like', array('status' => 0));
-	}
-
-	public function getThumbUpList($user_id, $page = -1) {
-		$this->db->select('e.*, el.id, e.status as episode_status');
-		$this->db->from('episode_like el');
-		$this->db->join('episode e', 'e.episode_id = el.episode_id');
-		$this->db->join('season s', 'e.season_id = s.season_id');
-		$this->db->join('product p', 's.product_id = p.product_id');
-		$this->db->where('el.user_id', $user_id);
-		$this->db->where('el.status', 1);
-		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
-		}
-		$query = $this->db->get();
-		return $query->result_array();
 	}
 
 	public function deleteLike($episode_id, $user_id) {
@@ -448,15 +404,6 @@ class User_model extends BaseModel {
 		return $this->db->get('user_picks')->first_row('array');
 	}
 
-	public function getUserPicks($user_id) {
-		$this->db->select('p.*, up.pick_id, up.quote');
-		$this->db->from('user_picks up');
-		$this->db->where('up.user_id', $user_id);
-		$this->db->group_by('up.pick_id');
-		$this->db->join('product_view p', 'p.product_id = up.product_id');
-		return $this->db->get()->result_array();
-	}
-
 	public function getPick($pick_id) {
 		$this->db->select('p.*, up.user_id, up.pick_id, up.quote');
 		$this->db->from('user_picks up');
@@ -636,5 +583,90 @@ class User_model extends BaseModel {
 		$this->db->where('uf.follower_id is null');
 		$query = $this->db->get();
 		return $query->result_array();
+	}
+
+	public function getUserPicks($user_id, $isMe = true) {
+		$this->db->select('up.pick_id as id, up.pick_id, p.*, up.quote, up.is_hidden');
+		$this->db->from('user_picks up');
+		$this->db->where('up.user_id', $user_id);
+		if (!$isMe) {
+			$this->db->where('up.is_hidden', 0);
+		}
+		$this->db->group_by('up.pick_id');
+		$this->db->join('product_view p', 'p.product_id = up.product_id');
+		return $this->db->get()->result_array();
+	}
+
+	public function getListContinue($user_id, $page = -1, $isMe = true) {
+		$this->db->select('w.id, w.user_id, p.*, w.start_time, w.episode_id, w.is_hidden');
+		$this->db->from('user_watch w');
+		$this->db->join('product p', 'p.product_id = w.product_id');
+		$this->db->where('w.user_id', $user_id);
+		$this->db->where('w.episode_id !=', 0);
+		$this->db->where("w.start_time != 'nan'");
+		if (!$isMe) {
+			$this->db->where("w.is_hidden", 0);
+		}
+		if ($page >= 0) {
+			$this->db->limit(10, 10 * $page);
+		}
+		$this->db->order_by('w.id', 'desc');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getListWatching($user_id, $page = -1, $isMe = true) {
+		$this->db->select('w.id, w.user_id, p.*, w.is_hidden');
+		$this->db->from('watch_list w');
+		$this->db->join('product_view p', 'p.product_id = w.product_id');
+		$this->db->where('w.user_id', $user_id);
+		if (!$isMe) {
+			$this->db->where('w.is_hidden', 0);
+		}
+		if ($page >= 0) {
+			$this->db->limit(10, 10 * $page);
+		}
+		$this->db->order_by('w.id', 'desc');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getThumbUpList($user_id, $page = -1, $isMe) {
+		$this->db->select('el.id, e.*, e.status as episode_status, el.is_hidden');
+		$this->db->from('episode_like el');
+		$this->db->join('episode e', 'e.episode_id = el.episode_id');
+		$this->db->join('season s', 'e.season_id = s.season_id');
+		$this->db->join('product p', 's.product_id = p.product_id');
+		$this->db->where('el.user_id', $user_id);
+		$this->db->where('el.status', 1);
+		if (!$isMe) {
+			$this->db->where('el.is_hidden', 0);
+		}
+		if ($page >= 0) {
+			$this->db->limit(10, 10 * $page);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+
+	public function hiddenYourPick($pick_id, $is_hidden) {
+		$this->db->where('pick_id', $pick_id);
+		$this->db->update('user_picks', ['is_hidden' => $is_hidden]);
+	}
+
+	public function hiddenContinueWatching($id, $is_hidden) {
+		$this->db->where('id', $id);
+		$this->db->update('user_watch', ['is_hidden' => $is_hidden]);
+	}
+
+	public function hiddenWatchList($id, $is_hidden) {
+		$this->db->where('id', $id);
+		$this->db->update('watch_list', ['is_hidden' => $is_hidden]);
+	}
+
+	public function hiddenThumbsUp($id, $is_hidden) {
+		$this->db->where('id', $id);
+		$this->db->update('episode_like', ['is_hidden' => $is_hidden]);
 	}
 }
