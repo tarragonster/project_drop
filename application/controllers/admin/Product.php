@@ -323,7 +323,7 @@ class Product extends Base_Controller {
 		} else {
 			$this->session->set_flashdata('msg', 'Delete success!');
             $this->load->model('collection_model');
-            $products = $this->collection_model->getProductCollection($product_id);
+            $products = $this->collection_model->getCollectionProducts($product_id);
             if(count($products)){
                 foreach ($products as $key => $product) {
                     $this->collection_model->removeFilm($product['collection_id'], $product['product_id'], $product['priority']);

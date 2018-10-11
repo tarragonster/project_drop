@@ -56,6 +56,9 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 										echo '</div></td>'; ?>
 										<td>
 											<div class='button-list'>
+												<a href='<?php echo base_url('admin/collection/editPromo/' . $row['id']) ?>'>
+													<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
+												</a>
 												<a href='<?php echo base_url('admin/collection/removeFilm/' . $collection_id . '/' . $row['product_id'] . '/' . $row['priority_collection']) ?>'>
 													<button class='btn btn-danger btn-custom btn-xs'>Remove</button>
 												</a>

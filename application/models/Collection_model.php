@@ -69,7 +69,7 @@ class Collection_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row()->priority : 0;
 	}
 
-	public function getProductCollection($product_id) {
+	public function getCollectionProducts($product_id) {
 		$this->db->where('product_id', $product_id);
 		$query = $this->db->get('collection_product');
 		return $query->result_array();
@@ -88,4 +88,18 @@ class Collection_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row()->priority : 0;
 	}
 
+	public function getProductCollection($id) {
+		$this->db->from('collection_product cp');
+		$this->db->join('product p', 'p.product_id = cp.product_id');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		return $query->first_row('array');
+	}
+
+
+	public function updateFilm($params, $id) {
+		$this->db->where('id', $id);
+		$rows = $this->db->update('collection_product', $params);
+		return $rows;
+	}
 }

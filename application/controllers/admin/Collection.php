@@ -130,6 +130,45 @@ class Collection extends Base_Controller {
 		redirect('admin/collection');
 	}
 
+	public function editPromo($id) {
+		$product = $this->collection_model->getProductCollection($id);
+		if ($product == null) {
+			redirect('admin/collection');
+		}
+		$collection_id = $product['collection_id'];
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			$product_id = $this->input->post('product_id') * 1;
+
+			$this->load->model("product_model");
+			$product = $this->product_model->getProductForAdmin($product_id);
+			if ($product == null) {
+				redirect('admin/collection');
+			}
+
+			$params = ['product_id' => $product_id];
+			$promoImage = isset($_FILES['promo_image']) ? $_FILES['promo_image'] : null;
+			if ($promoImage != null && $promoImage['error'] == 0) {
+				$this->load->model('file_model');
+				$path = $this->file_model->createFileName($promoImage, 'media/feeds/', 'collection');
+				$this->file_model->saveFile($promoImage, $path);
+				$params['promo_image'] = $path;
+			}
+			$this->collection_model->updateFilm($params, $id);
+			redirect('admin/collection/films/' . $collection_id);
+		}
+
+		$content = $this->load->view('admin/collection_product_edit', $product, true);
+		$data = array();
+		$data['parent_id'] = 4;
+		$data['sub_id'] = 41;
+		$data['account'] = $this->account;
+		$data['content'] = $content;
+
+		$data['customCss'] = array('assets/css/jquery-ui.css', 'assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');
+		$data['customJs'] = array('assets/js/jquery-ui.js', 'assets/app/feed_autocomplete.js');
+		$this->load->view('admin_main_layout', $data);
+	}
+
 	public function removeFilm($collection_id, $product_id, $priority) {
 		$collection = $this->collection_model->getCollectionById($collection_id);
 		if ($collection == null) {
