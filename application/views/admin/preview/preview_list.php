@@ -38,7 +38,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 								foreach ($products as $row): ?>
 									<tr>
 										<td align="center"><?= $row['product_id']; ?></td>
-										<td><img style="max-width: 70px; max-height: 70px" src="<?= media_url($row['image']); ?>"/></td>
+										<td><img style="max-width: 70px; max-height: 70px" src="<?= media_url($row['promo_image']); ?>"/></td>
 										<td><?= $row['name'] ?></td>
 										<td><?= $row['publish_year']; ?></td>
 										<?php
@@ -57,6 +57,9 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 										echo '</div></td>'; ?>
 										<td>
 											<div class='button-list'>
+												<a href='<?= base_url('admin/preview/editFilm/' . $row['id']) ?>'>
+													<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
+												</a>
 												<a href='<?= base_url('admin/preview/removeFilm/' . $row['product_id']) ?>'>
 													<button class='btn btn-danger btn-custom btn-xs'>Remove</button>
 												</a>
@@ -72,6 +75,50 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 			</div>
 		</div>
 		<div id="add" class="tab-pane fade in<?= $active == 'add' ? ' active' : '' ?>">
+			<div class="row">
+				<div class="col-md-6">
+					<?php
+					if ($this->session->flashdata('alert')) {
+						echo '<div class="row"><div class="col-xs-12 alert alert-success">';
+						echo $this->session->flashdata('alert');
+						echo '</div></div>';
+					}
+					if ($this->session->flashdata('error')) {
+						echo '<div class="col-xs-12"><div class="alert alert-danger">';
+						echo $this->session->flashdata('error');
+						echo '</div></div>';
+					}
+					?>
+					<form method='POST' enctype="multipart/form-data" action="<?= base_url('admin/preview/addFilm') ?>">
+						<div class="form-group" id='block_product'>
+							<label>Film</label>p
+							<input id='select_product' class='form-control' type="text" placeholder='Film Name' required
+							       data-href='<?php echo base_url('admin/preview/ajaxProduct?q=') ?>'
+							       data-linked-id='product_id'/>
+							<input type="hidden" id='product_id' name='product_id' class='form-control'/>
+						</div>
+						<div class="form-group m-b-30">
+							<label>Promo Image</label>
+							<div class="row">
+								<div class="col-md-4">
+									<img id='image' width='120' height='120' style='border: 4px solid #c6c6c6; border-radius: 4px'/>
+								</div>
+								<div class="col-md-8">
+									<img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png') ?>">
+									<div class="uploader" onclick="$('#imagePhoto').click()">
+										<input type="file" accept="image/*" name="promo_image" id="imagePhoto" required/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary" name='cmd' value='Add'>Add</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="tab-pane fade">
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box-body table-responsive">

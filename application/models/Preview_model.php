@@ -11,7 +11,7 @@ class Preview_model extends BaseModel {
 	}
 
 	public function getListProducts($page = -1) {
-		$this->db->select('p.*, ep.priority as priority_preview, ep.id');
+		$this->db->select('p.*, ep.priority as priority_preview, ep.promo_image, ep.id');
 		$this->db->from('explore_previews ep');
 		$this->db->join('product_view p', 'p.product_id = ep.product_id');
 		$this->db->where('p.status', 1);
@@ -30,17 +30,17 @@ class Preview_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row()->priority : 0;
 	}
 
-	public function getProductOthers() {
-		$sql = "SELECT * FROM product_view WHERE status = 1 AND product_id NOT IN (SELECT product_id FROM explore_previews  GROUP BY product_id) ORDER BY name";
+	public function getProductOthers($q = null) {
+		$sql = "SELECT product_id, name FROM product_view WHERE status = 1 " . (empty($q) ? '' : 'AND name like "%' . $q . '%" ') . "AND product_id NOT IN (SELECT product_id FROM explore_previews  GROUP BY product_id) ORDER BY name limit 15";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 
-
-	public function addFilm($product_id) {
+	public function addFilm($product_id, $promo_image) {
 		if ($this->getFilm($product_id) == null) {
 			$this->db->insert('explore_previews', [
 				'product_id' => $product_id,
+				'promo_image' => $promo_image,
 				'priority' => $this->getMaxFilm() + 1,
 				'status' => 1,
 			]);
@@ -48,7 +48,6 @@ class Preview_model extends BaseModel {
 		}
 		return -1;
 	}
-
 
 	public function getFilm($product_id) {
 		$this->db->where('product_id', $product_id);
@@ -84,6 +83,14 @@ class Preview_model extends BaseModel {
 			$this->db->update('explore_previews');
 			$this->db->trans_complete();
 		}
+	}
+
+	public function getProductPreview($id) {
+		$this->db->from('explore_previews ep');
+		$this->db->join('product p', 'p.product_id = ep.product_id');
+		$this->db->where('id', $id);
+		$query = $this->db->get();
+		return $query->first_row('array');
 	}
 
 	public function downFilm($product_id) {

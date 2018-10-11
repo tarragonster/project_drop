@@ -261,7 +261,7 @@ class Product_model extends BaseModel {
 	}
 
 	public function getExplorePreviews() {
-		$this->db->select('p.*');
+		$this->db->select('p.*, ep.id, ep.promo_image');
 		$this->db->from('explore_previews ep');
 		$this->db->join('product_view p', 'p.product_id = ep.product_id');
 		$this->db->where('p.status', 1);
