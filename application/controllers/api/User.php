@@ -437,7 +437,7 @@ class User extends BR_Controller {
 		$email = $this->c_getEmail('email');
 		$user_name = $this->c_getNotNull('user_name');
 		$full_name = $this->c_getNotNull('full_name');
-		$birthday = $this->c_getDate('birthday');
+		$birthday = $this->c_getDate('birthday', false);
 		$bio = $this->c_getNotNull('bio');
 
 		$user = $this->user_model->getByEmail($email);

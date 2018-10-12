@@ -36,7 +36,7 @@ class News_model extends BaseModel {
 	}
 
 	public function getUserForNotify($user_id) {
-		$this->db->select('user_name, avatar, full_name');
+		$this->db->select('user_name, avatar, full_name, email');
 		$this->db->where('user_id', $user_id);
 		$query = $this->db->get('user');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
