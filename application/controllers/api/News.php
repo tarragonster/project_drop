@@ -18,13 +18,19 @@ class News extends BR_Controller {
 		$items = $this->news_model->getNewForFollowing($this->user_id);
 		if (is_array($items) && count($items) > 0) {
 			foreach ($items as $item) {
-				array_push($following, $this->fillData($item, 1));
+				$filledItem = $this->fillData($item, 1);
+				if ($filledItem != null) {
+					array_push($following, $filledItem);
+				}
 			}
 		}
 		$items = $this->news_model->getNewForYou($this->user_id);
 		if (is_array($items) && count($items) > 0) {
 			foreach ($items as $item) {
-				array_push($you, $this->fillData($item, 2));
+				$filledItem = $this->fillData($item, 2);
+				if ($filledItem != null) {
+					array_push($you, $filledItem);
+				}
 			}
 		}
 		$news['following'] = $following;
