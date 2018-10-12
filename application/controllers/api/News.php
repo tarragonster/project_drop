@@ -74,6 +74,8 @@ class News extends BR_Controller {
 				$notify['avatar'] = $user['avatar'];
 				$notify['user_name'] = empty($user['user_name']) ? $user['full_name'] : $user['user_name'];
 				$notify['has_followed'] = $this->user_model->checkFollower($this->user_id, $notify['data']['user_id']) ? '1' : '0';
+			} else {
+				return null;
 			}
 			if (isset($notify['data']['uid_comment'])) {
 				if ($notify['data']['uid_comment'] == $notify['data']['user_id']) {
@@ -132,6 +134,8 @@ class News extends BR_Controller {
 					$item['content'] .= $replies['content'];
 				}
 			}
+		} else {
+			return null;
 		}
 		$notify['content'] = $item['content'];
 		$notify['timestamp'] = $item['timestamp'];
