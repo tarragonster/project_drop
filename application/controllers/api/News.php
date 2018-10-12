@@ -71,6 +71,9 @@ class News extends BR_Controller {
 		if ($notify['data'] != null) {
 			if (isset($notify['data']['user_id'])) {
 				$user = $this->news_model->getUserForNotify($notify['data']['user_id']);
+				if ($user == null) {
+					return null;
+				}
 				$notify['avatar'] = $user['avatar'];
 				$notify['user_name'] = empty($user['user_name']) ? $user['full_name'] : $user['user_name'];
 				$notify['has_followed'] = $this->user_model->checkFollower($this->user_id, $notify['data']['user_id']) ? '1' : '0';
