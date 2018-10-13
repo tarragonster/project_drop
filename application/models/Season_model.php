@@ -58,6 +58,15 @@ class Season_model extends BaseModel {
 		return $query->result_array('array');
 	}
 
+	public function getEpisodeContinue($user_id, $episode_id) {
+		$this->db->select('*');
+		$this->db->from('user_watch');
+		$this->db->where('user_id', $user_id);
+		$this->db->where('episode_id', $episode_id);
+		$query = $this->db->get();
+		return $query->first_row('array');
+	}
+
 	public function getNumEpisode($season_id) {
 		$this->db->from('episode');
 		$this->db->where('season_id', $season_id);
