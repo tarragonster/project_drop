@@ -62,7 +62,6 @@ class Comment_model extends BaseModel {
 	}
 
 	public function checkRepliesById($replies_id) {
-		$this->db->select('r.replies_id, r.comment_id');
 		$this->db->from('episode_replies r');
 		$this->db->where('r.replies_id', $replies_id);
 		$query = $this->db->get();
