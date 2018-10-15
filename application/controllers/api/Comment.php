@@ -208,6 +208,10 @@ class Comment extends BR_Controller {
 				$this->create_error(-1000);
 			}
 			$replies = $this->comment_model->checkRepliesById($replies_id);
+
+			if ($replies == null) {
+				$this->create_error(-84);
+			}
 			$comment = $this->comment_model->checkComment($replies['comment_id']);
 
 			$hasLikeReply = $this->comment_model->checkLikeReplies($this->user_id, $replies_id);

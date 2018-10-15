@@ -161,6 +161,7 @@ class BR_Controller extends REST_Controller {
 		-81 => 'Sorry, the social id is already linked to an existing account',
 		-82 => 'Sorry, can not connect to Facebook API or Your token is invalid',
 		-83 => 'Access token has expired',
+		-84 => 'Not found reply',
 		-1000 => 'Undefined error',
 		-1001 => 'Api key invalid',
 		-1002 => 'Your account have been deactivated!',
