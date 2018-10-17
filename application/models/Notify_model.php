@@ -29,13 +29,8 @@ class Notify_model extends CI_Model {
 
 	public function createNotify($user_id, $type, $data = null, $sound = 'default', $sendPush = true) {
 		$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
-		if ($type == 55) {
-			//only send in-app notification when added new user
-			$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
-		} else {
-			$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
-			$this->sendNotification($user_id, $type, $alert, $data, $sound, $sendPush);
-		}
+		$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
+		$this->sendNotification($user_id, $type, $alert, $data, $sound, $sendPush);
 	}
 
 	public function createNotifyToFollower($user_id, $type, $data = null, $sound = 'default', $sendPush = true) {
