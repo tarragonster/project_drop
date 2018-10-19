@@ -54,19 +54,15 @@ class User_model extends BaseModel {
 		return $user;
 	}
 
-	public function searchUser($user_name, $user_id = -1) {
-//		$this->db->select('user_id, user_name, avatar, full_name');
-//		if ($user_id != -1) {
-//			$this->db->where('user_id !=', $user_id);
-//		}
-//		$this->db->where('status', 1);
-//		$this->db->like('user_name', $user_name);
-//		$query = $this->db->get($this->table);
+	public function searchUser($user_name, $user_id = -1, $user_type = -1) {
 		$this->db->from('user u');
 		$this->db->join('user_follow uf', 'uf.follower_id = u.user_id', 'left');
 		$this->db->select('u.user_id, user_name, avatar, full_name, count(if(uf.user_id is not null, 1, 0)) as followers');
 		if ($user_id != -1) {
 			$this->db->where('u.user_id !=', $user_id);
+		}
+		if ($user_type != -1) {
+			$this->db->where('u.user_type', $user_type);
 		}
 		$this->db->where('u.status', 1);
 		$this->db->group_by('u.user_id');
@@ -77,12 +73,15 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getUsers($user_id = -1) {
+	public function getUsers($user_id = -1, $user_type = -1) {
 		$this->db->from('user u');
 		$this->db->join('user_follow uf', 'uf.follower_id = u.user_id', 'left');
-		$this->db->select('u.user_id, user_name, avatar, full_name, count(if(uf.user_id is not null, 1, 0)) as followers');
+		$this->db->select('u.user_id, user_name, user_type, avatar, full_name, count(if(uf.user_id is not null, 1, 0)) as followers');
 		if ($user_id != -1) {
 			$this->db->where('u.user_id !=', $user_id);
+		}
+		if ($user_type != -1) {
+			$this->db->where('u.user_type', $user_type);
 		}
 		$this->db->where('u.status', 1);
 		$this->db->group_by('u.user_id');

@@ -693,6 +693,16 @@ class User extends BR_Controller {
 		$this->create_success(['pick' => $this->user_model->getPick($pick_id)]);
 	}
 
+	public function removePick_post() {
+		$pick_id = $this->c_getNotNull('pick_id');
+		$pick = $this->user_model->getPick($pick_id);
+		if ($pick == null) {
+			$this->create_error(-1005);
+		}
+		$this->user_model->removePick($pick['pick_id']);
+		$this->create_success();
+	}
+
 	public function updateConfigs_post() {
 		$params = [];
 		$configs = $this->input->post();
