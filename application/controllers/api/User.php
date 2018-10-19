@@ -298,7 +298,7 @@ class User extends BR_Controller {
 					$this->episode_model->updateWatchEpisode(array('episode_id' => $episode_id, 'start_time' => $time, 'update_time' => time()), $watch['id']);
 					$this->load->model('notify_model');
 					if ($this->post('start_play') == 1) {
-						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id), 'default', false);
+						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', false);
 					}
 				}
 			} else {
@@ -308,7 +308,7 @@ class User extends BR_Controller {
 					$this->episode_model->addWatchEpisode(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id, 'start_time' => $time, 'update_time' => time()));
 					$this->load->model('notify_model');
 					if ($this->post('start_play') == 1) {
-						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id), 'default', false);
+						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', false);
 					}
 				}
 			}
