@@ -102,7 +102,8 @@ class News extends BR_Controller {
 				$notify['product_name'] = '';
 				if (isset($notify['data']['product_id'])) {
 					$product = $this->news_model->getProductForNotify($notify['data']['product_id']);
-					$notify['product_name'] = $product['name'];
+					$notify['product_name'] = $product != null ? $product['name'] : '';
+					$notify['product_image'] = $product != null ? $product['image'] : '';
 				}
 				if (isset($notify['data']['episode_id'])) {
 					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
@@ -124,10 +125,11 @@ class News extends BR_Controller {
 				}
 				if (isset($notify['data']['product_id'])) {
 					$product = $this->news_model->getProductForNotify($notify['data']['product_id']);
+					$notify['product_image'] = $product != null ? $product['image'] : '';
 					if ($notify['type'] == 54) {
-						$item['content'] = $item['content'] . ' ' . $product['name'] .': ';
+						$item['content'] = $item['content'] . ' ' . ($product != null ? $product['name'] : '') . ': ';
 					} else {
-						$notify['product_name'] = $product['name'];
+						$notify['product_name'] = ($product != null ? $product['name'] : '');
 					}
 				}
 				if (isset($notify['data']['replies_id'])) {
