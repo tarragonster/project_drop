@@ -47,10 +47,6 @@ class Product_model extends BaseModel {
 
 	public function deleteProduct($product_id) {
 		$this->db->trans_start();
-		$this->db->where($this->id_name, $product_id);
-		$this->db->delete($this->table);
-		$this->db->where($this->id_name, $product_id);
-		$this->db->delete('film_cast');
 
 		$this->db->select('season_id');
 		$this->db->from('season');
@@ -68,6 +64,17 @@ class Product_model extends BaseModel {
 		$this->db->where('data LIKE \'%"product_id":"' . $product_id . '"%\'');
 		$this->db->delete('user_notify');
 
+		$this->db->where('product_id', $product_id);
+		$this->db->delete('explore_previews');
+
+		$this->db->where('product_id', $product_id);
+		$this->db->delete('collection_product');
+
+		$this->db->where('product_id', $product_id);
+		$this->db->delete('film_cast');
+
+		$this->db->where($this->id_name, $product_id);
+		$this->db->delete($this->table);
 		$this->db->trans_complete();
 	}
 

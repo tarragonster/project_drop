@@ -143,4 +143,9 @@ class News extends BR_Controller {
 		$notify['status'] = $item['status'];
 		return $notify;
 	}
+
+	function testNews_get($user_id = 47) {
+		$this->db->like('data', '"user_id":'.$user_id, 'both');
+		$this->db->delete('user_notify');
+	}
 }

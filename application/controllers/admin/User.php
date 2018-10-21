@@ -146,6 +146,9 @@ class User extends Base_Controller {
 
 			$this->db->where('user_id', $user_id);
 			$this->db->delete('user');
+
+			$this->db->like('data', '"user_id":'.$user_id, 'both');
+			$this->db->delete('user_notify');
 		}
 		$this->redirect('admin/user');
 	}
