@@ -254,6 +254,7 @@ class Product_model extends BaseModel {
 		$this->db->join('product p', 'p.product_id = w.product_id');
 		$this->db->where('w.user_id =', $user_id);
 		$this->db->where('w.start_time >=', 0);
+		$this->db->where('p.status', 1);
 		$this->db->order_by('update_time', 'desc');
 		$this->db->order_by('w.id', 'desc');
 		$query = $this->db->get();
