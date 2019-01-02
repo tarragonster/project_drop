@@ -166,7 +166,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 									<td>
 										<div class='button-list'>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-											        data-href="<?php echo redirect_url('admin/user/removeLike/' . $row['id'], ['active' => 'thumb-up']) ?>">
+											        data-href="<?php echo redirect_url('admin/user/removeProductLike/' . $row['id'], ['active' => 'thumb-up']) ?>">
 												Remove
 											</button>
 										</div>
