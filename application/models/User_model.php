@@ -635,7 +635,7 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getThumbUpList($user_id, $page = -1, $isMe) {
+	public function getThumbUpList($user_id, $page = -1, $isMe = true) {
 		$this->db->select('el.id, e.*, e.status as episode_status, el.is_hidden');
 		$this->db->from('episode_like el');
 		$this->db->join('episode e', 'e.episode_id = el.episode_id');
