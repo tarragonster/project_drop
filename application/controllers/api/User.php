@@ -754,7 +754,7 @@ class User extends BR_Controller {
 			$this->user_model->hiddenWatchList($id, $is_hidden);
 		} else if ($list_type == 4) {
 			// thumbs_up
-			$this->user_model->hiddenThumbsUp($id, $is_hidden);
+			$this->user_model->hiddenProductThumbsUp($id, $is_hidden);
 		}
 
 		$this->create_success();

@@ -293,7 +293,7 @@ class BR_Controller extends REST_Controller {
 			$profile['watch_list'] = [];
 		}
 		if ($this->user_id == $user_id || $configs['thumbs_up_enabled'] == 1) {
-			$profile['thumbs_up'] =  $this->user_model->getThumbUpList($user_id, -1, $this->user_id == $user_id);
+			$profile['thumbs_up'] =  $this->user_model->getProductThumbUpList($user_id, -1, $this->user_id == $user_id);
 		} else {
 			$profile['thumbs_up'] = [];
 		}

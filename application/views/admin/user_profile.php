@@ -159,10 +159,10 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 						if ($thumbs_up != null && count($thumbs_up) > 0) {
 							foreach ($thumbs_up as $row): ?>
 								<tr>
-									<td align="center"><?php echo $row['episode_id']; ?></td>
+									<td align="center"><?php echo $row['product_id']; ?></td>
 									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
 									<td><?php echo $row['name'] ?></td>
-									<td><?php echo($row['episode_status'] == 1 ? 'Enable' : ($row['episode_status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
+									<td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
 									<td>
 										<div class='button-list'>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"

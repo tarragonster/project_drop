@@ -221,7 +221,7 @@ class User extends Base_Controller {
 		];
 		$layoutParams['your_picks'] = $this->user_model->getUserPicks($user_id, -1);
 		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
-		$layoutParams['thumbs_up'] = $this->user_model->getThumbUpList($user_id, -1);
+		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
 
 		$data = array();
 		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css');
@@ -294,6 +294,11 @@ class User extends Base_Controller {
 			$this->redirect();
 		}
 		$this->user_model->removeLike($id);
+		$this->redirect();
+	}
+
+	public function removeProductLike($id) {
+		$this->user_model->removeProductLike($id);
 		$this->redirect();
 	}
 

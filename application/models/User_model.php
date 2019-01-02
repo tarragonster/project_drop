@@ -196,6 +196,11 @@ class User_model extends BaseModel {
 		$this->db->update('episode_like', array('status' => 0));
 	}
 
+	public function removeProductLike($id) {
+		$this->db->where('id', $id);
+		$this->db->delete('product_likes');
+	}
+
 	public function deleteLike($episode_id, $user_id) {
 		$this->db->where('episode_id', $episode_id);
 		$this->db->where('user_id', $user_id);
@@ -648,6 +653,21 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function getProductThumbUpList($user_id, $page = -1, $isMe) {
+		$this->db->select('pl.id, pl.user_id, p.*, pl.is_hidden');
+		$this->db->from('product_like pl');
+		$this->db->join('product_view p', 'pl.product_id = p.product_id');
+		$this->db->where('pl.user_id', $user_id);
+		if (!$isMe) {
+			$this->db->where('pl.is_hidden', 0);
+		}
+		if ($page >= 0) {
+			$this->db->limit(10, 10 * $page);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 
 	public function hiddenYourPick($pick_id, $is_hidden) {
 		$this->db->where('pick_id', $pick_id);
@@ -667,5 +687,10 @@ class User_model extends BaseModel {
 	public function hiddenThumbsUp($id, $is_hidden) {
 		$this->db->where('id', $id);
 		$this->db->update('episode_like', ['is_hidden' => $is_hidden]);
+	}
+
+	public function hiddenProductThumbsUp($id, $is_hidden) {
+		$this->db->where('id', $id);
+		$this->db->update('product_likes', ['is_hidden' => $is_hidden]);
 	}
 }
