@@ -653,7 +653,7 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getProductThumbUpList($user_id, $page = -1, $isMe) {
+	public function getProductThumbUpList($user_id, $page = -1, $isMe = true) {
 		$this->db->select('pl.id, pl.user_id, p.*, pl.is_hidden');
 		$this->db->from('product_like pl');
 		$this->db->join('product_view p', 'pl.product_id = p.product_id');
