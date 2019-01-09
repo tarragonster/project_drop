@@ -12,6 +12,7 @@ class Search extends BR_Controller {
 	}
 
 	public function get_get($type, $key = '') {
+		$key = urldecode($key);
 		if ($type == 1) {
 			$products = $this->product_model->getProductByName($key);
 			$this->create_success(array('products' => $products));
