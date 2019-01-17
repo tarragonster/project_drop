@@ -31,7 +31,7 @@ class Discover extends BR_Controller {
 		foreach ($explore_previews as $key => $product) {
 			$explore_previews[$key]['number_like'] = $this->product_model->countProductLikes($product['product_id']);
 			$explore_previews[$key]['num_watching'] = $this->product_model->countUserWatching($product['product_id']);
-			$explore_previews[$key]['watchlist_added'] = $this->user_model->checkWatchList($this->user_id, $product['product_id']);
+			$explore_previews[$key]['watchlist_added'] = $this->user_model->checkWatchList($this->user_id, $product['product_id']) ? '1' : '0';
 		}
 		$response['explore_previews'] = $explore_previews;
 		$this->create_success($response, 'Successfully');
