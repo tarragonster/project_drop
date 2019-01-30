@@ -94,7 +94,7 @@
                 </div>
                 <div class="col-md-12">
                     <label>Trailler Video</label>
-                    <input name="trailler_url" class="form-control" type="file" accept="video/*" onchange="setFileInfo(this.files)"/>
+                    <input name="trailler_url" class="form-control" type="file" accept="video/mp4,video/x-m4v,video/*" onchange="setFileInfo(this.files)"/>
                     <div id="infos" style="margin-top: 8px;"></div>
                     <input id="duration" name="duration" style='opacity: 0; z-index: -1000'/>
                 </div>

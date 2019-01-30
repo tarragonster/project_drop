@@ -199,7 +199,7 @@
 <script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.js'); ?>"></script>
 <script src="<?php echo base_url('assets/plugins/peity/jquery.peity.min.js'); ?>"></script>
 
-<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 
 <script src="<?php echo base_url('assets/js/jquery.core.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.app.js'); ?>"></script>
