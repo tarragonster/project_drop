@@ -43,7 +43,7 @@ class User extends BR_Controller {
 	 *     tags={"Authorization"},
 	 *     produces={"application/json"},
 	 *     @SWG\Parameter(
-	 *         description="User email or user_id",
+	 *         description="User email",
 	 *         in="formData",
 	 *         name="email",
 	 *         required=true,
@@ -816,9 +816,9 @@ class User extends BR_Controller {
 	/**
 	 * @SWG\Post(
 	 *     path="/user/subscription",
-	 *     summary="Login via email",
+	 *     summary="Create a subscription",
 	 *     operationId="subscription",
-	 *     tags={"Authorization"},
+	 *     tags={"Subscription"},
 	 *     produces={"application/json"},
 	 *     @SWG\Parameter(
 	 *         description="Stripe Token",

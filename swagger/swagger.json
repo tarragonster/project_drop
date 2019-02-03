@@ -25,7 +25,7 @@
                     {
                         "name": "email",
                         "in": "formData",
-                        "description": "User email or user_id",
+                        "description": "User email",
                         "required": true,
                         "type": "string",
                         "default": "email@example.com"
@@ -78,9 +78,9 @@
         "/user/subscription": {
             "post": {
                 "tags": [
-                    "Authorization"
+                    "Subscription"
                 ],
-                "summary": "Login via email",
+                "summary": "Create a subscription",
                 "operationId": "subscription",
                 "produces": [
                     "application/json"
