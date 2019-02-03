@@ -35,6 +35,42 @@ class User extends BR_Controller {
 		$this->create_success(null);
 	}
 
+	/**
+	 * @SWG\Post(
+	 *     path="/user/login",
+	 *     summary="Login via email",
+	 *     operationId="login",
+	 *     tags={"Authorization"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="User email or user_id",
+	 *         in="formData",
+	 *         name="email",
+	 *         required=true,
+	 *         type="string",
+	 *         default="email@example.com"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Password",
+	 *         in="formData",
+	 *         name="password",
+	 *         required=true,
+	 *         type="string",
+	 *         default="123456"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Device ID",
+	 *         in="formData",
+	 *         name="device_id",
+	 *         required=false,
+	 *         type="string",
+	 *     ),
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function login_post() {
 		$time = time();
 		$email = $this->post('email');
@@ -420,6 +456,23 @@ class User extends BR_Controller {
 		$this->create_success(array('likes' => $data));
 	}
 
+
+	/**
+	 * @SWG\Get(
+	 *     path="/user/profile",
+	 *     summary="Get user profile",
+	 *     operationId="profile",
+	 *     tags={"Authorization"},
+	 *     produces={"application/json"},
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function profile_get() {
 		$this->validate_authorization();
 		$profile = $this->__getUserProfile($this->user_id);
@@ -758,5 +811,68 @@ class User extends BR_Controller {
 		}
 
 		$this->create_success();
+	}
+
+	/**
+	 * @SWG\Post(
+	 *     path="/user/subscription",
+	 *     summary="Login via email",
+	 *     operationId="subscription",
+	 *     tags={"Authorization"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Stripe Token",
+	 *         in="formData",
+	 *         name="stripe_token",
+	 *         required=false,
+	 *         type="string",
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function subscription_post() {
+		$this->validate_authorization();
+
+		$user = $this->user_model->get($this->user_id);
+		if ($user == null) {
+			$this->create_error(-9);
+		}
+		if (!empty($user['subscription_id']) && $user['current_period_end'] > time()) {
+			$this->create_error(-100, 'You are in a subscription');
+		}
+		$token = $this->input->post('stripe_token');
+		$this->load->library('stripe_lib');
+		if (!empty($user['stripe_customer'])) {
+			$stripeResponse = $this->stripe_lib->updateCustomerWithToken($user, $token);
+		} else {
+			$stripeResponse = $this->stripe_lib->createCustomerWithToken($user, $token);
+		}
+
+		if ($stripeResponse['success']) {
+			$card = $stripeResponse['data'];
+			$this->user_model->update(['stripe_customer' => $card->customer], $this->user_id);
+		} else {
+			$this->create_error(-100, $stripeResponse['error_message']);
+		}
+		$subscriptionResponse = $this->stripe_lib->createSubscription($card->customer);
+		if (!$subscriptionResponse['success']) {
+			$this->create_error(-100, $stripeResponse['error_message']);
+		}
+		$subscription = $subscriptionResponse['data'];
+		$this->user_model->update([
+			'stripe_customer' => $card->customer,
+			'subscription_id' => $subscription->id,
+			'current_period_start' => $subscription->current_period_start,
+			'current_period_end' => $subscription->current_period_end,
+		], $this->user_id);
+
+		$profile = $this->__getUserProfile($this->user_id);
+		$this->create_success(['profile' => $profile]);
 	}
 }

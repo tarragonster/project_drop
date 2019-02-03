@@ -1,0 +1,124 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Api for SecondScreen App.",
+        "version": "1.0.0"
+    },
+    "host": "sstv.us",
+    "basePath": "/api",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "paths": {
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Login via email",
+                "operationId": "login",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "User email or user_id",
+                        "required": true,
+                        "type": "string",
+                        "default": "email@example.com"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Password",
+                        "required": true,
+                        "type": "string",
+                        "default": "123456"
+                    },
+                    {
+                        "name": "device_id",
+                        "in": "formData",
+                        "description": "Device ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/user/profile": {
+            "get": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Get user profile",
+                "operationId": "profile",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/subscription": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Login via email",
+                "operationId": "subscription",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "stripe_token",
+                        "in": "formData",
+                        "description": "Stripe Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {},
+    "securityDefinitions": {
+        "accessToken": {
+            "type": "apiKey",
+            "name": "Authorization-Data",
+            "in": "header"
+        }
+    },
+    "tags": [
+        {
+            "name": "Authorization",
+            "description": "Authorization for the app"
+        }
+    ]
+}

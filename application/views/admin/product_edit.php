@@ -49,6 +49,19 @@
                         </select>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Paywall Episode</label>
+                        <select  class="form-control" required name='paywall_episode'>
+	                        <option value="">Choose which episode will propmt paywall</option>
+                            <?php
+                                foreach ($episodes as $item) {
+                                    echo "<option value='{$item['episode_id']}'". ($item['episode_id'] == $paywall_episode ? ' selected' : '').">{$item['season_name']} - {$item['name']}</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-md-12 portlets m-b-30">
                     <label>Image</label>
                     <div class="row">
