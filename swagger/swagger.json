@@ -4,11 +4,11 @@
         "title": "Api for SecondScreen App.",
         "version": "1.0.0"
     },
-    "host": "sstv.us",
+    "host": "secondscreentv.us",
     "basePath": "/api",
     "schemes": [
-        "http",
-        "https"
+        "https",
+        "http"
     ],
     "paths": {
         "/user/login": {
