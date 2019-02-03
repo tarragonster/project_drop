@@ -30,6 +30,9 @@ class BR_Controller extends REST_Controller {
 	}
 
 	protected function create_error($code, $message = '') {
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
+		header('Access-Control-Allow-Headers: Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data');
 		if (empty($message)) {
 			$message = $this->getErrorMessage($code);
 		}
@@ -60,6 +63,9 @@ class BR_Controller extends REST_Controller {
 	}
 
 	protected function create_success($data = null, $message = 'Success') {
+		header('Access-Control-Allow-Origin: *');
+		header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
+		header('Access-Control-Allow-Headers: Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data');
 		if ($this->input->get_request_header('Devicetype') == 'Android') {
 			if ($data == null) {
 				$response = array();
