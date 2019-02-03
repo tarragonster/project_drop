@@ -52,7 +52,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Paywall Episode</label>
-                        <select  class="form-control" required name='paywall_episode'>
+                        <select  class="form-control" name='paywall_episode'>
 	                        <option value="">Choose which episode will propmt paywall</option>
                             <?php
                                 foreach ($episodes as $item) {
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="col-md-12 m-b-30">
-                    <label>Trailler Image</label>
+                    <label>Trailer Image</label>
                     <div class="row">
                         <div class="col-md-4">
                             <img id='coverimg' width='120' height='120' src="<?php echo media_url($trailler_image);?>" style='border: 4px solid #c6c6c6; border-radius: 4px'/>
@@ -104,18 +104,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <label>Trailler Video</label>
-                    <p style='text-align: center;'>
-                        <video width="400" height="240" controls>
-                            <source src="<?php echo base_url($trailler_url)?>" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </p>
-                    <input name="trailler_url" class="form-control" type="file" accept="video/mp4,video/x-m4v,video/*" onchange="setFileInfo(this.files)"/>
-                    <div id="infos" style="margin-top: 8px;"></div>
-                    <input id="duration" name="duration" style='opacity: 0; z-index: -1000'/>
-                </div>
+	            <div class="col-md-12">
+		            <label>Trailer JW Media ID</label>
+		            <div class="form-group">
+			            <input type="text" name='jw_media_id' value="<?php echo $jw_media_id;?>" class="form-control" required="" placeholder="JW Media ID" />
+		            </div>
+	            </div>
             </div>
         </div>
         <div style='margin-top: 16px' class="col-md-12">
