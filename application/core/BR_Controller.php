@@ -11,6 +11,14 @@ class BR_Controller extends REST_Controller {
 	public function __construct() {
 		parent::__construct();
 		date_default_timezone_set('UTC');
+
+		if ($this->input->server('REQUEST_METHOD') == 'OPTIONS') {
+			header('Access-Control-Allow-Origin: *');
+			header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
+			header('Access-Control-Allow-Headers: Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data');
+			$this->response(['granted' => true], 200);
+		}
+
 		$this->validate_authorization(1);
 		$this->db->insert('aa_manager_api', array('api_name' => uri_string(),
 			'post' => json_encode($this->post()),
