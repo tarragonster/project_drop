@@ -35,6 +35,12 @@ class BaseModel extends CI_Model {
 		return $this->getObjectById($id, $select);
 	}
 
+	public function getBy($field, $value) {
+		$this->db->where($field, $value);
+		$query = $this->db->get($this->table);
+		return $query->num_rows() > 0 ? $query->first_row('array') : null;
+	}
+
 	public function getObjectById($id, $select = '') {
 		$this->db->where($this->id_name, $id);
 		$this->db->where('status', 1);

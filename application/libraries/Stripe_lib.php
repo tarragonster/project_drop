@@ -11,11 +11,10 @@ class Stripe_lib {
 		$this->_CI =& get_instance();
 		$this->_CI->config->load('stripe', TRUE);
 		$config = $this->_CI->config->item('stripe');
-		$this->_CI->config->load('strip_decline_codes', TRUE);
-		$this->errors = $this->_CI->config->item('strip_decline_codes');
+		$this->_CI->config->load('stripe_decline_codes', TRUE);
+		$this->errors = $this->_CI->config->item('stripe_decline_codes');
 
-		$this->api_key = ENVIRONMENT == 'development' ? $config['api_key_test'] : $config['api_key_live'];
-		$this->public_key = ENVIRONMENT == 'development' ? $config['public_key_test'] : $config['public_key_live'];
+		$this->api_key = $config['api_key'];
 		\Stripe\Stripe::setApiKey($this->api_key);
 	}
 
@@ -84,6 +83,15 @@ class Stripe_lib {
 				$customer = \Stripe\Customer::retrieve($user['stripe_customer'])->jsonSerialize();
 				return $this->success($customer);
 			}
+		} catch (Exception $e) {
+			return $this->handleExp($e);
+		}
+	}
+
+	public function getSubscription($subscriptionId) {
+		try {
+			$subscription = \Stripe\Subscription::retrieve($subscriptionId);
+			return $this->success($subscription);
 		} catch (Exception $e) {
 			return $this->handleExp($e);
 		}
