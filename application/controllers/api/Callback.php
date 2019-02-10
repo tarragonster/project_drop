@@ -6,7 +6,11 @@ require APPPATH . '/core/BR_Controller.php';
 class Callback extends BR_Controller {
 
 	public function subscription_post() {
-		$data = $this->post('object');
+		$event = $this->post('data');
+		if (empty($event) || !isset($event['object'])) {
+			$this->create_error(-401, 'Empty event');
+		}
+		$data = $event['object'];
 		if (empty($data) || !isset($data['customer']) || !isset($data['id'])) {
 			$this->create_error(-401, 'Access denined');
 		}

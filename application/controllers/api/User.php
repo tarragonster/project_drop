@@ -870,6 +870,7 @@ class User extends BR_Controller {
 			'subscription_id' => $subscription->id,
 			'current_period_start' => $subscription->current_period_start,
 			'current_period_end' => $subscription->current_period_end,
+			'canceled_at' => empty($subscription->canceled_at) ? 0 : $subscription->canceled_at,
 		], $this->user_id);
 
 		$profile = $this->__getUserProfile($this->user_id);
