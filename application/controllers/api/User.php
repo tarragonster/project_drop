@@ -843,7 +843,7 @@ class User extends BR_Controller {
 		if ($user == null) {
 			$this->create_error(-9);
 		}
-		if (!empty($user['subscription_id']) && $user['current_period_end'] > time()) {
+		if (!empty($user['subscription_id']) && $user['current_period_end'] > time() && $user['canceled_at'] > time()) {
 			$this->create_error(-100, 'You are in a subscription');
 		}
 		$token = $this->input->post('stripe_token');
@@ -865,12 +865,13 @@ class User extends BR_Controller {
 			$this->create_error(-100, $stripeResponse['error_message']);
 		}
 		$subscription = $subscriptionResponse['data'];
+		$canceled_at = empty($subscription->canceled_at) ? 0 : ($subscription->cancel_at_period_end ? $subscription->cancel_at : $subscription->canceled_at);
 		$this->user_model->update([
 			'stripe_customer' => $card->customer,
 			'subscription_id' => $subscription->id,
 			'current_period_start' => $subscription->current_period_start,
 			'current_period_end' => $subscription->current_period_end,
-			'canceled_at' => empty($subscription->canceled_at) ? 0 : $subscription->canceled_at,
+			'canceled_at' => $canceled_at,
 		], $this->user_id);
 
 		$profile = $this->__getUserProfile($this->user_id);

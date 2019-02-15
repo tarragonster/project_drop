@@ -26,11 +26,12 @@ class Callback extends BR_Controller {
 			$subscription = $stripeResponse['data'];
 			if ($subscription['customer'] == $data['customer']) {
 				// pre_print($subscription);
+				$canceled_at = empty($subscription->canceled_at) ? 0 : ($subscription->cancel_at_period_end ? $subscription->cancel_at : $subscription->canceled_at);
 				$this->user_model->update([
 					'subscription_id' => $subscription->id,
 					'current_period_start' => $subscription->current_period_start,
 					'current_period_end' => $subscription->current_period_end,
-					'canceled_at' => empty($subscription->canceled_at) ? 0 : $subscription->canceled_at,
+					'canceled_at' => $canceled_at,
 				], $user['user_id']);
 				$this->create_success();
 			} else {
