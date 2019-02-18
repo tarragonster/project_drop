@@ -19,7 +19,7 @@ class Notify_model extends CI_Model {
 		'52' => "mentioned you in a comment on",
 		'53' => "liked your comment on",
 		'54' => "replied to your comment on",
-		'55' => "Welcome to Second Screen Beta",
+		'55' => "Welcome to 10Block Secret Society",
 	);
 
 	public function __construct() {
