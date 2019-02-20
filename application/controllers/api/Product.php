@@ -160,6 +160,27 @@ class Product extends BR_Controller {
 				$comments[$key]['has_like'] = 0;
 			}
 		}
+
+		$episode['need_open_paywall'] = 0;
+		if (isset($episode['product_paywall_episode'])) {
+			if ($episode['product_paywall_episode'] > 0) {
+				$episodes = $this->product_model->getEpisodeSeasons($episode['product_id']);
+				if ($episodes != null && count($episodes) > 0) {
+					$index_current = -1;
+					$index_paywall = -1;
+					foreach ($episodes as $key => $e) {
+						if ($e['episode_id'] == $episode['product_paywall_episode']) {
+							$index_paywall = $key;
+						}
+						if ($e['episode_id'] == $episode['episode_id']) {
+							$index_current = $key;
+						}
+					}
+					$episode['need_open_paywall'] = $index_current >= $index_paywall ? 1 : 0;
+				}
+			}
+			unset($episode['product_paywall_episode']);
+		}
 		$episode['comments'] = $comments;
 		return $episode;
 	}

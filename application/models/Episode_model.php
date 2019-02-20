@@ -15,7 +15,7 @@ class Episode_model extends BaseModel {
 	}
 
 	public function getEpisode($episode_id) {
-		$this->db->select('e.*, p.rate_name as rate_name, s.name as season_name, p.name as product_name, p.product_id');
+		$this->db->select('e.*, p.rate_name as rate_name, s.name as season_name, p.name as product_name, p.product_id, p.paywall_episode as product_paywall_episode');
 		$this->db->from('episode e');
 		$this->db->join('season s', 's.season_id = e.season_id');
 		$this->db->join('product_view p', 'p.product_id = s.product_id');
@@ -243,7 +243,7 @@ class Episode_model extends BaseModel {
 	}
 
 	public function getNextEpisode($position, $season_id) {
-		$this->db->select('e.*, p.rate_name as rate_name, s.name as season_name, p.name as product_name, p.product_id');
+		$this->db->select('e.*, p.rate_name as rate_name, s.name as season_name, p.name as product_name, p.product_id, p.paywall_episode as product_paywall_episode');
 		$this->db->from('episode e');
 		$this->db->join('season s', 's.season_id = e.season_id');
 		$this->db->join('product_view p', 'p.product_id = s.product_id');
