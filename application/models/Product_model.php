@@ -162,6 +162,20 @@ class Product_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function getEpisodeSeasons($product_id) {
+		$this->db->select('e.*, s.name as season_name');
+		$this->db->from('episode e');
+		$this->db->join('season s', 's.season_id = e.season_id');
+		$this->db->where('product_id', $product_id);
+		$this->db->where('s.status', 1);
+		$this->db->where('e.status', 1);
+
+		$this->db->order_by('e.season_id');
+		$this->db->order_by('e.position', 'asc');
+		$query = $this->db->get();
+		return $query->result_array('array');
+	}
+
 	public function countSeason($product_id) {
 		$this->db->from('season');
 		$this->db->where('product_id', $product_id);

@@ -1,0 +1,278 @@
+@charset "utf-8";
+/*
+  grnltTheme Styling
+  ----------------------
+  1. grnlt common
+  2. grnlt login 
+  3. grnlt forgot password
+*/
+/* 1. grnlt common */
+html {
+    overflow-y: scroll;
+    height: 100%;
+    -webkit-text-size-adjust: none;
+}
+
+input:-webkit-autofill {
+    background-color: #B0BEC5!important;
+}
+
+body {
+    font-family: "AvenirNext-Medium", "Avenir Next", Helvetica Neue, Helvetica, Arial;
+    color: #ffffff;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -ms-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: grayscale;
+    height: 100%;
+}
+
+::selection {
+    background: #edb39a;
+    color: #ffffff;
+}
+
+::-webkit-selection {
+    background: #edb39a;
+    color: #ffffff;
+}
+
+::-moz-selection {
+    background: #edb39a;
+    color: #ffffff;
+}
+
+::-o-selection {
+    background: #edb39a;
+    color: #ffffff;
+}
+
+::-ms-selection {
+    background: #edb39a;
+    color: #ffffff;
+}
+::-webkit-input-placeholder {
+    color: #4a4a4a;
+    opacity: 1;
+}
+
+::-moz-placeholder {
+    color: #4a4a4a;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: #4a4a4a;
+    opacity: 1;
+}
+
+:-moz-placeholder {
+    color: #4a4a4a;
+    opacity: 1;
+}
+
+a {
+    color: #333333;
+    -webkit-transition: all ease .3s;
+    -ms-transition: all ease .3s;
+    transition: all ease .3s;
+}
+
+input[type="submit"], input, select, textarea, button {
+    outline: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+a:focus {
+    outline: none;
+    outline-offset: 0;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+    color: #edb39a;
+}
+
+img {
+    max-width: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+p {
+    padding-bottom: 21px;
+    margin-bottom: 0;
+    color: #777777;
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.grnlt-table-wrap {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.grnlt-align-wrap {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+
+/* grnlt login */
+.body {
+    background: #B0BEC5;
+}
+
+.login {
+    max-width: 500px;
+    margin: 25px auto;
+}
+
+.login .logo img {
+    width: 270px;
+}
+
+.login form {
+    display: block;
+    padding: 40px 115px;
+}
+
+.login h1 {
+    font-size: 28px;
+    color: #ffffff;
+    font-family: 'AvenirNext-DemiBold', "Avenir Next", Helvetica Neue, Helvetica, Arial;
+    padding: 40px 0 0;
+    letter-spacing: 2px;
+}
+
+.m-form .m-form-control {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 12px 15px 12px 8px !important;
+    font-size: 13px;
+    color: #ffffff !important;
+    background: #B0BEC5 !important;
+    font-family: 'AvenirNext-Medium', "Avenir Next", Helvetica Neue, Helvetica, Arial;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    border-radius: 0px !important;
+    border-bottom: 1px solid #ffffff !important;
+    overflow: hidden;
+}
+
+.m-form span {
+    margin-top: 4px;
+    display: block;
+    font-size: 11px;
+    margin-left: 8px;
+    color: #ffffff;
+}
+
+.m-form .form-group {
+    margin-bottom: 16px !important;
+}
+
+.m-form-control:hover, .m-form-control:active, .m-form-control:focus, .m-form-control:-webkit-autofill, .m-form-control:autofill,
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    background-color: transparent !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btn {
+    -webkit-transition: all ease .3s;
+    -ms-transition: all ease .3s;
+    transition: all ease .3s;
+    outline: none;
+}
+
+.login .btn {
+    padding: 0 50px !important;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    width: 100%;
+    font-size: 11px;
+    line-height: 35px;
+    text-transform: uppercase;
+    color: #403F3F;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    background: #e0e0e0;
+}
+
+.login .btn.active, .login .btn.active:hover {
+    background: #ffffff;
+}
+
+.login .block {
+    display: block;
+    overflow: hidden;
+    font-size: 20px;
+    color: #ffffff;
+    letter-spacing: 2px;
+}
+
+.login .block a {
+    color: #ffffff;
+}
+
+.login .block a:hover {
+    text-decoration: none;
+}
+
+/* grnlt forgot password */
+.msg-info {
+    display: block;
+    padding: 5px 0 0;
+    color: #ffffff;
+    margin: 0;
+}
+
+.form-control.style2 {
+    margin: 0;
+    width: 70%;
+    -webkit-border-radius: 5px 0 0 5px;
+    border-radius: 5px 0 0 5px;
+    float: left;
+}
+
+.btn.style2 {
+    width: 30%;
+    -webkit-border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0;
+    float: left;
+    padding: 14px 15px;
+}
+
+.alert-danger {
+    background: #a64643;
+    border-color: #ee3a29;
+    color: #ffffff;
+}
+
+.alert-danger .close {
+    color: #ffffff;
+    opacity: 1;
+}
+
+.forgot-block {
+    position: fixed;
+    bottom: 40px;
+    font-size: 13px;
+    color: #ffffff;
+    width: 100%
+}
+
+.forgot-block a, .forgot-block a:hover {
+    color: #ffffff;
+}
