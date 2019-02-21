@@ -12,7 +12,7 @@
     <div class="app">
       <section class="privacy-policy">
         <div class="container">
-          <a href="" class="logo text-center">
+          <a href="/" class="logo text-center">
             <img src="<?= base_url('sites/homepage/images/logo.png') ?>" alt="10-block">
           </a>
           <div class="block">

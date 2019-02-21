@@ -26,6 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $config['http_scheme'] = isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http');
 $config['base_url'] = $config['http_scheme'] . '://' . $_SERVER['HTTP_HOST'];
+$config['secure_mode'] = false;
 
 /*
 |--------------------------------------------------------------------------

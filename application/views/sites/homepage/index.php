@@ -9,6 +9,33 @@
     <link rel="stylesheet" href="<?= base_url('sites/homepage/css/owl.carousel.css') ?>">
     <link rel="stylesheet" href="<?= base_url('sites/homepage/css/owl.theme.default.css') ?>">
     <link href="<?= base_url('sites/homepage/css/app.css') ?>" rel="stylesheet">
+
+	  <script type="text/javascript">
+		  (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
+
+		  branch.init('key_live_meLeL0xihPduXBeYFSnNWlfiDvaprV9L');
+		  function sendSMS(form) {
+			  var phone = form.phone.value;
+			  var linkData = {
+				  tags: [],
+				  channel: 'Website',
+				  feature: 'TextMeTheApp',
+				  data: {
+					  'foo': 'bar'
+				  }
+			  };
+			  var options = {};
+			  var callback = function(err, result) {
+				  if (err) {
+					  alert("Sorry, something went wrong.");
+				  } else {
+					  form.phone.value = "";
+					  alert("SMS sent!");
+				  }
+			  };
+			  branch.sendSMS(phone, linkData, options, callback);
+		  }
+	  </script>
   </head>
   <body>
     <div class="app">
@@ -21,9 +48,9 @@
             <div class="caption">
               <h1>A Better Way To Stream Movies & TV On Mobile</h1>
               <p>Watch in 10-minute blocks when, where, and how you want.</p>
-              <form action="" method="POST">
+              <form onsubmit="sendSMS(this); return false;">
                 <div class="form-group">
-                  <input type="tel" name="phone" class="form-control" placeholder="Enter your phone number to get the app.">
+                  <input type="tel" name="phone" class="form-control" placeholder="Enter your phone number to get the app." REQUIRED>
                 </div>
                 <button type="submit" name="submit" class="button">Text Me</button>
               </form>
@@ -126,9 +153,9 @@
           </a>
           <div class="block">
             <h2>Get On The <br class="br-mobile"> Email List For <br> Exclusives And Updates</h2>
-            <form action="#" method="POST">
-              <div class="form-group"><input type="text" name="name" class="form-control" placeholder="Name"></div>
-              <div class="form-group"><input type="email" name="email-address" class="form-control" placeholder="Email address"></div>
+            <form action="register" method="POST">
+              <div class="form-group"><input type="text" name="full_name" class="form-control" placeholder="Name" required></div>
+              <div class="form-group"><input type="email" name="email" class="form-control" placeholder="Email address" required></div>
               <div class="form-group">
                 <button type="submit" name="sign-up" class="button">Sign Up</button>
               </div>
