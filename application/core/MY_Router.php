@@ -13,7 +13,7 @@ class MY_Router extends CI_Router {
 			$this->group = 'swagger';
 		} else if ($first_uri == 'ssapp-api-v1') {
 			$this->group = 'api';
-		} else if (in_array($HTTP_HOST, ['getblock10.us', 'getblock10.com'])){
+		} else if (in_array($HTTP_HOST, ['getblock10.us', 'get10block.com'])){
 			$this->group = 'homepage';
 		}
 
@@ -29,7 +29,7 @@ class MY_Router extends CI_Router {
 
 		if ($first_uri == 'ssapp-api-v1') {
 			array_unshift($segments, 'api');
-		} else if (in_array($HTTP_HOST, ['getblock10.us', 'getblock10.com'])){
+		} else if (in_array($HTTP_HOST, ['getblock10.us', 'get10block.com'])){
 			$this->group = 'homepage';
 			array_unshift($segments, 'homepage');
 		}
