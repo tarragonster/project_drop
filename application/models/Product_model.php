@@ -54,7 +54,7 @@ class Product_model extends BaseModel {
 		$this->db->where('status', 1);
 		$query = $this->db->get();
 
-		$results = $query->result_array('array');
+		$results = $query->result_array();
 		foreach ($results as $result) {
 			$this->db->where('season_id', $result['season_id']);
 			$this->db->update('season', array('status' => 0));
@@ -173,7 +173,7 @@ class Product_model extends BaseModel {
 		$this->db->order_by('e.season_id');
 		$this->db->order_by('e.position', 'asc');
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function countSeason($product_id) {
@@ -259,7 +259,7 @@ class Product_model extends BaseModel {
 		// 	$this->db->where('w.user_id !=', $user_id);
 		$this->db->group_by('w.user_id');
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getContinueWatching($user_id) {
@@ -311,7 +311,7 @@ class Product_model extends BaseModel {
 		$this->db->group_by('w.user_id');
 		$this->db->limit(3);
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getUserProductLike($user_id, $product_id) {

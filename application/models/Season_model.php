@@ -34,7 +34,7 @@ class Season_model extends BaseModel {
 		$this->db->where('s.status', 1);
 		$this->db->order_by('s.season_id', 'desc');
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getListEpisodes($season_id, $page = -1) {
@@ -46,7 +46,7 @@ class Season_model extends BaseModel {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getListContinue($user_id, $season_id) {
@@ -55,7 +55,7 @@ class Season_model extends BaseModel {
 		$this->db->where('user_id', $user_id);
 		$this->db->where('season_id', $season_id);
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getEpisodeContinue($user_id, $episode_id) {

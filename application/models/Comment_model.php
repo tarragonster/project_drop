@@ -16,7 +16,7 @@ class Comment_model extends BaseModel {
 		$this->db->where('c.episode_id', $episode_id);
 		$this->db->order_by('c.comment_id', 'desc');
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getRepliesForAdmin($comment_id) {
@@ -26,7 +26,7 @@ class Comment_model extends BaseModel {
 		$this->db->where('r.comment_id', $comment_id);
 		$this->db->order_by('r.replies_id', 'desc');
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function countReplies($comment_id) {

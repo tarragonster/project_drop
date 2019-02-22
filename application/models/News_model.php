@@ -19,7 +19,7 @@ class News_model extends BaseModel {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getNewForYou($user_id, $page = -1) {
@@ -32,7 +32,7 @@ class News_model extends BaseModel {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getUserForNotify($user_id) {

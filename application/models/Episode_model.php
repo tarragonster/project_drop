@@ -113,7 +113,7 @@ class Episode_model extends BaseModel {
 				$this->db->limit(10, 10 * $page);
 			$query = $this->db->get();
 		}
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getReplies($comment_id) {
@@ -123,7 +123,7 @@ class Episode_model extends BaseModel {
 		$this->db->where('r.comment_id', $comment_id);
 		$this->db->order_by('r.replies_id', 'asc');
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function hasLikeEpisode($episode_id, $user_id, $status) {
