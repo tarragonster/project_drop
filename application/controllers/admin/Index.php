@@ -12,12 +12,12 @@ class Index extends Base_Controller {
        
 		$admin = $this->session->userdata('admin');
 		if ($admin == null) {
-			redirect(base_url('admin/login'));
+			redirect(base_url('login'));
 		}
 		$account = $this->admin_model->getAdminAccountByEmail($admin['email']);
 		$lockdata = $this->session->userdata('lockdata');
 		if ($lockdata != null) {
-			redirect(base_url('admin/lockscreen'));
+			redirect(base_url('lockscreen'));
 		}
 		$data = array();
 		$data['parent_id'] = 1;
@@ -31,7 +31,7 @@ class Index extends Base_Controller {
 	public function login() {
 		$admin = $this->session->userdata('admin');
 		if ($admin != null) {
-			redirect(base_url('admin'));
+			redirect(base_url(''));
 		}
 		
 		$cmd = $this->input->post("cmd");
@@ -44,7 +44,7 @@ class Index extends Base_Controller {
 				$account = $this->admin_model->getAdminAccount($email, $password);
 				if ($account != null) {
 					$this->session->set_userdata('admin', array('email'=>$account['email'], 'group'=>$account['group']));
-					$this->redirect('admin');
+					$this->redirect('');
 				} else {
 					$this->load->view('admin/login', array('error'=>'Sai thông tin đăng nhập'));
 				}
@@ -57,13 +57,13 @@ class Index extends Base_Controller {
 	public function logout() {
 		$this->session->unset_userdata('admin');
 		$this->session->unset_userdata('lockdata');
-		redirect(base_url('admin/login'));
+		redirect(base_url('login'));
 	}
 	
 	public function lockscreen() {
 		$admin = $this->session->userdata('admin');
 		if ($admin == null) {
-			redirect(base_url('admin/login'));
+			redirect(base_url('login'));
 		}
 		
 		$account = $this->admin_model->getAdminAccountByEmail($admin['email']);
@@ -74,7 +74,7 @@ class Index extends Base_Controller {
 				$this->session->set_userdata('lockdata', array('lock'=>1));
 			}
 			
-			$this->load->view('admin/lockscreen', array('account'=>$account, 'other_account'=>base_url('admin/logout')));
+			$this->load->view('admin/lockscreen', array('account'=>$account, 'other_account'=>base_url('logout')));
 		} else {
 			$password = $this->input->post('password');
 			if ($password == '') {
@@ -83,12 +83,12 @@ class Index extends Base_Controller {
 				$account_check = $this->admin_model->getAdminAccount($admin['email'], $password);
 				if ($account_check != null) {
 					$this->session->unset_userdata('lockdata');
-					redirect(base_url('admin'));
+					redirect(base_url(''));
 				} else {
 					$error = 'Password is invalid!';
 				}
 			}
-			$this->load->view('admin/lockscreen', array('account'=>$account, 'error' => $error, 'other_account'=>base_url('admin/logout')));
+			$this->load->view('admin/lockscreen', array('account'=>$account, 'error' => $error, 'other_account'=>base_url('logout')));
 		}
 	}
 }

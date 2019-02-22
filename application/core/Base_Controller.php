@@ -17,7 +17,7 @@ class Base_Controller extends CI_Controller {
 			if ($default != '') {
 				redirect($default);
 			} else {
-				redirect('admin');
+				redirect('');
 			}
 		}
 	}
@@ -25,11 +25,11 @@ class Base_Controller extends CI_Controller {
 	protected function verifyAdmin() {
 		$admin = $this->session->userdata('admin');
 		if ($admin == null) {
-			redirect(base_url('admin/login'));
+			redirect(base_url('login'));
 		}
 		$lockdata = $this->session->userdata('lockdata');
 		if ($lockdata != null) {
-			redirect(base_url('admin/lockscreen'));
+			redirect(base_url('lockscreen'));
 		}
 
 		$this->account = $this->admin_model->getAdminAccountByEmail($admin['email']);

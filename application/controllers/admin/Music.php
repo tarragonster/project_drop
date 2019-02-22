@@ -28,7 +28,7 @@ class Music extends Base_Controller {
 	public function add() {
 		if ($this->addMusic(0)) {
 			$this->session->set_flashdata('msg', 'Add success!');
-			redirect(base_url('admin/music'));
+			redirect(base_url('music'));
 		}
 		$this->load->model("product_model");
 		$products = $this->product_model->getProductListForAdmin();
@@ -43,11 +43,11 @@ class Music extends Base_Controller {
 	public function edit($music_id) {
 		$music = $this->music_model->getMusicById($music_id);
 		if ($music == null) {
-			redirect('admin/music');
+			redirect('music');
 		}
 		if ($this->addMusic($music_id)) {
 			$this->session->set_flashdata('msg', 'Edit success!');
-			redirect(base_url('admin/music'));
+			redirect(base_url('music'));
 		}
 		$this->load->model("product_model");
 		$products = $this->product_model->getProductListForAdmin();
@@ -64,10 +64,10 @@ class Music extends Base_Controller {
 	public function delete($music_id) {
 		$music = $this->music_model->getMusicById($music_id);
 		if ($music == null) {
-			redirect('admin/music');
+			redirect('music');
 		}
 		$this->music_model->delete($music_id);
 		$this->session->set_flashdata('msg', 'Delete success!');
-		redirect('admin/music');
+		redirect('music');
 	}
 }

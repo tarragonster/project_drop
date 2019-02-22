@@ -86,7 +86,7 @@ class Comment extends Base_Controller {
 
 		$page = ($page <= 0) ? 1 : $page;
 
-		$config['base_url'] = base_url('admin/comment/reports');
+		$config['base_url'] = base_url('comment/reports');
 
 		$config['total_rows'] = $this->comment_model->getNumReports();
 		$config['per_page'] = PERPAGE_ADMIN;
@@ -114,6 +114,6 @@ class Comment extends Base_Controller {
 		$this->db->where('report_id', $report_id);
 		$this->db->delete('comment_reports');
 
-		$this->redirect('admin/comment/reports');
+		$this->redirect('comment/reports');
 	}
 }

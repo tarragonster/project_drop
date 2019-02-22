@@ -7,7 +7,7 @@
                 </div>
                 <div class="form-group" id='block_product'>
                     <label>Episode</label>
-                    <input id='select_episode' class='form-control' type="text" placeholder='Episode Name' data-href='<?php echo base_url('admin/comment/ajaxEpisode?q=')?>'/>
+                    <input id='select_episode' class='form-control' type="text" placeholder='Episode Name' data-href='<?php echo base_url('comment/ajaxEpisode?q=')?>'/>
                 </div>
                 <div class="box-body table-responsive">
                     <table id="example3" class="table table-bordered table-hover">

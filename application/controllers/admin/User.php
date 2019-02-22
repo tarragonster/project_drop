@@ -14,7 +14,7 @@ class User extends Base_Controller {
 
 		$page = ($page <= 0) ? 1 : $page;
 
-		$config['base_url'] = base_url('admin/user');
+		$config['base_url'] = base_url('user');
 
 		$config['total_rows'] = $this->user_model->getNumOfUser(1);
 		$config['per_page'] = PERPAGE_ADMIN;
@@ -62,7 +62,7 @@ class User extends Base_Controller {
 		$this->load->library('pagination');
 
 		$page = ($page <= 0) ? 1 : $page;
-		$config['base_url'] = base_url('admin/user/blocked');
+		$config['base_url'] = base_url('user/blocked');
 		$config['total_rows'] = $this->user_model->getNumOfUser(0);
 		$config['per_page'] = PERPAGE_ADMIN;
 		$config['cur_page'] = $page;
@@ -101,7 +101,7 @@ class User extends Base_Controller {
 			$this->oauths->delete($user['user_id']);
 			$this->user_model->clearData($user['user_id']);
 		}
-		$this->redirect('admin/user');
+		$this->redirect('user');
 
 	}
 
@@ -150,13 +150,13 @@ class User extends Base_Controller {
 			$this->db->like('data', '"user_id":'.$user_id, 'both');
 			$this->db->delete('user_notify');
 		}
-		$this->redirect('admin/user');
+		$this->redirect('user');
 	}
 
 	public function edit($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
 		if ($user == null) {
-			redirect('admin/user');
+			redirect('user');
 		}
 
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
@@ -169,13 +169,13 @@ class User extends Base_Controller {
 			$userEmail = $this->user_model->getByEmail($params['email']);
 			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
 				$this->session->set_flashdata('error_message', 'Sorry, this email is already linked to an existing account');
-				redirect(base_url('admin/user/edit/' . $user_id));
+				redirect(base_url('user/edit/' . $user_id));
 			}
 
 			$userX = $this->user_model->getByUsername($params['user_name']);
 			if ($userX != null && $userX['user_id'] != $user_id) {
 				$this->session->set_flashdata('error_message', 'Sorry, this username is already linked to an existing account');
-				redirect(base_url('admin/user/edit/' . $user_id));
+				redirect(base_url('user/edit/' . $user_id));
 			}
 
 			$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
@@ -197,7 +197,7 @@ class User extends Base_Controller {
 				$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $params['email'], $user_id);
 			}
 
-			redirect(base_url('admin/user/edit/' . $user_id));
+			redirect(base_url('user/edit/' . $user_id));
 		}
 
 		$data = array();
@@ -212,7 +212,7 @@ class User extends Base_Controller {
 	public function profile($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
 		if ($user == null) {
-			redirect(base_url('admin/user'));
+			redirect(base_url('user'));
 		}
 
 		$this->load->model('product_model');
@@ -239,7 +239,7 @@ class User extends Base_Controller {
 
 		$page = ($page <= 0) ? 1 : $page;
 
-		$config['base_url'] = base_url('admin/user/reports');
+		$config['base_url'] = base_url('user/reports');
 
 		$config['total_rows'] = $this->user_model->getNumReports();
 		$config['per_page'] = PERPAGE_ADMIN;
@@ -267,7 +267,7 @@ class User extends Base_Controller {
 		$this->db->where('report_id', $report_id);
 		$this->db->delete('user_reports');
 
-		$this->redirect('admin/user/reports');
+		$this->redirect('user/reports');
 	}
 
 	public function removePick($pick_id) {

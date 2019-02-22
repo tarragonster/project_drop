@@ -36,7 +36,7 @@
                                 echo '<td>' . $row['name'] . '</td>';
                                 echo '<td>' . $row['singer'] . '</td>';
                                 echo "<td><div class='button-list'>";
-                                echo "<a href='" . base_url('admin/product/removedMusic/' . $row['music_id'].'/'.$product_id) . "' /><button class='btn btn-danger btn-custom btn-xs'>Remove</button></a>";
+                                echo "<a href='" . base_url('product/removedMusic/' . $row['music_id'].'/'.$product_id) . "' /><button class='btn btn-danger btn-custom btn-xs'>Remove</button></a>";
                                 echo "</div></td>";
                                 echo '</tr>';
                             }
@@ -67,7 +67,7 @@
                                     echo '<td>' . $row['name'] . '</td>';
                                     echo '<td>' . $row['singer'] . '</td>';
                                     echo "<td><div class='button-list'>";
-                                    echo "<a href='" . base_url('admin/product/putInMusic/' . $row['music_id'].'/'.$product_id) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Add</button></a>";
+                                    echo "<a href='" . base_url('product/putInMusic/' . $row['music_id'].'/'.$product_id) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Add</button></a>";
                                     echo "</div></td>";
                                     echo '</tr>';
                                 }

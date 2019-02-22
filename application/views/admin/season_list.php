@@ -34,9 +34,9 @@
                                 echo '<td>' . $row['name'] . '</td>';
                                 echo '<td>' . $row['product_name'] . '</td>';
                                 echo "<td><div class='button-list'>";
-                                echo "<a href='" . base_url('admin/season/edit/' . $row['season_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Edit</button></a>";
-                                echo "<a href='" . base_url('admin/season/episode/' . $row['season_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>".$row['num_episode']. " Episode</button></a>";
-                                echo '<span class="sa-warning" data-href="' . base_url('admin/season/delete/' . $row['season_id']) . '"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>';
+                                echo "<a href='" . base_url('season/edit/' . $row['season_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Edit</button></a>";
+                                echo "<a href='" . base_url('season/episode/' . $row['season_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>".$row['num_episode']. " Episode</button></a>";
+                                echo '<span class="sa-warning" data-href="' . base_url('season/delete/' . $row['season_id']) . '"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>';
                                 echo "</div></td>";
                                 echo '</tr>';
                             }

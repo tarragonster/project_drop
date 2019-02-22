@@ -49,19 +49,19 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 										echo '<td>';
 										echo '<div class="button-list">';
 										if ($row['priority_profile'] > 1) {
-											echo "<a href='" . base_url('admin/featured/upProfile/' . $row['user_id']) . "'>
+											echo "<a href='" . base_url('featured/upProfile/' . $row['user_id']) . "'>
 				                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-up'></i> Up</button>
 				                                </a>";
 										}
 										if ($row['priority_profile'] < $max) {
-											echo "<a href='" . base_url('admin/featured/downProfile/' . $row['user_id']) . "'>
+											echo "<a href='" . base_url('featured/downProfile/' . $row['user_id']) . "'>
 				                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-down'></i> Down</button>
 				                                </a>";
 										}
 										echo '</div></td>'; ?>
 										<td>
 											<div class='button-list'>
-												<a href='<?= base_url('admin/featured/removeProfile/' . $row['user_id']) ?>'>
+												<a href='<?= base_url('featured/removeProfile/' . $row['user_id']) ?>'>
 													<button class='btn btn-danger btn-custom btn-xs'>Remove</button>
 												</a>
 											</div>
@@ -102,7 +102,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 									<td><?= getTypeMember($row['user_type']) ?></td>
 									<td>
 										<div class='button-list'>
-											<a href="<?= base_url('admin/featured/addProfile/' . $row['user_id']) ?>">
+											<a href="<?= base_url('featured/addProfile/' . $row['user_id']) ?>">
 												<button class='btn btn-inverse btn-custom btn-xs'>Add</button>
 											</a>
 										</div>

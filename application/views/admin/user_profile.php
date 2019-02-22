@@ -80,7 +80,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 									<td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
 									<td>
 										<div class='button-list'>
-											<a href='<?php echo base_url('admin/user/editPick/' . $row['pick_id']) ?>'>
+											<a href='<?php echo base_url('user/editPick/' . $row['pick_id']) ?>'>
 												<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
 											</a>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"

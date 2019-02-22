@@ -51,7 +51,7 @@
 		<!-- LOGO -->
 		<div class="topbar-left">
 			<div class="text-center">
-				<a href="<?php echo base_url('admin') ?>" class="logo"><i class="icon-magnet icon-c-logo"></i><span>Second Screen</span></a>
+				<a href="<?php echo base_url('') ?>" class="logo"><i class="icon-magnet icon-c-logo"></i><span>Second Screen</span></a>
 			</div>
 		</div>
 
@@ -71,8 +71,8 @@
 								<img src="<?php echo isset($account['avatar']) && $account['avatar'] != '' ? base_url($account['avatar']) : base_url('media/managers/avatar.jpg'); ?>" alt="user-img"
 								     class="img-circle"> </a>
 							<ul class="dropdown-menu">
-								<li><a href="<?php echo base_url('admin/lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-								<li><a href="<?php echo base_url('admin/logout'); ?>"><i class="ti-power-off m-r-5"></i> Logout</a></li>
+								<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
+								<li><a href="<?php echo base_url('logout'); ?>"><i class="ti-power-off m-r-5"></i> Logout</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -92,22 +92,22 @@
 			<div id="sidebar-menu">
 				<ul>
 					<li>
-						<a href="<?php echo base_url('admin'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 1 ? ' active' : ''; ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+						<a href="<?php echo base_url(''); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 1 ? ' active' : ''; ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
 					</li>
 					<li class="has_sub">
 						<a href="#" class="waves-effect<?php echo isset($parent_id) && $parent_id == 2 ? ' active' : ''; ?>"> <i class="fa fa-users"></i> <span>Users</span> </a>
 						<ul class="list-unstyled">
 							<li <?php echo($sub_id == 21 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('admin/user'); ?>"><span>Active Users</span></a>
+								<a href="<?php echo base_url('user'); ?>"><span>Active Users</span></a>
 							</li>
 							<li <?php echo($sub_id == 22 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('admin/user/blocked'); ?>">Blocked Users</a>
+								<a href="<?php echo base_url('user/blocked'); ?>">Blocked Users</a>
 							</li>
 							<li <?php echo($sub_id == 23 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('admin/user/reports'); ?>">Reported Users</a>
+								<a href="<?php echo base_url('user/reports'); ?>">Reported Users</a>
 							</li>
 							<li <?php echo($sub_id == 24 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('admin/featured'); ?>">Featured Users</a>
+								<a href="<?php echo base_url('featured'); ?>">Featured Users</a>
 							</li>
 						</ul>
 					</li>
@@ -116,35 +116,35 @@
 							<i class="fa fa-sitemap"></i> <span>Films</span>
 						</a>
 						<ul class="list-unstyled">
-							<li <?php echo($sub_id == 31 ? 'class="active"' : ''); ?>><a href="<?php echo base_url('admin/product/add'); ?>">Add Film</a></li>
-							<li <?php echo($sub_id == 32 ? 'class="active"' : ''); ?>><a href="<?php echo base_url('admin/product'); ?>">List Films</a></li>
+							<li <?php echo($sub_id == 31 ? 'class="active"' : ''); ?>><a href="<?php echo base_url('product/add'); ?>">Add Film</a></li>
+							<li <?php echo($sub_id == 32 ? 'class="active"' : ''); ?>><a href="<?php echo base_url('product'); ?>">List Films</a></li>
 						</ul>
 					</li>
 					<li>
-						<a href="<?php echo base_url('admin/season'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 7 ? ' active' : ''; ?>"><i class="fa fa-ship"></i> <span>Seasons</span></a>
+						<a href="<?php echo base_url('season'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 7 ? ' active' : ''; ?>"><i class="fa fa-ship"></i> <span>Seasons</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('admin/preview'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>"><i class="fa fa-industry"></i>
+						<a href="<?php echo base_url('preview'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>"><i class="fa fa-industry"></i>
 							<span>Explore Previews</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('admin/collection'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 4 ? ' active' : ''; ?>"><i class="fa fa-industry"></i>
+						<a href="<?php echo base_url('collection'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 4 ? ' active' : ''; ?>"><i class="fa fa-industry"></i>
 							<span>Collections</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('admin/actor'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 5 ? ' active' : ''; ?>"><i class="fa fa-male"></i> <span>Actors</span></a>
+						<a href="<?php echo base_url('actor'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 5 ? ' active' : ''; ?>"><i class="fa fa-male"></i> <span>Actors</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('admin/music'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 6 ? ' active' : ''; ?>"><i class="fa fa-music"></i> <span>Musics</span></a>
+						<a href="<?php echo base_url('music'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 6 ? ' active' : ''; ?>"><i class="fa fa-music"></i> <span>Musics</span></a>
 					</li>
 					<li class="has_sub">
 						<a href="#" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>"> <i class="ti-comment"></i> <span>Comments</span> </a>
 						<ul class="list-unstyled">
 							<li <?php echo($sub_id == 91 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('admin/comment'); ?>"><span>Comments</span></a>
+								<a href="<?php echo base_url('comment'); ?>"><span>Comments</span></a>
 							</li>
 							<li <?php echo($sub_id == 92 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('admin/comment/reports'); ?>">Reported Comments</a>
+								<a href="<?php echo base_url('comment/reports'); ?>">Reported Comments</a>
 							</li>
 						</ul>
 					</li>

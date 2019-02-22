@@ -12,7 +12,7 @@ class Product extends Base_Controller {
 
 	public function index($page = 1) {
 		$this->load->library('pagination');
-		$config['base_url'] = base_url('admin/product');
+		$config['base_url'] = base_url('product');
 		$config['total_rows'] = $this->product_model->countAll();
 		$config['per_page'] = PERPAGE_ADMIN;
 		$config['cur_page'] = $page;
@@ -81,7 +81,7 @@ class Product extends Base_Controller {
 
 			if ($cmd == 'Save') {
 				$this->session->set_flashdata('msg', 'Add success!');
-				redirect(base_url('admin/product'));
+				redirect(base_url('product'));
 			}
 		}
 		$this->load->model("collection_model");
@@ -100,7 +100,7 @@ class Product extends Base_Controller {
 	public function edit($product_id) {
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null) {
-			redirect('admin/product');
+			redirect('product');
 		}
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$params = array();
@@ -155,7 +155,7 @@ class Product extends Base_Controller {
 			$this->product_model->update($params, $product_id);
 
 			$this->session->set_flashdata('msg', 'Edit success!');
-			redirect(base_url('admin/product/edit/' . $product_id));
+			redirect(base_url('product/edit/' . $product_id));
 		}
 		$data = array();
 		$data['parent_id'] = 3;
@@ -175,12 +175,12 @@ class Product extends Base_Controller {
 	public function managerActor($product_id = 0) {
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null) {
-			redirect('admin/product');
+			redirect('product');
 		}
 		$this->load->model('cast_model');
 		if ($this->addCast(0)) {
 			$this->session->set_flashdata('msg', 'Add success!');
-			redirect(base_url('admin/product/managerActor/' . $product_id));
+			redirect(base_url('product/managerActor/' . $product_id));
 		}
 		$actors = $this->product_model->getListCast($product_id);
 		$others = $this->cast_model->getOthers($product_id);
@@ -205,11 +205,11 @@ class Product extends Base_Controller {
 		$cast = $this->cast_model->getCastById($cast_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null || $cast == null) {
-			redirect('admin/product');
+			redirect('product');
 		}
 		$this->db->insert('film_cast', array('product_id' => $product_id, 'cast_id' => $cast_id));
 		$this->session->set_flashdata('msg', 'Add success!');
-		redirect(base_url('admin/product/managerActor/' . $product_id));
+		redirect(base_url('product/managerActor/' . $product_id));
 	}
 
 	public function removeActor($cast_id = 0, $product_id = 0) {
@@ -217,24 +217,24 @@ class Product extends Base_Controller {
 		$cast = $this->cast_model->getCastById($cast_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null || $cast == null) {
-			redirect('admin/product');
+			redirect('product');
 		}
 		$this->db->where('product_id', $product_id);
 		$this->db->where('cast_id', $cast_id);
 		$this->db->delete('film_cast');
 		$this->session->set_flashdata('msg', 'Remove success!');
-		redirect(base_url('admin/product/managerActor/' . $product_id));
+		redirect(base_url('product/managerActor/' . $product_id));
 	}
 
 	public function managerMusic($product_id = 0) {
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null) {
-			redirect('admin/product');
+			redirect('product');
 		}
 		$this->load->model('music_model');
 		if ($this->addMusic(0)) {
 			$this->session->set_flashdata('msg', 'Add success!');
-			redirect(base_url('admin/product/managerMusic/' . $product_id));
+			redirect(base_url('product/managerMusic/' . $product_id));
 		}
 
 		$musics = $this->product_model->getListMusic($product_id);
@@ -258,11 +258,11 @@ class Product extends Base_Controller {
 		$music = $this->music_model->getMusicById($music_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null || $music == null) {
-			redirect('admin/product');
+			redirect('product');
 		}
 		$this->music_model->update(array('product_id' => $product_id), $music_id);
 		$this->session->set_flashdata('msg', 'Add success!');
-		redirect(base_url('admin/product/managerMusic/' . $product_id));
+		redirect(base_url('product/managerMusic/' . $product_id));
 	}
 
 	public function removedMusic($music_id = 0, $product_id = 0) {
@@ -270,17 +270,17 @@ class Product extends Base_Controller {
 		$music = $this->music_model->getMusicById($music_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null || $music == null) {
-			redirect('admin/product');
+			redirect('product');
 		}
 		$this->music_model->update(array('product_id' => 0), $music_id);
 		$this->session->set_flashdata('msg', 'Remove success!');
-		redirect(base_url('admin/product/managerMusic/' . $product_id));
+		redirect(base_url('product/managerMusic/' . $product_id));
 	}
 
 	public function managerSeason($product_id) {
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null) {
-			redirect('admin/product');
+			redirect('product');
 		}
 		$this->load->model('season_model');
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
@@ -290,7 +290,7 @@ class Product extends Base_Controller {
 			$params['created'] = time();
 			$this->season_model->insert($params);
 			$this->session->set_flashdata('msg', 'Add success!');
-			redirect(base_url('admin/product/managerSeason/' . $product_id));
+			redirect(base_url('product/managerSeason/' . $product_id));
 		}
 
 		$seasons = $this->product_model->getListSeason($product_id);
@@ -310,7 +310,7 @@ class Product extends Base_Controller {
 
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == null || $product['status'] != 0) {
-			redirect(base_url('admin/product'));
+			redirect(base_url('product'));
 			$this->session->set_flashdata('msg', 'Edit success!');
 		} else {
 			$this->product_model->update(array('status' => 1), $product_id);
@@ -320,7 +320,7 @@ class Product extends Base_Controller {
 	public function disable($product_id = 0) {
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == null || $product['status'] != 1) {
-			redirect(base_url('admin/product'));
+			redirect(base_url('product'));
 		} else {
 			$this->session->set_flashdata('msg', 'Edit success!');
 			$this->product_model->update(array('status' => 0), $product_id);
@@ -331,7 +331,7 @@ class Product extends Base_Controller {
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == '' || $product['status'] < 0) {
 			$this->session->set_flashdata('error', 'This Film is not exists!');
-			redirect(base_url('admin/product'));
+			redirect(base_url('product'));
 		} else {
 			$this->session->set_flashdata('msg', 'Delete success!');
 			$this->load->model('collection_model');
@@ -342,7 +342,7 @@ class Product extends Base_Controller {
 				}
 			}
 			$this->product_model->deleteProduct($product_id);
-			redirect(base_url('admin/product'));
+			redirect(base_url('product'));
 		}
 	}
 

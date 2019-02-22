@@ -109,13 +109,13 @@
                                     <tr>			
                                         <td align="center"><?php echo $row['comment_id']; ?></td>
                                         <td><?php echo date('Y-m-d h:i',$row['timestamp']) ?></td>
-                                        <td><a href="<?php echo base_url('admincp/user/edit/' . $row['uid']);?>"> <?php echo $row['username']; ?> </a></td>             
+                                        <td><a href="<?php echo base_url('user/edit/' . $row['uid']);?>"> <?php echo $row['username']; ?> </a></td>             
                                         <td><?php echo $row['content']; ?></td> 
                                         <td align="center">                                
                                         <?php 
                                         if ($row['status'] == 1) {
                                         ?>
-                                            <a class="btn_close" data-href="<?php echo base_url('admincp/product/hideComment/' . $row['comment_id']) ?>" href="#" data-callback="<?php echo base_url('admincp/product');?>">
+                                            <a class="btn_close" data-href="<?php echo base_url('product/hideComment/' . $row['comment_id']) ?>" href="#" data-callback="<?php echo base_url('product');?>">
                                                 <button class='btn btn-danger btn-sm margin2'>Hide</button>
                                             </a>
                                         <?php

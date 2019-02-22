@@ -11,7 +11,7 @@
                     <h3 class="m-t-0 m-b-20 header-title">Musics</h3>
                 </div>
                 <div class="box-footer">
-                    <a href="<?php echo base_url('admin/music/add') ?>">
+                    <a href="<?php echo base_url('music/add') ?>">
                         <button class="btn btn-primary m-t-0 m-b-10">Create music</button>
                     </a>
                 </div>
@@ -35,8 +35,8 @@
                                 echo '<td>' . $row['singer'] . '</td>';
                                 echo '<td>' . $row['product_name'] . '</td>';
                                 echo "<td><div class='button-list'>";
-                                echo "<a href='" . base_url('admin/music/edit/' . $row['music_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Edit</button></a>";
-                                echo '<span class="sa-warning" data-href="' . base_url('admin/music/delete/' . $row['music_id']) . '?redirect=' . uri_string(). '"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>';
+                                echo "<a href='" . base_url('music/edit/' . $row['music_id']) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Edit</button></a>";
+                                echo '<span class="sa-warning" data-href="' . base_url('music/delete/' . $row['music_id']) . '?redirect=' . uri_string(). '"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>';
                                 echo "</div></td>";
                                 echo '</tr>';
                             }

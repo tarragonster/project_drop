@@ -29,7 +29,7 @@ class Featured extends Base_Controller {
 	public function addProfile($user_id) {
 		$product = $this->user_model->get($user_id);
 		if ($product == null) {
-			redirect('admin/featured');
+			redirect('featured');
 		}
 		$this->featured_model->addProfile($user_id);
 		redirect(make_url('admin/featured', ['active' => 'add']));
@@ -37,16 +37,16 @@ class Featured extends Base_Controller {
 
 	public function removeProfile($user_id) {
 		$this->featured_model->removeProfile($user_id);
-		redirect('admin/featured');
+		redirect('featured');
 	}
 
 	public function upProfile($user_id) {
 		$this->featured_model->upProfile($user_id);
-		redirect('admin/featured');
+		redirect('featured');
 	}
 
 	public function downProfile($user_id) {
 		$this->featured_model->downProfile($user_id);
-		redirect('admin/featured');
+		redirect('featured');
 	}
 }

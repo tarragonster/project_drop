@@ -31,14 +31,14 @@ class Season extends Base_Controller {
 	public function edit($season_id) {
 		$season = $this->season_model->getSeasonById($season_id);
 		if ($season == null) {
-			redirect('admin/season');
+			redirect('season');
 		}
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$params = array();
 			$params['name'] = $this->input->post('name');
 			$params['product_id'] = $this->input->post('product_id');
 			$this->season_model->update($params, $season_id);
-			redirect(base_url('admin/season'));
+			redirect(base_url('season'));
 		}
 		$this->load->model("product_model");
 		$products = $this->product_model->getProductListForAdmin();
@@ -56,17 +56,17 @@ class Season extends Base_Controller {
 		$season = $this->season_model->getSeasonById($season_id);
 		if ($season == null) {
 			$this->session->set_flashdata('error', 'This Season is not exists!');
-			redirect('admin/season');
+			redirect('season');
 		}
 		$this->season_model->deleteSeason($season_id);
 		$this->session->set_flashdata('msg', 'Delete success!');
-		redirect('admin/season');
+		redirect('season');
 	}
 
 	public function episode($season_id) {
 		$season = $this->season_model->getSeasonDetail($season_id);
 		if ($season == null) {
-			redirect('admin/season');
+			redirect('season');
 		}
 		$episodes = $this->season_model->getListEpisodes($season_id);
 		$season['episodes'] = $episodes;
