@@ -43,7 +43,7 @@ class BR_Controller extends REST_Controller {
 	}
 
 	protected function validate_authorization($temp = -1) {
-		$authorization = $this->input->get_request_header('Authorization-data');
+		$authorization = $this->input->get_request_header('Authorization-Data');
 		$authorization = base64_decode($authorization);
 		if ($authorization != false) {
 			$arr = explode('|', $authorization);

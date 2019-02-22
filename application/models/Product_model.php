@@ -236,15 +236,11 @@ class Product_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function countUserWatching($product_id, $user_id = -1) {
-		$this->db->select('*');
+	public function countUserWatching($product_id) {
+		$this->db->select('product_id');
 		$this->db->from('user_watch');
 		$this->db->where('episode_id !=', 0);
 		$this->db->where('product_id', $product_id);
-		// $this->db->where('(update_time >= '.strtotime("-3 minutes").')');
-		// if($user_id != -1)
-		// 	$this->db->where('user_id !=', $user_id);
-		$this->db->group_by('user_id');
 		return $this->db->count_all_results();
 	}
 
