@@ -29,7 +29,7 @@ class Collection extends Base_Controller {
 			$params['priority'] = $this->collection_model->getMax() + 1;
 			$params['created'] = time();
 			$this->collection_model->insert($params);
-			redirect(base_url('admin/collection'));
+			redirect(base_url('collection'));
 		}
 
 		$data = array();
@@ -43,14 +43,14 @@ class Collection extends Base_Controller {
 	public function edit($collection_id) {
 		$collection = $this->collection_model->getCollectionById($collection_id);
 		if ($collection == null) {
-			redirect('admin/collection');
+			redirect('collection');
 		}
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$params = array();
 			$params['name'] = $this->input->post('name');
 			$params['short_bio'] = $this->input->post('short_bio');
 			$this->collection_model->update($params, $collection_id);
-			redirect(base_url('admin/collection'));
+			redirect(base_url('collection'));
 		}
 		$data = array();
 		$data['parent_id'] = 4;
@@ -63,7 +63,7 @@ class Collection extends Base_Controller {
 	public function films($collection_id) {
 		$collection = $this->collection_model->getCollectionById($collection_id);
 		if ($collection == null) {
-			redirect('admin/collection');
+			redirect('collection');
 		}
 
 		$this->load->model("product_model");
@@ -101,13 +101,13 @@ class Collection extends Base_Controller {
 
 			$collection = $this->collection_model->getCollectionById($collection_id);
 			if ($collection == null) {
-				redirect('admin/collection');
+				redirect('collection');
 			}
 
 			$this->load->model("product_model");
 			$product = $this->product_model->getProductForAdmin($product_id);
 			if ($product == null) {
-				redirect('admin/collection');
+				redirect('collection');
 			}
 
 			$promoImage = isset($_FILES['promo_image']) ? $_FILES['promo_image'] : null;
@@ -125,15 +125,15 @@ class Collection extends Base_Controller {
 			} else {
 				$this->session->set_flashdata('msg', 'Missing data field required: image');
 			}
-			redirect('admin/collection/films/' . $collection_id);
+			redirect('collection/films/' . $collection_id);
 		}
-		redirect('admin/collection');
+		redirect('collection');
 	}
 
 	public function editPromo($id) {
 		$product = $this->collection_model->getProductCollection($id);
 		if ($product == null) {
-			redirect('admin/collection');
+			redirect('collection');
 		}
 		$collection_id = $product['collection_id'];
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
@@ -142,7 +142,7 @@ class Collection extends Base_Controller {
 			$this->load->model("product_model");
 			$product = $this->product_model->getProductForAdmin($product_id);
 			if ($product == null) {
-				redirect('admin/collection');
+				redirect('collection');
 			}
 
 			$params = ['product_id' => $product_id];
@@ -154,7 +154,7 @@ class Collection extends Base_Controller {
 				$params['promo_image'] = $path;
 			}
 			$this->collection_model->updateFilm($params, $id);
-			redirect('admin/collection/films/' . $collection_id);
+			redirect('collection/films/' . $collection_id);
 		}
 
 		$content = $this->load->view('admin/collection_product_edit', $product, true);
@@ -172,28 +172,28 @@ class Collection extends Base_Controller {
 	public function removeFilm($collection_id, $product_id, $priority) {
 		$collection = $this->collection_model->getCollectionById($collection_id);
 		if ($collection == null) {
-			redirect('admin/collection');
+			redirect('collection');
 		}
 		$this->collection_model->removeFilm($collection_id, $product_id, $priority);
-		redirect(base_url('admin/collection/films/' . $collection_id));
+		redirect(base_url('collection/films/' . $collection_id));
 	}
 
 	public function upFilm($collection_id, $priority, $id) {
 		$collection = $this->collection_model->getCollectionById($collection_id);
 		if ($collection == null) {
-			redirect('admin/collection');
+			redirect('collection');
 		}
 		$this->collection_model->upFilm($collection_id, $priority, $id);
-		redirect(base_url('admin/collection/films/' . $collection_id));
+		redirect(base_url('collection/films/' . $collection_id));
 	}
 
 	public function downFilm($collection_id, $priority, $id) {
 		$collection = $this->collection_model->getCollectionById($collection_id);
 		if ($collection == null) {
-			redirect('admin/collection');
+			redirect('collection');
 		}
 		$this->collection_model->downFilm($collection_id, $priority, $id);
-		redirect(base_url('admin/collection/films/' . $collection_id));
+		redirect(base_url('collection/films/' . $collection_id));
 	}
 
 	public function ajaxProduct() {

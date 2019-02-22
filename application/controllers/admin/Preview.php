@@ -37,7 +37,7 @@ class Preview extends Base_Controller {
 		$this->load->model("product_model");
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null) {
-			redirect('admin/preview');
+			redirect('preview');
 		}
 
 		$promoImage = isset($_FILES['promo_image']) ? $_FILES['promo_image'] : null;
@@ -48,22 +48,22 @@ class Preview extends Base_Controller {
 			$this->preview_model->addFilm($product_id, $path);
 		}
 
-		redirect('admin/preview');
+		redirect('preview');
 	}
 
 	public function removeFilm($product_id) {
 		$this->preview_model->removeFilm($product_id);
-		redirect('admin/preview');
+		redirect('preview');
 	}
 
 	public function upFilm($product_id) {
 		$this->preview_model->upFilm($product_id);
-		redirect('admin/preview');
+		redirect('preview');
 	}
 
 	public function downFilm($product_id) {
 		$this->preview_model->downFilm($product_id);
-		redirect('admin/preview');
+		redirect('preview');
 	}
 
 	public function ajaxProduct() {
@@ -83,7 +83,7 @@ class Preview extends Base_Controller {
 	public function editFilm($id) {
 		$product = $this->preview_model->getProductPreview($id);
 		if ($product == null) {
-			redirect('admin/collection');
+			redirect('collection');
 		}
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$product_id = $this->input->post('product_id') * 1;
@@ -91,7 +91,7 @@ class Preview extends Base_Controller {
 			$this->load->model("product_model");
 			$product = $this->product_model->getProductForAdmin($product_id);
 			if ($product == null) {
-				redirect('admin/collection');
+				redirect('collection');
 			}
 
 			$params = ['product_id' => $product_id];
@@ -103,7 +103,7 @@ class Preview extends Base_Controller {
 				$params['promo_image'] = $path;
 			}
 			$this->preview_model->update($params, $id);
-			redirect('admin/preview');
+			redirect('preview');
 		}
 
 		$content = $this->load->view('admin/preview/preview_edit', $product, true);

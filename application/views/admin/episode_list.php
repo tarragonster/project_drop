@@ -16,7 +16,7 @@ if ($this->session->flashdata('alert')) {
 					<h3 class="box-title">List Episodes</h3>
 				</div>
 				<div class="box-header">
-                    <a href="<?php echo base_url('admin/episode/add/'.$season_id) ?>">
+                    <a href="<?php echo base_url('episode/add/'.$season_id) ?>">
                         <button class="btn btn-primary">Create Episode</button>
                     </a>
                 </div>
@@ -51,21 +51,21 @@ if ($this->session->flashdata('alert')) {
 							<td><?php echo timeFormat($row['created'])?></td>
 							<?php echo '<td><div class="button-list">';
                             if ($row['position'] > 1) {
-                                echo "<a href='" . base_url('admin/episode/up/'  .$row['episode_id']. '/' . $row['season_id']) . "'>
+                                echo "<a href='" . base_url('episode/up/'  .$row['episode_id']. '/' . $row['season_id']) . "'>
 	                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-up'></i> Up</button>
 	                                </a>";
                             }
                             if ($row['position'] < $max) {
-                                echo "<a href='" . base_url('admin/episode/down/' .$row['episode_id']. '/' . $row['season_id']) . "'>
+                                echo "<a href='" . base_url('episode/down/' .$row['episode_id']. '/' . $row['season_id']) . "'>
 	                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-down'></i> Down</button>
 	                                </a>";
                             }
                             echo '</div></td>';?>
 							<td><div class='button-list'>
-								<a href='<?php echo base_url('admin/episode/edit/' . $row['episode_id'].'/' . $row['season_id']) ?>'>
+								<a href='<?php echo base_url('episode/edit/' . $row['episode_id'].'/' . $row['season_id']) ?>'>
 									<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
 								</a>
-								<span class="sa-warning" data-href="<?php echo base_url('admin/episode/delete/' . $row['episode_id'].'/' . $row['season_id']) ?>"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>
+								<span class="sa-warning" data-href="<?php echo base_url('episode/delete/' . $row['episode_id'].'/' . $row['season_id']) ?>"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>
 							</div>
 							</td>
 						</tr>

@@ -126,7 +126,7 @@
 									echo '<td><img style="max-width: 70px; max-height: 70px" src="' . base_url($row['image']) . '"/></td>';
 									echo '<td>' . $row['publish_year'] . '</td>';
 									echo "<td><div class='button-list'>";
-									echo "<a href='" . base_url('admin/actor/removeProduct/' . $row['product_id'] . '/' . $cast_id) . "' /><button class='btn btn-danger btn-custom btn-xs'>Remove</button></a>";
+									echo "<a href='" . base_url('actor/removeProduct/' . $row['product_id'] . '/' . $cast_id) . "' /><button class='btn btn-danger btn-custom btn-xs'>Remove</button></a>";
 									echo "</div></td>";
 									echo '</tr>';
 								}
@@ -167,7 +167,7 @@
 									echo '<td><img style="max-width: 70px; max-height: 70px" src="' . base_url($row['image']) . '"/></td>';
 									echo '<td>' . $row['publish_year'] . '</td>';
 									echo "<td><div class='button-list'>";
-									echo "<a href='" . base_url('admin/actor/addProduct/' . $row['product_id'] . '/' . $cast_id) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Add</button></a>";
+									echo "<a href='" . base_url('actor/addProduct/' . $row['product_id'] . '/' . $cast_id) . "' /><button class='btn btn-inverse btn-custom btn-xs'>Add</button></a>";
 									echo "</div></td>";
 									echo '</tr>';
 								}

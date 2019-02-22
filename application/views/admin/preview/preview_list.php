@@ -45,22 +45,22 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 										echo '<td>';
 										echo '<div class="button-list">';
 										if ($row['priority_preview'] > 1) {
-											echo "<a href='" . base_url('admin/preview/upFilm/' . $row['product_id']) . "'>
+											echo "<a href='" . base_url('preview/upFilm/' . $row['product_id']) . "'>
 				                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-up'></i> Up</button>
 				                                </a>";
 										}
 										if ($row['priority_preview'] < $max) {
-											echo "<a href='" . base_url('admin/preview/downFilm/' . $row['product_id']) . "'>
+											echo "<a href='" . base_url('preview/downFilm/' . $row['product_id']) . "'>
 				                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-down'></i> Down</button>
 				                                </a>";
 										}
 										echo '</div></td>'; ?>
 										<td>
 											<div class='button-list'>
-												<a href='<?= base_url('admin/preview/editFilm/' . $row['id']) ?>'>
+												<a href='<?= base_url('preview/editFilm/' . $row['id']) ?>'>
 													<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
 												</a>
-												<a href='<?= base_url('admin/preview/removeFilm/' . $row['product_id']) ?>'>
+												<a href='<?= base_url('preview/removeFilm/' . $row['product_id']) ?>'>
 													<button class='btn btn-danger btn-custom btn-xs'>Remove</button>
 												</a>
 											</div>
@@ -89,11 +89,11 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 						echo '</div></div>';
 					}
 					?>
-					<form method='POST' enctype="multipart/form-data" action="<?= base_url('admin/preview/addFilm') ?>">
+					<form method='POST' enctype="multipart/form-data" action="<?= base_url('preview/addFilm') ?>">
 						<div class="form-group" id='block_product'>
 							<label>Film</label>p
 							<input id='select_product' class='form-control' type="text" placeholder='Film Name' required
-							       data-href='<?php echo base_url('admin/preview/ajaxProduct?q=') ?>'
+							       data-href='<?php echo base_url('preview/ajaxProduct?q=') ?>'
 							       data-linked-id='product_id'/>
 							<input type="hidden" id='product_id' name='product_id' class='form-control'/>
 						</div>
@@ -141,7 +141,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 									<td><?= $row['publish_year']; ?></td>
 									<td>
 										<div class='button-list'>
-											<a href="<?= base_url('admin/preview/addFilm/' . $row['product_id']) ?>">
+											<a href="<?= base_url('preview/addFilm/' . $row['product_id']) ?>">
 												<button class='btn btn-inverse btn-custom btn-xs'>Add</button>
 											</a>
 										</div>

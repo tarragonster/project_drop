@@ -11,7 +11,7 @@ class MY_Router extends CI_Router {
 			$this->group = 'admin';
 		} else if ($first_uri == 'swagger') {
 			$this->group = 'swagger';
-		} else if ($first_uri == 'ssapp-api-v1') {
+		} else if ($first_uri == 'ssapp-api-v1' || $first_uri == 'api') {
 			$this->group = 'api';
 		} else if (in_array($HTTP_HOST, ['getblock10.us', 'get10block.com'])){
 			$this->group = 'homepage';
@@ -27,7 +27,9 @@ class MY_Router extends CI_Router {
 		if ($segments == null)
 			$segments = array();
 
-		if ($first_uri == 'ssapp-api-v1') {
+		if ($first_uri == 'admin') {
+			array_unshift($segments, 'admin');
+		} else if ($first_uri == 'ssapp-api-v1' || $first_uri == 'api') {
 			array_unshift($segments, 'api');
 		} else if (in_array($HTTP_HOST, ['getblock10.us', 'get10block.com'])){
 			$this->group = 'homepage';

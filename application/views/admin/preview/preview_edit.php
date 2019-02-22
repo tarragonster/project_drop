@@ -8,7 +8,7 @@
 				<form method='POST' enctype="multipart/form-data" action="">
 					<div class="form-group" id='block_product'>
 						<label>Film</label>
-						<input id='select_product' class='form-control' type="text" placeholder='Film Name' data-href='<?php echo base_url('admin/preview/ajaxProduct?q=') ?>'
+						<input id='select_product' class='form-control' type="text" placeholder='Film Name' data-href='<?php echo base_url('preview/ajaxProduct?q=') ?>'
 						       data-linked-id='product_id'
 						       value="<?= $name ?>"/>
 						<input type="hidden" id='product_id' name='product_id' value="<?= $product_id ?>" class='form-control'/>

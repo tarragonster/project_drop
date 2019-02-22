@@ -40,19 +40,19 @@ if($this->session->flashdata('error')){
 							<td><?php echo $row['publish_year']; ?></td>
 							<td><?php echo ($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
 							<td><div class='button-list'>
-								<a href='<?php echo base_url('admin/product/edit/' . $row['product_id']) ?>'>
+								<a href='<?php echo base_url('product/edit/' . $row['product_id']) ?>'>
 									<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
 								</a>
-								<a href='<?php echo base_url('admin/product/managerActor/' . $row['product_id']) ?>'>
+								<a href='<?php echo base_url('product/managerActor/' . $row['product_id']) ?>'>
 									<button class='btn btn-inverse btn-custom btn-xs'>Manage Actors</button>
 								</a>
-								<a href='<?php echo base_url('admin/product/managerMusic/' . $row['product_id']) ?>'>
+								<a href='<?php echo base_url('product/managerMusic/' . $row['product_id']) ?>'>
 									<button class='btn btn-inverse btn-custom btn-xs'>Manage Musics</button>
 								</a>
-								<a href='<?php echo base_url('admin/product/managerSeason/' . $row['product_id']) ?>'>
+								<a href='<?php echo base_url('product/managerSeason/' . $row['product_id']) ?>'>
 									<button class='btn btn-inverse btn-custom btn-xs'>Manage Seasons</button>
 								</a>
-								<span class="sa-warning" data-href="<?php echo base_url('admin/product/delete/' . $row['product_id']) ?>"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>
+								<span class="sa-warning" data-href="<?php echo base_url('product/delete/' . $row['product_id']) ?>"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>
 							</div>
 							</td>
 						</tr>

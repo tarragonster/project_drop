@@ -28,7 +28,7 @@ class Actor extends Base_Controller {
 	public function add() {
 		if ($this->addCast(0)) {
 			$this->session->set_flashdata('msg', 'Add success!');
-			redirect(base_url('admin/actor'));
+			redirect(base_url('actor'));
 		}
 		$this->load->model("product_model");
 		$products = $this->product_model->getProductListForAdmin();
@@ -47,11 +47,11 @@ class Actor extends Base_Controller {
 		$actor['products'] = $this->cast_model->getListFilms($cast_id);
 		$actor['others'] = $this->cast_model->getFilmOthers($cast_id);
 		if ($actor == null) {
-			redirect('admin/actor');
+			redirect('actor');
 		}
 		if ($this->addCast($cast_id)) {
 			$this->session->set_flashdata('msg', 'Edit success!');
-			redirect(base_url('admin/actor/edit/' . $cast_id));
+			redirect(base_url('actor/edit/' . $cast_id));
 		}
 		$data = array();
 		$data['parent_id'] = 5;
@@ -67,11 +67,11 @@ class Actor extends Base_Controller {
 		$actor = $this->cast_model->getCastById($cast_id);
 		if ($actor == null) {
 			$this->session->set_flashdata('error', 'This Actor is not exists!');
-			redirect('admin/actor');
+			redirect('actor');
 		}
 		$this->cast_model->deleteCast($cast_id);
 		$this->session->set_flashdata('msg', 'Delete success!');
-		redirect('admin/actor');
+		redirect('actor');
 	}
 
 	public function ajaxLoadData() {
@@ -94,11 +94,11 @@ class Actor extends Base_Controller {
 		$cast = $this->cast_model->getCastById($cast_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null || $cast == null) {
-			redirect('admin/cast');
+			redirect('cast');
 		}
 		$this->db->insert('film_cast', array('product_id' => $product_id, 'cast_id' => $cast_id));
 		$this->session->set_flashdata('add', 'Add success!');
-		redirect(base_url('admin/actor/edit/' . $cast_id));
+		redirect(base_url('actor/edit/' . $cast_id));
 	}
 
 	public function removeProduct($product_id = 0, $cast_id = 0) {
@@ -106,12 +106,12 @@ class Actor extends Base_Controller {
 		$cast = $this->cast_model->getCastById($cast_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null || $cast == null) {
-			redirect('admin/cast');
+			redirect('cast');
 		}
 		$this->db->where('product_id', $product_id);
 		$this->db->where('cast_id', $cast_id);
 		$this->db->delete('film_cast');
 		$this->session->set_flashdata('remove', 'Remove success!');
-		redirect(base_url('admin/actor/edit/' . $cast_id));
+		redirect(base_url('actor/edit/' . $cast_id));
 	}
 }

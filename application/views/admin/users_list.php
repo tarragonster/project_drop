@@ -29,14 +29,14 @@
 							echo '<td>' . $row['full_name'] . '</td>';
 							echo '<td>' . getTypeMember($row['user_type']) . '</td>';
 							echo "<td><div class='button-list'>
-									<a href='" . base_url('admin/user/edit/' . $row['user_id']) . "' /><button class='btn btn-info btn-sm'>Edit</button></a>";
-							echo "<a class='btn btn-primary btn-sm' href='" . base_url('admin/user/profile/' . $row['user_id']) . "' >View Profile</a>";
+									<a href='" . base_url('user/edit/' . $row['user_id']) . "' /><button class='btn btn-info btn-sm'>Edit</button></a>";
+							echo "<a class='btn btn-primary btn-sm' href='" . base_url('user/profile/' . $row['user_id']) . "' >View Profile</a>";
 							if ($row['status'] == 1) {
-								echo "<a href='" . base_url('admin/user/block/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Block</button></a>";
+								echo "<a href='" . base_url('user/block/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Block</button></a>";
 							} else {
-								echo "<a href='" . base_url('admin/user/block/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-success btn-sm'>Unblock</button></a>";
+								echo "<a href='" . base_url('user/block/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-success btn-sm'>Unblock</button></a>";
 							}
-							echo "<a href='" . base_url('admin/user/delete/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
+							echo "<a href='" . base_url('user/delete/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
 							echo '</div></td>';
 							echo '</tr>';
 						}

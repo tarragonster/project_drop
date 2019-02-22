@@ -12,7 +12,7 @@
             }else{
                 echo "<button id='".$row['comment_id']."' class='btn btn-comment btn-inverse btn-custom btn-xs'>".$row['num_rep']." Replies</button>";
             }
-            echo '<span class="sa-warning sa-comment" data-href="'.base_url("admin/comment/delete/" . $row['comment_id']).'"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>';
+            echo '<span class="sa-warning sa-comment" data-href="'.base_url("/comment/delete/" . $row['comment_id']).'"><button class="btn btn-danger btn-custom btn-xs">Delete</button></span>';
             echo "</div></td>";
             echo '</tr>';
         }

@@ -25,7 +25,7 @@
 							echo '<td>' . $row['reporter_name'] . '</td>';
 							echo '<td>' . timeFormat($row['created_at']) . '</td>';
 							echo "<td><div class='button-list'>";
-							echo "<a href='" . base_url('admin/user/deleteReport/' . $row['report_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
+							echo "<a href='" . base_url('user/deleteReport/' . $row['report_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
 							echo '</div></td>';
 							echo '</tr>';
 						}

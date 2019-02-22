@@ -13,7 +13,7 @@ class Episode extends Base_Controller {
 
 	public function index($page = 1) {
 		$this->load->library('pagination');
-    	$config['base_url'] = base_url('admin/product');
+    	$config['base_url'] = base_url('product');
     	$config['total_rows'] = $this->product_model->countAll();
     	$config['per_page'] = PERPAGE_ADMIN;
     	$config['cur_page'] = $page;
@@ -41,7 +41,7 @@ class Episode extends Base_Controller {
         $this->load->model("season_model");
         $season = $this->season_model->getSeasonDetail($season_id);
         if ($season == null) {
-            redirect('admin/season');
+            redirect('season');
         }
 		$cmd = $this->input->post('cmd');
 		if ($cmd != '') {
@@ -70,7 +70,7 @@ class Episode extends Base_Controller {
             $episode_id = $this->episode_model->insert($params);
             if ($cmd == 'Save') {
             	$this->session->set_flashdata('msg', 'Add success!');
-				redirect(base_url('admin/episode/add/'.$season_id));
+				redirect(base_url('episode/add/'.$season_id));
 			}
         }
 		$data['parent_id'] = 7;
@@ -85,7 +85,7 @@ class Episode extends Base_Controller {
 	public function edit($episode_id, $season_id){
         $episode = $this->episode_model->getEpisodeDetail($episode_id);
         if ($episode == null) {
-            redirect('admin/season/episode/'.$season_id);
+            redirect('season/episode/'.$season_id);
         }
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $params = array();
@@ -114,7 +114,7 @@ class Episode extends Base_Controller {
             $this->episode_model->update($params, $episode_id);
             
             $this->session->set_flashdata('msg', 'Edit success!');
-            redirect(base_url('admin/episode/edit/'.$episode_id.'/'.$season_id));
+            redirect(base_url('episode/edit/'.$episode_id.'/'.$season_id));
         }
         $data = array();
         $data['parent_id'] = 7;
@@ -129,28 +129,28 @@ class Episode extends Base_Controller {
     public function delete($episode_id, $season_id){
         $episode = $this->episode_model->getEpisodeDetail($episode_id);
         if ($episode == null) {
-            redirect('admin/season/episode/'.$season_id);
+            redirect('season/episode/'.$season_id);
         }
         $this->db->trans_start();
         $this->episode_model->updatePosition($season_id, $episode['position']);
         $this->episode_model->delete($episode_id);
         $this->db->trans_complete();
-        redirect('admin/season/episode/'.$season_id);
+        redirect('season/episode/'.$season_id);
     }
     public function up($episode_id, $season_id){
         $episode = $this->episode_model->getEpisodeDetail($episode_id);
         if ($episode == null) {
-            redirect('admin/season/episode/'.$season_id);
+            redirect('season/episode/'.$season_id);
         }
         $this->episode_model->up($season_id, $episode['position'], $episode_id);
-        redirect('admin/season/episode/'.$season_id);
+        redirect('season/episode/'.$season_id);
     }
     public function down($episode_id, $season_id){
         $episode = $this->episode_model->getEpisodeDetail($episode_id);
         if ($episode == null) {
-            redirect('admin/season/episode/'.$season_id);
+            redirect('season/episode/'.$season_id);
         }
         $this->episode_model->down($season_id, $episode['position'], $episode_id);
-        redirect('admin/season/episode/'.$season_id);
+        redirect('season/episode/'.$season_id);
     }
 }
