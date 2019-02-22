@@ -58,19 +58,6 @@ class Product extends Base_Controller {
 				$this->file_model->saveFile($image, $path);
 				$params['image'] = $path;
 			}
-			$trailler_url = isset($_FILES['trailler_url']) ? $_FILES['trailler_url'] : null;
-			if ($trailler_url != null && $trailler_url['error'] == 0) {
-				$path = $this->file_model->uploadCustom('trailler_url', 'media/videos/');
-				if ($path != null) {
-					$params['trailler_url'] = $path;
-				}
-			}
-			$trailler_image = isset($_FILES['trailler_image']) ? $_FILES['trailler_image'] : null;
-			if ($trailler_image != null && $trailler_image['error'] == 0) {
-				$path = $this->file_model->createFileName($trailler_image, 'media/traillers/', 'trailler');
-				$this->file_model->saveFile($trailler_image, $path);
-				$params['trailler_image'] = $path;
-			}
 			$background_img = isset($_FILES['background_img']) ? $_FILES['background_img'] : null;
 			if ($background_img != null && $background_img['error'] == 0) {
 				$path = $this->file_model->createFileName($background_img, 'media/films/', 'background');
@@ -131,19 +118,6 @@ class Product extends Base_Controller {
 				$path = $this->file_model->createFileName($image, 'media/films/', 'film');
 				$this->file_model->saveFile($image, $path);
 				$params['image'] = $path;
-			}
-			$trailler_url = isset($_FILES['trailler_url']) ? $_FILES['trailler_url'] : null;
-			if ($trailler_url != null && $trailler_url['error'] == 0) {
-				$path = $this->file_model->uploadCustom('trailler_url', 'media/videos/');
-				if ($path != null) {
-					$params['trailler_url'] = $path;
-				}
-			}
-			$trailler_image = isset($_FILES['trailler_image']) ? $_FILES['trailler_image'] : null;
-			if ($trailler_image != null && $trailler_image['error'] == 0) {
-				$path = $this->file_model->createFileName($trailler_image, 'media/traillers/', 'trailler');
-				$this->file_model->saveFile($trailler_image, $path);
-				$params['trailler_image'] = $path;
 			}
 			$background_img = isset($_FILES['background_img']) ? $_FILES['background_img'] : null;
 			if ($background_img != null && $background_img['error'] == 0) {

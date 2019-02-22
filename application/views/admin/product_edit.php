@@ -62,8 +62,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-12 portlets m-b-30">
-                    <label>Image</label>
+                <div class="col-md-12 m-b-30">
+                    <label>Poster</label>
                     <div class="row">
                         <div class="col-md-4">
                             <img id='image' width='120' height='120' src="<?php echo media_url($image);?>"  style='border: 4px solid #c6c6c6; border-radius: 4px'/>
@@ -76,8 +76,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 portlets m-b-30">
-                    <label>Background Image</label>
+                <div class="col-md-12 m-b-30">
+                    <label>Series Image</label>
                     <div class="row">
                         <div class="col-md-4">
                             <img id='background_photo' width='120' src="<?php echo media_url($background_img);?>"  style='border: 4px solid #c6c6c6; border-radius: 4px'/>
@@ -86,20 +86,6 @@
                             <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
                             <div class="uploader" onclick="$('#backgroundImg').click()">
                                 <input type="file" accept="image/*" name="background_img" id="backgroundImg" class="imagePhoto"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 m-b-30">
-                    <label>Trailer Image</label>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img id='coverimg' width='120' height='120' src="<?php echo media_url($trailler_image);?>" style='border: 4px solid #c6c6c6; border-radius: 4px'/>
-                        </div>
-                        <div class="col-md-8">
-                            <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
-                            <div class="uploader" onclick="$('#coverPhoto').click()">
-                                <input type="file" accept="image/*" name="trailler_image" id="coverPhoto"/>
                             </div>
                         </div>
                     </div>
