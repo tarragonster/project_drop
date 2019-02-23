@@ -109,6 +109,9 @@
 							<li <?php echo($sub_id == 24 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('featured'); ?>">Featured Users</a>
 							</li>
+							<li <?php echo($sub_id == 25 ? 'class="active"' : ''); ?>>
+								<a href="<?php echo base_url('user/signups'); ?>">Newsletter Signups</a>
+							</li>
 						</ul>
 					</li>
 					<li class="has_sub">

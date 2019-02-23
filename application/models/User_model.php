@@ -693,4 +693,24 @@ class User_model extends BaseModel {
 		$this->db->where('id', $id);
 		$this->db->update('product_likes', ['is_hidden' => $is_hidden]);
 	}
+
+	public function insertSignUp($params) {
+		$this->db->insert('newsletter_signups', $params);
+	}
+
+	public function getNumOfSignups() {
+		$this->db->from('newsletter_signups');
+		return $this->db->count_all_results();
+	}
+
+	public function getSignups($page = 0) {
+		$this->db->select('u.*');
+		$this->db->from('newsletter_signups u');
+		$this->db->order_by('id', 'desc');
+		if ($page > -1) {
+			$this->db->limit(PERPAGE_ADMIN, $page * PERPAGE_ADMIN);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }

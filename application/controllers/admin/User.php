@@ -50,11 +50,11 @@ class User extends Base_Controller {
 			$search = array();
 			$post = $this->input->post(NULL, TRUE);
 			if ($submited) {
-				$this->handle_post('admin/user/blocked');
+				$this->handle_post('user/blocked');
 			} else {
 				$submited = $this->input->post('export');
 				if ($submited) {
-					$search = $this->handle_post('admin/user/blocked', true);
+					$search = $this->handle_post('user/blocked', true);
 					$this->exportEmail($search);
 				}
 			}
@@ -88,6 +88,80 @@ class User extends Base_Controller {
 		$data['content'] = $content;
 
 		$this->load->view('admin_main_layout', $data);
+	}
+
+	public function signups($page = 1) {
+
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			$submited = $this->input->post('search');
+			if ($submited) {
+				$this->handle_post('user/signups');
+			} else {
+				$submited = $this->input->post('export');
+				if ($submited) {
+					$search = $this->handle_post('user/blocked', true);
+					$this->exportEmail($search);
+				}
+			}
+		}
+		$this->load->library('pagination');
+
+		$page = ($page <= 0) ? 1 : $page;
+		$config['base_url'] = base_url('user/signups');
+		$config['total_rows'] = $this->user_model->getNumOfSignups();
+		$config['per_page'] = PERPAGE_ADMIN;
+		$config['cur_page'] = $page;
+		$this->pagination->initialize($config);
+		$pinfo = array(
+			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
+			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
+			'total' => $config['total_rows'],
+		);
+		$users = $this->user_model->getSignups($page - 1);
+		$layoutParams = [
+			'title' => 'Newsletter Signups',
+			'users' => $users,
+			'pinfo' => $pinfo
+		];
+
+		$content = $this->load->view('admin/signup_list', $layoutParams, true);
+
+		$data = array();
+		$data['parent_id'] = 2;
+		$data['sub_id'] = 25;
+		$data['account'] = $this->account;
+		$data['content'] = $content;
+
+		$this->load->view('admin_main_layout', $data);
+	}
+
+	public function deleteSignUp($id = '') {
+		$this->db->where('id', $id);
+		$this->db->delete('newsletter_signups');
+		$this->redirect('user/signups');
+	}
+
+	public function exportSignUp() {
+		$users = $this->user_model->getSignups(-1);
+		$data = array();
+		if (isset($users) && is_array($users)) {
+			foreach ($users as $row) {
+				$item = array();
+				$item[] = $row['id'];
+				$item[] = $row['email'];
+				$item[] = $row['full_name'];
+				$item[] = date('m/d/Y h:i:a', $row['added_at']);
+				$data[] = $item;
+			}
+		}
+
+		$headers = array(
+			array('width' => 15, 'align' => 'C', 'label' => 'ID'),
+			array('width' => 55, 'align' => 'L', 'label' => 'E-Mail'),
+			array('width' => 35, 'align' => 'L', 'label' => 'Name'),
+			array('width' => 20, 'align' => 'C', 'label' => 'Date Submitted'));
+		$this->load->library('exporter');
+		$this->exporter->exportCsv($headers, $data, 'newsletter_signups_' . date('YmdHi', time()) . '.csv');
 	}
 
 	public function block($user_id = '') {

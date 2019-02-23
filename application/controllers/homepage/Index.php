@@ -57,26 +57,12 @@ class Index extends CI_Controller {
 		if (!validate_email($email)) {
 			redirect('');
 		}
-		if ($this->user_model->checkEmail($email)) {
-			redirect('');
-		}
-		$user_name = explode("@", $email)[0];
-
-		if ($this->user_model->checkUserName($user_name)) {
-			$user_name = preg_replace('/[^a-z0-9]/i', '_', $full_name);
-			if ($this->user_model->checkUserName($user_name)) {
-				redirect('');
-			}
-		}
 		$params = [];
 		$params['email'] = $email;
-		$params['password'] = '';
-		$params['joined'] = $time;
-		$params['last_login'] = $time;
-		$params['user_name'] = $user_name;
 		$params['full_name'] = $full_name;
+		$params['added_at'] = $time;
 
-		$this->user_model->insert($params);
+		$this->user_model->insertSignUp($params);
 		redirect('');
 	}
 }
