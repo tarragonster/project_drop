@@ -4,9 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>10 Block</title>
+    <title>10 BLOCK</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="<?= base_url('sites/homepage/css/app.css') ?>" rel="stylesheet">
+	  <link rel="icon" type="image/x-icon" href="<?= base_url('sites/homepage/images/favicon.ico') ?>">
+	  <link rel="shortcut icon" href="<?= base_url('sites/homepage/images/favicon.ico') ?>">
   </head>
   <body>
     <div class="app">
