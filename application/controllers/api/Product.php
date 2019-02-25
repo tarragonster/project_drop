@@ -47,6 +47,27 @@ class Product extends BR_Controller {
 			$seasons[$key]['films'] = $films;
 		}
 		$product['seasons'] = $seasons;
+		$paywall_episode_ids = [];
+		if (isset($product['paywall_episode'])) {
+			if ($product['paywall_episode'] > 0) {
+				$episodes = $this->product_model->getEpisodeSeasons($product_id);
+				if ($episodes != null && count($episodes) > 0) {
+					$index_paywall = -1;
+					foreach ($episodes as $key => $e) {
+						if ($e['episode_id'] == $product['paywall_episode']) {
+							$index_paywall = $key;
+							break;
+						}
+					}
+					if ($index_paywall > -1) {
+						for ($i = $index_paywall; $i < count($episodes); $i++) {
+							$paywall_episode_ids[] = $episodes[$i]['episode_id'];
+						}
+					}
+				}
+			}
+		}
+		$product['paywall_episode_ids'] = $paywall_episode_ids;
 
 		$watchers = $this->product_model->getProductWatchers($product_id);
 
