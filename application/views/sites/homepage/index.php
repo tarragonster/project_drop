@@ -32,7 +32,7 @@
 					  alert("Sorry, something went wrong.");
 				  } else {
 					  form.phone.value = "";
-					  alert("SMS sent!");
+					  alert("Download link sent! Please check your phone.");
 				  }
 			  };
 			  branch.sendSMS(phone, linkData, options, callback);
