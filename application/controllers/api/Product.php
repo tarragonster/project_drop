@@ -203,6 +203,11 @@ class Product extends BR_Controller {
 			unset($episode['product_paywall_episode']);
 		}
 		$episode['comments'] = $comments;
+		if (!empty($episode['jw_media_id'])) {
+			$this->load->library('jw_lib');
+			$captions = $this->jw_lib->getVideoCaptions($episode['jw_media_id']);
+			$episode['captions'] = $captions;
+		}
 		return $episode;
 	}
 
