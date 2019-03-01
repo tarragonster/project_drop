@@ -133,7 +133,7 @@ class News extends BR_Controller {
 					}
 				}
 				if (isset($notify['data']['replies_id'])) {
-					$replies = $this->news_model->getReplies($notify['data']['replies_id']);
+					$replies = $this->news_model->getReply($notify['data']['replies_id']);
 					$item['content'] .= $replies['content'];
 				}
 			}

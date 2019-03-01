@@ -52,7 +52,7 @@ class Comment_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function getRepliesById($replies_id) {
+	public function getReplyById($replies_id) {
 		$this->db->select('r.replies_id, r.user_id, r.content, r.timestamp, u.user_name, u.full_name, u.avatar, u.user_id');
 		$this->db->from('comment_replies r');
 		$this->db->join('user u', 'u.user_id = r.user_id');

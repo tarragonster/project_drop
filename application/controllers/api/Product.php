@@ -157,10 +157,8 @@ class Product extends BR_Controller {
 			foreach ($comments as $key => $comment) {
 				$replies = $this->episode_model->getReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
-					$replies[$t]['num_like'] = $this->episode_model->countRepliesLike($rep['replies_id']);
 					$replies[$t]['has_like'] = $this->episode_model->hasLikeReplies($rep['replies_id'], $this->user_id);
 				}
-				$comments[$key]['num_like'] = $this->episode_model->countCommentLike($comment['comment_id']);
 				$comments[$key]['replies'] = $replies;
 				$comments[$key]['has_like'] = $this->episode_model->hasLikeComment($comment['comment_id'], $this->user_id);
 			}
@@ -173,10 +171,8 @@ class Product extends BR_Controller {
 			foreach ($comments as $key => $comment) {
 				$replies = $this->episode_model->getReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
-					$replies[$t]['num_like'] = $this->episode_model->countRepliesLike($rep['replies_id']);
 					$replies[$t]['has_like'] = 0;
 				}
-				$comments[$key]['num_like'] = $this->episode_model->countCommentLike($comment['comment_id']);
 				$comments[$key]['replies'] = $replies;
 				$comments[$key]['has_like'] = 0;
 			}

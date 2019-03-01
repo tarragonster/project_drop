@@ -91,36 +91,29 @@ class Episode_model extends BaseModel {
 	}
 
 	public function getComments($episode_id, $type, $page = -1) {
-		if ($type == 1) {
-			$this->db->select('c.comment_id, c.user_id, c.content, c.timestamp, u.user_name, u.full_name, u.avatar, u.user_id');
-			$this->db->from('comments c');
-			$this->db->join('user u', 'u.user_id = c.user_id');
-			$this->db->where('c.episode_id', $episode_id);
-			$this->db->order_by('c.comment_id', 'desc');
-			if ($page >= 0)
-				$this->db->limit(10, 10 * $page);
-			$query = $this->db->get();
-		} else {
-			$this->db->select('c.comment_id, c.user_id, c.content, c.timestamp, u.user_name, u.full_name, u.avatar, u.user_id, (count(l.id) + count(r.replies_id)) as votes');
-			$this->db->from('comments c');
-			$this->db->join('user u', 'u.user_id = c.user_id');
-			$this->db->join('comment_like l', 'l.comment_id = c.comment_id', 'left');
-			$this->db->join('comment_replies r', 'r.comment_id = c.comment_id', 'left');
-			$this->db->where('c.episode_id', $episode_id);
-			$this->db->group_by('c.comment_id');
-			$this->db->order_by('votes', 'desc');
-			if ($page >= 0)
-				$this->db->limit(10, 10 * $page);
-			$query = $this->db->get();
-		}
+		$this->db->select('c.comment_id, c.user_id, c.content, c.timestamp, u.user_name, u.full_name, u.avatar, u.user_id, if(l.num_of_likes is null, 0, l.num_of_likes) as num_like');
+		$this->db->from('comments c');
+		$this->db->join('user u', 'u.user_id = c.user_id');
+		$subQuery = 'select comment_id, count(*) as num_of_likes from comment_like group by comment_id';
+		$this->db->join("($subQuery) l", 'l.comment_id = c.comment_id', 'left');
+		$this->db->where('c.episode_id', $episode_id);
+		$this->db->group_by('c.comment_id');
+		$this->db->order_by('num_like', 'desc');
+		$this->db->order_by('c.comment_id', 'asc');
+		if ($page >= 0)
+			$this->db->limit(10, 10 * $page);
+		$query = $this->db->get();
 		return $query->result_array();
 	}
 
 	public function getReplies($comment_id) {
-		$this->db->select('r.replies_id, r.user_id, r.content, r.timestamp, u.user_name, u.full_name, u.avatar, u.user_id');
+		$this->db->select('r.replies_id, r.user_id, r.content, r.timestamp, u.user_name, u.full_name, u.avatar, u.user_id, if(rl.num_of_likes is null, 0, rl.num_of_likes) as num_like');
 		$this->db->from('comment_replies r');
 		$this->db->join('user u', 'u.user_id = r.user_id');
+		$subQuery = 'select replies_id, count(*) as num_of_likes from replies_like group by replies_id';
+		$this->db->join("($subQuery) rl", 'rl.replies_id = r.replies_id', 'left');
 		$this->db->where('r.comment_id', $comment_id);
+		$this->db->order_by('num_like', 'desc');
 		$this->db->order_by('r.replies_id', 'asc');
 		$query = $this->db->get();
 		return $query->result_array();

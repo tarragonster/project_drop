@@ -56,7 +56,7 @@ class News_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function getReplies($replies_id) {
+	public function getReply($replies_id) {
 		$this->db->where('replies_id', $replies_id);
 		$query = $this->db->get('comment_replies');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
