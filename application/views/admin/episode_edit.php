@@ -57,18 +57,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <label>Video</label>
-                    <p style='text-align: center;'>
-                        <video width="400" height="240" controls>
-                            <source src="<?php echo base_url($url)?>" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </p>
-                    <input name="url" class="form-control" type="file" accept="video/mp4,video/x-m4v,video/*" onchange="setFileInfo(this.files)"/>
-                    <div id="infos" style="margin-top: 8px;"></div>
-                    <input id="duration" name="duration" style='opacity: 0; z-index: -1000'/>
-                </div>
             </div>
         </div>
         <div style='margin-top: 16px' class="col-md-12">

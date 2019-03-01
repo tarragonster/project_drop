@@ -47,7 +47,6 @@ class Episode extends Base_Controller {
 		if ($cmd != '') {
 			$params = array();
 			$params['name'] = $this->input->post('name');
-            $params['total_time'] = $this->input->post('duration');
             $params['description'] = $this->input->post('description');
             $params['created'] = time();
             $params['season_id'] = $season_id;
@@ -100,8 +99,6 @@ class Episode extends Base_Controller {
             $params = array();
             if($this->input->post('name') != '')
                 $params['name'] = $this->input->post('name');
-            if($this->input->post('duration') != '')
-            	$params['total_time'] = $this->input->post('duration');
             if($this->input->post('description') != '')
                 $params['description'] = $this->input->post('description');
 

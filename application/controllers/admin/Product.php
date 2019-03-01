@@ -131,8 +131,6 @@ class Product extends Base_Controller {
 			} else {
 				$params['paywall_episode'] = 0;
 			}
-			if ($this->input->post('duration') != '')
-				$params['total_time'] = $this->input->post('duration');
 			$image = isset($_FILES['image']) ? $_FILES['image'] : null;
 			$this->load->model('file_model');
 			if ($image != null && $image['error'] == 0) {
