@@ -20,7 +20,7 @@ class Cronjobs extends Base_Controller {
 			$this->db->where('jw_media_id', $video['key']);
 			$this->db->update('product', ['total_time' => $video['duration']]);
 
-			$this->db->where('episode_id', $video['key']);
+			$this->db->where('jw_media_id', $video['key']);
 			$this->db->update('episode', ['total_time' => $video['duration']]);
 		}
 
