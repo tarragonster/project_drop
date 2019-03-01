@@ -84,7 +84,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 												<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
 											</a>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-											        data-href="<?php echo redirect_url('admin/user/removePick/' . $row['pick_id'], ['active' => 'your-picks']) ?>">
+											        data-href="<?php echo redirect_url('user/removePick/' . $row['pick_id'], ['active' => 'your-picks']) ?>">
 												Remove
 											</button>
 										</div>
@@ -125,7 +125,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 									<td>
 										<div class='button-list'>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-											        data-href="<?php echo redirect_url('admin/user/removeWatch/' . $row['id'], ['active' => 'watch-list']) ?>">
+											        data-href="<?php echo redirect_url('user/removeWatch/' . $row['id'], ['active' => 'watch-list']) ?>">
 												Remove
 											</button>
 										</div>
@@ -166,7 +166,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 									<td>
 										<div class='button-list'>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-											        data-href="<?php echo redirect_url('admin/user/removeProductLike/' . $row['id'], ['active' => 'thumb-up']) ?>">
+											        data-href="<?php echo redirect_url('user/removeProductLike/' . $row['id'], ['active' => 'thumb-up']) ?>">
 												Remove
 											</button>
 										</div>

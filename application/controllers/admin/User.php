@@ -385,7 +385,7 @@ class User extends Base_Controller {
 			$quote = $this->input->post('quote');
 			$this->user_model->updatePick(['quote' => $quote], $pick_id);
 
-			$this->redirect(make_url('admin/user/profile/' . $pick['user_id'], ['active' => 'your-picks']));
+			$this->redirect(make_url('user/profile/' . $pick['user_id'], ['active' => 'your-picks']));
 		}
 
 		$user = $this->user_model->get($pick['user_id']);
