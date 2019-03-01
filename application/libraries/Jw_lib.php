@@ -23,8 +23,8 @@ class Jw_lib {
 		return null;
 	}
 
-	public function getVideos($video_keys = '') {
-		$string = 'api_format=json&api_key=' . $this->apiKey . '&api_nonce=' . rand(1000, 99999) . '&api_timestamp=' . time() . '&result_limit=1000&updated_after=1548979200';
+	public function getVideos($video_keys = '', $updated_after = 0) {
+		$string = 'api_format=json&api_key=' . $this->apiKey . '&api_nonce=' . rand(1000, 99999) . '&api_timestamp=' . time() . '&result_limit=1000&updated_after=' . $updated_after;
 		if (is_array($video_keys)) {
 			$video_keys = implode(',', $video_keys);
 		}

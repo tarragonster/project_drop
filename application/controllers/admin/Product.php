@@ -49,6 +49,18 @@ class Product extends Base_Controller {
 			$params['creators'] = $this->input->post('creators');
 			$params['rate_id'] = $this->input->post('rate_id');
 			$params['jw_media_id'] = $this->input->post('jw_media_id');
+
+			$jw_media_id = $this->input->post('jw_media_id');
+			if (!empty($jw_media_id)) {
+				$this->load->library('jw_lib');
+				$video = $this->jw_lib->getVideo($jw_media_id);
+				if ($video != null) {
+					$params['total_time'] = $video['duration'];
+				}
+
+				$params['jw_media_id'] = $jw_media_id;
+			}
+
 			$params['priority'] = $this->product_model->getMaxPriority() + 1;
 			$params['created'] = time();
 			$image = isset($_FILES['image']) ? $_FILES['image'] : null;
@@ -99,8 +111,17 @@ class Product extends Base_Controller {
 				$params['publish_year'] = $this->input->post('publish_year');
 			if ($this->input->post('creators') != '')
 				$params['creators'] = $this->input->post('creators');
-			if ($this->input->post('jw_media_id') != '')
-				$params['jw_media_id'] = $this->input->post('jw_media_id');
+
+			$jw_media_id = $this->input->post('jw_media_id');
+			if (!empty($jw_media_id) && $jw_media_id != $product['jw_media_id']) {
+				$this->load->library('jw_lib');
+				$video = $this->jw_lib->getVideo($jw_media_id);
+				if ($video != null) {
+					$params['total_time'] = $video['duration'];
+				}
+
+				$params['jw_media_id'] = $jw_media_id;
+			}
 
 			if ($this->input->post('rate_id') != '')
 				$params['rate_id'] = $this->input->post('rate_id');

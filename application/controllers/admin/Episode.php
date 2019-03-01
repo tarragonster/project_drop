@@ -51,7 +51,15 @@ class Episode extends Base_Controller {
             $params['description'] = $this->input->post('description');
             $params['created'] = time();
             $params['season_id'] = $season_id;
-            $params['jw_media_id'] = $this->input->post('jw_media_id');
+            $jw_media_id = $this->input->post('jw_media_id');
+
+			$this->load->library('jw_lib');
+			$video = $this->jw_lib->getVideo($jw_media_id);
+			if ($video != null) {
+				$params['total_time'] = $video['duration'];
+			}
+
+            $params['jw_media_id'] = $jw_media_id;
             $params['position'] = $this->episode_model->getPosition($season_id) + 1;
             $image = isset($_FILES['image']) ? $_FILES['image'] : null;
 			$this->load->model('file_model');
@@ -67,6 +75,7 @@ class Episode extends Base_Controller {
                     $params['url'] = $path;
                 }
             }
+
             $episode_id = $this->episode_model->insert($params);
             if ($cmd == 'Save') {
             	$this->session->set_flashdata('msg', 'Add success!');
@@ -95,8 +104,18 @@ class Episode extends Base_Controller {
             	$params['total_time'] = $this->input->post('duration');
             if($this->input->post('description') != '')
                 $params['description'] = $this->input->post('description');
-            if($this->input->post('jw_media_id') != '')
-                $params['jw_media_id'] = $this->input->post('jw_media_id');
+
+	        $jw_media_id = $this->input->post('jw_media_id');
+			if (!empty($jw_media_id) && $jw_media_id != $episode['jw_media_id']) {
+				$this->load->library('jw_lib');
+				$video = $this->jw_lib->getVideo($jw_media_id);
+				if ($video != null) {
+					$params['total_time'] = $video['duration'];
+				}
+
+				$params['jw_media_id'] = $jw_media_id;
+			}
+
             $image = isset($_FILES['image']) ? $_FILES['image'] : null;
 			$this->load->model('file_model');
 			if ($image != null && $image['error'] == 0) {				
