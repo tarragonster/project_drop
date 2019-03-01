@@ -1,20 +1,15 @@
 <?php
-require APPPATH . '/core/Base_Controller.php';
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cronjobs extends Base_Controller {
+class Migrate extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
 	}
 
-	public function push() {
-		$this->load->library('cipush');
-		$this->cipush->start();
-	}
-
 	public function jwTotalTime() {
 		$this->load->library('jw_lib');
-		$videos = $this->jw_lib->getVideos(null, time() - 86400);
+		$videos = $this->jw_lib->getVideos();
 
 		foreach ($videos as $video) {
 			$this->db->where('jw_media_id', $video['key']);
@@ -26,5 +21,4 @@ class Cronjobs extends Base_Controller {
 
 		log_message('trace', 'Number of videos: ' . count($videos));
 	}
-
 }
