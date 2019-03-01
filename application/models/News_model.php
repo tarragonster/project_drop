@@ -52,13 +52,13 @@ class News_model extends BaseModel {
 
 	public function getComment($comment_id) {
 		$this->db->where('comment_id', $comment_id);
-		$query = $this->db->get('episode_comment');
+		$query = $this->db->get('comments');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
 	public function getReplies($replies_id) {
 		$this->db->where('replies_id', $replies_id);
-		$query = $this->db->get('episode_replies');
+		$query = $this->db->get('comment_replies');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 

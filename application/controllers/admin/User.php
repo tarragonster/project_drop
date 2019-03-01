@@ -207,13 +207,13 @@ class User extends Base_Controller {
 			$this->db->delete('log_login');
 
 			$this->db->where('user_id', $user_id);
-			$this->db->delete('episode_replies');
+			$this->db->delete('comment_replies');
 
 			$this->db->where('user_id', $user_id);
 			$this->db->delete('episode_like');
 
 			$this->db->where('user_id', $user_id);
-			$this->db->delete('episode_comment');
+			$this->db->delete('comments');
 
 			$this->db->where('user_id', $user_id);
 			$this->db->delete('comment_like');

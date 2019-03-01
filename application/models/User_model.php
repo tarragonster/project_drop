@@ -341,7 +341,7 @@ class User_model extends BaseModel {
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('episode_like');
 		$this->db->where('user_id', $user_id);
-		$this->db->delete('episode_comment');
+		$this->db->delete('comments');
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('user_notify');
 		$this->db->like('data', '"user_id":' . $user_id);
@@ -598,6 +598,7 @@ class User_model extends BaseModel {
 		}
 		$this->db->group_by('up.pick_id');
 		$this->db->join('product_view p', 'p.product_id = up.product_id');
+
 		return $this->db->get()->result_array();
 	}
 

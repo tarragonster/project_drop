@@ -71,14 +71,14 @@ class Episode_model extends BaseModel {
 	}
 
 	public function countComment($episode_id) {
-		$this->db->from('episode_comment');
+		$this->db->from('comments');
 		$this->db->where('episode_id', $episode_id);
 		return $this->db->count_all_results();
 	}
 
 	public function countAllSubComment($episode_id) {
-		$this->db->from('episode_replies er');
-		$this->db->join('episode_comment ec', 'ec.comment_id = er.comment_id');
+		$this->db->from('comment_replies er');
+		$this->db->join('comments ec', 'ec.comment_id = er.comment_id');
 		$this->db->where('ec.episode_id', $episode_id);
 		return $this->db->count_all_results();
 	}
@@ -93,7 +93,7 @@ class Episode_model extends BaseModel {
 	public function getComments($episode_id, $type, $page = -1) {
 		if ($type == 1) {
 			$this->db->select('c.comment_id, c.user_id, c.content, c.timestamp, u.user_name, u.full_name, u.avatar, u.user_id');
-			$this->db->from('episode_comment c');
+			$this->db->from('comments c');
 			$this->db->join('user u', 'u.user_id = c.user_id');
 			$this->db->where('c.episode_id', $episode_id);
 			$this->db->order_by('c.comment_id', 'desc');
@@ -102,10 +102,10 @@ class Episode_model extends BaseModel {
 			$query = $this->db->get();
 		} else {
 			$this->db->select('c.comment_id, c.user_id, c.content, c.timestamp, u.user_name, u.full_name, u.avatar, u.user_id, (count(l.id) + count(r.replies_id)) as votes');
-			$this->db->from('episode_comment c');
+			$this->db->from('comments c');
 			$this->db->join('user u', 'u.user_id = c.user_id');
 			$this->db->join('comment_like l', 'l.comment_id = c.comment_id', 'left');
-			$this->db->join('episode_replies r', 'r.comment_id = c.comment_id', 'left');
+			$this->db->join('comment_replies r', 'r.comment_id = c.comment_id', 'left');
 			$this->db->where('c.episode_id', $episode_id);
 			$this->db->group_by('c.comment_id');
 			$this->db->order_by('votes', 'desc');
@@ -118,7 +118,7 @@ class Episode_model extends BaseModel {
 
 	public function getReplies($comment_id) {
 		$this->db->select('r.replies_id, r.user_id, r.content, r.timestamp, u.user_name, u.full_name, u.avatar, u.user_id');
-		$this->db->from('episode_replies r');
+		$this->db->from('comment_replies r');
 		$this->db->join('user u', 'u.user_id = r.user_id');
 		$this->db->where('r.comment_id', $comment_id);
 		$this->db->order_by('r.replies_id', 'asc');

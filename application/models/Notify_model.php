@@ -235,7 +235,7 @@ class Notify_model extends CI_Model {
 
 	public function getComment($comment_id) {
 		$this->db->where('comment_id', $comment_id);
-		$query = $this->db->get('episode_comment');
+		$query = $this->db->get('comments');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
