@@ -54,7 +54,7 @@
 								<div class="form-group row">
 									<label class="col-md-12">Image</label>
 									<div class="col-md-4">
-										<img id='image' width='120' height='120' src='<?= media_url($image); ?>' style='border: 4px solid #c6c6c6; border-radius: 4px'/>
+										<img id='image' width='120' height='120' src='<?= media_thumbnail($image, 120) ?>' style='border: 4px solid #c6c6c6; border-radius: 4px'/>
 									</div>
 									<div class="col-md-8">
 										<img style="padding-left: 45%;position: absolute;top: 40%;" src="<?= base_url('assets/images/plus.png') ?>">

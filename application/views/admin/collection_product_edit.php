@@ -18,7 +18,7 @@
 						<div class="row">
 							<div class="col-md-4">
 								<img id='image' width='120' height='120' style='border: 4px solid #c6c6c6; border-radius: 4px'
-								     src="<?= media_url($promo_image) ?>"/>
+								     src="<?= media_thumbnail($promo_image, 120) ?>"/>
 							</div>
 							<div class="col-md-8">
 								<img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png') ?>">

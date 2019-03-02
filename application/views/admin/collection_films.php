@@ -39,7 +39,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 								foreach ($products as $row): ?>
 									<tr>
 										<td align="center"><?php echo $row['product_id']; ?></td>
-										<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['promo_image']); ?>"/></td>
+										<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['promo_image']) ?>"/></td>
 										<td><?php echo $row['name'] ?></td>
 										<td><?php echo $row['publish_year']; ?></td>
 										<?php echo '<td><div class="button-list">';

@@ -8,7 +8,6 @@ function pre_print($data, $exit = true) {
 	}
 }
 
-
 function validate_email($str) {
 	return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
 }
@@ -126,7 +125,6 @@ function timeFormat($timestamp) {
 	return date('M. d, Y H:i', $timestamp);
 }
 
-
 function getTypeMember($type) {
 	switch ($type) {
 		case 1:
@@ -230,7 +228,6 @@ function getProductReportReason($reason_id) {
 	}
 }
 
-
 function getShippingPrice($package) {
 	return ($package == 1) ? 5.20 : ($package == 2 ? 11.30 : 3.29);
 }
@@ -268,6 +265,18 @@ function media_url($mediaUri, $default = 'assets/images/placeholder.png') {
 		$mediaUri = $default;
 	}
 	return base_url($mediaUri);
+}
+
+function media_thumbnail($mediaUri, $size = 100, $default = 'assets/images/placeholder.png') {
+	if (startsWith($mediaUri, 'http')) {
+		return $mediaUri;
+	}
+	if (empty($mediaUri) || !file_exists($mediaUri)) {
+		$mediaUri = $default;
+	}
+
+	$pathEncoded = str_replace('=', '', base64_encode($mediaUri));
+	return base_url('photo/thumbnail/' . $pathEncoded . '?size=' . ($size * 2));
 }
 
 function make_url($url = '', $query_data = []) {

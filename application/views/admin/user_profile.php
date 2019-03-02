@@ -43,7 +43,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 							</tr>
 							<tr>
 								<th>Profile picture :</th>
-								<td><img width='80' src='<?php echo media_url($user['avatar']); ?>'/></td>
+								<td><img width='80' src='<?= media_thumbnail($user['avatar'], 80) ?>'/></td>
 							</tr>
 							</tbody>
 						</table>
@@ -74,7 +74,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 							foreach ($your_picks as $row): ?>
 								<tr>
 									<td align="center"><?php echo $row['product_id']; ?></td>
-									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
+									<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 									<td><?php echo $row['name'] ?></td>
 									<td><?php echo $row['quote']; ?></td>
 									<td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
@@ -119,7 +119,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 							foreach ($watch_list as $row): ?>
 								<tr>
 									<td align="center"><?php echo $row['product_id']; ?></td>
-									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
+									<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 									<td><?php echo $row['name'] ?></td>
 									<td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
 									<td>
@@ -160,7 +160,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 							foreach ($thumbs_up as $row): ?>
 								<tr>
 									<td align="center"><?php echo $row['product_id']; ?></td>
-									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
+									<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 									<td><?php echo $row['name'] ?></td>
 									<td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
 									<td>
