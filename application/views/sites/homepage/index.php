@@ -116,15 +116,15 @@
         </div>
         <div class="boxes">
           <div class="box text-center">
-            <p>A totally original approach to snackable content. <br> - Loren, 35, Miami</p>
+            <p>A totally original approach to snackable content. <br> - Loren, 34, Los Angeles</p>
           </div>
           <div class="box text-center">
-            <p>I’d watch commuting on the train, morning and night. <br> - Josh, 27, NY</p>
+            <p>I’d watch commuting on the train, morning and night. <br> - Andrew, 44, New York</p>
           </div>
         </div>
         <div class="boxes is-center">
           <div class="box text-center">
-            <p class="featured">I like seeing what my friends and people say in reviews not critics. <br> - Julia, 18, Portland</p>
+            <p class="featured">I like seeing what my friends and people say in reviews not critics. <br> - Hannah, 36, San Francisco</p>
           </div>
         </div>
         <div class="boxes">
@@ -132,7 +132,7 @@
             <p>Imagine watching bite size episodes of a film on your phone…and while you’re watching, you could be interacting with fellow viewers. <br> - Jenny, 45, London</p>
           </div>
           <div class="box text-center">
-            <p>Almost everything I watch, I watch on my phone. So this is my dream app. <br> - Magda, 38, Detroit</p>
+            <p>Almost everything I watch, I watch on my phone. So this is my dream app. <br> - Magda, 29, Boston</p>
           </div>
         </div>
         <div class="boxes evenly">
