@@ -1,17 +1,17 @@
 [
     {
         "name": "facebook/graph-sdk",
-        "version": "5.6.3",
-        "version_normalized": "5.6.3.0",
+        "version": "5.7.0",
+        "version_normalized": "5.7.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/facebook/php-graph-sdk.git",
-            "reference": "90e92bd1816fe718e55184ab85910dfcf488432c"
+            "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/90e92bd1816fe718e55184ab85910dfcf488432c",
-            "reference": "90e92bd1816fe718e55184ab85910dfcf488432c",
+            "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/2d8250638b33d73e7a87add65f47fabf91f8ad9b",
+            "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b",
             "shasum": ""
         },
         "require": {
@@ -26,7 +26,7 @@
             "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client",
             "paragonie/random_compat": "Provides a better CSPRNG option in PHP 5"
         },
-        "time": "2018-07-03T02:25:00+00:00",
+        "time": "2018-12-11T22:56:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -61,17 +61,17 @@
     },
     {
         "name": "stripe/stripe-php",
-        "version": "v6.29.3",
-        "version_normalized": "6.29.3.0",
+        "version": "v6.30.5",
+        "version_normalized": "6.30.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/stripe/stripe-php.git",
-            "reference": "373002ee880f24066279f175957e0e372c127298"
+            "reference": "1ffc751e7ee2d68b3e4a0068f5537b8334945467"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/373002ee880f24066279f175957e0e372c127298",
-            "reference": "373002ee880f24066279f175957e0e372c127298",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/1ffc751e7ee2d68b3e4a0068f5537b8334945467",
+            "reference": "1ffc751e7ee2d68b3e4a0068f5537b8334945467",
             "shasum": ""
         },
         "require": {
@@ -86,7 +86,7 @@
             "squizlabs/php_codesniffer": "~2.0",
             "symfony/process": "~2.8"
         },
-        "time": "2019-01-31T15:23:38+00:00",
+        "time": "2019-03-11T20:45:23+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
