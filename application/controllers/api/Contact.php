@@ -44,6 +44,7 @@ class Contact extends BR_Controller {
 				$this->contact_lib->pushFriends($this->user_id, CONTACT_TYPE_PHONE, $phoneContacts);
 			}
 		}
+		$this->user_model->update(['synced_contact' => 1], $this->user_id);
 
 		$response = [];
 		$response['num_of_friends'] = $this->user_model->countContactFriends($this->user_id);
