@@ -17,7 +17,7 @@ class Email_model extends CI_Model {
 		$this->email->send();
 	}
 
-	protected function createNewEmail($from_email = 'noreply@secondscreentv.us', $from_name = 'Second Screen') {
+	protected function createNewEmail($from_email = 'noreply@get10block.com', $from_name = '10Block') {
 		$config = array('mailtype' => 'html', 'charset' => 'utf-8');
 		$this->load->library('email', $config);
 		$this->email->from($from_email, $from_name);
