@@ -257,6 +257,10 @@ function getUsernameCanbe($content) {
 	}
 }
 
+function root_domain() {
+	return (config_item('secure_mode') ? 'https://' : 'http://') . config_item('root_domain');
+}
+
 function media_url($mediaUri, $default = 'assets/images/placeholder.png') {
 	if (startsWith($mediaUri, 'http')) {
 		return $mediaUri;

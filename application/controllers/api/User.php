@@ -247,6 +247,11 @@ class User extends BR_Controller {
 		if (!empty($facebook_id)) {
 			$this->contact_lib->updateContact(CONTACT_TYPE_FACEBOOK, $facebook_id, $user_id);
 		}
+
+		$emailParams['username'] = $full_name;
+		$this->load->model("email_model");
+		$this->email_model->welcome($email, $emailParams);
+
 		$this->create_success(array('profile' => $data), 'Register success');
 	}
 
@@ -701,7 +706,7 @@ class User extends BR_Controller {
 		$params['code'] = $code;
 		$params['created'] = $time;
 		$this->user_model->insertCodeResetPassword($params);
-		$params['url_code'] = 'http://secondscreentv.us/reset-password?code=' . $base_64;
+		$params['url_code'] = root_domain() . '/reset-password?code=' . $base_64;
 		$params['username'] = $user['full_name'];
 		$this->load->model("email_model");
 		$this->email_model->emailForgotPassword($email, $params);
@@ -876,5 +881,12 @@ class User extends BR_Controller {
 
 		$profile = $this->__getUserProfile($this->user_id);
 		$this->create_success(['profile' => $profile]);
+	}
+
+	public function welcome_get() {
+		$email = 'cuongdoict@gmail.com';
+		$params['username'] = 'Cuong Do';
+		$this->load->model("email_model");
+		$this->email_model->welcome($email, $params);
 	}
 }
