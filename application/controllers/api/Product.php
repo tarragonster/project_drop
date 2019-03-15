@@ -79,6 +79,19 @@ class Product extends BR_Controller {
 		$this->create_success($response);
 	}
 
+	public function captions_get($product_id) {
+		$product = $this->product_model->getProductDetail($product_id);
+		if ($product == null) {
+			$this->create_error(-77);
+		}
+		if (empty($product['jw_media_id'])) {
+			$this->create_error(-85);
+		}
+		$this->load->library('jw_lib');
+		$captions = $this->jw_lib->getVideoCaptions($product['jw_media_id']);
+		$this->create_success(['captions' => $captions]);
+	}
+
 	public function episode_get($episode_id) {
 		$this->load->model('episode_model');
 		$episode = $this->episode_model->getEpisode($episode_id);

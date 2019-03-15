@@ -179,7 +179,7 @@ class BR_Controller extends REST_Controller {
 		-85 => 'Not found jw media id',
 		-1000 => 'Undefined error',
 		-1001 => 'Api key invalid',
-		-1002 => 'Your account have been deactivated!',
+		-1002 => 'Your account has been deactivated.',
 		-1003 => "Access denied.",
 		-1005 => 'Unknown resource',
 	);
