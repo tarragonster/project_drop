@@ -691,8 +691,28 @@ class User extends BR_Controller {
 		$this->create_success(['profile' => $profile], 'Change password successfully');
 	}
 
-
-	public function forgotPassword_post() {
+	/**
+	 * @SWG\Post(
+	 *     path="/user/forgotPassword",
+	 *     summary="forgotPassword",
+	 *     operationId="forgotPassword",
+	 *     tags={"Authorization"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="User email",
+	 *         in="formData",
+	 *         name="email",
+	 *         required=true,
+	 *         type="string",
+	 *         default="email@example.com"
+	 *     ),
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function forgotPassword_get() {
 		$email = $this->c_getEmail("email");
 		$user = $this->user_model->checkEmail($email);
 		if (!$user) {

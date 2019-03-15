@@ -3,7 +3,7 @@ $('#nameActor').keyup(function() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: window.location.origin + '/admin/actor/ajaxLoadData/', 
+        url: window.location.origin + '/actor/ajaxLoadData/',
         data: {
             query: $('#nameActor').val(),
             product_id: $('#product_id').val()

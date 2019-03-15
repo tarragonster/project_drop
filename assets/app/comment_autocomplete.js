@@ -22,7 +22,7 @@ $('#select_episode').autocomplete({
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: window.location.origin + '/admin/comment/ajaxComment/', 
+            url: window.location.origin + '/comment/ajaxComment/',
             data: {
                 episode_id: ui.item.value
             },
@@ -43,7 +43,7 @@ $('#content-comment').on('click', '.btn-comment' , function() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: window.location.origin + '/admin/comment/ajaxReplies/', 
+        url: window.location.origin + '/comment/ajaxReplies/',
         data: {
             comment_id: $(this).attr('id')
         },

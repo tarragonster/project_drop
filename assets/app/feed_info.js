@@ -2,7 +2,7 @@ $('#nameFilm').keyup(function() {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: window.location.origin + '/admin/feed/ajaxLoadData/', 
+        url: window.location.origin + '/feed/ajaxLoadData/',
         data: {
             query: $('#nameFilm').val()
         },

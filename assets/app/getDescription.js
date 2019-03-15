@@ -2,7 +2,7 @@ $('#getDescription').click(function() {
 	var query = $("#nameActor").val();
 	$.ajax({
 		type: "GET",
-		url: window.location.origin + '/admin/actor/ajaxLoadActor/', 
+		url: window.location.origin + '/actor/ajaxLoadActor/',
         data: {
         	query: encodeURI('http://www.imdb.com/find?q=' + query +'&s=nm&ref_=fn_nm'), 
         },

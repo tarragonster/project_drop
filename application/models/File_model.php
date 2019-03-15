@@ -162,6 +162,16 @@ class File_model extends CI_Model {
 		return $thumbPath;
 	}
 
+	public function createThumbV2($pathEncoded, $size) {
+		$path = base64_decode($pathEncoded);
+		$pos = strripos($path, '.');
+		$thumbPath = 'media/cache/' . $pathEncoded . '-' . $size . substr($path, $pos);
+		if (!file_exists($thumbPath)) {
+			$this->resizeKeepRatioV2($path, $thumbPath, $size);
+		}
+		return $thumbPath;
+	}
+
 	public function resizeKeepRatio($path, $thumbPath, $size) {
 		$manipulator = new ImageManipulator($path);
 		$width = $manipulator->getWidth();
@@ -225,7 +235,6 @@ class File_model extends CI_Model {
 		$time = time();
 		return AVATAR_IMAGE_PATH . "avatar-$uid-$time.$extension";
 	}
-
 
 	public function createFilePath($image, $pre = 'media/') {
 		// $extension = end(explode('.', $image['name']));
@@ -304,7 +313,6 @@ class File_model extends CI_Model {
 		return true;
 	}
 
-
 	/**
 	 *
 	 * @param unknown $images
@@ -351,7 +359,6 @@ class File_model extends CI_Model {
 		}
 		return $paths;
 	}
-
 
 	/**
 	 * @param array $images
@@ -406,7 +413,6 @@ class File_model extends CI_Model {
 			unlink($thumb);
 		}
 	}
-
 
 	/**
 	 *

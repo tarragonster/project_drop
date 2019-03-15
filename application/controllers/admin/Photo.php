@@ -18,7 +18,7 @@ class Photo extends CI_Controller {
 		}
 
 		$this->load->model('file_model');
-		$thumbFile = $this->file_model->createThumb($filename, $size);
+		$thumbFile = $this->file_model->createThumbV2($pathEncode, $size);
 		if (!file_exists($thumbFile) || !is_file($thumbFile) || !getimagesize($thumbFile)) {
 			// Not an image, or file doesn't exist. Redirect user
 			header("Location: " . base_url($filename));
