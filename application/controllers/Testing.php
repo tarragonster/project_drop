@@ -37,4 +37,10 @@ class Testing extends CI_Controller {
 		$tracks = $this->jw_lib->getVideoCaptions($video_key);
 		echo json_encode($tracks);
 	}
+
+	public function testFace($token) {
+		$this->load->library('facebook_lib');
+		$response = $this->facebook_lib->friends($token);
+		pre_print($response);
+	}
 }

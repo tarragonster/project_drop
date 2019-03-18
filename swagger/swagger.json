@@ -11,6 +11,28 @@
         "http"
     ],
     "paths": {
+        "/contact/skip": {
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "skip Sync Contact",
+                "operationId": "skipSyncContact",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/user/login": {
             "post": {
                 "tags": [
@@ -73,6 +95,33 @@
                         "accessToken": []
                     }
                 ]
+            }
+        },
+        "/user/forgotPassword": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "forgotPassword",
+                "operationId": "forgotPassword",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "User email",
+                        "required": true,
+                        "type": "string",
+                        "default": "email@example.com"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
             }
         },
         "/user/subscription": {
