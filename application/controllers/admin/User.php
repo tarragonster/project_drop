@@ -180,49 +180,9 @@ class User extends Base_Controller {
 	}
 
 	public function delete($user_id = '') {
-
 		$user = $this->user_model->getUserForAdmin($user_id);
-
 		if ($user != null) {
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('watch_list');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('user_watch');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('user_notify');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->or_where('follower_id', $user_id);
-			$this->db->delete('user_follow');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('user_access_token');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('replies_like');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('log_login');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('comment_replies');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('episode_like');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('comments');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('comment_like');
-
-			$this->db->where('user_id', $user_id);
-			$this->db->delete('user');
-
-			$this->db->like('data', '"user_id":'.$user_id, 'both');
-			$this->db->delete('user_notify');
+			$this->user_model->delete($user_id);
 		}
 		$this->redirect('user');
 	}
