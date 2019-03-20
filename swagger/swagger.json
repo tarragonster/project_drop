@@ -4,8 +4,7 @@
         "title": "Api for SecondScreen App.",
         "version": "1.0.0"
     },
-    "host": "secondscreentv.us",
-    "basePath": "/api",
+    "host": "api.secondscreentv.us",
     "schemes": [
         "https",
         "http"
@@ -64,6 +63,76 @@
                         "name": "device_id",
                         "in": "formData",
                         "description": "Device ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/user/registerProfile": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Register an account",
+                "operationId": "registerProfile",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_name",
+                        "in": "formData",
+                        "description": "User Name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "full_name",
+                        "in": "formData",
+                        "description": "Full Name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "User email",
+                        "required": true,
+                        "type": "string",
+                        "default": "email@example.com"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Password",
+                        "required": true,
+                        "type": "string",
+                        "default": "123456"
+                    },
+                    {
+                        "name": "device_id",
+                        "in": "formData",
+                        "description": "Device ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "access_token",
+                        "in": "formData",
+                        "description": "Facebook access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "google_id",
+                        "in": "formData",
+                        "description": "Google ID",
                         "required": false,
                         "type": "string"
                     }

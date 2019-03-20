@@ -17,7 +17,7 @@ class Email_model extends CI_Model {
 	public function emailForgotPassword($email, $params) {
 		$this->createNewEmail();
 		$this->email->to($email);
-		$this->email->subject('Reset your Second Screen password');
+		$this->email->subject('Reset your password');
 		$html = $this->loadTemplate("forgotpassword");
 		$html = str_replace('{{var username}}', $params['username'], $html);
 		$html = str_replace('{{var url_code}}', $params['url_code'], $html);
@@ -28,17 +28,11 @@ class Email_model extends CI_Model {
 	public function welcome($email, $params) {
 		$this->createNewEmail();
 		$this->email->to($email);
-		$this->email->subject('Welcome');
+		$this->email->subject('Welcome to 10 BLOCK!');
 		$html = $this->loadTemplate("welcome");
 		$html = str_replace('{{var username}}', $params['username'], $html);
 		$this->email->message($html);
 		$this->email->send();
-	}
-
-	protected function createNewEmail($from_email = 'noreply@secondscreentv.us', $from_name = 'Second Screen') {
-		$config = array('mailtype' => 'html', 'charset' => 'utf-8');
-		$this->load->library('email', $config);
-		$this->email->from($from_email, $from_name);
 	}
 
 	protected function loadTemplate($template) {
@@ -52,6 +46,23 @@ class Email_model extends CI_Model {
 		} else {
 			echo null;
 		}
+	}
+
+	protected function createNewEmail($from_email = 'noreply@get10block.com', $from_name = '10 Block') {
+		$config = array(
+		    'protocol'  => 'smtp',
+		    'smtp_host' => 'ssl://smtp.gmail.com',
+		    'smtp_port' => 465,
+		    'smtp_user' => 'dev@get10block.com',
+		    'smtp_pass' => 'nIbkix-wotty9-duwraz',
+		    'mailtype'  => 'html',
+		    'charset'   => 'utf-8'
+		);
+		// $this->email->initialize($config);
+		$this->load->library('email', $config);
+		$this->email->set_mailtype("html");
+		$this->email->set_newline("\r\n");
+		$this->email->from($from_email, $from_name);
 	}
 }
 
