@@ -23,7 +23,7 @@
 						foreach ($users as $row) {
 							echo '<tr>';
 							echo '<td align="center">' . $row['user_id'] . '</td>';
-							echo '<td><img width="70" height="70" src="' . media_url($row['avatar']) . '" /></td>';
+							echo '<td><img width="70" height="70" src="' . media_thumbnail($row['avatar'], 70) . '" /></td>';
 							echo '<td>' . $row['email'] . '</td>';
 							echo '<td>' . $row['user_name'] . '</td>';
 							echo '<td>' . $row['full_name'] . '</td>';

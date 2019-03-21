@@ -4,11 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>10 Block</title>
+	<meta name="google-site-verification" content="NHE1Ng2MUxbGr7SSwc2p4ynZqUj7Z779LE8UXG5o6uE" />
+	<title>10 BLOCK</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= base_url('sites/homepage/css/owl.carousel.css') ?>">
     <link rel="stylesheet" href="<?= base_url('sites/homepage/css/owl.theme.default.css') ?>">
     <link href="<?= base_url('sites/homepage/css/app.css') ?>" rel="stylesheet">
+	<link rel="icon" type="image/x-icon" href="<?= base_url('sites/homepage/images/favicon.ico') ?>">
+	<link rel="shortcut icon" href="<?= base_url('sites/homepage/images/favicon.ico') ?>">
 
 	  <script type="text/javascript">
 		  (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
@@ -30,12 +33,23 @@
 					  alert("Sorry, something went wrong.");
 				  } else {
 					  form.phone.value = "";
-					  alert("SMS sent!");
+					  alert("Download link sent! Please check your phone.");
 				  }
 			  };
 			  branch.sendSMS(phone, linkData, options, callback);
 		  }
 	  </script>
+	  <!-- Google Analytics -->
+	  <script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-136312934-1', 'auto');
+		  ga('send', 'pageview');
+	  </script>
+	  <!-- End Google Analytics -->
   </head>
   <body>
     <div class="app">
@@ -102,15 +116,15 @@
         </div>
         <div class="boxes">
           <div class="box text-center">
-            <p>A totally original approach to snackable content. <br> - Loren, 35, Miami</p>
+            <p>A totally original approach to snackable content. <br> - Loren, 34, Los Angeles</p>
           </div>
           <div class="box text-center">
-            <p>I’d watch commuting on the train, morning and night. <br> - Josh, 27, NY</p>
+            <p>I’d watch commuting on the train, morning and night. <br> - Andrew, 44, New York</p>
           </div>
         </div>
         <div class="boxes is-center">
           <div class="box text-center">
-            <p class="featured">I like seeing what my friends and people say in reviews not critics. <br> - Julia, 18, Portland</p>
+            <p class="featured">I like seeing what my friends and people say in reviews not critics. <br> - Hannah, 36, San Francisco</p>
           </div>
         </div>
         <div class="boxes">
@@ -118,7 +132,7 @@
             <p>Imagine watching bite size episodes of a film on your phone…and while you’re watching, you could be interacting with fellow viewers. <br> - Jenny, 45, London</p>
           </div>
           <div class="box text-center">
-            <p>Almost everything I watch, I watch on my phone. So this is my dream app. <br> - Magda, 38, Detroit</p>
+            <p>Almost everything I watch, I watch on my phone. So this is my dream app. <br> - Magda, 29, Boston</p>
           </div>
         </div>
         <div class="boxes evenly">

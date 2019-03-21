@@ -1,5 +1,7 @@
 var imageLoader = document.getElementById('imagePhoto');
-imageLoader.addEventListener('change', handleImage, false);
+if (imageLoader) {
+	imageLoader.addEventListener('change', handleImage, false);
+}
 
 function handleImage(e) {
     var reader = new FileReader();
@@ -11,7 +13,9 @@ function handleImage(e) {
 }
 
 var coverLoader = document.getElementById('coverPhoto');
-coverLoader.addEventListener('change', handleCoverImage, false);
+if (coverLoader) {
+	coverLoader.addEventListener('change', handleCoverImage, false);
+}
 
 function handleCoverImage(e) {
     var reader = new FileReader();
@@ -23,7 +27,9 @@ function handleCoverImage(e) {
 }
 
 var backgroundImgLoader = document.getElementById('backgroundImg');
-backgroundImgLoader.addEventListener('change', handleBackgroundImage, false);
+if (backgroundImgLoader) {
+	backgroundImgLoader.addEventListener('change', handleBackgroundImage, false);
+}
 
 function handleBackgroundImage(e) {
     var reader = new FileReader();

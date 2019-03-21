@@ -19,7 +19,7 @@ class News_model extends BaseModel {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getNewForYou($user_id, $page = -1) {
@@ -32,7 +32,7 @@ class News_model extends BaseModel {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getUserForNotify($user_id) {
@@ -52,13 +52,13 @@ class News_model extends BaseModel {
 
 	public function getComment($comment_id) {
 		$this->db->where('comment_id', $comment_id);
-		$query = $this->db->get('episode_comment');
+		$query = $this->db->get('comments');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function getReplies($replies_id) {
+	public function getReply($replies_id) {
 		$this->db->where('replies_id', $replies_id);
-		$query = $this->db->get('episode_replies');
+		$query = $this->db->get('comment_replies');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 

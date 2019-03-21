@@ -4,7 +4,7 @@ class Base_Controller extends CI_Controller {
 	protected $account;
 	public function __construct() {
 		parent::__construct();
-
+		date_default_timezone_set('America/Los_Angeles');
 		$this->load->model("admin_model");
 		$this->load->helper(array('form'));
 	}

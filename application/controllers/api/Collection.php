@@ -32,7 +32,7 @@ class Collection extends BR_Controller {
 						$top_picks = $this->user_model->getTopPicks();
 						$collection['products'] = $top_picks;
 					} else {
-						$products = $this->product_model->getListProductByCollection($collection['collection_id'], 0);
+						$products = $this->product_model->getListProductByCollection($collection['collection_id'], 0, $collection['limit']);
 						if ($this->user_id == null) {
 							foreach ($products as $key => $row) {
 								$products[$key]['start_time'] = 0;

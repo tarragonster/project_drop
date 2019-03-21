@@ -150,7 +150,7 @@ class Notify_model extends CI_Model {
 		$this->db->where('user_id', $user_id);
 		$this->db->not_like('reg_id', '__NULL__');
 		$query = $this->db->get('device_user');
-		return $query->num_rows() > 0 ? $query->result_array('array') : null;
+		return $query->num_rows() > 0 ? $query->result_array() : null;
 	}
 
 	public function sendNotification($uid, $type, $alert, $data = null, $sound = 'default', $sendNow = true) {
@@ -203,7 +203,7 @@ class Notify_model extends CI_Model {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getNewForYou($user_id, $page = -1) {
@@ -216,7 +216,7 @@ class Notify_model extends CI_Model {
 			$this->db->limit(10, 10 * $page);
 		}
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getUserForNotify($user_id) {
@@ -235,7 +235,7 @@ class Notify_model extends CI_Model {
 
 	public function getComment($comment_id) {
 		$this->db->where('comment_id', $comment_id);
-		$query = $this->db->get('episode_comment');
+		$query = $this->db->get('comments');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
@@ -258,7 +258,7 @@ class Notify_model extends CI_Model {
 		$this->db->from('user_follow u');
 		$this->db->where('u.follower_id', $user_id);
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getPartEpisodeForNotify($episode_id) {

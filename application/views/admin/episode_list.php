@@ -47,7 +47,7 @@ if ($this->session->flashdata('alert')) {
 							<td align="center"><?php echo $row['episode_id'];?></td>
 							<td>#<?php echo $row['position']?></td>
 							<td><?php echo $row['name']?></td>
-							<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
+							<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 							<td><?php echo timeFormat($row['created'])?></td>
 							<?php echo '<td><div class="button-list">';
                             if ($row['position'] > 1) {

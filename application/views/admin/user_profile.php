@@ -43,7 +43,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 							</tr>
 							<tr>
 								<th>Profile picture :</th>
-								<td><img width='80' src='<?php echo media_url($user['avatar']); ?>'/></td>
+								<td><img width='80' src='<?= media_thumbnail($user['avatar'], 80) ?>'/></td>
 							</tr>
 							</tbody>
 						</table>
@@ -74,7 +74,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 							foreach ($your_picks as $row): ?>
 								<tr>
 									<td align="center"><?php echo $row['product_id']; ?></td>
-									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
+									<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 									<td><?php echo $row['name'] ?></td>
 									<td><?php echo $row['quote']; ?></td>
 									<td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
@@ -84,7 +84,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 												<button class='btn btn-inverse btn-custom btn-xs'>Edit</button>
 											</a>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-											        data-href="<?php echo redirect_url('admin/user/removePick/' . $row['pick_id'], ['active' => 'your-picks']) ?>">
+											        data-href="<?php echo redirect_url('user/removePick/' . $row['pick_id'], ['active' => 'your-picks']) ?>">
 												Remove
 											</button>
 										</div>
@@ -119,13 +119,13 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 							foreach ($watch_list as $row): ?>
 								<tr>
 									<td align="center"><?php echo $row['product_id']; ?></td>
-									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
+									<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 									<td><?php echo $row['name'] ?></td>
 									<td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
 									<td>
 										<div class='button-list'>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-											        data-href="<?php echo redirect_url('admin/user/removeWatch/' . $row['id'], ['active' => 'watch-list']) ?>">
+											        data-href="<?php echo redirect_url('user/removeWatch/' . $row['id'], ['active' => 'watch-list']) ?>">
 												Remove
 											</button>
 										</div>
@@ -160,13 +160,13 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
 							foreach ($thumbs_up as $row): ?>
 								<tr>
 									<td align="center"><?php echo $row['product_id']; ?></td>
-									<td><img style="max-width: 70px; max-height: 70px" src="<?php echo media_url($row['image']); ?>"/></td>
+									<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 									<td><?php echo $row['name'] ?></td>
 									<td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
 									<td>
 										<div class='button-list'>
 											<button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-											        data-href="<?php echo redirect_url('admin/user/removeProductLike/' . $row['id'], ['active' => 'thumb-up']) ?>">
+											        data-href="<?php echo redirect_url('user/removeProductLike/' . $row['id'], ['active' => 'thumb-up']) ?>">
 												Remove
 											</button>
 										</div>

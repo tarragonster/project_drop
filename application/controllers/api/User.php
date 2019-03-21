@@ -73,13 +73,9 @@ class User extends BR_Controller {
 	 */
 	public function login_post() {
 		$time = time();
-		$email = $this->post('email');
-		$password = $this->post('password');
-		$device_id = $this->post('device_id');
-
-		if (!$this->user_model->checkDeviceId($device_id)) {
-			$this->create_error(-47);
-		}
+		$email = $this->c_getNotNull('email');
+		$password = $this->c_getNotNull('password');
+		$device_id = $this->c_getNotNull('device_id');
 
 		$user_id = $this->user_model->getUidByAccount($email, $password);
 		if ($user_id == -1) {
@@ -157,6 +153,72 @@ class User extends BR_Controller {
 		$this->create_success();
 	}
 
+
+
+	/**
+	 * @SWG\Post(
+	 *     path="/user/registerProfile",
+	 *     summary="Register an account",
+	 *     operationId="registerProfile",
+	 *     tags={"Authorization"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="User Name",
+	 *         in="formData",
+	 *         name="user_name",
+	 *         required=true,
+	 *         type="string",
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Full Name",
+	 *         in="formData",
+	 *         name="full_name",
+	 *         required=true,
+	 *         type="string",
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="User email",
+	 *         in="formData",
+	 *         name="email",
+	 *         required=true,
+	 *         type="string",
+	 *         default="email@example.com"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Password",
+	 *         in="formData",
+	 *         name="password",
+	 *         required=true,
+	 *         type="string",
+	 *         default="123456"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Device ID",
+	 *         in="formData",
+	 *         name="device_id",
+	 *         required=true,
+	 *         type="string",
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Facebook access token",
+	 *         in="formData",
+	 *         name="access_token",
+	 *         required=false,
+	 *         type="string",
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Google ID",
+	 *         in="formData",
+	 *         name="google_id",
+	 *         required=false,
+	 *         type="string",
+	 *     ),
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function registerProfile_post() {
 		$time = time();
 		$email = $this->c_getEmail('email');
@@ -247,6 +309,11 @@ class User extends BR_Controller {
 		if (!empty($facebook_id)) {
 			$this->contact_lib->updateContact(CONTACT_TYPE_FACEBOOK, $facebook_id, $user_id);
 		}
+
+		$emailParams['username'] = $full_name;
+		$this->load->model("email_model");
+		$this->email_model->welcome($email, $emailParams);
+
 		$this->create_success(array('profile' => $data), 'Register success');
 	}
 
@@ -686,7 +753,27 @@ class User extends BR_Controller {
 		$this->create_success(['profile' => $profile], 'Change password successfully');
 	}
 
-
+	/**
+	 * @SWG\Post(
+	 *     path="/user/forgotPassword",
+	 *     summary="forgotPassword",
+	 *     operationId="forgotPassword",
+	 *     tags={"Authorization"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="User email",
+	 *         in="formData",
+	 *         name="email",
+	 *         required=true,
+	 *         type="string",
+	 *         default="email@example.com"
+	 *     ),
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function forgotPassword_post() {
 		$email = $this->c_getEmail("email");
 		$user = $this->user_model->checkEmail($email);
@@ -701,10 +788,27 @@ class User extends BR_Controller {
 		$params['code'] = $code;
 		$params['created'] = $time;
 		$this->user_model->insertCodeResetPassword($params);
-		$params['url_code'] = 'http://secondscreentv.us/reset-password?code=' . $base_64;
+		$params['url_code'] = root_domain() . '/reset-password?code=' . $base_64;
 		$params['username'] = $user['full_name'];
 		$this->load->model("email_model");
 		$this->email_model->emailForgotPassword($email, $params);
+		$this->create_success(null, 'Check email for get new password');
+	}
+
+
+	public function forgotPassword_get() {
+		$email = 'cuongdoict@gmail.com';
+
+		$time = time();
+		$code = md5(md5($email . $time . '|mDyN2U') . $time);
+		$base_64 = base64_encode(100 . '|' . $code);
+		$params = array();
+		$params['code'] = $code;
+		$params['created'] = $time;
+		$params['url_code'] = root_domain() . '/reset-password?code=' . $base_64;
+		$params['username'] = 'Cuong DO';
+		$this->load->model("email_model");
+		$this->email_model->welcome($email, $params);
 		$this->create_success(null, 'Check email for get new password');
 	}
 
@@ -876,5 +980,12 @@ class User extends BR_Controller {
 
 		$profile = $this->__getUserProfile($this->user_id);
 		$this->create_success(['profile' => $profile]);
+	}
+
+	public function welcome_get() {
+		$email = 'cuongdoict@gmail.com';
+		$params['username'] = 'Cuong Do';
+		$this->load->model("email_model");
+		$this->email_model->welcome($email, $params);
 	}
 }

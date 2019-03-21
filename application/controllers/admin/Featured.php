@@ -32,7 +32,7 @@ class Featured extends Base_Controller {
 			redirect('featured');
 		}
 		$this->featured_model->addProfile($user_id);
-		redirect(make_url('admin/featured', ['active' => 'add']));
+		redirect(make_url('featured', ['active' => 'add']));
 	}
 
 	public function removeProfile($user_id) {

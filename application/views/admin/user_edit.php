@@ -54,7 +54,7 @@
 					</div>
 					<div class="form-group">
 						<label>Avatar</label> <br/>
-						<img width='200' src='<?php echo media_url($avatar); ?>'/>
+						<img width='200' src='<?= media_thumbnail($avatar, 200) ?>'/>
 					</div>
 					<div class="form-group">
 						<label>Change Avatar</label> <br/>

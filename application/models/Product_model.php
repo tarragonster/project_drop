@@ -54,7 +54,7 @@ class Product_model extends BaseModel {
 		$this->db->where('status', 1);
 		$query = $this->db->get();
 
-		$results = $query->result_array('array');
+		$results = $query->result_array();
 		foreach ($results as $result) {
 			$this->db->where('season_id', $result['season_id']);
 			$this->db->update('season', array('status' => 0));
@@ -122,7 +122,7 @@ class Product_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getListProductByCollection($collection_id, $page = -1) {
+	public function getListProductByCollection($collection_id, $page = -1, $limit = 10) {
 		$this->db->select('p.*, cp.priority as priority_collection, cp.id, cp.promo_image');
 		$this->db->from('collection_product cp');
 		$this->db->join('product_view p', 'p.product_id = cp.product_id');
@@ -130,7 +130,7 @@ class Product_model extends BaseModel {
 		$this->db->where('p.status', 1);
 		$this->db->order_by('cp.priority', 'asc');
 		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
+			$this->db->limit($limit, $limit * $page);
 		}
 		$query = $this->db->get();
 		return $query->result_array();
@@ -173,7 +173,7 @@ class Product_model extends BaseModel {
 		$this->db->order_by('e.season_id');
 		$this->db->order_by('e.position', 'asc');
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function countSeason($product_id) {
@@ -236,15 +236,11 @@ class Product_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
-	public function countUserWatching($product_id, $user_id = -1) {
-		$this->db->select('*');
+	public function countUserWatching($product_id) {
+		$this->db->select('product_id');
 		$this->db->from('user_watch');
 		$this->db->where('episode_id !=', 0);
 		$this->db->where('product_id', $product_id);
-		// $this->db->where('(update_time >= '.strtotime("-3 minutes").')');
-		// if($user_id != -1)
-		// 	$this->db->where('user_id !=', $user_id);
-		$this->db->group_by('user_id');
 		return $this->db->count_all_results();
 	}
 
@@ -259,7 +255,7 @@ class Product_model extends BaseModel {
 		// 	$this->db->where('w.user_id !=', $user_id);
 		$this->db->group_by('w.user_id');
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getContinueWatching($user_id) {
@@ -311,7 +307,7 @@ class Product_model extends BaseModel {
 		$this->db->group_by('w.user_id');
 		$this->db->limit(3);
 		$query = $this->db->get();
-		return $query->result_array('array');
+		return $query->result_array();
 	}
 
 	public function getUserProductLike($user_id, $product_id) {

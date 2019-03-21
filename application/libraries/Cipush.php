@@ -33,7 +33,7 @@ class Cipush {
 			$this->_CI->db->order_by('message_id');
 			$this->_CI->db->limit(20);
 			$query = $this->_CI->db->get();
-			$messages = $query->result_array('array');
+			$messages = $query->result_array();
 			if ($messages != null && count($messages) > 0) {
 				foreach ($messages as $message) {
 					$success = true;

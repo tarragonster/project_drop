@@ -43,7 +43,7 @@ class BR_Controller extends REST_Controller {
 	}
 
 	protected function validate_authorization($temp = -1) {
-		$authorization = $this->input->get_request_header('Authorization-data');
+		$authorization = $this->input->get_request_header('Authorization-Data');
 		$authorization = base64_decode($authorization);
 		if ($authorization != false) {
 			$arr = explode('|', $authorization);
@@ -176,9 +176,10 @@ class BR_Controller extends REST_Controller {
 		-82 => 'Sorry, can not connect to Facebook API or Your token is invalid',
 		-83 => 'Access token has expired',
 		-84 => 'Not found reply',
+		-85 => 'Not found jw media id',
 		-1000 => 'Undefined error',
 		-1001 => 'Api key invalid',
-		-1002 => 'Your account have been deactivated!',
+		-1002 => 'Your account has been deactivated.',
 		-1003 => "Access denied.",
 		-1005 => 'Unknown resource',
 	);

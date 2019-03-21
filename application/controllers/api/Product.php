@@ -47,6 +47,27 @@ class Product extends BR_Controller {
 			$seasons[$key]['films'] = $films;
 		}
 		$product['seasons'] = $seasons;
+		$paywall_episode_ids = [];
+		if (isset($product['paywall_episode'])) {
+			if ($product['paywall_episode'] > 0) {
+				$episodes = $this->product_model->getEpisodeSeasons($product_id);
+				if ($episodes != null && count($episodes) > 0) {
+					$index_paywall = -1;
+					foreach ($episodes as $key => $e) {
+						if ($e['episode_id'] == $product['paywall_episode']) {
+							$index_paywall = $key;
+							break;
+						}
+					}
+					if ($index_paywall > -1) {
+						for ($i = $index_paywall; $i < count($episodes); $i++) {
+							$paywall_episode_ids[] = $episodes[$i]['episode_id'];
+						}
+					}
+				}
+			}
+		}
+		$product['paywall_episode_ids'] = $paywall_episode_ids;
 
 		$watchers = $this->product_model->getProductWatchers($product_id);
 
@@ -56,6 +77,19 @@ class Product extends BR_Controller {
 		];
 
 		$this->create_success($response);
+	}
+
+	public function captions_get($product_id) {
+		$product = $this->product_model->getProductDetail($product_id);
+		if ($product == null) {
+			$this->create_error(-77);
+		}
+		if (empty($product['jw_media_id'])) {
+			$this->create_error(-85);
+		}
+		$this->load->library('jw_lib');
+		$captions = $this->jw_lib->getVideoCaptions($product['jw_media_id']);
+		$this->create_success(['captions' => $captions]);
 	}
 
 	public function episode_get($episode_id) {
@@ -136,10 +170,8 @@ class Product extends BR_Controller {
 			foreach ($comments as $key => $comment) {
 				$replies = $this->episode_model->getReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
-					$replies[$t]['num_like'] = $this->episode_model->countRepliesLike($rep['replies_id']);
 					$replies[$t]['has_like'] = $this->episode_model->hasLikeReplies($rep['replies_id'], $this->user_id);
 				}
-				$comments[$key]['num_like'] = $this->episode_model->countCommentLike($comment['comment_id']);
 				$comments[$key]['replies'] = $replies;
 				$comments[$key]['has_like'] = $this->episode_model->hasLikeComment($comment['comment_id'], $this->user_id);
 			}
@@ -152,10 +184,8 @@ class Product extends BR_Controller {
 			foreach ($comments as $key => $comment) {
 				$replies = $this->episode_model->getReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
-					$replies[$t]['num_like'] = $this->episode_model->countRepliesLike($rep['replies_id']);
 					$replies[$t]['has_like'] = 0;
 				}
-				$comments[$key]['num_like'] = $this->episode_model->countCommentLike($comment['comment_id']);
 				$comments[$key]['replies'] = $replies;
 				$comments[$key]['has_like'] = 0;
 			}
@@ -182,6 +212,11 @@ class Product extends BR_Controller {
 			unset($episode['product_paywall_episode']);
 		}
 		$episode['comments'] = $comments;
+		if (!empty($episode['jw_media_id'])) {
+			$this->load->library('jw_lib');
+			$captions = $this->jw_lib->getVideoCaptions($episode['jw_media_id']);
+			$episode['captions'] = $captions;
+		}
 		return $episode;
 	}
 

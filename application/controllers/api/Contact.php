@@ -44,6 +44,7 @@ class Contact extends BR_Controller {
 				$this->contact_lib->pushFriends($this->user_id, CONTACT_TYPE_PHONE, $phoneContacts);
 			}
 		}
+		$this->user_model->update(['synced_contact' => 1, 'sync_skipped' => 0], $this->user_id);
 
 		$response = [];
 		$response['num_of_friends'] = $this->user_model->countContactFriends($this->user_id);
@@ -98,5 +99,36 @@ class Contact extends BR_Controller {
 		$response['friends'] = $this->user_model->getFacebookFriends($this->user_id, $page);
 
 		$this->create_success($response);
+	}
+
+	/**
+	 * @SWG\Post(
+	 *     path="/contact/skip",
+	 *     summary="skip Sync Contact",
+	 *     operationId="skipSyncContact",
+	 *     tags={"Contact"},
+	 *     produces={"application/json"},
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function skip_post() {
+		$this->validate_authorization();
+
+		$user = $this->user_model->getObjectById($this->user_id);
+		if ($user == null) {
+			$this->create_error(-9);
+		}
+		$params = array();
+		$params['sync_skipped'] = 1;
+		$this->user_model->update($params, $this->user_id);
+
+		$profile = $this->__getUserProfile($this->user_id);
+		$this->create_success(['profile' => $profile], 'Skipped');
 	}
 }

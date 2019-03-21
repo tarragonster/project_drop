@@ -47,7 +47,7 @@
                     <label>Image</label>
                     <div class="row">
                         <div class="col-md-4">
-                            <img id='image' width='120' height='120' src="<?php echo media_url($image);?>"  style='border: 4px solid #c6c6c6; border-radius: 4px'/>
+                            <img id='image' width='120' height='120' src="<?= media_thumbnail($image, 120) ?>"  style='border: 4px solid #c6c6c6; border-radius: 4px'/>
                         </div>
                         <div class="col-md-8">
                             <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
@@ -56,18 +56,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <label>Video</label>
-                    <p style='text-align: center;'>
-                        <video width="400" height="240" controls>
-                            <source src="<?php echo base_url($url)?>" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </p>
-                    <input name="url" class="form-control" type="file" accept="video/mp4,video/x-m4v,video/*" onchange="setFileInfo(this.files)"/>
-                    <div id="infos" style="margin-top: 8px;"></div>
-                    <input id="duration" name="duration" style='opacity: 0; z-index: -1000'/>
                 </div>
             </div>
         </div>

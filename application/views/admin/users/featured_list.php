@@ -40,7 +40,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 								foreach ($users as $row): ?>
 									<tr>
 										<td align="center"><?= $row['user_id'] ?></td>
-										<td><img width="70" height="70" src="<?= media_url($row['avatar']) ?>"/></td>
+										<td><img width="70" height="70" src="<?= media_thumbnail($row['avatar'], 70) ?>"/></td>
 										<td><?= $row['email'] ?></td>
 										<td><?= $row['user_name'] ?></td>
 										<td><?= $row['full_name'] ?></td>
@@ -95,7 +95,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 							if ($other_users != null && count($other_users) > 0) {
 								foreach ($other_users as $row) { ?>
 									<td align="center"><?= $row['user_id'] ?></td>
-									<td><img width="70" height="70" src="<?= media_url($row['avatar']) ?>"/></td>
+									<td><img width="70" height="70" src="<?= media_thumbnail($row['avatar'], 70) ?>"/></td>
 									<td><?= $row['email'] ?></td>
 									<td><?= $row['user_name'] ?></td>
 									<td><?= $row['full_name'] ?></td>
