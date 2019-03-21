@@ -35,3 +35,10 @@
     opacity:0;
     cursor:pointer;
 }
+
+.btnAction{
+    color: #959595;
+    font-size: 30px;
+    margin: 23px;
+    cursor: pointer;
+}

@@ -321,10 +321,20 @@ class User_model extends BaseModel {
 	}
 
 	public function getUsersForAdmin($page = 0, $status = 1) {
-		$this->db->select('u.*');
-		$this->db->from('user u');
-		$this->db->where('status', $status);
-		$this->db->order_by('user_id', 'desc');
+		$this->db->select('uc.*, count(el.episode_id) total_like');
+		$this->db->from('episode_like el');
+		$this->db->join('(select u.*, COUNT(ec.comment_id) as total_comment, dt.name as device_name
+							from ((user as u 
+							left join episode_comment as ec 
+								on u.user_id = ec.user_id)
+			                left join device_user as du
+			                	on u.user_id = du.user_id)
+			                join device_type as dt
+			                	on du.dtype_id = dt.dtype_id
+							group by user_id
+							order by user_id desc) uc', 'el.user_id = uc.user_id', 'left');
+		$this->db->group_by('user_id');
+		$this->db->where('uc.status', $status);
 		$this->db->limit(PERPAGE_ADMIN, $page * PERPAGE_ADMIN);
 		$query = $this->db->get();
 		return $query->result_array();

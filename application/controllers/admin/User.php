@@ -35,6 +35,7 @@ class User extends Base_Controller {
 		$content = $this->load->view('admin/users_list', $layoutParams, true);
 
 		$data = array();
+		$data['customCss'] = array('assets/css/settings.css');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;

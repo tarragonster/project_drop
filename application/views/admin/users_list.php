@@ -5,40 +5,53 @@
 				<div class="box-header">
 					<h3 class="box-title"><?= $title ?></h3>
 				</div>
-				<table id="example3" class="table table-bordered table-hover">
+				<table id="example3" class="table table-bordered-bottom table-hover">
 					<thead>
 					<tr>
-						<th>#</th>
-						<th>Image</th>
-						<th>Email</th>
-						<th>User Name</th>
-						<th>Full Name</th>
-						<th>Type</th>
-						<th>Action</th>
+						<th></th>
+						<th>ID</th>
+						<th>Name</th>
+						<th>E-mail</th>
+						<th>App Activity</th>
+						<th>Verified</th>
+						<th>Version</th>
+						<th>Created</th>
+						<th>Actions</th>
 					</tr>
 					</thead>
 					<tbody>
 					<?php
-					if (isset($users) && is_array($users)) {
-						foreach ($users as $row) {
-							echo '<tr>';
-							echo '<td align="center">' . $row['user_id'] . '</td>';
-							echo '<td><img width="70" height="70" src="' . media_thumbnail($row['avatar'], 70) . '" /></td>';
-							echo '<td>' . $row['email'] . '</td>';
-							echo '<td>' . $row['user_name'] . '</td>';
-							echo '<td>' . $row['full_name'] . '</td>';
-							echo '<td>' . getTypeMember($row['user_type']) . '</td>';
-							echo "<td><div class='button-list'>
-									<a href='" . base_url('user/edit/' . $row['user_id']) . "' /><button class='btn btn-info btn-sm'>Edit</button></a>";
-							echo "<a class='btn btn-primary btn-sm' href='" . base_url('user/profile/' . $row['user_id']) . "' >View Profile</a>";
-							if ($row['status'] == 1) {
-								echo "<a href='" . base_url('user/block/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Block</button></a>";
-							} else {
-								echo "<a href='" . base_url('user/block/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-success btn-sm'>Unblock</button></a>";
-							}
-							echo "<a href='" . base_url('user/delete/' . $row['user_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
-							echo '</div></td>';
-							echo '</tr>';
+					if (isset($users) && is_array($users))
+					{
+						foreach ($users as $key => $row) {
+					?>
+					<tr>
+						<td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['avatar'], 70) ?>"/></td>
+						<td><?php echo $row['user_id']?></td>
+						<td><?php echo $row['user_name']?></td>
+						<td><?php echo $row['email']?></td>
+						<td>Comments: <?php echo $row['total_comment']?> <br> 
+							Thumbs up: <?php echo $row['total_like']?> <br>
+							Picks:
+						</td>
+						<td>Verified</td>
+						<td><?php echo $row['device_name']?></td>
+						<td><?php echo date('d/m/Y h:iA', $row['joined'])?></td>
+						<td>
+							<div class="dropdown">
+							    <span class="btnAction dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-ellipsis-v"></i></span>
+							    <ul class="dropdown-menu">
+							      <li><a href="#">View Profile</a></li>
+							      <li><a href="#">Edit Profile</a></li>
+							      <li><a href="#">Verified</a></li>
+							      <li><a href="#">Block</a></li>
+							      <li class="divider"></li>
+							      <li><a href="#">Delete</a></li>
+							    </ul>
+							</div>
+						</td>
+					</tr>
+					<?php 
 						}
 					}
 					?>
