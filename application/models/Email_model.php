@@ -48,13 +48,13 @@ class Email_model extends CI_Model {
 		}
 	}
 
-	protected function createNewEmail($from_email = 'noreply@get10block.com', $from_name = '10 Block') {
+	protected function createNewEmail($from_email = 'info@get10block.com', $from_name = '10 Block') {
 		$config = array(
 		    'protocol'  => 'smtp',
 		    'smtp_host' => 'ssl://smtp.gmail.com',
 		    'smtp_port' => 465,
-		    'smtp_user' => 'dev@get10block.com',
-		    'smtp_pass' => 'nIbkix-wotty9-duwraz',
+		    'smtp_user' => 'info@get10block.com',
+		    'smtp_pass' => 'launchingnow1',
 		    'mailtype'  => 'html',
 		    'charset'   => 'utf-8'
 		);
