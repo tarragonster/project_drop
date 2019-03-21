@@ -463,7 +463,7 @@ class User_model extends BaseModel {
 		$this->db->join('user u', 'u.user_id = up.user_id');
 		$this->db->group_by('up.pick_id');
 		$this->db->order_by('up.pick_id', 'desc');
-		$this->db->limit(100);
+		$this->db->limit(25);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
