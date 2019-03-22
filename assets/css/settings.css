@@ -42,3 +42,21 @@
     margin: 23px;
     cursor: pointer;
 }
+#customDropdown {
+    right: 0;
+    left: auto;
+    min-width: 130px;
+}
+
+#example3_info {
+    padding-top: 30px;
+}
+#example3_paginate{
+    margin-top: -23px;
+    margin-right: 250px;
+}
+#example3_length {
+    float: right;
+    margin-top: -40px;
+    margin-right: 25px;
+}

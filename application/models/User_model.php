@@ -321,22 +321,22 @@ class User_model extends BaseModel {
 	}
 
 	public function getUsersForAdmin($page = 0, $status = 1) {
-		$this->db->select('uc.*, count(el.episode_id) total_like');
-		$this->db->from('episode_like el');
-		$this->db->join('(select u.*, COUNT(ec.comment_id) as total_comment, dt.name as device_name
-							from ((user as u 
-							left join episode_comment as ec 
-								on u.user_id = ec.user_id)
-			                left join device_user as du
-			                	on u.user_id = du.user_id)
-			                join device_type as dt
-			                	on du.dtype_id = dt.dtype_id
-							group by user_id
-							order by user_id desc) uc', 'el.user_id = uc.user_id', 'left');
-		$this->db->group_by('user_id');
-		$this->db->where('uc.status', $status);
-		$this->db->limit(PERPAGE_ADMIN, $page * PERPAGE_ADMIN);
-		$query = $this->db->get();
+		$sql = "select ul.*, count(up.pick_id) as total_pick 
+					from user_picks as up right join (select uc.*, count(el.episode_id) as total_like 
+						from episode_like as el right join (select u.*, count(c.comment_id) as total_comment, dt.name as device_name
+				    		from (((user as u 
+							    left join comments as c 
+							        on u.user_id = c.user_id)
+							    left join device_user as du
+							        on u.user_id = du.user_id)
+							    left join device_type as dt
+							        on du.dtype_id = dt.dtype_id)
+							    where u.status = '$status'
+				    			group by user_id) uc on uc.user_id = el.user_id
+				    		group by user_id) ul on ul.user_id = up.user_id
+				    	group by ul.user_id
+				    	order by user_id desc";
+		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 
