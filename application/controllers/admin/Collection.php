@@ -196,16 +196,22 @@ class Collection extends Base_Controller {
 		redirect(base_url('collection/films/' . $collection_id));
 	}
 
-	public function ajaxProduct() {
+	public function ajaxProduct($collection_id = 0) {
 		$q = $this->input->get('q');
 		if (!empty($q)) {
-			$this->db->like('name', $q, 'both');
+			$this->db->like('p.name', $q, 'both');
 		}
-		$this->db->where('status', 1);
-		$this->db->order_by('name', 'asc');
+		$this->db->from('product p');
+		if ($collection_id > 0) {
+			$this->db->join("(select * from collection_product where collection_id = $collection_id) as cp", 'cp.product_id = p.product_id', 'left');
+			$this->db->where('cp.id is null');
+		}
+		$this->db->select('p.product_id, p.name');
+		$this->db->where('p.status', 1);
+		$this->db->order_by('p.name', 'asc');
 		$this->db->limit(15);
 
-		$query = $this->db->get('product');
+		$query = $this->db->get();
 		$products = $query->result_array();
 		$items = array();
 		if (is_array($products)) {
