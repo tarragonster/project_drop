@@ -84,6 +84,8 @@ class User extends Base_Controller {
 		$content = $this->load->view('admin/users_list', $layoutParams, true);
 
 		$data = array();
+		$data['customCss'] = array('assets/css/settings.css');
+		$data['customJs'] = array('assets/js/settings.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 22;
 		$data['account'] = $this->account;
@@ -178,6 +180,21 @@ class User extends Base_Controller {
 			$this->user_model->clearData($user['user_id']);
 		}
 		$this->redirect('user');
+
+	}
+
+	public function unBlock($user_id = '') {
+
+		$user = $this->user_model->getUserForAdmin($user_id);
+
+		if ($user != null) {
+			$params = array('status' => 1 + $user['status']);
+			$this->user_model->update($params, $user['user_id']);
+			$this->load->library('oauths');
+			$this->oauths->delete($user['user_id']);
+			$this->user_model->clearData($user['user_id']);
+		}
+		$this->redirect('user/blocked');
 
 	}
 

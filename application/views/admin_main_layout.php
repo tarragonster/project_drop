@@ -103,6 +103,16 @@
 							<li <?php echo($sub_id == 22 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('user/blocked'); ?>">Blocked Users</a>
 							</li>
+							<li <?php echo($sub_id == 23 ? 'class="active"' : ''); ?>>
+								<a href="<?php echo base_url('user/reports'); ?>">Reported Users</a>
+							</li>
+							<li <?php echo($sub_id == 24 ? 'class="active"' : ''); ?>>
+								<a href="<?php echo base_url('featured'); ?>">Featured Users</a>
+							</li>
+							<li <?php echo($sub_id == 25 ? 'class="active"' : ''); ?>>
+								<a href="<?php echo base_url('user/signups'); ?>">Newsletter Signups</a>
+							</li>
+
 						</ul>
 					</li>
 					<li class="has_sub">

@@ -35,19 +35,29 @@
 							Thumbs up: <?php echo $row['total_like']?> <br>
 							Picks: <?php echo $row['total_pick']?>
 						</td>
-						<td></td>
+						<td>Verified</td>
 						<td><?php echo $row['device_name']?></td>
-						<td><?php echo date('d/m/Y h:iA', $row['joined'])?></td>
+						<td><?php echo date('m/d/Y h:iA', $row['joined'])?></td>
 						<td>
 							<div class="dropdown">
 							    <span class="btnAction dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-ellipsis-v"></i></span>
 							    <ul class="dropdown-menu" id="customDropdown">
-							      <li><a href="#">View Profile</a></li>
-							      <li><a href="#">Edit Profile</a></li>
-							      <li><a href="#">Verify</a></li>
-							      <li><a href="<?php echo base_url('user/block/' . $row['user_id'])?>">Block</a></li>
-							      <li class="divider"></li>
-							      <li><a href="<?php echo base_url('user/delete/' . $row['user_id']) ?>">Delete</a></li>
+							      	<li><a href="#">View Profile</a></li>
+							      	<li><a href="#">Edit Profile</a></li>
+							      	<li><a href="#">Verify</a></li>
+							      	<?php
+							      	if ($row['status'] == 1) {
+						      	  	?>
+						      	   		<li><a href="<?php echo base_url('user/block/' . $row['user_id'])?>">Block</a></li>
+						      	  	<?php
+							      	}else {
+							      	?>
+							      		<li><a href="<?php echo base_url('user/unBlock/' . $row['user_id'])?>">Unblock</a></li>
+						      		<?php
+							      	}
+							      	?>
+							      	<li class="divider"></li>
+							      	<li><a href="<?php echo base_url('user/delete/' . $row['user_id']) ?>">Delete</a></li>
 							    </ul>
 							</div>
 						</td>

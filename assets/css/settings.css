@@ -45,9 +45,14 @@
 #customDropdown {
     right: 0;
     left: auto;
-    min-width: 130px;
+    min-width: 100px;
 }
-
+.dropdown-menu > li > a {
+    padding: 0px 10px;
+}
+.dropdown-menu .divider {
+    margin: 3px 0;
+}
 #example3_info {
     padding-top: 30px;
 }
