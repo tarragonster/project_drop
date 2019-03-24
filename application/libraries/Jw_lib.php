@@ -76,7 +76,11 @@ class Jw_lib {
 		if (!empty($result) && isset($result['status']) && $result['status'] == 'ok') {
 			return $result;
 		} else {
-			pre_print($response, false);
+			if (isset($result['message'])) {
+				log_message('error', 'JW: ' . $result['message']);
+			} else {
+				log_message('error', 'JW: Undefined');
+			}
 		}
 
 		return null;
