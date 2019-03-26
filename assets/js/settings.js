@@ -40,8 +40,4 @@ function handleBackgroundImage(e) {
     reader.readAsDataURL(e.target.files[0]);
 }
 
-$('#example3').DataTable({
-    'ordering': false,
-    'dom' : '<"top"f>rt<"bottom"ipl>'
-});
 

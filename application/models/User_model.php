@@ -320,7 +320,7 @@ class User_model extends BaseModel {
 		return $this->db->count_all_results();
 	}
 
-	public function getUsersForAdmin($page = 0, $status = 1) {
+	public function getUsersForAdmin($status) {
 		$sql = "select ul.*, count(up.pick_id) as total_pick 
 					from user_picks as up right join (select uc.*, count(el.episode_id) as total_like 
 						from episode_like as el right join (select u.*, count(c.comment_id) as total_comment, dt.name as device_name
@@ -332,6 +332,26 @@ class User_model extends BaseModel {
 							    left join device_type as dt
 							        on du.dtype_id = dt.dtype_id)
 							    where u.status = '$status'
+				    			group by user_id) uc on uc.user_id = el.user_id
+				    		group by user_id) ul on ul.user_id = up.user_id
+				    	group by ul.user_id
+				    	order by user_id desc";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function getAllUsers($query = '') {
+		$sql = "select ul.*, count(up.pick_id) as total_pick 
+					from user_picks as up right join (select uc.*, count(el.episode_id) as total_like 
+						from episode_like as el right join (select u.*, count(c.comment_id) as total_comment, dt.name as device_name
+				    		from (((user as u 
+							    left join comments as c 
+							        on u.user_id = c.user_id)
+							    left join device_user as du
+							        on u.user_id = du.user_id)
+							    left join device_type as dt
+							        on du.dtype_id = dt.dtype_id)
+						        where user_name or email LIKE '%" . $query . "%'
 				    			group by user_id) uc on uc.user_id = el.user_id
 				    		group by user_id) ul on ul.user_id = up.user_id
 				    	group by ul.user_id

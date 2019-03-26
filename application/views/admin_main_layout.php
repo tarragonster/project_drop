@@ -100,9 +100,6 @@
 							<li <?php echo($sub_id == 21 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('user'); ?>"><span>Active Users</span></a>
 							</li>
-							<li <?php echo($sub_id == 22 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('user/blocked'); ?>">Blocked Users</a>
-							</li>
 							<li <?php echo($sub_id == 23 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('user/reports'); ?>">Reported Users</a>
 							</li>
@@ -200,8 +197,8 @@
 <script src="<?php echo base_url('assets/js/jquery.scrollTo.min.js'); ?>"></script>
 
 <script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.js'); ?>"></script>
-<script src="<?php echo base_url('assets/plugins/peity/jquery.peity.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.min.js'); ?>"></script>
+
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 
@@ -215,6 +212,21 @@ if (isset($customJs) && is_array($customJs)) {
 	}
 }
 ?>
+<script type="text/javascript">
 
+	$(document).ready(function(){
+	    var stt = $('select option:selected').val();
+    	$.get("<?php echo base_url('user/getUsersByStatus')?>", {status:stt}, function(data){
+	    	$('#user_table').html(data);
+	    });
+
+    	$('.status').change(function(){
+		    stt = $(this).val();
+			$.get("<?php echo base_url('user/getUsersByStatus')?>", {status:stt}, function(data){
+		    	$('#user_table').html(data);
+		    });
+		});
+	});
+</script>
 </body>
 </html>
