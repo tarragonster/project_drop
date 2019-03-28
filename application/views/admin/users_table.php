@@ -15,7 +15,7 @@
 	<?php
 	if (isset($users) && is_array($users))
 	{
-		foreach ($users as $key => $row) {
+		foreach ($users as $key => $row):
 	?>
 	<tr>
 		<td><img style="max-width: 70px; max-height: 70px; border-radius:5px" src="<?= media_thumbnail($row['avatar'], 70) ?>"/>
@@ -35,17 +35,11 @@
 			    <ul class="dropdown-menu" id="customDropdown">
 			      	<li><a href="<?php echo base_url('user/profile/' . $row['user_id'])?>">View Profile</a></li>
 			      	<li><a href="<?php echo base_url('user/edit/' . $row['user_id'])?>">Edit Profile</a></li>
-			      	<?php
-			      	if ($row['status'] == 1) {
-		      	  	?>
+			      	<?php if ($row['status'] == 1): ?>
 		      	   		<li><a href="<?php echo base_url('user/block/' . $row['user_id'])?>">Block</a></li>
-		      	  	<?php
-			      	}else {
-			      	?>
+		      	  	<?php else: ?>
 			      		<li><a href="<?php echo base_url('user/unBlock/' . $row['user_id'])?>">Unblock</a></li>
-		      		<?php
-			      	}
-			      	?>
+		      		<?php endif; ?>
 			      	<li class="divider"></li>
 			      	<li><a href="<?php echo base_url('user/delete/' . $row['user_id']) ?>">Delete</a></li>
 			    </ul>
@@ -53,17 +47,18 @@
 		</td>
 	</tr>
 	<?php 
-		}
+		endforeach;
 	}
 	?>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#example3').DataTable({
-			    'ordering': false,
-			    'dom' : '<"top"f>rt<"bottom"ipl>',
-			    'searching': false
-			});
-		});
-	</script>
+	
 	</tbody>
 </table>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#example3').DataTable({
+            'ordering': false,
+            'dom' : '<"top"f>rt<"bottom"ipl>',
+            'searching': false
+        });
+    });
+</script>

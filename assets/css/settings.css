@@ -82,3 +82,24 @@
     float: right;
     margin-bottom: 1em;
 }
+.card-box {
+    margin-top: 10px;
+}
+
+.modal-dialog {
+    margin-top: 15em;
+    width: 35em;
+}
+.modal-content {
+    text-align: center;
+    padding: 30px 60px;
+}
+.modal-content .modal-description h2 {
+    font-weight: bold;
+}
+.modal-content .modal-description p {
+    margin: 25px 0;
+}
+.modal-content .modal-button button a {
+    color: #FFFFFF;
+}

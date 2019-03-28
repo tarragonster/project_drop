@@ -212,21 +212,5 @@ if (isset($customJs) && is_array($customJs)) {
 	}
 }
 ?>
-<script type="text/javascript">
-
-	$(document).ready(function(){
-	    var stt = $('select option:selected').val();
-    	$.get("<?php echo base_url('user/getUsersByStatus')?>", {status:stt}, function(data){
-	    	$('#user_table').html(data);
-	    });
-
-    	$('.status').change(function(){
-		    stt = $(this).val();
-			$.get("<?php echo base_url('user/getUsersByStatus')?>", {status:stt}, function(data){
-		    	$('#user_table').html(data);
-		    });
-		});
-	});
-</script>
 </body>
 </html>

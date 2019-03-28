@@ -41,3 +41,29 @@ function handleBackgroundImage(e) {
 }
 
 
+var sttUser = $('select option:selected').val();
+$.get("user/getUsersByStatus", {status:sttUser}, function(data){
+    $('#user_table').html(data);
+});
+
+$('.status-user').change(function(){
+    sttUser = $(this).val();
+    $.get("user/getUsersByStatus", {status:sttUser}, function(data){
+        $('#user_table').html(data);
+    });
+});
+
+var sttFilm = $('select option:selected').val();
+$.get("product/getProductsByStatus", {status:sttFilm}, function(data){
+    $('#product_table').html(data);
+});
+
+$('.status-film').change(function(){
+    sttFilm = $(this).val();
+    $.get("product/getProductsByStatus", {status:sttFilm}, function(data){
+        $('#product_table').html(data);
+    });
+});
+
+
+

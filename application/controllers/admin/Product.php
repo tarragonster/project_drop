@@ -33,8 +33,8 @@ class Product extends Base_Controller {
 		$data['content'] = $this->load->view('admin/product_list', array(
 			'products' => $products,
 			'pinfo' => $pinfo), true);
-		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js');
-		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css');
+		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js', 'assets/js/settings.js', 'assets/app/search.js');
+		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css', 'assets/css/settings.css');
 		$this->load->view('admin_main_layout', $data);
 	}
 
@@ -345,5 +345,24 @@ class Product extends Base_Controller {
 		$others = $this->product_model->getProductOthers($cast_id, $query);
 		$html = $this->load->view('admin/ajax_product', array('others' => $others, 'cast_id' => $cast_id), true);
 		die(json_encode($html));
+	}
+
+	public function getProductsByStatus() {
+		$status = $this->input->get('status');
+		if ($status == 2) {
+			$products = $this->product_model->getAllProducts();
+		}else
+		{
+			$products = $this->product_model-> getProductListByStatus($status);
+		}
+		$data = ['products' => $products];
+		$this->load->view('admin/product_table', $data);
+	}
+
+	public function search() {
+		$query = $this->input->get('query');
+		$products = $this->product_model->getAllProducts($query);
+		$data = ['products' => $products];
+		$this->load->view('admin/product_table',$data);
 	}
 }

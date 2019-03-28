@@ -351,7 +351,7 @@ class User_model extends BaseModel {
 							        on u.user_id = du.user_id)
 							    left join device_type as dt
 							        on du.dtype_id = dt.dtype_id)
-						        where user_name or email LIKE '%" . $query . "%'
+						        where user_name or email like '%" . $query . "%'
 				    			group by user_id) uc on uc.user_id = el.user_id
 				    		group by user_id) ul on ul.user_id = up.user_id
 				    	group by ul.user_id

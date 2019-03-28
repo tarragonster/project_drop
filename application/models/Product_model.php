@@ -338,4 +338,36 @@ class Product_model extends BaseModel {
 		$this->db->from('product_likes');
 		return $this->db->count_all_results();
 	}
+
+	public function getProductListByStatus($status) {
+		$sql = "select s1.*, count(up.pick_id) as total_pick
+				from (select p.*,fr.name as rate_name,count(pl.user_id) as total_like
+				      from (product as p 
+				      	left join product_likes as pl on p.product_id = pl.product_id)
+				      	join film_rate as fr on p.rate_id = fr.rate_id
+				      where status = '$status'
+				      group by product_id) s1
+					left join user_picks as up 
+					on s1.product_id = up.product_id 
+				group by s1.product_id
+				order by product_id desc";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
+
+	public function getAllProducts($query = '') {
+		$sql = "select s1.*, count(up.pick_id) as total_pick
+				from (select p.*,fr.name as rate_name,count(pl.user_id) as total_like
+				      from (product as p 
+				      	left join product_likes as pl on p.product_id = pl.product_id)
+				      	join film_rate as fr on p.rate_id = fr.rate_id
+				      where p.name like '%" . $query . "%'
+				      group by product_id) s1
+					left join user_picks as up 
+					on s1.product_id = up.product_id 
+				group by s1.product_id
+				order by product_id desc";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 }
