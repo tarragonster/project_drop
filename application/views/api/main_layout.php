@@ -11,6 +11,7 @@
         <link href="<?php echo base_url('assets/css/core.css');?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('assets/css/components.css');?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('assets/css/api/styles.css');?>" rel="stylesheet" type="text/css" />
+        <link href="<?php echo base_url('assets/css/icons.css'); ?>" rel="stylesheet" type="text/css"/>
 
         <?php
             if (isset($customCss) && is_array($customCss)){
@@ -31,6 +32,8 @@
                 ?>
             </div>
         </div>
+        
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <?php          
             if (isset($customJs) && is_array($customJs)){
                 foreach($customJs as $script){

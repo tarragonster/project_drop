@@ -35,7 +35,39 @@ class Home extends CI_Controller {
 		}
 		$data = array();
 		$data['customCss'] = array('assets/css/api/change_password.css');
+		$data['customJs'] = array('assets/js/api/change_password.js');
 		$data['content'] = $this->load->view('api/change_password', array(), true);
 		$this->load->view('api/main_layout', $data);
 	}
+
+	public function genForgotLink() {
+		$email = 'bethabie@gmail.com';
+		$user = $this->user_model->checkEmail($email);
+		if (!$user) {
+			$this->create_error(-9);
+		}
+		$time = time();
+		$code = md5(md5($email . $time . '|mDyN2U') . $time);
+		$base_64 = base64_encode($user['user_id'] . '|' . $code);
+		$params = array();
+		$params['user_id'] = $user['user_id'];
+		$params['code'] = $code;
+		$params['created'] = $time;
+		$this->user_model->insertCodeResetPassword($params);
+		$params['url_code'] = root_domain() . '/reset-password?code=' . $base_64;
+		$params['username'] = $user['full_name'];
+		echo $params['url_code'];
+	}
+
+	public function changedPassword() {
+		$cmd = $this->input->post('cmd');
+		if ($cmd != '') {
+			$data = array();
+			$data['customCss'] = array('assets/css/api/change_success.css');
+			$data['customJs'] = array('assets/js/api/change_password.js');
+			$data['content'] = $this->load->view('api/change_success', array(), true);
+			$this->load->view('api/main_layout', $data);
+		}
+	}
+
 }

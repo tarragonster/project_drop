@@ -1,38 +1,26 @@
-﻿<div class="login-form">
-    <div class="card-box">
-        <?php if($this->session->flashdata('error')){
-			echo "<div class='panel-heading'><h3 class='text-center'>Error</h3></div>";
-            echo '<div class="panel-body"><div class="col-xs-12" style="padding-left: 15px;padding-right: 15px;"><div class="alert alert-danger">';
-            echo $this->session->flashdata('error');
-            echo '</div></div></div>';
-        }else if($this->session->flashdata('msg')){
-            echo '<div class="panel-body"><div class="col-xs-12" style="padding-left: 15px;padding-right: 15px;"><div class="alert alert-success">';
-            echo $this->session->flashdata('msg');
-            echo '</div></div></div>';
-        }else{?>
-        	<div class="panel-heading"> 
-	            <h3 class="text-center">Change password in <strong class="text-custom">Second Screen</strong> </h3>
-	        </div>
-	        <?php if($this->session->flashdata('error1')){
-                echo '<div class="col-xs-12" style="padding-left: 15px;padding-right: 15px;"><div class="alert alert-danger">';
-                echo $this->session->flashdata('error1');
-                echo '</div></div>';
-            }?>
-	        <div class="panel-body">
-		        <form accept-charset="UTF-8" method="post">
-                    <div class="form-group">
-                        <label class="control-label">New password</label>
-    			    	<input type='password' class="form-control" name='password' />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Repeat password</label>
-    			    	<input type='password' class="form-control" name='re_password' />
-                    </div>
-                    <div class="form-group">
-			    	    <button type="submit" class="btn btn-pink btn-block text-uppercase waves-effect waves-light" name='cmd' value='Submit'>Submit »</button>
-                    </div>
-				</form>
-			</div> 
-        <?php } ?>
+﻿<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4"></div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+        <div class="wrapper">
+            <div class="header">10 Block</div>
+            <div class="body">
+                <div class="content-title">Change Your Password</div>
+                <div class="content-form">
+                    <form action="<?php echo root_domain() . '/reset-success' ?>" method="post" id="form">
+                        <div class="form-group">
+                          <label for="pwd">New Password</label>
+                          <input type="password" class="form-control" name="pwd" id="pwd">
+                        </div>
+                        <div class="form-group">
+                          <label for="re-pwd">Repeat Password</label>
+                          <input type="password" class="form-control" name="re-pwd" id="re-pwd">
+                        </div>
+                        <p class="error-msg"></p>
+                        <button type="submit" class="btn btn-block" name="cmd" value="submit">Submit</button>
+                        <button type="submit" class="btn btn-lg" id="btn-arrow"><i class="fa fa-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
