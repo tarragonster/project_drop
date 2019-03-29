@@ -13,6 +13,10 @@ class Home extends CI_Controller {
 		$user_id = $arrs[0];
 		$code = $arrs[1];
 		$isCheck = $this->user_model->checkCode($user_id, $code);
+		
+		$data = array();
+		$data['customCss'] = array('assets/css/api/change_password.css');
+		$data['content'] = $this->load->view('api/change_password', array(), true);
 
 		if ($isCheck == 1) {
 			$this->session->set_flashdata('error', 'Invalid requested password.');
@@ -30,14 +34,12 @@ class Home extends CI_Controller {
 			} else {
 				$this->user_model->updateCodeResetPassword($user_id, $code);
 				$this->user_model->update(array('password' => md5($password)), $user_id);
-				$this->session->set_flashdata('msg', 'Change password success.');
+				$data['customCss'] = array('assets/css/api/change_success.css');
+				$data['content'] = $this->load->view('api/change_success', array(), true);
 			}
 		}
-		$data = array();
-		$data['customCss'] = array('assets/css/api/change_password.css');
-		$data['customJs'] = array('assets/js/api/change_password.js');
-		$data['content'] = $this->load->view('api/change_password', array(), true);
 		$this->load->view('api/main_layout', $data);
+		
 	}
 
 	public function genForgotLink() {
@@ -58,16 +60,4 @@ class Home extends CI_Controller {
 		$params['username'] = $user['full_name'];
 		echo $params['url_code'];
 	}
-
-	public function changedPassword() {
-		$cmd = $this->input->post('cmd');
-		if ($cmd != '') {
-			$data = array();
-			$data['customCss'] = array('assets/css/api/change_success.css');
-			$data['customJs'] = array('assets/js/api/change_password.js');
-			$data['content'] = $this->load->view('api/change_success', array(), true);
-			$this->load->view('api/main_layout', $data);
-		}
-	}
-
 }
