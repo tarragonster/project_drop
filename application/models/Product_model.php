@@ -340,33 +340,67 @@ class Product_model extends BaseModel {
 	}
 
 	public function getProductListByStatus($status) {
-		$sql = "select s1.*, count(up.pick_id) as total_pick
-				from (select p.*,fr.name as rate_name,count(pl.user_id) as total_like
-				      from (product as p 
-				      	left join product_likes as pl on p.product_id = pl.product_id)
-				      	join film_rate as fr on p.rate_id = fr.rate_id
-				      where status = '$status'
-				      group by product_id) s1
-					left join user_picks as up 
-					on s1.product_id = up.product_id 
-				group by s1.product_id
-				order by product_id desc";
+		$sql = "select * from 
+				    (select s1.*, count(up.pick_id) as total_pick
+				    from (select p.*,fr.name as rate_name,count(pl.user_id) as total_like, e.name as paywall_episode_name
+				         from ((product as p 
+				                left join product_likes as pl on p.product_id = pl.product_id)
+				                join film_rate as fr on p.rate_id = fr.rate_id)
+				          		left join episode as e on p.paywall_episode = e.episode_id
+				          	where p.status = '$status'
+				            group by product_id) s1
+				    left join user_picks as up on s1.product_id = up.product_id 
+				    group by s1.product_id) s2
+				join 
+				    (select s3.product_id, s3.total_epi, s4.total_cmt from 
+				        (select p.product_id, count(e.episode_id) as total_epi
+				        from ((product as p 
+				            left join season as s on p.product_id = s.product_id)
+				            left join episode as e on s.season_id = e.season_id)
+				        group by p.product_id) s3
+				    join 
+				        (select p.product_id, count(c.comment_id) as total_cmt
+				        from ((product as p 
+				            left join season as s on p.product_id = s.product_id)
+				            left join episode as e on s.season_id = e.season_id)
+				            left join comments as c on e.episode_id = c.episode_id
+				        group by p.product_id) s4
+				    on s3.product_id = s4.product_id) s5
+				on s2.product_id = s5.product_id
+				order by s2.product_id desc";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
 
 	public function getAllProducts($query = '') {
-		$sql = "select s1.*, count(up.pick_id) as total_pick
-				from (select p.*,fr.name as rate_name,count(pl.user_id) as total_like
-				      from (product as p 
-				      	left join product_likes as pl on p.product_id = pl.product_id)
-				      	join film_rate as fr on p.rate_id = fr.rate_id
-				      where p.name like '%" . $query . "%'
-				      group by product_id) s1
-					left join user_picks as up 
-					on s1.product_id = up.product_id 
-				group by s1.product_id
-				order by product_id desc";
+		$sql = "select * from 
+				    (select s1.*, count(up.pick_id) as total_pick
+				    from (select p.*,fr.name as rate_name,count(pl.user_id) as total_like, e.name as paywall_episode_name
+				         from ((product as p 
+				                left join product_likes as pl on p.product_id = pl.product_id)
+				                join film_rate as fr on p.rate_id = fr.rate_id)
+				          		left join episode as e on p.paywall_episode = e.episode_id
+				          	where p.name like '%" . $query ."%'
+				            group by product_id) s1
+				    left join user_picks as up on s1.product_id = up.product_id 
+				    group by s1.product_id) s2
+				join 
+				    (select s3.product_id, s3.total_epi, s4.total_cmt from 
+				        (select p.product_id, count(e.episode_id) as total_epi
+				        from ((product as p 
+				            left join season as s on p.product_id = s.product_id)
+				            left join episode as e on s.season_id = e.season_id)
+				        group by p.product_id) s3
+				    join 
+				        (select p.product_id, count(c.comment_id) as total_cmt
+				        from ((product as p 
+				            left join season as s on p.product_id = s.product_id)
+				            left join episode as e on s.season_id = e.season_id)
+				            left join comments as c on e.episode_id = c.episode_id
+				        group by p.product_id) s4
+				    on s3.product_id = s4.product_id) s5
+				on s2.product_id = s5.product_id
+				order by s2.product_id desc";
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}

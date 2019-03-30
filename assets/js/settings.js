@@ -54,9 +54,12 @@ $('.status-user').change(function(){
 });
 
 var sttFilm = $('select option:selected').val();
-$.get("product/getProductsByStatus", {status:sttFilm}, function(data){
-    $('#product_table').html(data);
-});
+function loadData(sttFilm){
+    $.get("product/getProductsByStatus", {status:sttFilm}, function(data){
+        $('#product_table').html(data);
+    });
+}
+loadData(sttFilm);
 
 $('.status-film').change(function(){
     sttFilm = $(this).val();
@@ -64,6 +67,10 @@ $('.status-film').change(function(){
         $('#product_table').html(data);
     });
 });
+
+
+
+
 
 
 

@@ -33,7 +33,7 @@ class Product extends Base_Controller {
 		$data['content'] = $this->load->view('admin/product_list', array(
 			'products' => $products,
 			'pinfo' => $pinfo), true);
-		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-confirm.js', 'assets/js/settings.js', 'assets/app/search.js');
+		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js','assets/app/delete-confirm.js', 'assets/js/settings.js', 'assets/app/search.js');
 		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css', 'assets/css/settings.css');
 		$this->load->view('admin_main_layout', $data);
 	}
@@ -300,27 +300,31 @@ class Product extends Base_Controller {
 	}
 
 	public function enable($product_id = 0) {
-
+		$product_id = $this->input->get('product_id');
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == null || $product['status'] != 0) {
 			redirect(base_url('product'));
-			$this->session->set_flashdata('msg', 'Edit success!');
 		} else {
+			$this->session->set_flashdata('msg', 'Edit success!');
 			$this->product_model->update(array('status' => 1), $product_id);
+			return $this->redirect('product');
 		}
 	}
 
 	public function disable($product_id = 0) {
+		$product_id = $this->input->get('product_id');
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == null || $product['status'] != 1) {
 			redirect(base_url('product'));
 		} else {
 			$this->session->set_flashdata('msg', 'Edit success!');
 			$this->product_model->update(array('status' => 0), $product_id);
+			return $this->redirect('product');
 		}
 	}
 
 	public function delete($product_id = 0) {
+		$product_id = $this->input->get('product_id');
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == '' || $product['status'] < 0) {
 			$this->session->set_flashdata('error', 'This Film is not exists!');
@@ -335,7 +339,7 @@ class Product extends Base_Controller {
 				}
 			}
 			$this->product_model->deleteProduct($product_id);
-			redirect(base_url('product'));
+			return redirect(base_url('product'));
 		}
 	}
 

@@ -90,7 +90,7 @@
     margin-top: 15em;
     width: 35em;
 }
-.modal-content {
+.modal .modal-dialog .modal-content {
     text-align: center;
     padding: 30px 60px;
 }

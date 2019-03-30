@@ -22,11 +22,11 @@
 			<td><img style="max-width: 50px; height: 80px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 			<td><?php echo $row['product_id']?></td>
 			<td><?php echo $row['name']?></td>
-			<td># of Blocks</td>
-			<td>Paywall</td>
+			<td><?php echo $row['total_epi']?></td>
+			<td><?php echo ($row['paywall_episode_name'] == null)? 'N/a' : $row['paywall_episode_name'] ?></td>
 			<td><?php echo $row['rate_name']?></td> 
 			<td><?php echo $row['publish_year']; ?></td>
-			<td>Comments: <br>
+			<td>Comments: <?php echo $row['total_cmt']?><br>
 				Thumbs up: <?php echo $row['total_like']?> <br>
 				Picks: <?php echo $row['total_pick']?>
 			</td>
@@ -41,14 +41,18 @@
 				      	<li><a href="">Music</a></li>
 				      	<li><a href="">Seasions</a></li>
 				      	<?php if ($row['status'] == 1):?>
-				      			<li>
-				      				<a href="" class="button" data-toggle="modal" data-target="#dis-modal" data-id="<?php echo $row['product_id']?>">Disable</a>
-				      			</li>
+			      			<li>
+			      				<a href="" class="button" data-toggle="modal" data-target="#dis-modal" data-id="<?php echo $row['product_id']?>">Disable</a>
+			      			</li>
 				      	<?php else: ?>
-				      			<li><a href=""data-toggle="modal" data-target="#en-modal">Enable</a></li>
+			      			<li>
+			      				<a href="" class="button" data-toggle="modal" data-target="#en-modal" data-id="<?php echo $row['product_id']?>">Enable</a>
+			      			</li>
 				      	<?php endif;?>
 				      	<li class="divider"></li>
-				      	<li><a href="">Delete</a></li>
+				      	<li>
+				      		<a href="" class="button" data-toggle="modal" data-target="#del-modal" data-id="<?php echo $row['product_id']?>">Delete</a>
+				      	</li>
 				    </ul>
 				</div>
 			</td>
@@ -71,9 +75,41 @@
   		</div>
         <div class="modal-button">
         	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
-	        <button type="button" class="btn btn-warning disable">
-	        	<a href="<?php echo base_url('product/disable/' . $row['product_id']) ?>">Disable</a>
-	        </button>
+	        <button type="button" class="btn btn-warning dis-confirm">Disable</button>
+        </div>	
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="en-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+  		<div class="modal-img">
+      		<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
+  		</div>
+  		<div class="modal-description">
+  			<h2>Are You Sure?</h2>
+      		<p>Are you sure you want to enable this film? You will be able to undo this in the actions section.</p>
+  		</div>
+        <div class="modal-button">
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
+	        <button type="submit" class="btn btn-warning en-confirm">Enable</button>
+        </div>	
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="del-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+  		<div class="modal-img">
+      		<img src="<?php echo base_url('assets/images/quit.jpg')?>">
+  		</div>
+  		<div class="modal-description">
+  			<h2>Are You Sure?</h2>
+      		<p>Are you sure you want to delete this film? You will not be able to undo this.</p>
+  		</div>
+        <div class="modal-button">
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
+	        <button type="submit" class="btn btn-danger del-confirm">Delete</button>
         </div>	
     </div>
   </div>
@@ -88,10 +124,27 @@
         });
 
         $('.button').click(function(e){
-        	e.preventDefault();
-	    	var product_id = $(this).attr('data-id');
-	    	
-	    });
+            e.preventDefault();
+            var product_id = $(this).attr('data-id');
+            $('.dis-confirm').click(function(){
+                $.get('product/disable', {product_id:product_id}, function(data){
+                    loadData($('select option:selected').val());
+                });
+                $(this).attr('data-dismiss', 'modal');
+            });
+            $('.en-confirm').click(function(){
+                $.get('product/enable', {product_id:product_id}, function(data){
+                    loadData($('select option:selected').val());
+                });
+                $(this).attr('data-dismiss', 'modal');
+            });
+            $('.del-confirm').click(function(){
+                $.get('product/delete', {product_id:product_id}, function(data){
+                    loadData($('select option:selected').val());
+                });
+                $(this).attr('data-dismiss', 'modal');
+            });
+        });
     });
 
     
