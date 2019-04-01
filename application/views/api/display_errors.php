@@ -11,11 +11,6 @@
                             <?php echo $this->session->flashdata('error2')?>
                         </p>
                     <?php endif;?>
-                    <?php if($this->session->flashdata('error3')):?>
-                        <p>
-                            <?php echo $this->session->flashdata('error3')?>
-                        </p>
-                    <?php endif;?>
 	            </div>
             </div>
         </div>
