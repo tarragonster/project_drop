@@ -1,6 +1,8 @@
-var imageLoader = document.getElementById('imagePhoto');
-if (imageLoader) {
-	imageLoader.addEventListener('change', handleImage, false);
+function posterClick() {
+    var imageLoader = document.getElementById('imagePhoto');
+    if (imageLoader) {
+    	imageLoader.addEventListener('change', handleImage, false);
+    }
 }
 
 function handleImage(e) {
@@ -39,5 +41,38 @@ function handleBackgroundImage(e) {
     }
     reader.readAsDataURL(e.target.files[0]);
 }
+
+
+var sttUser = $('select option:selected').val();
+$.get("user/getUsersByStatus", {status:sttUser}, function(data){
+    $('#user_table').html(data);
+});
+
+$('.status-user').change(function(){
+    sttUser = $(this).val();
+    $.get("user/getUsersByStatus", {status:sttUser}, function(data){
+        $('#user_table').html(data);
+    });
+});
+
+var sttFilm = $('select option:selected').val();
+function loadData(sttFilm){
+    $.get("product/getProductsByStatus", {status:sttFilm}, function(data){
+        $('#product_table').html(data);
+    });
+}
+loadData(sttFilm);
+
+$('.status-film').change(function(){
+    sttFilm = $(this).val();
+    $.get("product/getProductsByStatus", {status:sttFilm}, function(data){
+        $('#product_table').html(data);
+    });
+});
+
+
+
+
+
 
 

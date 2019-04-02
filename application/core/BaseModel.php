@@ -27,8 +27,9 @@ class BaseModel extends CI_Model {
 
 	public function update($params, $id) {
 		$this->db->where($this->id_name, $id);
-		$rows = $this->db->update($this->table, $params);
-		return $rows;
+		// $rows = $this->db->update($this->table, $params);
+		// return $rows;
+		$this->db->update($this->table, $params);
 	}
 
 	public function get($id, $select = '') {
@@ -43,7 +44,7 @@ class BaseModel extends CI_Model {
 
 	public function getObjectById($id, $select = '') {
 		$this->db->where($this->id_name, $id);
-		$this->db->where('status', 1);
+		// $this->db->where('status', 1);
 		if ($select != '')
 			$this->db->select($select);
 		$query = $this->db->get($this->table);

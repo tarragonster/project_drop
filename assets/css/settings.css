@@ -13,14 +13,9 @@
     color: #FFFFFF;
 }
 .uploader {
-	width:100%;
-	height:120px;
-	background:#f3f3f3;
-	border:2px dashed #e8e8e8;
-}
-.uploader:hover{
-	background:#e6e6e6;
-	border:2px dashed #c6c6c6;
+    width: 31%;
+    margin-top: 10px;
+    background: #36404a;
 }
 
 #imagePhoto{
@@ -101,4 +96,62 @@
     display: inline-flex;
     float: right;
     margin-bottom: 1em;
+}
+.card-box {
+    margin-top: 10px;
+}
+
+.modal-dialog {
+    margin-top: 15em;
+    width: 35em;
+}
+.modal .modal-dialog .modal-content {
+    text-align: center;
+    padding: 30px 60px;
+}
+.modal-content .modal-description h2 {
+    font-weight: bold;
+}
+.modal-content .modal-description p {
+    margin: 25px 0;
+}
+.modal-content .modal-button button a {
+    color: #FFFFFF;
+}
+
+/*form add film*/
+.background {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+}
+.header {
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 20px;
+}
+hr {
+    margin: 10px 20px 30px;
+    border-top: 2px solid #eee;
+}
+.content label {
+    font-weight: 100;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.form-group input, .form-group select, .form-group input:focus, .form-group select:focus {
+    border: none;
+    border-bottom: 1px solid #eee;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    padding: inherit;
+}
+.form-group #text-area-des {
+    border: 1px solid #727272;
+    border-radius: 10px;
+}
+.portlets #image {
+    border: 3px #c6c6c6;
+    border-radius: 12px;
+    border-style: dashed;
 }
