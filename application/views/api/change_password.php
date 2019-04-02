@@ -15,20 +15,12 @@
                           <label for="re-pwd">Repeat Password</label>
                           <input type="password" class="form-control" name="re_password">
                         </div>
-                        <?php if($this->session->flashdata('error')):?>
-                            <p class="error-msg">
-                                <?php echo $this->session->flashdata('error')?>
-                            </p>
-                        <?php else: ?>
-                            <p class="error-msg"></p>
-                            <?php if($this->session->flashdata('error1')):?>
-                                <p class="error-msg">
-                                    <?php echo $this->session->flashdata('error1')?>
-                                </p>
-                            <?php endif;?>
-                        <?php endif;?>
-                        <button type="submit" class="btn btn-block" name="cmd" value="submit">Submit</button>
-                        <button type="submit" class="btn btn-lg" id="btn-arrow"><i class="fa fa-arrow-right"></i></button>
+	                    <?php
+	                    $error = $this->session->flashdata('error');
+	                    ?>
+	                    <p class="error-msg"<?= empty($error) ? ' style="display: none"' : '' ?> ><?= $error ?></p>
+                        <button type="button" class="btn btn-block button-submit-password" name="cmd" value="submit">Submit</button>
+                        <button type="button" class="btn btn-lg button-submit-password" id="btn-arrow"><i class="fa fa-arrow-right"></i></button>
                     </form>
                 </div>
             </div>
