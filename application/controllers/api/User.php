@@ -782,7 +782,7 @@ class User extends BR_Controller {
 		}
 		$time = time();
 		$code = md5(md5($email . $time . '|mDyN2U') . $time);
-		$base_64 = base64_encode($user['user_id'] . '|' . $code);
+		$base_64 = str_replace('=', '', base64_encode($user['user_id'] . '|' . $code));
 		$params = array();
 		$params['user_id'] = $user['user_id'];
 		$params['code'] = $code;
