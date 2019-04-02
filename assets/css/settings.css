@@ -1,3 +1,17 @@
+.btn-export {
+    float: right;
+    list-style-type: none;
+    margin: 18px;
+}
+.btn-export button {
+    background-color: #36404a;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    padding: 0px 10px;
+}
+.btn-export button a {
+    color: #FFFFFF;
+}
 .uploader {
 	width:100%;
 	height:120px;
@@ -53,17 +67,23 @@
 .dropdown-menu .divider {
     margin: 3px 0;
 }
+#user_table hr {
+    margin-top: 52px;
+    margin-bottom: 0em;
+    border: 0;
+    border-top: 1.5px solid #dbdbdb;
+}
+.table-bordered-bottom {
+
+}
 #example3_info {
-    padding-top: 30px;
+    padding-top: 20px;
 }
 #example3_paginate{
-    margin-top: -23px;
-    margin-right: 250px;
+    margin-right: 17em;
 }
 #example3_length {
     float: right;
-    margin-top: -40px;
-    margin-right: 25px;
 }
 .search-container i {
     position: absolute;

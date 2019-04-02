@@ -1,6 +1,6 @@
-<table id="example3" class="table table-bordered-bottom table-hover">
+<table id="example3" class="table table-hover">
 	<thead>
-	<tr>
+	<tr><hr>
 		<th></th>
 		<th>ID</th>
 		<th>Name</th>
@@ -23,9 +23,9 @@
 		<td><?php echo $row['user_id'] ?></td>
 		<td><?php echo $row['user_name']?></td>
 		<td><?php echo $row['email']?></td>
-		<td>Comments: <?php echo $row['total_comment']?> <br> 
-			Thumbs up: <?php echo $row['total_like']?> <br>
-			Picks: <?php echo $row['total_pick']?>
+		<td>Comments:&nbsp;<?php echo $row['total_comment']?> <br> 
+			Thumbs&nbsp;up:&nbsp;<?php echo $row['total_like']?> <br>
+			Picks:&nbsp;<?php echo $row['total_pick']?>
 		</td>
 		<td><?php echo $row['device_name']?></td>
 		<td><?php echo date('m/d/Y h:iA', $row['joined'])?></td>
@@ -60,7 +60,7 @@
 		$(document).ready(function(){
 			$('#example3').DataTable({
 			    'ordering': false,
-			    'dom' : '<"top"f>rt<"bottom"ipl>',
+			    'dom' : 'frtilp',
 			    'searching': false
 			});
 		});

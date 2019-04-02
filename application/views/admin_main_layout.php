@@ -65,16 +65,38 @@
 						</button>
 						<span class="clearfix"></span>
 					</div>
-					<ul class="nav navbar-nav navbar-right pull-right">
-						<li class="dropdown">
-							<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
-								<img src="<?php echo isset($account['avatar']) && $account['avatar'] != '' ? base_url($account['avatar']) : base_url('media/managers/avatar.jpg'); ?>" alt="user-img"
-								     class="img-circle"> </a>
-							<ul class="dropdown-menu">
-								<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-								<li><a href="<?php echo base_url('logout'); ?>"><i class="ti-power-off m-r-5"></i> Logout</a></li>
-							</ul>
+					<ul class="pull-right">
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown">
+								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
+									<i class="fa fa-cog"></i>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
+									<li><a href="<?php echo base_url('logout'); ?>"><i class="ti-power-off m-r-5"></i> Logout</a></li>
+								</ul>
+							</li>
+							
+						</ul>
+						<?php if(isset($sub_id) && $sub_id == 21):?>
+						<li class="btn-export">
+							<button type="button" class="btn">
+								<a href="<?php echo base_url('user/exportUsers')?>">Export</a>
+							</button>
 						</li>
+						<?php elseif(isset($sub_id) && $sub_id == 32):?>
+						<li class="btn-export">
+							<button type="button" class="btn">
+								<a href="<?php echo base_url('product/add')?>">Add Film</a>
+							</button>
+						</li>
+						<li class="btn-export">
+							<button type="button" class="btn">
+								<a href="<?php echo base_url('product/exportFilms')?>">Export</a>
+							</button>
+						</li>
+						<?php else:?>
+						<?php endif;?>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->

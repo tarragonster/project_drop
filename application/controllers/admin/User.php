@@ -168,6 +168,37 @@ class User extends Base_Controller {
 		$this->exporter->exportCsv($headers, $data, 'newsletter_signups_' . date('YmdHi', time()) . '.csv');
 	}
 
+	public function exportUsers() {
+		$users = $this->user_model->getAllUsers();
+		$data = array();
+		if (isset($users) && is_array($users)) {
+			foreach ($users as $row) {
+				$item = array();
+				$item[] = $row['user_id'];
+				$item[] = $row['user_name'];
+				$item[] = $row['email'];
+				$item[] = $row['total_comment'];
+				$item[] = $row['total_like'];
+				$item[] = $row['total_pick'];
+				$item[] = $row['device_name'];
+				$item[] = date('m/d/Y h:iA', $row['joined']);
+				$data[] = $item;
+			}
+		}
+
+		$headers = array(
+			array('width' => 15, 'align' => 'C', 'label' => 'ID'),
+			array('width' => 35, 'align' => 'L', 'label' => 'Name'),
+			array('width' => 55, 'align' => 'L', 'label' => 'E-Mail'),
+			array('width' => 55, 'align' => 'C', 'label' => 'Comment Total'),
+			array('width' => 55, 'align' => 'C', 'label' => 'Like Total'),
+			array('width' => 55, 'align' => 'C', 'label' => 'Pick Total'),
+			array('width' => 55, 'align' => 'C', 'label' => 'Device Name'),
+			array('width' => 20, 'align' => 'C', 'label' => 'Created'));
+		$this->load->library('exporter');
+		$this->exporter->exportCSV($headers, $data, 'users_list_' . date('YmdHi', time()) . '.csv');
+	}
+
 	public function block($user_id = '') {
 
 		$user = $this->user_model->getUserForAdmin($user_id);
