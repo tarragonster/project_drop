@@ -79,22 +79,22 @@
 							
 						</ul>
 						<?php if(isset($sub_id) && $sub_id == 21):?>
-						<li class="btn-export">
-							<button type="button" class="btn">
-								<a href="<?php echo base_url('user/exportUsers')?>">Export</a>
-							</button>
-						</li>
+							<li class="btn-export">
+								<button type="button" class="btn">
+									<a href="<?php echo base_url('user/exportUsers')?>">Export</a>
+								</button>
+							</li>
 						<?php elseif(isset($sub_id) && $sub_id == 32):?>
-						<li class="btn-export">
-							<button type="button" class="btn">
-								<a href="<?php echo base_url('product/add')?>">Add Film</a>
-							</button>
-						</li>
-						<li class="btn-export">
-							<button type="button" class="btn">
-								<a href="<?php echo base_url('product/exportFilms')?>">Export</a>
-							</button>
-						</li>
+							<li class="btn-export">
+								<button type="button" class="btn">
+									<a href="<?php echo base_url('product/exportFilms')?>">Export</a>
+								</button>
+							</li>
+							<li class="btn-export">
+								<button type="button" class="btn">
+									<a href="<?php echo base_url('product/add')?>">Add Film</a>
+								</button>
+							</li>
 						<?php else:?>
 						<?php endif;?>
 					</ul>
