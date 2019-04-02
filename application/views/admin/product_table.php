@@ -19,7 +19,7 @@
 		if ($products != null && count($products) > 0) {
 			foreach ($products as $row): ?>
 		<tr>
-			<td><img style="max-width: 50px; height: 80px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
+			<td><img style="max-width: 50px; height: 80px;border-radius: 5px;" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 			<td><?php echo $row['product_id']?></td>
 			<td><?php echo $row['name']?></td>
 			<td><?php echo $row['total_epi']?></td>

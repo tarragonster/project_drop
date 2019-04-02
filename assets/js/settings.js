@@ -1,6 +1,8 @@
-var imageLoader = document.getElementById('imagePhoto');
-if (imageLoader) {
-	imageLoader.addEventListener('change', handleImage, false);
+function posterClick() {
+    var imageLoader = document.getElementById('imagePhoto');
+    if (imageLoader) {
+    	imageLoader.addEventListener('change', handleImage, false);
+    }
 }
 
 function handleImage(e) {
