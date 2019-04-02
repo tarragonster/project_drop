@@ -410,6 +410,12 @@ class User_model extends BaseModel {
 			return 1;
 		}
 	}
+	// public function getCodeResetPassword($code)
+	// {
+	// 	$sql = "select * from code_reset_password where code = '$code' and collation_name = 'latin1_general_ci'";
+	// 	$query = $this->db->query($sql);
+	// 	return $query->num_rows();
+	// }
 
 	public function getUserByAccount($account) {
 		$this->db->from('user');

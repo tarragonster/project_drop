@@ -92,7 +92,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 						<div class="form-group" id='block_product'>
 							<label>Film</label>
 							<input id='select_product' class='form-control' type="text" placeholder='Film Name' required
-							       data-href='<?php echo base_url('collection/ajaxProduct?q=') ?>'
+							       data-href='<?php echo base_url("collection/ajaxProduct/{$collection_id}?q=") ?>'
 							       data-linked-id='product_id'/>
 							<input type="hidden" id='product_id' name='product_id' class='form-control'/>
 							<input type="hidden" name='collection_id' class='form-control' value="<?= $collection_id ?>"/>
