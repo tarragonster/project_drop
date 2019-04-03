@@ -44,10 +44,10 @@ class Product extends Base_Controller {
 			$params = array();
 			$params['name'] = $this->input->post('name');
 			$params['description'] = $this->input->post('description');
-			$params['status'] = 1;
 			$params['publish_year'] = $this->input->post('publish_year');
-			$params['creators'] = $this->input->post('creators');
 			$params['rate_id'] = $this->input->post('rate_id');
+			$params['creators'] = $this->input->post('creators');
+			$params['status'] = 1;
 			$params['jw_media_id'] = $this->input->post('jw_media_id');
 
 			$jw_media_id = $this->input->post('jw_media_id');
@@ -63,20 +63,39 @@ class Product extends Base_Controller {
 
 			$params['priority'] = $this->product_model->getMaxPriority() + 1;
 			$params['created'] = time();
-			$image = isset($_FILES['image']) ? $_FILES['image'] : null;
+
+			$image = isset($_FILES['poster_img']) ? $_FILES['poster_img'] : null;
 			$this->load->model('file_model');
 			if ($image != null && $image['error'] == 0) {
 				$path = $this->file_model->createFileName($image, 'media/films/', 'film');
 				$this->file_model->saveFile($image, $path);
 				$params['image'] = $path;
 			}
-			$background_img = isset($_FILES['background_img']) ? $_FILES['background_img'] : null;
+			// print_r($params['image']);die();
+
+			$background_img = isset($_FILES['series_img']) ? $_FILES['series_img'] : null;
 			if ($background_img != null && $background_img['error'] == 0) {
 				$path = $this->file_model->createFileName($background_img, 'media/films/', 'background');
 				$this->file_model->saveFile($background_img, $path);
 				$params['background_img'] = $path;
 			}
+
+			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
+			if ($preview_img != null && $preview_img['error'] == 0) {
+				$path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
+				$this->file_model->saveFile($preview_img, $path);
+				$params['trailler_image'] = $path;
+			}
+
+			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
+			if ($explore_img != null && $explore_img['error'] == 0) {
+				$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+				$this->file_model->saveFile($preview_img, $path);
+				$promo_image = $path;
+			}
 			$product_id = $this->product_model->insert($params);
+			$this->load->model('preview_model');
+			$preview_id = $this->preview_model->addFilm($product_id, $promo_image);
 
 			if ($cmd == 'Save') {
 				$this->session->set_flashdata('msg', 'Add success!');

@@ -26,9 +26,9 @@
 			<td><?php echo ($row['paywall_episode_name'] == null)? 'N/a' : $row['paywall_episode_name'] ?></td>
 			<td><?php echo $row['rate_name']?></td> 
 			<td><?php echo $row['publish_year']; ?></td>
-			<td>Comments: <?php echo $row['total_cmt']?><br>
-				Thumbs up: <?php echo $row['total_like']?> <br>
-				Picks: <?php echo $row['total_pick']?>
+			<td>Comments:&nbsp;<?php echo $row['total_cmt']?><br>
+				Thumbs&nbsp;up:&nbsp;<?php echo $row['total_like']?> <br>
+				Picks:&nbsp;<?php echo $row['total_pick']?>
 			</td>
 			<td><?php echo ($row['status'] == 1 ? 'Enabled' : 'Disable') ?></td>
 			<td><?php echo date('m/d/Y h:iA', $row['created'])?></td>

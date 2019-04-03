@@ -134,14 +134,8 @@
 
 						</ul>
 					</li>
-					<li class="has_sub">
-						<a href="#" class="waves-effect<?php echo isset($parent_id) && $parent_id == 3 ? ' active' : ''; ?>">
-							<i class="fa fa-sitemap"></i> <span>Films</span>
-						</a>
-						<ul class="list-unstyled">
-							<li <?php echo($sub_id == 31 ? 'class="active"' : ''); ?>><a href="<?php echo base_url('product/add'); ?>">Add Film</a></li>
-							<li <?php echo($sub_id == 32 ? 'class="active"' : ''); ?>><a href="<?php echo base_url('product'); ?>">List Films</a></li>
-						</ul>
+					<li>
+						<a href="<?php echo base_url('product'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 3 ? ' active' : ''; ?>"><i class="fa fa-leaf"></i> <span>Series</span></a>
 					</li>
 					<li>
 						<a href="<?php echo base_url('season'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 7 ? ' active' : ''; ?>"><i class="fa fa-ship"></i> <span>Seasons</span></a>

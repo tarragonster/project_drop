@@ -404,4 +404,5 @@ class Product_model extends BaseModel {
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
 }
