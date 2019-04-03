@@ -71,7 +71,6 @@ class Product extends Base_Controller {
 				$this->file_model->saveFile($image, $path);
 				$params['image'] = $path;
 			}
-			// print_r($params['image']);die();
 
 			$background_img = isset($_FILES['series_img']) ? $_FILES['series_img'] : null;
 			if ($background_img != null && $background_img['error'] == 0) {
@@ -90,7 +89,7 @@ class Product extends Base_Controller {
 			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
 			if ($explore_img != null && $explore_img['error'] == 0) {
 				$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
-				$this->file_model->saveFile($preview_img, $path);
+				$this->file_model->saveFile($explore_img, $path);
 				$promo_image = $path;
 			}
 			$product_id = $this->product_model->insert($params);
@@ -116,6 +115,7 @@ class Product extends Base_Controller {
 	}
 
 	public function edit($product_id) {
+		$this->load->model('preview_model');
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null) {
 			redirect('product');
@@ -141,7 +141,6 @@ class Product extends Base_Controller {
 
 				$params['jw_media_id'] = $jw_media_id;
 			}
-
 			if ($this->input->post('rate_id') != '')
 				$params['rate_id'] = $this->input->post('rate_id');
 
@@ -150,21 +149,36 @@ class Product extends Base_Controller {
 			} else {
 				$params['paywall_episode'] = 0;
 			}
-			$image = isset($_FILES['image']) ? $_FILES['image'] : null;
+			$image = isset($_FILES['poster_img']) ? $_FILES['poster_img'] : null;
 			$this->load->model('file_model');
 			if ($image != null && $image['error'] == 0) {
 				$path = $this->file_model->createFileName($image, 'media/films/', 'film');
 				$this->file_model->saveFile($image, $path);
 				$params['image'] = $path;
 			}
-			$background_img = isset($_FILES['background_img']) ? $_FILES['background_img'] : null;
+
+			$background_img = isset($_FILES['series_img']) ? $_FILES['series_img'] : null;
 			if ($background_img != null && $background_img['error'] == 0) {
 				$path = $this->file_model->createFileName($background_img, 'media/films/', 'background');
 				$this->file_model->saveFile($background_img, $path);
 				$params['background_img'] = $path;
 			}
 
+			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
+			if ($preview_img != null && $preview_img['error'] == 0) {
+				$path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
+				$this->file_model->saveFile($preview_img, $path);
+				$params['trailler_image'] = $path;
+			}
+
+			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
+			if ($explore_img != null && $explore_img['error'] == 0) {
+				$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+				$this->file_model->saveFile($explore_img, $path);
+				$promo_image = $path;
+			}
 			$this->product_model->update($params, $product_id);
+			$this->preview_model->editPromo($product_id, $promo_image);
 
 			$this->session->set_flashdata('msg', 'Edit success!');
 			redirect(base_url('product/edit/' . $product_id));
@@ -174,11 +188,15 @@ class Product extends Base_Controller {
 		$data['sub_id'] = 32;
 		$data['account'] = $this->account;
 
+		$preview_product = $this->preview_model->getFilm($product_id);
+		$product['promo_image'] = $preview_product['promo_image'];
+
 		$rates = $this->product_model->getRates();
 		$episodes = $this->product_model->getEpisodeSeasons($product_id);
 		$product['rates'] = $rates;
 		$product['episodes'] = $episodes;
-		$data['content'] = $this->load->view('admin/product_edit', $product, true);;
+
+		$data['content'] = $this->load->view('admin/product_edit', $product, true);
 		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');
 		$data['customJs'] = array('assets/js/settings.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/info_video.js');
 		$this->load->view('admin_main_layout', $data);

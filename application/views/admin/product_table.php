@@ -1,6 +1,6 @@
 <table id="example3" class="table table-bordered-bottom table-hover" data-alert="Are you want to delete this product?">
 	<thead>
-		<tr>
+		<tr><hr>
 			<th></th>
 			<th>Film ID</th>
 			<th>Film Name</th>

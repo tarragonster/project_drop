@@ -25,6 +25,8 @@
     font-size: 10px;
     text-transform: uppercase;
     border-radius: 20px;
+    background-color: #36404a;
+    color: white;
 }
 #poster_image {
     width: 70px;
@@ -87,9 +89,8 @@
 .dropdown-menu .divider {
     margin: 3px 0;
 }
-#user_table hr {
-    margin-top: 52px;
-    margin-bottom: 0em;
+#user_table hr, #product_table hr {
+    margin: 52px 0 0 0;
     border: 0;
     border-top: 1.5px solid #dbdbdb;
 }
@@ -164,7 +165,7 @@
     padding: 20px;
 }
 .header-title {
-    margin-left: 20px;
+    margin: 20px 0 0 20px;
     font-weight: bold;
     font-size: 20px;
 }
@@ -176,7 +177,12 @@ hr {
     font-weight: 100;
     text-transform: uppercase;
     font-size: 12px;
-    margin-left: -10px;
+}
+#upload-img label {
+    font-weight: 100;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-left: -11px; 
 }
 .form-group input, .form-group select, .form-group input:focus, .form-group select:focus {
     border: none;
@@ -189,7 +195,7 @@ hr {
     border: 1px solid #727272;
     border-radius: 10px;
 }
-.btn-update {
+.btn-update, .btn-update:hover {
     background-color: #62c17f;
     color: white;
     padding: 5px 40px;
