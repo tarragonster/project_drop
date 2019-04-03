@@ -63,8 +63,8 @@
                                     <label>Poster Image</label>
                                     <div class="row">
                                         <img id='poster_image' src="<?php echo base_url('assets/images/borders/border1.jpg')?>"/>
-                                        <div class="uploader" onclick="$('#posterImg').click()">
-                                            <span>Upload</span>
+                                        <div class="uploader" onclick="$('#posterImg').click()" style="background: transparent">
+                                            <button type="button" class="btn btn-inverse" style="border-radius: 100px">Upload</button>
                                             <input type="file" accept="image/*" name="poster_img" id="posterImg" class="imagePhoto"/>
                                         </div>
                                     </div>
