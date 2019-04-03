@@ -6,7 +6,7 @@
         <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
         <meta name="author" content="Coderthemes">
         <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon_1.ico');?>">
-        <title>Second Screen</title>
+        <title>10 Block</title>
         <link href="<?php echo base_url('assets/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('assets/css/core.css');?>" rel="stylesheet" type="text/css" />
         <link href="<?php echo base_url('assets/css/components.css');?>" rel="stylesheet" type="text/css" />

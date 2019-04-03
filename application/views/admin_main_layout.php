@@ -65,11 +65,11 @@
 						</button>
 						<span class="clearfix"></span>
 					</div>
-					<ul class="pull-right">
+					<ul class="pull-right" style="margin-bottom: 0">
 						<ul class="nav navbar-nav navbar-right">
 							<li class="dropdown">
 								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
-									<i class="fa fa-cog"></i>
+									<i class="fa fa-cog" style="font-size: 28px; line-height: 60px"></i>
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
