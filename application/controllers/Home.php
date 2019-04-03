@@ -9,14 +9,14 @@ class Home extends CI_Controller {
 
 	public function resetPassword() {
 		$data = array();
-		$url_code = $this->input->get('url_code');
-		$data = explode('|', base64_decode($url_code));
+		$url_code = $this->input->get('code');
+		$params = explode('|', base64_decode($url_code));
 		$validateError = '';
-		if ($url_code == '' || count($data) != 2) {
+		if ($url_code == '' || count($params) != 2) {
 			$validateError = 'Your request change password is invalid.';
 		} else {
-			$user_id = $data[0];
-			$code = $data[1];
+			$user_id = $params[0];
+			$code = $params[1];
 			if (mb_check_encoding($code, 'utf-8') == false) {
 				$validateError = 'Your request change password is invalid.';
 			} else {
@@ -64,14 +64,12 @@ class Home extends CI_Controller {
 		}
 		$time = time();
 		$code = md5(md5($email . $time . '|mDyN2U') . $time);
-		$base_64 = base64_encode($user['user_id'] . '|' . $code);
+		$base_64 = str_replace('=', '', base64_encode($user['user_id'] . '|' . $code));
 		$params = array();
 		$params['user_id'] = $user['user_id'];
 		$params['code'] = $code;
 		$params['created'] = $time;
 		$this->user_model->insertCodeResetPassword($params);
-		$params['url_code'] = root_domain() . '/reset-password?url_code=' . $base_64;
-		$params['username'] = $user['full_name'];
-		echo $params['url_code'];
+		echo root_domain() . '/reset-password?code=' . $base_64;
 	}
 }
