@@ -262,6 +262,7 @@ class Product extends Base_Controller {
 		$data['sub_id'] = 32;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
+		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');
 		$this->load->view('admin_main_layout', $data);
 	}
 
@@ -315,6 +316,7 @@ class Product extends Base_Controller {
 		$data['sub_id'] = 32;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
+		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');
 		$this->load->view('admin_main_layout', $data);
 	}
 

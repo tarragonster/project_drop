@@ -18,14 +18,13 @@
 .uploader {
     width: 31%;
     margin-top: 10px;
-    background: #36404a;
+    background: transparent;
     border-radius: 11px;
 }
-.uploader span {
-    color: #FFFFFF;
+.uploader button {
     font-size: 10px;
-    padding: 11px;
     text-transform: uppercase;
+    border-radius: 20px;
 }
 #poster_image {
     width: 70px;
@@ -146,6 +145,13 @@
 }
 .modal-content .modal-description p {
     margin: 25px 0;
+}
+.modal-content .modal-description input {
+    font-size: large;
+    border-radius: 8px;
+    border: 1px solid;
+    margin-bottom: 30px;
+    padding-left: 10px;
 }
 .modal-content .modal-button button a {
     color: #FFFFFF;

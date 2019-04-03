@@ -36,10 +36,10 @@
 				<div class="dropdown">
 				    <span class="btnAction dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-ellipsis-v"></i></span>
 				    <ul class="dropdown-menu" id="customDropdown">
-				      	<li><a href="">Edit Film</a></li>
-				      	<li><a href="">Actors</a></li>
-				      	<li><a href="">Music</a></li>
-				      	<li><a href="">Seasions</a></li>
+				      	<li><a href="<?php echo base_url('product/edit/' . $row["product_id"])?>">Edit Film</a></li>
+				      	<li><a href="<?php echo base_url('product/managerActor/' . $row["product_id"])?>">Actors</a></li>
+				      	<li><a href="<?php echo base_url('product/managerMusic/' . $row["product_id"])?>">Music</a></li>
+				      	<li><a href="<?php echo base_url('product/managerSeason/' . $row["product_id"])?>">Seasions</a></li>
 				      	<?php if ($row['status'] == 1):?>
 			      			<li>
 			      				<a href="" class="button" data-toggle="modal" data-target="#dis-modal" data-id="<?php echo $row['product_id']?>">Disable</a>
@@ -109,8 +109,26 @@
   		</div>
         <div class="modal-button">
         	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
-	        <button type="submit" class="btn btn-danger del-confirm">Delete</button>
+	        <button class="btn btn-danger" data-toggle="modal" data-target="#confirm-del-modal" data-dismiss="modal" >Delete</button>
         </div>	
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="confirm-del-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-img">
+            <img src="<?php echo base_url('assets/images/quit.jpg')?>">
+        </div>
+        <div class="modal-description">
+            <h2>Are You Sure?</h2>
+            <p>Type "DELETE" in the box below to proceed. <br> You will not be able to undo this.</p>
+            <input type="text" id="text-confirm">
+        </div>
+        <div class="modal-button">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
+            <button type="submit" class="btn btn-danger del-confirm">Confirm</button>
+        </div>  
     </div>
   </div>
 </div>
@@ -138,11 +156,14 @@
                 });
                 $(this).attr('data-dismiss', 'modal');
             });
+
             $('.del-confirm').click(function(){
-                $.get('product/delete', {product_id:product_id}, function(data){
-                    loadData($('select option:selected').val());
-                });
-                $(this).attr('data-dismiss', 'modal');
+                if ($('#text-confirm').val() == 'DELETE') {
+                    $.get('product/delete', {product_id:product_id}, function(data){
+                        loadData($('select option:selected').val());
+                    });
+                    $(this).attr('data-dismiss', 'modal');
+                }
             });
         });
     });
