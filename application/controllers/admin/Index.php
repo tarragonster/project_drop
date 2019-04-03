@@ -1,5 +1,4 @@
 <?php
-
 require_once APPPATH . '/core/Base_Controller.php';
 
 class Index extends Base_Controller {
@@ -31,9 +30,9 @@ class Index extends Base_Controller {
 	public function login() {
 		$admin = $this->session->userdata('admin');
 		if ($admin != null) {
-			redirect(base_url(''));
+			redirect(base_url('dashboard'));
 		}
-		
+
 		$cmd = $this->input->post("cmd");
 		if ($cmd != '') {
 			$email = $this->input->post("email");
@@ -44,7 +43,7 @@ class Index extends Base_Controller {
 				$account = $this->admin_model->getAdminAccount($email, $password);
 				if ($account != null) {
 					$this->session->set_userdata('admin', array('email'=>$account['email'], 'group'=>$account['group']));
-					$this->redirect('');
+					$this->redirect('dashboard');
 				} else {
 					$this->load->view('admin/login', array('error'=>'Sai thông tin đăng nhập'));
 				}

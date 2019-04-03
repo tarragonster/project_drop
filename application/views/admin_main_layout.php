@@ -16,7 +16,7 @@
 	<link href="<?php echo base_url('assets/css/icons.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/pages.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/responsive.css'); ?>" rel="stylesheet" type="text/css"/>
-	<link href="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.css'); ?>" rel="stylesheet" type="text/css"/>
+	<link href="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
 
 	<!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -65,16 +65,38 @@
 						</button>
 						<span class="clearfix"></span>
 					</div>
-					<ul class="nav navbar-nav navbar-right pull-right">
-						<li class="dropdown">
-							<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
-								<img src="<?php echo isset($account['avatar']) && $account['avatar'] != '' ? base_url($account['avatar']) : base_url('media/managers/avatar.jpg'); ?>" alt="user-img"
-								     class="img-circle"> </a>
-							<ul class="dropdown-menu">
-								<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-								<li><a href="<?php echo base_url('logout'); ?>"><i class="ti-power-off m-r-5"></i> Logout</a></li>
-							</ul>
+					<ul class="pull-right">
+						<ul class="nav navbar-nav navbar-right">
+							<li class="dropdown">
+								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
+									<i class="fa fa-cog"></i>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
+									<li><a href="<?php echo base_url('logout'); ?>"><i class="ti-power-off m-r-5"></i> Logout</a></li>
+								</ul>
+							</li>
+							
+						</ul>
+						<?php if(isset($sub_id) && $sub_id == 21):?>
+						<li class="btn-export">
+							<button type="button" class="btn">
+								<a href="<?php echo base_url('user/exportUsers')?>">Export</a>
+							</button>
 						</li>
+						<?php elseif(isset($sub_id) && $sub_id == 32):?>
+						<li class="btn-export">
+							<button type="button" class="btn">
+								<a href="<?php echo base_url('product/add')?>">Add Film</a>
+							</button>
+						</li>
+						<li class="btn-export">
+							<button type="button" class="btn">
+								<a href="<?php echo base_url('product/exportFilms')?>">Export</a>
+							</button>
+						</li>
+						<?php else:?>
+						<?php endif;?>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
@@ -100,9 +122,6 @@
 							<li <?php echo($sub_id == 21 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('user'); ?>"><span>Active Users</span></a>
 							</li>
-							<li <?php echo($sub_id == 22 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('user/blocked'); ?>">Blocked Users</a>
-							</li>
 							<li <?php echo($sub_id == 23 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('user/reports'); ?>">Reported Users</a>
 							</li>
@@ -112,6 +131,7 @@
 							<li <?php echo($sub_id == 25 ? 'class="active"' : ''); ?>>
 								<a href="<?php echo base_url('user/signups'); ?>">Newsletter Signups</a>
 							</li>
+
 						</ul>
 					</li>
 					<li class="has_sub">
@@ -187,7 +207,7 @@
 </script>
 
 <!-- jQuery  -->
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="<?php echo base_url('assets/js/jquery-2.1.4.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/detect.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/fastclick.js'); ?>"></script>
@@ -198,9 +218,9 @@
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.scrollTo.min.js'); ?>"></script>
 
-<script src="<?php echo base_url('assets/plugins/datatables/jquery.dataTables.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/plugins/datatables/dataTables.bootstrap.js'); ?>"></script>
-<script src="<?php echo base_url('assets/plugins/peity/jquery.peity.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.js'); ?>"></script>
+
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 
@@ -214,5 +234,21 @@ if (isset($customJs) && is_array($customJs)) {
 	}
 }
 ?>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+	    var stt = $('select option:selected').val();
+    	$.get("<?php echo base_url('user/getUsersByStatus')?>", {status:stt}, function(data){
+	    	$('#user_table').html(data);
+	    });
+
+    	$('.status').change(function(){
+		    stt = $(this).val();
+			$.get("<?php echo base_url('user/getUsersByStatus')?>", {status:stt}, function(data){
+		    	$('#user_table').html(data);
+		    });
+		});
+	});
+</script>
 </body>
 </html>

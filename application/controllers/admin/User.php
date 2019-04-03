@@ -26,7 +26,7 @@ class User extends Base_Controller {
 			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
-		$users = $this->user_model->getUsersForAdmin($page - 1, 1);
+		$users = $this->user_model->getAllUsers();
 		$layoutParams = [
 			'title' => 'Active Users',
 			'users' => $users,
@@ -35,12 +35,13 @@ class User extends Base_Controller {
 		$content = $this->load->view('admin/users_list', $layoutParams, true);
 
 		$data = array();
+		$data['customCss'] = array('assets/css/settings.css');
+		$data['customJs'] = array('assets/app/search_user.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
 		$this->load->view('admin_main_layout', $data);
-
 	}
 
 	public function blocked($page = 1) {
@@ -62,31 +63,34 @@ class User extends Base_Controller {
 		$this->load->library('pagination');
 
 		$page = ($page <= 0) ? 1 : $page;
-		$config['base_url'] = base_url('user/blocked');
-		$config['total_rows'] = $this->user_model->getNumOfUser(0);
+
+		$config['base_url'] = base_url('user');
+
+		$config['total_rows'] = $this->user_model->getNumOfUser(1);
 		$config['per_page'] = PERPAGE_ADMIN;
 		$config['cur_page'] = $page;
+		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
 		$pinfo = array(
 			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
 			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
-		$users = $this->user_model->getUsersForAdmin($page - 1, 0);
+		$users = $this->user_model->getUsersForAdmin(0);
 		$layoutParams = [
-			'title' => 'Blocked Users',
+			'title' => 'Active Users',
 			'users' => $users,
 			'pinfo' => $pinfo
 		];
-
 		$content = $this->load->view('admin/users_list', $layoutParams, true);
 
 		$data = array();
+		$data['customCss'] = array('assets/css/settings.css');
+		$data['customJs'] = array('assets/js/settings.js');
 		$data['parent_id'] = 2;
-		$data['sub_id'] = 22;
+		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
-
 		$this->load->view('admin_main_layout', $data);
 	}
 
@@ -164,6 +168,37 @@ class User extends Base_Controller {
 		$this->exporter->exportCsv($headers, $data, 'newsletter_signups_' . date('YmdHi', time()) . '.csv');
 	}
 
+	public function exportUsers() {
+		$users = $this->user_model->getAllUsers();
+		$data = array();
+		if (isset($users) && is_array($users)) {
+			foreach ($users as $row) {
+				$item = array();
+				$item[] = $row['user_id'];
+				$item[] = $row['user_name'];
+				$item[] = $row['email'];
+				$item[] = $row['total_comment'];
+				$item[] = $row['total_like'];
+				$item[] = $row['total_pick'];
+				$item[] = $row['device_name'];
+				$item[] = date('m/d/Y h:iA', $row['joined']);
+				$data[] = $item;
+			}
+		}
+
+		$headers = array(
+			array('width' => 15, 'align' => 'C', 'label' => 'ID'),
+			array('width' => 35, 'align' => 'L', 'label' => 'Name'),
+			array('width' => 55, 'align' => 'L', 'label' => 'E-Mail'),
+			array('width' => 55, 'align' => 'C', 'label' => 'Comment Total'),
+			array('width' => 55, 'align' => 'C', 'label' => 'Like Total'),
+			array('width' => 55, 'align' => 'C', 'label' => 'Pick Total'),
+			array('width' => 55, 'align' => 'C', 'label' => 'Device Name'),
+			array('width' => 20, 'align' => 'C', 'label' => 'Created'));
+		$this->load->library('exporter');
+		$this->exporter->exportCSV($headers, $data, 'users_list_' . date('YmdHi', time()) . '.csv');
+	}
+
 	public function block($user_id = '') {
 
 		$user = $this->user_model->getUserForAdmin($user_id);
@@ -176,6 +211,21 @@ class User extends Base_Controller {
 			$this->user_model->clearData($user['user_id']);
 		}
 		$this->redirect('user');
+
+	}
+
+	public function unBlock($user_id = '') {
+
+		$user = $this->user_model->getUserForAdmin($user_id);
+
+		if ($user != null) {
+			$params = array('status' => 1 + $user['status']);
+			$this->user_model->update($params, $user['user_id']);
+			$this->load->library('oauths');
+			$this->oauths->delete($user['user_id']);
+			$this->user_model->clearData($user['user_id']);
+		}
+		$this->redirect('user/blocked');
 
 	}
 
@@ -355,5 +405,26 @@ class User extends Base_Controller {
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/users/edit_pick', $pick, true);
 		$this->load->view('admin_main_layout', $data);
+	}
+
+	public function getUsersByStatus()
+	{
+		$status = $this->input->get('status');
+		if ($status == 0 || $status == 1) {
+			$users = $this->user_model->getUsersForAdmin($status);
+		}else
+		{
+			$users = $this->user_model->getAllUsers();
+		}
+		$data = ['users' => $users];
+		$this->load->view('admin/users_table', $data);
+	}
+
+	public function search()
+	{
+		$query = $this->input->get('query');
+		$users = $this->user_model->getAllUsers($query);
+		$data = ['users' => $users];
+		$this->load->view('admin/users_table', $data);
 	}
 }

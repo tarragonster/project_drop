@@ -39,3 +39,5 @@ function handleBackgroundImage(e) {
     }
     reader.readAsDataURL(e.target.files[0]);
 }
+
+

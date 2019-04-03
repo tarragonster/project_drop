@@ -1,3 +1,17 @@
+.btn-export {
+    float: right;
+    list-style-type: none;
+    margin: 18px;
+}
+.btn-export button {
+    background-color: #36404a;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+    padding: 0px 10px;
+}
+.btn-export button a {
+    color: #FFFFFF;
+}
 .uploader {
 	width:100%;
 	height:120px;
@@ -34,4 +48,57 @@
     z-index:2;
     opacity:0;
     cursor:pointer;
+}
+
+.btnAction{
+    color: #959595;
+    font-size: 30px;
+    margin: 23px;
+    cursor: pointer;
+}
+#customDropdown {
+    right: 0;
+    left: auto;
+    min-width: 100px;
+}
+.dropdown-menu > li > a {
+    padding: 0px 10px;
+}
+.dropdown-menu .divider {
+    margin: 3px 0;
+}
+#user_table hr {
+    margin-top: 52px;
+    margin-bottom: 0em;
+    border: 0;
+    border-top: 1.5px solid #dbdbdb;
+}
+.table-bordered-bottom {
+
+}
+#example3_info {
+    padding-top: 20px;
+}
+#example3_paginate{
+    margin-right: 17em;
+}
+#example3_length {
+    float: right;
+}
+.search-container i {
+    position: absolute;
+    font-size: 1.5em;
+    padding: 0.4em;
+    color: #a9aca7;
+}
+.search-container input[type=search] {
+    padding-left: 2.5em;
+}
+.filter-container label {
+    padding: 0.6em 1em 0 0;
+}
+.filter-container {
+    display: inline-flex;
+    float: right;
+    margin-bottom: 1em;
 }
