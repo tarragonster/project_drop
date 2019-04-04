@@ -7,7 +7,7 @@
                 echo '</div></div>';
             } ?>
         </div>
-        <div class="header-title">Edit Series</div> 
+        <div class="title">Edit Series</div> 
         <hr>
         <div class="row">
             <div class="content-form">
@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label>Rating</label>
                             <select id='rate_id' class="form-control" required name='rate_id'>
-                                <option value="">Select Rating</option>
+                                <option value="<?php echo $rate_id?>"><?php echo $rate_name?></option>
                                 <?php
                                 foreach ($rates as $item) {
                                     echo "<option value='{$item['rate_id']}'>{$item['name']}</option>";
@@ -96,7 +96,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Preview Round Image</label>
                                     <div class="row">
-                                        <img id='preview_image' src="<?php echo (!empty($trailler_image)) ? base_url($trailler_image) : base_url('assets/images/borders/border3.jpg')?>"/>
+                                        <img id='preview_image' src="<?php echo (!empty($preview_img)) ? base_url($preview_img) : base_url('assets/images/borders/border3.jpg')?>"/>
                                         <div class="uploader" onclick="$('#previewImg').click()">
                                             <button type="button" class="btn  ">Upload</button>
                                             <input type="file" accept="image/*" name="preview_img" id="previewImg" class="imagePhoto"/>
@@ -108,7 +108,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Carousel Banner</label>
                                     <div class="row">
-                                        <img id='carousel_image' src="<?php echo base_url('assets/images/borders/border4.jpg')?>"/>
+                                        <img id='carousel_image' src="<?php echo (!empty($trailler_image)) ? base_url($trailler_image) : base_url('assets/images/borders/border5.jpg')?>"/>
                                         <div class="uploader" onclick="$('#carouselImg').click()">
                                             <button type="button" class="btn  ">Upload</button>
                                             <input type="file" accept="image/*" name="carousel_img" id="carouselImg" class="imagePhoto"/>
@@ -118,7 +118,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Explore Preview Image</label>
                                     <div class="row">
-                                        <img id='explore_image' src="<?php echo (!empty($promo_image)) ? base_url($promo_image) : base_url('assets/images/borders/border5.jpg')?>"/>
+                                        <img id='explore_image' src="<?php echo (!empty($explore_img)) ? base_url($explore_img) : base_url('assets/images/borders/border5.jpg')?>"/>
                                         <div class="uploader" onclick="$('#exploreImg').click()">
                                             <button type="button" class="btn  ">Upload</button>
                                             <input type="file" accept="image/*" name="explore_img" id="exploreImg" class="imagePhoto"/>

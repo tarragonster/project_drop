@@ -7,7 +7,7 @@
                 echo '</div></div>';
             } ?>
         </div>
-        <div class="header-title">Add Series</div> 
+        <div class="title">Add Series</div> 
         <hr>
         <div class="row">
             <div class="content-form">
@@ -66,7 +66,7 @@
                                         <img id='poster_image' src="<?php echo base_url('assets/images/borders/border1.jpg')?>"/>
                                         <div class="uploader" onclick="$('#posterImg').click()">
                                             <button type="button" class="btn ">Upload</button>
-                                            <input type="file" accept="image/*" name="poster_img" id="posterImg" class="imagePhoto"/>
+                                            <input type="file" accept="image/*" name="poster_img" id="posterImg" class="imagePhoto" required="" />
                                         </div>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                         <img id='series_image' src="<?php echo base_url('assets/images/borders/border2.jpg')?>"/>
                                         <div class="uploader" onclick="$('#seriesImg').click()">
                                             <button type="button" class="btn ">Upload</button>
-                                            <input type="file" accept="image/*" name="series_img" id="seriesImg" class="imagePhoto"/>
+                                            <input type="file" accept="image/*" name="series_img" id="seriesImg" class="imagePhoto" required="" />
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                                         <img id='carousel_image' src="<?php echo base_url('assets/images/borders/border4.jpg')?>"/>
                                         <div class="uploader" onclick="$('#carouselImg').click()">
                                             <button type="button" class="btn ">Upload</button>
-                                            <input type="file" accept="image/*" name="carousel_img" id="carouselImg" class="imagePhoto"/>
+                                            <input type="file" accept="image/*" name="carousel_img" id="carouselImg" class="imagePhoto" required="" />
                                         </div>
                                     </div>
                                 </div>
