@@ -172,51 +172,50 @@ class Product extends Base_Controller {
 			$image = isset($_FILES['poster_img']) ? $_FILES['poster_img'] : null;
 			$this->load->model('file_model');
 			if ($image != null && $image['error'] == 0) {
-				$path = $this->file_model->createFileName($image, 'media/films/', 'film');
-				$this->file_model->saveFile($image, $path);
-				$params['image'] = $path;
+				$image_path = $this->file_model->createFileName($image, 'media/films/', 'film');
+				$this->file_model->saveFile($image, $image_path);
+				$params['image'] = $image_path;
 			}
 
 			$background_img = isset($_FILES['series_img']) ? $_FILES['series_img'] : null;
 			if ($background_img != null && $background_img['error'] == 0) {
-				$path = $this->file_model->createFileName($background_img, 'media/films/', 'background');
-				$this->file_model->saveFile($background_img, $path);
-				$params['background_img'] = $path;
+				$background_path = $this->file_model->createFileName($background_img, 'media/films/', 'background');
+				$this->file_model->saveFile($background_img, $background_path);
+				$params['background_img'] = $background_path;
 			}
 
 			$carousel_img = isset($_FILES['carousel_img']) ? $_FILES['carousel_img'] : null;
 			if ($carousel_img != null && $carousel_img['error'] == 0) {
-				$path = $this->file_model->createFileName($carousel_img, 'media/films/', 'preview');
-				$this->file_model->saveFile($carousel_img, $path);
-				$params['trailler_image'] = $path;
+				$carousel_path = $this->file_model->createFileName($carousel_img, 'media/films/', 'carousel');
+				$this->file_model->saveFile($carousel_img, $carousel_path);
+				$params['trailler_image'] = $carousel_path;
 			}
 			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
 			if ($preview_img != null && $preview_img['error'] == 0) {
-				$path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
-				$this->file_model->saveFile($preview_img, $path);
-				$promo_image = $path;
+				$collection_id = 2;
+				$preview_path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
+				$this->file_model->saveFile($preview_img, $preview_path);
 				if ($collection_product == null) {
 					$data_collection = array(
-						'collection_id' => 2,
+						'collection_id' => $collection_id,
 						'product_id' => $product_id,
-						'promo_image' => $promo_image,
+						'promo_image' => $preview_path,
 						'priority' => $this->collection_model->getMaxFilm($collection_id) + 1
 					);
-					$preview_id = $this->collection_model->addFilmPreviews($data_collection);
-				}else {
-					$this->collection_model->editPromo($product_id, $promo_image);
+					$this->collection_model->addFilmPreviews($data_collection);
+				} else {
+					$this->collection_model->editPromo($collection_id, $product_id, $preview_path);
 				}
 			}
 
 			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
 			if ($explore_img != null && $explore_img['error'] == 0) {
-				$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
-				$this->file_model->saveFile($explore_img, $path);
-				$promo_image = $path;
+				$explore_path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+				$this->file_model->saveFile($explore_img, $explore_path);
 				if($explore_product == null) {
-					$explore_id = $this->preview_model->addFilm($product_id, $promo_image);
-				}else {
-					$this->preview_model->editPromo($product_id, $promo_image) ;
+					$this->preview_model->addFilm($product_id, $explore_path);
+				} else {
+					$this->preview_model->editPromo($product_id, $explore_path) ;
 				}
 			}
 			$this->product_model->update($params, $product_id);
