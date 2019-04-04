@@ -1,95 +1,132 @@
-<form id="prdadd" action='' method='POST' enctype="multipart/form-data">
-    <div class="row">
-        <!-- left column -->
-        <?php if($this->session->flashdata('msg')){
-            echo '<div class="col-md-6"><div class="alert alert-success">';
-            echo $this->session->flashdata('msg');
-            echo '</div></div>';
-        } ?>
-        <div class="col-md-12">
-            <div class="box-header">
-                <h3 class="m-t-0 m-b-30 header-title">Film Information</h3>
-            </div>
+<div class="background">
+    <form id="prdadd" action='' method='POST' enctype="multipart/form-data">
+        <div class="row">
+            <?php if($this->session->flashdata('msg')){
+                echo '<div class="col-md-6"><div class="alert alert-success">';
+                echo $this->session->flashdata('msg');
+                echo '</div></div>';
+            } ?>
         </div>
-        <div class="col-md-6">
-            <div class="row box-body">
-                <div class="col-md-12">
-                    <label>Film Name</label>
-                    <div class="form-group">
-                        <input type="text" name='name' value="" class="form-control" required="" placeholder="Film Name"/>
+        <div class="title">Add Series</div> 
+        <hr>
+        <div class="row">
+            <div class="content-form">
+                <div class="col-md-7">
+                    <div class="col-md-12">
+                        <label>Series Name</label>
+                        <div class="form-group">
+                            <input type="text" name='name' value="" class="form-control" required="" placeholder="Type Name"/>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <label>Description</label>
-                    <div class="form-group">
-                        <textarea name="description" id='text-area-des' maxlength='475' class="form-control textarea" required="" rows="4" placeholder="Film Description..."></textarea>
+                    <div class="col-md-12">
+                        <label>Series Description</label>
+                        <div class="form-group">
+                            <textarea name="description" id='text-area-des' maxlength='475' class="form-control textarea" required="" rows="4" placeholder="Type Description"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <label>Years</label>
-                    <div class="form-group">
-                        <input type="text" name='publish_year' value="" class="form-control" required="" placeholder="Years"/>
+                    <div class="col-md-6">
+                        <label>Year</label>
+                        <div class="form-group">
+                            <input type="text" name='publish_year' value="" class="form-control" required="" placeholder="Type Year"/>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <label>Creators</label>
-                    <div class="form-group">
-                        <input type="text" name='creators' value="" class="form-control" required="" placeholder="Creators"/>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Rate</label>
-                        <select id='rate_id' class="form-control" required name='rate_id'>
-                            <option value="">Select Rate Type</option>
-                            <?php
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Rating</label>
+                            <select id='rate_id' class="form-control" required name='rate_id'>
+                                <option value="">Select Rating</option>
+                                <?php
                                 foreach ($rates as $item) {
                                     echo "<option value='{$item['rate_id']}'>{$item['name']}</option>";
                                 }
-                            ?>
-                        </select>
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Creators</label>
+                        <div class="form-group">
+                            <input type="text" name='creators' value="" class="form-control" required="" placeholder="Type Creator"/>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label>Trailer JW Media ID</label>
+                        <div class="form-group">
+                            <input type="text" name='jw_media_id' value="" class="form-control" required="" placeholder="Type JW Media ID" />
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-12 portlets m-b-30">
-                    <label>Poster</label>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img id='image' width='120' height='120' style='border: 4px solid #c6c6c6; border-radius: 4px'/>
-                        </div>
-                        <div class="col-md-8">
-                            <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
-                            <div class="uploader" onclick="$('#imagePhoto').click()">
-                                <input type="file" accept="image/*" name="image" id="imagePhoto"/>
+                <div class="col-md-5">
+                    <div id="upload-img">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12 portlets m-b-30">
+                                    <label>Poster Image</label>
+                                    <div class="row">
+                                        <img id='poster_image' src="<?php echo base_url('assets/images/borders/border1.jpg')?>"/>
+                                        <div class="uploader" onclick="$('#posterImg').click()">
+                                            <button type="button" class="btn ">Upload</button>
+                                            <input type="file" accept="image/*" name="poster_img" id="posterImg" class="imagePhoto" required="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 portlets m-b-30">
+                                    <label>Series Image</label>
+                                    <div class="row">
+                                        <img id='series_image' src="<?php echo base_url('assets/images/borders/border2.jpg')?>"/>
+                                        <div class="uploader" onclick="$('#seriesImg').click()">
+                                            <button type="button" class="btn ">Upload</button>
+                                            <input type="file" accept="image/*" name="series_img" id="seriesImg" class="imagePhoto" required="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 portlets m-b-30">
+                                    <label>Preview Round Image</label>
+                                    <div class="row">
+                                        <img id='preview_image' src="<?php echo base_url('assets/images/borders/border3.jpg')?>"/>
+                                        <div class="uploader" onclick="$('#previewImg').click()">
+                                            <button type="button" class="btn ">Upload</button>
+                                            <input type="file" accept="image/*" name="preview_img" id="previewImg" class="imagePhoto"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12 portlets m-b-30">
+                                    <label>Carousel Banner</label>
+                                    <div class="row">
+                                        <img id='carousel_image' src="<?php echo base_url('assets/images/borders/border4.jpg')?>"/>
+                                        <div class="uploader" onclick="$('#carouselImg').click()">
+                                            <button type="button" class="btn ">Upload</button>
+                                            <input type="file" accept="image/*" name="carousel_img" id="carouselImg" class="imagePhoto" required="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 portlets m-b-30">
+                                    <label>Explore Preview Image</label>
+                                    <div class="row">
+                                        <img id='explore_image' src="<?php echo base_url('assets/images/borders/border5.jpg')?>"/>
+                                        <div class="uploader" onclick="$('#exploreImg').click()">
+                                            <button type="button" class="btn ">Upload</button>
+                                            <input type="file" accept="image/*" name="explore_img" id="exploreImg" class="imagePhoto"/>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 portlets m-b-30">
-                    <label>Series Image</label>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img id='background_photo' width='120' style='border: 4px solid #c6c6c6; border-radius: 4px'/>
-                        </div>
-                        <div class="col-md-8">
-                            <img style="padding-left: 45%;position: absolute;top: 40%;" src="<?php echo base_url('assets/images/plus.png')?>">
-                            <div class="uploader" onclick="$('#backgroundImg').click()">
-                                <input type="file" accept="image/*" name="background_img" id="backgroundImg" class="imagePhoto"/>
-                            </div>
-                        </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="bottom">
+                <div style='margin-top: 16px' class="col-md-12">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-update" name='cmd' value='Save'>Update</button>
                     </div>
                 </div>
-	            <div class="col-md-12">
-		            <label>Trailer JW Media ID</label>
-		            <div class="form-group">
-			            <input type="text" name='jw_media_id' value="" class="form-control" required="" placeholder="JW Media ID" />
-		            </div>
-	            </div>
             </div>
         </div>
-        <div style='margin-top: 16px' class="col-md-12">
-            <div class="form-group">
-                <button type="submit" class="btn btn-inverse btn-custom btn-xs" style='width: 100px' name='cmd' value='Save'>Post</button>
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
+

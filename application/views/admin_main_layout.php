@@ -79,22 +79,22 @@
 							
 						</ul>
 						<?php if(isset($sub_id) && $sub_id == 21):?>
-						<li class="btn-export">
-							<button type="button" class="btn">
-								<a href="<?php echo base_url('user/exportUsers')?>">Export</a>
-							</button>
-						</li>
+							<li class="btn-export">
+								<button type="button" class="btn">
+									<a href="<?php echo base_url('user/exportUsers')?>">Export</a>
+								</button>
+							</li>
 						<?php elseif(isset($sub_id) && $sub_id == 32):?>
-						<li class="btn-export">
-							<button type="button" class="btn">
-								<a href="<?php echo base_url('product/add')?>">Add Film</a>
-							</button>
-						</li>
-						<li class="btn-export">
-							<button type="button" class="btn">
-								<a href="<?php echo base_url('product/exportFilms')?>">Export</a>
-							</button>
-						</li>
+							<li class="btn-export">
+								<button type="button" class="btn">
+									<a href="<?php echo base_url('product/exportFilms')?>">Export</a>
+								</button>
+							</li>
+							<li class="btn-export">
+								<button type="button" class="btn">
+									<a href="<?php echo base_url('product/add')?>">Add Film</a>
+								</button>
+							</li>
 						<?php else:?>
 						<?php endif;?>
 					</ul>
@@ -134,14 +134,8 @@
 
 						</ul>
 					</li>
-					<li class="has_sub">
-						<a href="#" class="waves-effect<?php echo isset($parent_id) && $parent_id == 3 ? ' active' : ''; ?>">
-							<i class="fa fa-sitemap"></i> <span>Films</span>
-						</a>
-						<ul class="list-unstyled">
-							<li <?php echo($sub_id == 31 ? 'class="active"' : ''); ?>><a href="<?php echo base_url('product/add'); ?>">Add Film</a></li>
-							<li <?php echo($sub_id == 32 ? 'class="active"' : ''); ?>><a href="<?php echo base_url('product'); ?>">List Films</a></li>
-						</ul>
+					<li>
+						<a href="<?php echo base_url('product'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 3 ? ' active' : ''; ?>"><i class="fa fa-leaf"></i> <span>Series</span></a>
 					</li>
 					<li>
 						<a href="<?php echo base_url('season'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 7 ? ' active' : ''; ?>"><i class="fa fa-ship"></i> <span>Seasons</span></a>
@@ -234,21 +228,5 @@ if (isset($customJs) && is_array($customJs)) {
 	}
 }
 ?>
-<script type="text/javascript">
-
-	$(document).ready(function(){
-	    var stt = $('select option:selected').val();
-    	$.get("<?php echo base_url('user/getUsersByStatus')?>", {status:stt}, function(data){
-	    	$('#user_table').html(data);
-	    });
-
-    	$('.status').change(function(){
-		    stt = $(this).val();
-			$.get("<?php echo base_url('user/getUsersByStatus')?>", {status:stt}, function(data){
-		    	$('#user_table').html(data);
-		    });
-		});
-	});
-</script>
 </body>
 </html>
