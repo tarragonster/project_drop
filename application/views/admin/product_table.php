@@ -39,7 +39,7 @@
 				      	<li><a href="<?php echo base_url('product/edit/' . $row["product_id"])?>">Edit Film</a></li>
 				      	<li><a href="<?php echo base_url('product/managerActor/' . $row["product_id"])?>">Actors</a></li>
 				      	<li><a href="<?php echo base_url('product/managerMusic/' . $row["product_id"])?>">Music</a></li>
-				      	<li><a href="<?php echo base_url('product/managerSeason/' . $row["product_id"])?>">Seasions</a></li>
+				      	<li><a href="<?php echo base_url('product/managerSeason/' . $row["product_id"])?>">Seasons</a></li>
 				      	<?php if ($row['status'] == 1):?>
 			      			<li>
 			      				<a href="" class="button" data-toggle="modal" data-target="#dis-modal" data-id="<?php echo $row['product_id']?>">Disable</a>
