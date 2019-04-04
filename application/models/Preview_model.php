@@ -108,4 +108,9 @@ class Preview_model extends BaseModel {
 		}
 	}
 
+	public function editPromo($product_id, $promo_image) {
+		$this->db->where('product_id', $product_id);
+		$this->db->set('promo_image', $promo_image);
+		$this->db->update('explore_previews');
+	}
 }

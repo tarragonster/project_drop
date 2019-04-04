@@ -72,7 +72,7 @@ class Collection_model extends BaseModel {
 	public function getCollectionProducts($product_id) {
 		$this->db->where('product_id', $product_id);
 		$query = $this->db->get('collection_product');
-		return $query->result_array();
+		return $query->first_row('array');
 	}
 
 	public function getProductOthers($collection_id) {
@@ -96,10 +96,22 @@ class Collection_model extends BaseModel {
 		return $query->first_row('array');
 	}
 
-
 	public function updateFilm($params, $id) {
 		$this->db->where('id', $id);
 		$rows = $this->db->update('collection_product', $params);
 		return $rows;
 	}
+
+	public function addFilmPreviews($params) {
+		$this->db->insert('collection_product', $params);
+		return $this->db->insert_id();
+	}
+
+	public function editPromo($collection_id, $product_id, $promo_image) {
+		$this->db->where('collection_id', $collection_id);
+		$this->db->where('product_id', $product_id);
+		$this->db->set('promo_image', $promo_image);
+		$this->db->update('collection_product');
+	}
+
 }

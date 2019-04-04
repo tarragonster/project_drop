@@ -36,7 +36,7 @@ class User extends Base_Controller {
 
 		$data = array();
 		$data['customCss'] = array('assets/css/settings.css');
-		$data['customJs'] = array('assets/app/search_user.js');
+		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
