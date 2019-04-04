@@ -53,7 +53,11 @@
                         <div class="form-group">
                             <label>Paywall Block</label>
                             <select id='paywall_episode' class="form-control" name='paywall_episode'>
-                                <option value="">Select Paywall Block</option>
+                                <?php if($paywall_episode == 0): ?>
+                                    <option value="">Select Paywall Block</option>
+                                <?php else: ?>
+                                    <option value="<?php echo $paywall_episode?>"><?php echo $paywall_episode_name?></option>
+                                <?php endif; ?>
                                 <?php
                                 foreach ($episodes as $item) {
                                     echo "<option value='{$item['episode_id']}'>{$item['name']}</option>";

@@ -133,6 +133,7 @@ class Product extends Base_Controller {
 	public function edit($product_id) {
 		$this->load->model("collection_model");
 		$this->load->model('preview_model');
+		$this->load->model('episode_model');
 		$explore_product = $this->preview_model->getFilm($product_id);
 		$collection_product = $this->collection_model->getCollectionProducts($product_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
@@ -233,6 +234,10 @@ class Product extends Base_Controller {
 		$product['episodes'] = $episodes;
 		$product['explore_img'] = $explore_product['promo_image'];
 		$product['preview_img'] = $collection_product['promo_image'];
+		if ($product['paywall_episode'] != 0) {
+			$episode = $this->episode_model->getEpisodeById($product['paywall_episode']);
+			$product['paywall_episode_name'] = $episode['name'];
+		}
 
 		$data['content'] = $this->load->view('admin/product_edit', $product, true);
 		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');
