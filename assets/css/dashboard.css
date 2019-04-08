@@ -1,0 +1,117 @@
+.chart-card-box {
+    padding: 20px 0px;
+    margin-bottom: 12px;
+}
+
+.chart-content {
+    margin: 0px 20px;
+}
+
+.chart-title {
+    color: #1f282d;
+    font-size: 13px;
+    display: block;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    line-height: 18px;
+}
+
+.chart-number-box {
+    font-size: 22px;
+    font-weight: 200;
+    line-height: 32px;
+    letter-spacing: 1.5px;
+    color: #1f282d;
+}
+
+.chart-number-box .number-value {
+    float: left;
+}
+
+.chart-number-box .percent-value {
+    float: right;
+}
+
+.chart-information {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+    line-height: 20px;
+    display: block;
+    color: #4c4e51;
+}
+
+.header-dashboard {
+    font-size: 14px;
+    margin: 0;
+    line-height: 0;
+    text-align: center;
+}
+
+.header-dark {
+     font-size: 14px;
+     font-weight: 600;
+     letter-spacing: 0.04em;
+     line-height: 16px;
+     margin-bottom: 8px;
+     color: #30383f !important;
+ }
+
+.header-dashboard-num {
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: 0.1em;
+    margin-top: 0;
+    font-weight: 100;
+    text-align: center;
+}
+
+#dashboard_box .row {
+    margin-left: -6px;
+    margin-right: -6px;
+}
+
+#dashboard_box .col-md-12, #dashboard_box .col-md-6, #dashboard_box .col-md-4, #dashboard_box .col-md-2 {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.container {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+
+.chart-label {
+    display: inline-block
+}
+
+.chart-mini-box {
+    border-radius: 3px;
+    height: 12px;
+    margin-top: 2px;
+    margin-right: 0.4rem;
+    width: 12px;
+    background-color: #c6c6c6;
+    display: inline-block;
+    float: left;
+}
+
+.chart-mini-label {
+    color: #637381;
+    float: left;
+    font-size: 12px;
+}
+
+.daterange-analytic {
+    border: 1px solid #E3E3E3;
+    border-radius: 4px;
+    color: #30383f;
+    padding: 7px 12px;
+    font-size: 12px;
+    max-width: 100%;
+    -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
+}

@@ -32,7 +32,9 @@
 	}
 	?>
 	<script src="<?php echo base_url('assets/js/modernizr.min.js'); ?>"></script>
-
+	<script>
+		var BASE_APP_URL = "<?= base_url()?>"
+	</script>
 </head>
 
 
@@ -218,9 +220,6 @@
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 
-<script src="<?php echo base_url('assets/js/jquery.core.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery.app.js'); ?>"></script>
-
 <?php
 if (isset($customJs) && is_array($customJs)) {
 	foreach ($customJs as $script) {
@@ -228,5 +227,8 @@ if (isset($customJs) && is_array($customJs)) {
 	}
 }
 ?>
+<script src="<?php echo base_url('assets/js/jquery.core.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.app.js'); ?>"></script>
+<?= isset($bottom_html) ? $bottom_html : ''; ?>
 </body>
 </html>

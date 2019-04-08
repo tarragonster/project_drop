@@ -294,3 +294,37 @@ function make_url($url = '', $query_data = []) {
 function redirect_url($url = '', $query_data = []) {
 	return base_url($url . '?redirect=' . urlencode(make_url(uri_string(), $query_data)));
 }
+
+function keys_in_array($mixed, $haystack = []) {
+	if (!is_array($mixed)) {
+		$mixed = [$mixed];
+	}
+	foreach ($mixed as $key) {
+		if (array_key_exists($key, $haystack)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function is_sample_years($first, $second) {
+	return date('Y', $first) == date('Y', $second);
+}
+
+function convert_number($value) {
+	return $value == null ? 0 : $value * 1;
+}
+
+function getPercent($first_value = 0, $second_value) {
+	return ($second_value <= 0 ? ($first_value > 0 ? 200 : 100) : intval(100 * $first_value / $second_value)) - 100;
+}
+
+function html_percent($percent, $arrow = true) {
+	if ($percent > 0) :
+		return '<span class="text-success">' . ($arrow ? '<i class="fa fa-arrow-up"></i> ' : '') . number_format($percent) . '%</span>';
+	elseif ($percent == 0) :
+		return '<span> 0%</span>';
+	else:
+		return '<span class="text-danger">' . ($arrow ? '<i class="fa fa-arrow-down"></i> ' : '') . number_format(abs($percent)) . '%</span>';
+	endif;
+}

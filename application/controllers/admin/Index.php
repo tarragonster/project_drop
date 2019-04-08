@@ -1,30 +1,56 @@
 <?php
-require_once APPPATH . '/core/Base_Controller.php';
 
-class Index extends Base_Controller {
+class Index extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model("admin_model");		
+		$this->load->model("dashboard_model");
 	}
-	
+
 	public function index() {
-       
+		$this->dashboard();
+	}
+
+	public function dashboard($fromDate = '', $toDate = '', $secondFromDate = '', $secondToDate = '') {
 		$admin = $this->session->userdata('admin');
 		if ($admin == null) {
 			redirect(base_url('login'));
 		}
-		$account = $this->admin_model->getAdminAccountByEmail($admin['email']);
-		$lockdata = $this->session->userdata('lockdata');
-		if ($lockdata != null) {
-			redirect(base_url('lockscreen'));
+		if (!empty($fromDate)) {
+			$startDate = strtotime($fromDate);
+		} else {
+			$startDate = strtotime(date('Y-m-d', time()));
 		}
-		$data = array();
-		$data['parent_id'] = 1;
-		$data['sub_id'] = 10;
-		$data['account'] = $account;
-		// $info_dashbroad = $this->Mcatalog->getDashBroadInfo();
-		$data['content'] = $this->load->view('admin/dashbroad_home', array(), true);
-		$this->load->view('admin_main_layout', $data);
+		if (!empty($toDate)) {
+			$endDate = strtotime($toDate) + 86400;
+		} else {
+			$endDate = strtotime(date('Y-m-d', time())) + 86400;
+		}
+		$dashboard = $this->dashboard_model->getDashBoard($startDate, $endDate, $secondFromDate, $secondToDate);
+		if ($this->input->is_ajax_request()) {
+			header('Content-Type: application/json');
+			$dashboard['success'] = true;
+			echo json_encode($dashboard);
+		} else {
+			$this->mainParams['bottom_html'] = $this->load->view('admin/dashboard/scripts', $dashboard, true);
+			$this->customCss[] = 'assets/plugins/morris/morris.css';
+			$this->customCss[] = 'assets/plugins/bootstrap-daterangepicker/daterangepicker.css';
+			$this->customCss[] = 'assets/css/dashboard.css';
+			$this->customJs[] = 'assets/vendor/peity/jquery.peity.min.js';
+			$this->customJs[] = 'assets/vendor/jquery-sparkline/jquery.sparkline.min.js';
+			$this->customJs[] = 'assets/plugins/moment/moment.js';
+			$this->customJs[] = 'assets/plugins/bootstrap-daterangepicker/daterangepicker.js';
+			$this->customJs[] = 'assets/vendor/jquery-number/jquery.number.min.js';
+			$this->customJs[] = 'assets/plugins/raphael/raphael-min.js';
+			$this->customJs[] = 'assets/plugins/morris/morris.min.js';
+			$this->customJs[] = 'assets/js/dashboard.js';
+
+			$dashboard['top_users'] = $this->dashboard_model->countUsers();
+//			$dashboard['customJs'] = $this->customJs;
+//			$dashboard['customCss'] = $this->customCss;
+			$this->render('admin/dashboard/layout', $dashboard, 1, 10);
+//			$this->load->view('admin/dashboard/layout', $dashboard, 1, 10);
+		}
 	}
 	
 	public function login() {
