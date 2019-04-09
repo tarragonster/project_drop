@@ -23,7 +23,7 @@
 			<td><?php echo $row['product_id']?></td>
 			<td><?php echo $row['name']?></td>
 			<td><?php echo $row['total_epi']?></td>
-			<td><?php echo ($row['paywall_episode_name'] == null)? 'N/a' : $row['paywall_episode_name'] ?></td>
+			<td><?php echo ($row['paywall_episode_id'] == null)? 'N/a' : $row['paywall_episode_id'] . ' - ' . $row['paywall_episode_name'] ?></td>
 			<td><?php echo $row['rate_name']?></td> 
 			<td><?php echo $row['publish_year']; ?></td>
 			<td>Comments:&nbsp;<?php echo $row['total_cmt']?><br>
@@ -74,7 +74,7 @@
       		<p>Are you sure you want to disable this film? You will be able to undo this in the actions section.</p>
   		</div>
         <div class="modal-button">
-        	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;color: #FFFFFF;">Cancel</button>
 	        <button type="button" class="btn btn-warning dis-confirm">Disable</button>
         </div>	
     </div>
@@ -91,7 +91,7 @@
       		<p>Are you sure you want to enable this film? You will be able to undo this in the actions section.</p>
   		</div>
         <div class="modal-button">
-        	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;color: #FFFFFF;">Cancel</button>
 	        <button type="submit" class="btn btn-warning en-confirm">Enable</button>
         </div>	
     </div>
@@ -108,7 +108,7 @@
       		<p>Are you sure you want to delete this film? You will not be able to undo this.</p>
   		</div>
         <div class="modal-button">
-        	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;color: #FFFFFF;">Cancel</button>
 	        <button class="btn btn-danger" data-toggle="modal" data-target="#confirm-del-modal" data-dismiss="modal" >Delete</button>
         </div>	
     </div>
@@ -126,7 +126,7 @@
             <input type="text" id="text-confirm">
         </div>
         <div class="modal-button">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 10px;">Cancel</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right:10px;color: #FFFFFF;">Cancel</button>
             <button type="submit" class="btn btn-danger del-confirm">Confirm</button>
         </div>  
     </div>
@@ -137,7 +137,7 @@
     $(document).ready(function(){
         $('#example3').DataTable({
             'ordering': false,
-            'dom' : '<"top"f>rt<"bottom"ipl>',
+            'dom' : 'frtilp',
             'searching': false
         });
 
