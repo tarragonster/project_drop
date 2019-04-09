@@ -39,6 +39,7 @@ class Index extends MY_Controller {
 			$this->customJs[] = 'assets/vendor/peity/jquery.peity.min.js';
 			$this->customJs[] = 'assets/vendor/jquery-sparkline/jquery.sparkline.min.js';
 			$this->customJs[] = 'assets/plugins/moment/moment.js';
+			$this->customJs[] = 'assets/vendor/moment/moment-timezone.js';
 			$this->customJs[] = 'assets/plugins/bootstrap-daterangepicker/daterangepicker.js';
 			$this->customJs[] = 'assets/vendor/jquery-number/jquery.number.min.js';
 			$this->customJs[] = 'assets/plugins/raphael/raphael-min.js';
