@@ -81,7 +81,7 @@ class User extends BR_Controller {
 		if ($user_id == -1) {
 			$this->create_error(-4);
 		}
-
+		$this->user_id = $user_id;
 		$this->user_model->updateDeviceUser($user_id, $device_id);
 		$params = array();
 		$params['last_login'] = $time;
@@ -279,6 +279,7 @@ class User extends BR_Controller {
 		$params['full_name'] = $full_name;
 
 		$user_id = $this->user_model->insert($params);
+		$this->user_id = $user_id;
 
 		$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
 		if ($avatar != null) {
@@ -987,5 +988,78 @@ class User extends BR_Controller {
 		$params['username'] = 'Cuong Do';
 		$this->load->model("email_model");
 		$this->email_model->welcome($email, $params);
+	}
+
+
+
+	/**
+	 * @SWG\Post(
+	 *     path="/user/notification",
+	 *     summary="Submit sms notification setting",
+	 *     operationId="updateNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Follow",
+	 *         in="formData",
+	 *         name="follow_me",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Mentions",
+	 *         in="formData",
+	 *         name="mention_me",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Likes",
+	 *         in="formData",
+	 *         name="like_comment",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Replies",
+	 *         in="formData",
+	 *         name="reply_comment",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function notification_post() {
+		$this->validate_authorization();
+		$settings = $this->user_model->getNotificationSetting($this->user_id);
+		$params['follow_me'] = $this->post('follow_me') * 1;
+		$params['mention_me'] = $this->post('mention_me') * 1;
+		$params['like_comment'] = $this->post('like_comment') * 1;
+		$params['reply_comment'] = $this->post('reply_comment') * 1;
+		if ($settings == null) {
+			$params['user_id'] = $this->user_id;
+			$this->db->insert('user_notification_setting', $params);
+		} else {
+			$this->db->where('user_id', $this->user_id);
+			$this->db->update('user_notification_setting', $params);
+		}
+		$response = array();
+		$response['notification'] = $this->user_model->getNotificationSetting($this->user_id);
+		$this->create_success($response);
 	}
 }

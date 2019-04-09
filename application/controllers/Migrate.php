@@ -31,11 +31,20 @@ class Migrate extends CI_Controller {
 		}
 	}
 
-	function changeEngine() {
+	public function changeEngine() {
 		$query = $this->db->query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'vm18_seconds' AND ENGINE <> 'InnoDB'");
 		$items = $query->result_array();
 		foreach ($items as $item) {
 			$this->db->query("ALTER TABLE `{$item['TABLE_NAME']}` ENGINE=InnoDB");
+		}
+	}
+
+	public function notification() {
+		$this->db->from('user');
+		$this->db->select('user_id');
+		$users = $this->db->get()->result_array();
+		foreach ($users as $user) {
+			$this->db->insert('user_notification_setting', ['user_id' => $user['user_id']]);
 		}
 	}
 }

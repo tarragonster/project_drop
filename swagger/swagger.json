@@ -223,6 +223,78 @@
                     }
                 ]
             }
+        },
+        "/user/notification": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Submit sms notification setting",
+                "operationId": "updateNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "follow_me",
+                        "in": "formData",
+                        "description": "Follow",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "mention_me",
+                        "in": "formData",
+                        "description": "Comment Mentions",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "like_comment",
+                        "in": "formData",
+                        "description": "Comment Likes",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "reply_comment",
+                        "in": "formData",
+                        "description": "Comment Replies",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {},

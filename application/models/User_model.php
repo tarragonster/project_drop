@@ -13,6 +13,12 @@ class User_model extends BaseModel {
 		return $this->getObjectById($user_id);
 	}
 
+	public function insert($params) {
+		$user_id = parent::insert($params);
+		$this->db->insert("user_notification_setting", ['user_id' => $user_id]);
+		return $user_id;
+	}
+
 	public function getUserForAdmin($user_id) {
 		$this->db->where($this->id_name, $user_id);
 		$query = $this->db->get('user');
@@ -817,5 +823,23 @@ class User_model extends BaseModel {
 //		$this->db->where('user_id', $user_id);
 //		$this->db->delete('user');
 		return parent::delete($user_id);
+	}
+
+	public function getNotificationSetting($user_id) {
+		$this->db->from('user_notification_setting');
+		$this->db->where('user_id', $user_id);
+
+		return $this->db->get()->first_row('array');
+	}
+
+	public function isEnableNotification($user_id, $key) {
+		$settings = $this->getNotificationSetting($user_id);
+		if ($settings == null) {
+			return true;
+		}
+		if (isset($settings[$key])) {
+			return $settings[$key] == 1;
+		}
+		return false;
 	}
 }
