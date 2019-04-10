@@ -1,10 +1,11 @@
+moment.tz.add('America/Los_Angeles|PST PDT|80 70|0101|1Lzm0 1zb0 Op0');
 var currentStartRange = moment();
 var currentEndRange = moment();
 var currentSecondStartRange = moment().subtract(1, 'days');
 var currentSecondEndRange = moment().subtract(1, 'days');
 
 $('#reportrange span').html('Today');
-$('#compared_range').html(moment().subtract(1, 'days').format('MMM DD'));
+$('#compared_range').html(moment().subtract(1, 'days').tz('America/Los_Angeles').format('MMM DD'));
 var ranges = {
 	'Today': [moment(), moment(), moment().subtract(1, 'days'), moment().subtract(1, 'days')],
 	'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days'), moment().subtract(2, 'days'), moment().subtract(2, 'days')],
@@ -50,50 +51,14 @@ function update_actived_day() {
 
 function showDateRange(secondStart, secondEnd) {
 	if (secondStart.year() == secondEnd.year()) {
-		// if (secondStart.month() == secondEnd.month()) {
-		//     return secondStart.format('MMM DD') + ' - ' + secondEnd.format('MMM DD');
-		// } else {
 		if (secondStart.month() == secondEnd.month() && secondStart.date() == secondEnd.date())
-			return secondEnd.format('MMM DD, YYYY');
+			return secondEnd.tz('America/Los_Angeles').format('MMM DD, YYYY');
 		else
-			return secondStart.format('MMM DD') + ' - ' + secondEnd.format('MMM DD, YYYY');
-		// }
+			return secondStart.tz('America/Los_Angeles').format('MMM DD') + ' - ' + secondEnd.tz('America/Los_Angeles').format('MMM DD, YYYY');
 	} else {
-		return secondStart.format('MMM DD, YYYY') + ' - ' + secondEnd.format('MMM DD, YYYY');
+		return secondStart.tz('America/Los_Angeles').format('MMM DD, YYYY') + ' - ' + secondEnd.tz('America/Los_Angeles').format('MMM DD, YYYY');
 	}
 }
-
-// if ($('.dashboard-progress-bar').length > 0) {
-// 	countDown();
-// }
-//
-// function countDown() {
-// 	$('.dashboard-progress-bar').css('width', '100%');
-// 	$(".dashboard-progress-bar").animate({
-// 		width: "0%",
-// 		opacity: 1
-// 	}, 15000, function () {
-// 		$.ajax({
-// 			type: "GET",
-// 			dataType: "json",
-// 			url: BASE_APP_URL + 'index/checkDashBoard/' + currentStartRange.format('YYYY-MM-DD') + "/" + currentEndRange.format('YYYY-MM-DD'),
-// 			data: {"timestamp": $('#unix_timestamp').val()},
-// 			success: function (data) {
-// 				if (data.success) {
-// 					$('#dashboard-count-confirmed').html(data.count_confirmed);
-// 					$('#dashboard-count-ready').html(data.count_ready);
-//
-// 					dataSetChanged(data);
-// 				}
-// 				countDown();
-// 			},
-// 			error: function(jqXHR, textStatus, errorThrown) {
-// 				console.log("Error");
-// 				countDown();
-// 			}
-// 		});
-// 	});
-// }
 
 $('#reportrange').daterangepicker({
 	format: 'MM/DD/YYYY',
@@ -130,13 +95,11 @@ $('#reportrange').daterangepicker({
 	var secondStart = null;
 	var secondEnd = null;
 	if (label == 'Custom') {
-		// $('#reportrange span').html(start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY'));
 		$('#reportrange span').html(showDateRange(start, end));
 		var diff = end.diff(start, 'days') + 1;
 		start.second
 		secondStart = start.clone().subtract(diff, 'day');
 		secondEnd = end.clone().subtract(diff, 'day');
-		// console.log(secondStart.format('YYYY-MM-DD') + ' - ' + secondEnd.format('YYYY-MM-DD'));
 	} else {
 		$('#reportrange span').html(label);
 		secondStart = ranges[label][2];
@@ -144,7 +107,6 @@ $('#reportrange').daterangepicker({
 	}
 	$('#compared_range').html(showDateRange(secondStart, secondEnd));
 
-	console.log(start.format('YYYY-MM-DD') + "/" + end.format('YYYY-MM-DD') + "/" + secondStart.format('YYYY-MM-DD') + "/" + secondEnd.format('YYYY-MM-DD'));
 	reloadDashboard(start, end, secondStart, secondEnd);
 });
 
@@ -153,7 +115,7 @@ function reloadDashboard(start, end, secondStart, secondEnd) {
 	$.ajax({
 		type: "POST",
 		dataType: "json",
-		url: BASE_APP_URL + "index/dashboard/" + start.format('YYYY-MM-DD') + "/" + end.format('YYYY-MM-DD') + "/" + secondStart.format('YYYY-MM-DD') + "/" + secondEnd.format('YYYY-MM-DD'),
+		url: BASE_APP_URL + "index/dashboard/" + start.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + end.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + secondStart.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + secondEnd.tz('America/Los_Angeles').format('YYYY-MM-DD'),
 		data: {},
 
 		success: function (data) {
