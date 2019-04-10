@@ -224,7 +224,7 @@ class Product extends Base_Controller {
 		}
 		$data = array();
 		$data['parent_id'] = 3;
-		$data['sub_id'] = 32;
+		$data['sub_id'] = 33;
 		$data['account'] = $this->account;
 
 		$rates = $this->product_model->getRates();
@@ -236,6 +236,8 @@ class Product extends Base_Controller {
 		if ($product['paywall_episode'] != 0) {
 			$episode = $this->episode_model->getEpisodeById($product['paywall_episode']);
 			$product['paywall_episode_name'] = $episode['name'];
+		}else {
+			$product['paywall_episode_name'] = 'None';
 		}
 
 		$data['content'] = $this->load->view('admin/product_edit', $product, true);
