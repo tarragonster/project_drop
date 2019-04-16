@@ -134,8 +134,9 @@ class Product extends Base_Controller {
 		$this->load->model("collection_model");
 		$this->load->model('preview_model');
 		$this->load->model('episode_model');
+		$collection_id = 2;
 		$explore_product = $this->preview_model->getFilm($product_id);
-		$collection_product = $this->collection_model->getCollectionProducts($product_id);
+		$collection_product = $this->collection_model->getCollectionProducts($collection_id,$product_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null) {
 			redirect('product');
@@ -192,7 +193,6 @@ class Product extends Base_Controller {
 			}
 			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
 			if ($preview_img != null && $preview_img['error'] == 0) {
-				$collection_id = 2;
 				$preview_path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
 				$this->file_model->saveFile($preview_img, $preview_path);
 				if ($collection_product == null) {
