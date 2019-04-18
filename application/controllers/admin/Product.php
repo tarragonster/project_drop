@@ -92,24 +92,23 @@ class Product extends Base_Controller {
 
 			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
 			if ($preview_img != null && $preview_img['error'] == 0) {
+				$collection_id = 2; // Preview
 				$path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
 				$this->file_model->saveFile($preview_img, $path);
-				$promo_image = $path;
 				$data_collection = array(
-					'collection_id' => 2,
+					'collection_id' => $collection_id,
 					'product_id' => $product_id,
-					'promo_image' => $promo_image,
+					'promo_image' => $path,
 					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1
 				);
-				$preview_id = $this->collection_model->addFilmPreviews($data_collection);
+				$this->collection_model->addFilmPreviews($data_collection);
 			}
 
 			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
 			if ($explore_img != null && $explore_img['error'] == 0) {
 				$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
 				$this->file_model->saveFile($explore_img, $path);
-				$promo_image = $path;
-				$explore_id = $this->preview_model->addFilm($product_id, $promo_image);
+				$this->preview_model->addFilm($product_id, $path);
 			}
 			
 			if ($cmd == 'Save') {
