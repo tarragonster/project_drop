@@ -415,7 +415,7 @@ class Product extends Base_Controller {
 		} else {
 			$this->session->set_flashdata('msg', 'Delete success!');
 			$this->load->model('collection_model');
-			$products = $this->collection_model->getCollectionProducts($product_id);
+			$products = $this->collection_model->getProductsInCollection($product_id);
 			if (count($products)) {
 				foreach ($products as $key => $product) {
 					$this->collection_model->removeFilm($product['collection_id'], $product['product_id'], $product['priority']);
@@ -443,13 +443,15 @@ class Product extends Base_Controller {
 			$products = $this->product_model-> getProductListByStatus($status);
 		}
 		$data = ['products' => $products];
-		$this->load->view('admin/product_table', $data);
+		$html = $this->load->view('admin/product_table', $data, true);
+		die(json_encode($html));
 	}
 
 	public function search() {
 		$query = $this->input->get('query');
 		$products = $this->product_model->getAllProducts($query);
 		$data = ['products' => $products];
-		$this->load->view('admin/product_table',$data);
+		$html = $this->load->view('admin/product_table', $data, true);
+		die(json_encode($html));
 	}
 }
