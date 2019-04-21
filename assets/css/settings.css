@@ -94,14 +94,14 @@
     border: 0;
     border-top: 1.5px solid #979797;
 }
-#example3_info {
+#example3_info, #example4_info {
     padding-top: 20px;
     margin-bottom: -30px;
 }
-#example3_paginate{
+#example3_paginate, #example4_paginate{
     margin-right: 17em;
 }
-#example3_length {
+#example3_length, #example4_length {
     float: right;
 }
 

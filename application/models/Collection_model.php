@@ -115,4 +115,10 @@ class Collection_model extends BaseModel {
 		$this->db->update('collection_product');
 	}
 
+	public function getProductsInCollection($product_id) {
+		$this->db->where('product_id', $product_id);
+		$query = $this->db->get('collection_product');
+		return $query->result_array();
+	}
+
 }

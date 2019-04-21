@@ -97,7 +97,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 							<input type="hidden" id='product_id' name='product_id' class='form-control'/>
 							<input type="hidden" name='collection_id' class='form-control' value="<?= $collection_id ?>"/>
 						</div>
-						<div class="form-group m-b-30">
+						<!-- <div class="form-group m-b-30">
 							<label>Promo Image</label>
 							<div class="row">
 								<div class="col-md-4">
@@ -110,7 +110,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary" name='cmd' value='Add'>Add</button>
 						</div>

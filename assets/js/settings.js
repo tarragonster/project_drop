@@ -1,3 +1,4 @@
+// Upload Images File
 var imageLoader = document.getElementById('posterImg');
 if (imageLoader) {
     imageLoader.addEventListener('change', handleImage, false);
@@ -76,34 +77,74 @@ function handleCoverImage(e) {
     reader.readAsDataURL(e.target.files[0]);
 }
 
-
-
+// Load Users List
 var sttUser = $('select option:selected').val();
-$.get("user/getUsersByStatus", {status:sttUser}, function(data){
-    $('#user_table').html(data);
-});
+function loadUser(sttUser) {
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: "user/getUsersByStatus",
+        data: {status:sttUser},
+        success: function(data) {
+            $('#user_table').html(data);
+        }
+    });
+}
+loadUser(sttUser);
 
 $('.status-user').change(function(){
     sttUser = $(this).val();
-    $.get("user/getUsersByStatus", {status:sttUser}, function(data){
-        $('#user_table').html(data);
-    });
+    loadUser(sttUser);
 });
 
+// Load Products List
 var sttFilm = $('select option:selected').val();
 function loadData(sttFilm){
-    $.get("product/getProductsByStatus", {status:sttFilm}, function(data){
-        $('#product_table').html(data);
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: "product/getProductsByStatus",
+        data: {status:sttFilm},
+        success: function(data) {
+            $('#product_table').html(data);
+        },
     });
 }
 loadData(sttFilm);
 
 $('.status-film').change(function(){
     sttFilm = $(this).val();
-    $.get("product/getProductsByStatus", {status:sttFilm}, function(data){
-        $('#product_table').html(data);
+    loadData(sttFilm);
+});
+
+//Update Product Status
+$('body').delegate('.btnAct', 'click', function(e) {
+    e.preventDefault();
+    var product_id = $(this).attr('data-id');
+    $('.dis-confirm').click(function(){
+        $.get('product/disable', {product_id:product_id}, function(data){
+            loadData($('select option:selected').val());
+        });
+        $(this).attr('data-dismiss', 'modal');
+    });
+    $('.en-confirm').click(function(){
+        $.get('product/enable', {product_id:product_id}, function(data){
+            loadData($('select option:selected').val());
+        });
+        $(this).attr('data-dismiss', 'modal');
+    });
+    $('.del-confirm').click(function(){
+        if ($('#text-confirm').val() == 'DELETE') {
+            $.get('product/delete', {product_id:product_id}, function(data){
+                loadData($('select option:selected').val());
+            });
+            $(this).attr('data-dismiss', 'modal');
+        }
     });
 });
+
+
+
 
 
 

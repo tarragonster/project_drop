@@ -225,7 +225,7 @@ class User extends Base_Controller {
 			$this->oauths->delete($user['user_id']);
 			$this->user_model->clearData($user['user_id']);
 		}
-		$this->redirect('user/blocked');
+		$this->redirect('user');
 
 	}
 
@@ -417,7 +417,8 @@ class User extends Base_Controller {
 			$users = $this->user_model->getAllUsers();
 		}
 		$data = ['users' => $users];
-		$this->load->view('admin/users_table', $data);
+		$html = $this->load->view('admin/users_table', $data, true);
+		die(json_encode($html));
 	}
 
 	public function search()
@@ -425,6 +426,7 @@ class User extends Base_Controller {
 		$query = $this->input->get('query');
 		$users = $this->user_model->getAllUsers($query);
 		$data = ['users' => $users];
-		$this->load->view('admin/users_table', $data);
+		$html = $this->load->view('admin/users_table', $data, true);
+		die(json_encode($html));
 	}
 }
