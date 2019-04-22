@@ -54,16 +54,16 @@
                             <label>Paywall Block</label>
                             <select id='paywall_episode' class="form-control" name='paywall_episode'>
                                 <?php if($paywall_episode != 0): ?>
-                                    <option value="<?php echo $paywall_episode?>"><?php echo $paywall_episode?> - <?php echo $paywall_episode_name?></option>
+                                    <option value="<?php echo $paywall_episode?>"> B<?php echo $position?> - <?php echo $paywall_episode_name?></option>
+                                    <option value="">None</option>
                                 <?php else: ?>
                                     <option value=""><?php echo $paywall_episode_name?></option>
                                 <?php endif;?>
                                 <?php
                                 foreach ($episodes as $item) {
-                                    echo "<option value='{$item['episode_id']}'>{$item['episode_id']} - {$item['name']}</option>";
+                                    echo "<option value='{$item['episode_id']}'>B{$item['position']} - {$item['name']}</option>";
                                 }
                                 ?>
-                                <option value="">None</option>
                             </select>
                         </div>
                     </div>

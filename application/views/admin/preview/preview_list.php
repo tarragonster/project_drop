@@ -46,12 +46,12 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 										echo '<div class="button-list">';
 										if ($row['priority_preview'] > 1) {
 											echo "<a href='" . base_url('preview/upFilm/' . $row['product_id']) . "'>
-				                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-up'></i> Up</button>
+				                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-alt-up'></i> Up</button>
 				                                </a>";
 										}
 										if ($row['priority_preview'] < $max) {
 											echo "<a href='" . base_url('preview/downFilm/' . $row['product_id']) . "'>
-				                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-down'></i> Down</button>
+				                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-alt-down'></i> Down</button>
 				                                </a>";
 										}
 										echo '</div></td>'; ?>
@@ -91,7 +91,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 					?>
 					<form method='POST' enctype="multipart/form-data" action="<?= base_url('preview/addFilm') ?>">
 						<div class="form-group" id='block_product'>
-							<label>Film</label>p
+							<label>Film</label>
 							<input id='select_product' class='form-control' type="text" placeholder='Film Name' required
 							       data-href='<?php echo base_url('preview/ajaxProduct?q=') ?>'
 							       data-linked-id='product_id'/>

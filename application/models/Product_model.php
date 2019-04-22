@@ -342,7 +342,7 @@ class Product_model extends BaseModel {
 	public function getProductListByStatus($status) {
 		$sql = "select * from 
 				    (select s1.*, count(up.pick_id) as total_pick
-				    from (select p.*,fr.name as rate_name,count(pl.user_id) as total_like, e.episode_id as paywall_episode_id, e.name as paywall_episode_name
+				    from (select p.*,e.position,fr.name as rate_name,count(pl.user_id) as total_like, e.episode_id as paywall_episode_id, e.name as paywall_episode_name
 				         from ((product as p 
 				                left join product_likes as pl on p.product_id = pl.product_id)
 				                join film_rate as fr on p.rate_id = fr.rate_id)
@@ -375,7 +375,7 @@ class Product_model extends BaseModel {
 	public function getAllProducts($query = '') {
 		$sql = "select * from 
 				    (select s1.*, count(up.pick_id) as total_pick
-				    from (select p.*,fr.name as rate_name,count(pl.user_id) as total_like,e.episode_id as paywall_episode_id,e.name as paywall_episode_name
+				    from (select p.*, e.position,fr.name as rate_name,count(pl.user_id) as total_like,e.episode_id as paywall_episode_id,e.name as paywall_episode_name
 				         from ((product as p 
 				                left join product_likes as pl on p.product_id = pl.product_id)
 				                join film_rate as fr on p.rate_id = fr.rate_id)
