@@ -52,12 +52,12 @@ if ($this->session->flashdata('alert')) {
 							<?php echo '<td><div class="button-list">';
                             if ($row['position'] > 1) {
                                 echo "<a href='" . base_url('episode/up/'  .$row['episode_id']. '/' . $row['season_id']) . "'>
-	                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-up'></i> Up</button>
+	                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-alt-up'></i> Up</button>
 	                                </a>";
                             }
                             if ($row['position'] < $max) {
                                 echo "<a href='" . base_url('episode/down/' .$row['episode_id']. '/' . $row['season_id']) . "'>
-	                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-down'></i> Down</button>
+	                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-alt-down'></i> Down</button>
 	                                </a>";
                             }
                             echo '</div></td>';?>

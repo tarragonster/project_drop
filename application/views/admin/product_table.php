@@ -25,7 +25,7 @@
                 <td><?php echo $row['total_epi']?></td>
                 <td>
                     <?php 
-                        echo ($row['paywall_episode_id'] == null)? 'N/a' : 'B' . $row['paywall_episode_id'] . ' - ' . $row['paywall_episode_name'] 
+                        echo ($row['paywall_episode_id'] == null)? 'N/a' : 'B' . $row['position'] . ' - ' . $row['paywall_episode_name'] 
                     ?>
                 </td>
                 <td><?php echo $row['rate_name']?></td> 

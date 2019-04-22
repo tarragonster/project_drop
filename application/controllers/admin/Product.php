@@ -234,6 +234,7 @@ class Product extends Base_Controller {
 		$product['preview_img'] = $collection_product['promo_image'];
 		if ($product['paywall_episode'] != 0) {
 			$episode = $this->episode_model->getEpisodeById($product['paywall_episode']);
+			$product['position'] = $episode['position'];
 			$product['paywall_episode_name'] = $episode['name'];
 		}else {
 			$product['paywall_episode_name'] = 'None';

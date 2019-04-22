@@ -286,7 +286,8 @@ class User extends Base_Controller {
 
 		$data = array();
 		$data['parent_id'] = 2;
-		$data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		// $data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		$data['sub_id'] = 22;
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/user_edit', $user, true);
 
@@ -312,7 +313,8 @@ class User extends Base_Controller {
 		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/sweet-alerts.js');
 
 		$data['parent_id'] = 2;
-		$data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		// $data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		$data['sub_id'] = 22;
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/user_profile', $layoutParams, true);
 		$this->load->view('admin_main_layout', $data);
