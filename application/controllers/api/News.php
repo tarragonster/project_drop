@@ -75,6 +75,7 @@ class News extends BR_Controller {
 					return null;
 				}
 				$notify['avatar'] = $user['avatar'];
+				$notify['user_type'] = $user['user_type'];
 				$notify['user_name'] = empty($user['user_name']) ? $user['full_name'] : $user['user_name'];
 				$notify['has_followed'] = $this->user_model->checkFollower($this->user_id, $notify['data']['user_id']) ? '1' : '0';
 			}
@@ -89,6 +90,7 @@ class News extends BR_Controller {
 					$user = $this->news_model->getUserForNotify($notify['data']['uid_comment']);
 					$notify['user_name'] .= '*' . $user['user_name'];
 					$notify['avatar2'] = $user['avatar'];
+					$notify['user_type2'] = $user['user_type'];
 					$item['content'] = str_replace(" <<username>> ", '*', $item['content']);
 				}
 
