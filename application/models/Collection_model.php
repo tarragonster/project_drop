@@ -69,8 +69,9 @@ class Collection_model extends BaseModel {
 		return $query->num_rows() > 0 ? $query->first_row()->priority : 0;
 	}
 
-	public function getCollectionProducts($product_id) {
+	public function getCollectionProducts($collection_id, $product_id) {
 		$this->db->where('product_id', $product_id);
+		$this->db->where('collection_id', $collection_id);
 		$query = $this->db->get('collection_product');
 		return $query->first_row('array');
 	}
@@ -112,6 +113,12 @@ class Collection_model extends BaseModel {
 		$this->db->where('product_id', $product_id);
 		$this->db->set('promo_image', $promo_image);
 		$this->db->update('collection_product');
+	}
+
+	public function getProductsInCollection($product_id) {
+		$this->db->where('product_id', $product_id);
+		$query = $this->db->get('collection_product');
+		return $query->result_array();
 	}
 
 }

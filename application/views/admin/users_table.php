@@ -1,4 +1,4 @@
-<table id="example3" class="table table-hover">
+<table id="example3" class="table table-hover" style="width:100%">
 	<thead>
 	<tr><hr>
 		<th></th>
@@ -31,7 +31,7 @@
 		<td><?php echo date('m/d/Y h:iA', $row['joined'])?></td>
 		<td>
 			<div class="dropdown">
-			    <span class="btnAction dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-ellipsis-v"></i></span>
+			    <span class="btnAction dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-ellipsis-v" style="color: #d8d8d8"></i></span>
 			    <ul class="dropdown-menu" id="customDropdown">
 			      	<li><a href="<?php echo base_url('user/profile/' . $row['user_id'])?>">View Profile</a></li>
 			      	<li><a href="<?php echo base_url('user/edit/' . $row['user_id'])?>">Edit Profile</a></li>

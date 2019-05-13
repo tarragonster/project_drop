@@ -225,7 +225,7 @@ class User extends Base_Controller {
 			$this->oauths->delete($user['user_id']);
 			$this->user_model->clearData($user['user_id']);
 		}
-		$this->redirect('user/blocked');
+		$this->redirect('user');
 
 	}
 
@@ -286,7 +286,8 @@ class User extends Base_Controller {
 
 		$data = array();
 		$data['parent_id'] = 2;
-		$data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		// $data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		$data['sub_id'] = 22;
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/user_edit', $user, true);
 
@@ -312,7 +313,8 @@ class User extends Base_Controller {
 		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/sweet-alerts.js');
 
 		$data['parent_id'] = 2;
-		$data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		// $data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+		$data['sub_id'] = 22;
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/user_profile', $layoutParams, true);
 		$this->load->view('admin_main_layout', $data);
@@ -417,7 +419,8 @@ class User extends Base_Controller {
 			$users = $this->user_model->getAllUsers();
 		}
 		$data = ['users' => $users];
-		$this->load->view('admin/users_table', $data);
+		$html = $this->load->view('admin/users_table', $data, true);
+		die(json_encode($html));
 	}
 
 	public function search()
@@ -425,6 +428,7 @@ class User extends Base_Controller {
 		$query = $this->input->get('query');
 		$users = $this->user_model->getAllUsers($query);
 		$data = ['users' => $users];
-		$this->load->view('admin/users_table', $data);
+		$html = $this->load->view('admin/users_table', $data, true);
+		die(json_encode($html));
 	}
 }

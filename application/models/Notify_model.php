@@ -19,7 +19,7 @@ class Notify_model extends CI_Model {
 		'52' => "mentioned you in a comment on",
 		'53' => "liked your comment on",
 		'54' => "replied to your comment on",
-		'55' => "Welcome to 10Block Secret Society.",
+		'55' => "Welcome to 10 Block! Add a few stories to your watch list for a quick start.",
 	);
 
 	public function __construct() {
@@ -220,7 +220,7 @@ class Notify_model extends CI_Model {
 	}
 
 	public function getUserForNotify($user_id) {
-		$this->db->select('user_name, avatar, full_name, email');
+		$this->db->select('user_name, user_type, avatar, full_name, email');
 		$this->db->where('user_id', $user_id);
 		$query = $this->db->get('user');
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;

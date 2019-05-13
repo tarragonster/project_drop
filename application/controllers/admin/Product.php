@@ -92,24 +92,23 @@ class Product extends Base_Controller {
 
 			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
 			if ($preview_img != null && $preview_img['error'] == 0) {
+				$collection_id = 2; // Preview
 				$path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
 				$this->file_model->saveFile($preview_img, $path);
-				$promo_image = $path;
 				$data_collection = array(
-					'collection_id' => 2,
+					'collection_id' => $collection_id,
 					'product_id' => $product_id,
-					'promo_image' => $promo_image,
+					'promo_image' => $path,
 					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1
 				);
-				$preview_id = $this->collection_model->addFilmPreviews($data_collection);
+				$this->collection_model->addFilmPreviews($data_collection);
 			}
 
 			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
 			if ($explore_img != null && $explore_img['error'] == 0) {
 				$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
 				$this->file_model->saveFile($explore_img, $path);
-				$promo_image = $path;
-				$explore_id = $this->preview_model->addFilm($product_id, $promo_image);
+				$this->preview_model->addFilm($product_id, $path);
 			}
 			
 			if ($cmd == 'Save') {
@@ -134,8 +133,9 @@ class Product extends Base_Controller {
 		$this->load->model("collection_model");
 		$this->load->model('preview_model');
 		$this->load->model('episode_model');
+		$collection_id = 2;
 		$explore_product = $this->preview_model->getFilm($product_id);
-		$collection_product = $this->collection_model->getCollectionProducts($product_id);
+		$collection_product = $this->collection_model->getCollectionProducts($collection_id,$product_id);
 		$product = $this->product_model->getProductForAdmin($product_id);
 		if ($product == null) {
 			redirect('product');
@@ -192,7 +192,6 @@ class Product extends Base_Controller {
 			}
 			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
 			if ($preview_img != null && $preview_img['error'] == 0) {
-				$collection_id = 2;
 				$preview_path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
 				$this->file_model->saveFile($preview_img, $preview_path);
 				if ($collection_product == null) {
@@ -224,7 +223,7 @@ class Product extends Base_Controller {
 		}
 		$data = array();
 		$data['parent_id'] = 3;
-		$data['sub_id'] = 32;
+		$data['sub_id'] = 33;
 		$data['account'] = $this->account;
 
 		$rates = $this->product_model->getRates();
@@ -235,7 +234,10 @@ class Product extends Base_Controller {
 		$product['preview_img'] = $collection_product['promo_image'];
 		if ($product['paywall_episode'] != 0) {
 			$episode = $this->episode_model->getEpisodeById($product['paywall_episode']);
+			$product['position'] = $episode['position'];
 			$product['paywall_episode_name'] = $episode['name'];
+		}else {
+			$product['paywall_episode_name'] = 'None';
 		}
 
 		$data['content'] = $this->load->view('admin/product_edit', $product, true);
@@ -413,7 +415,7 @@ class Product extends Base_Controller {
 		} else {
 			$this->session->set_flashdata('msg', 'Delete success!');
 			$this->load->model('collection_model');
-			$products = $this->collection_model->getCollectionProducts($product_id);
+			$products = $this->collection_model->getProductsInCollection($product_id);
 			if (count($products)) {
 				foreach ($products as $key => $product) {
 					$this->collection_model->removeFilm($product['collection_id'], $product['product_id'], $product['priority']);
@@ -441,13 +443,15 @@ class Product extends Base_Controller {
 			$products = $this->product_model-> getProductListByStatus($status);
 		}
 		$data = ['products' => $products];
-		$this->load->view('admin/product_table', $data);
+		$html = $this->load->view('admin/product_table', $data, true);
+		die(json_encode($html));
 	}
 
 	public function search() {
 		$query = $this->input->get('query');
 		$products = $this->product_model->getAllProducts($query);
 		$data = ['products' => $products];
-		$this->load->view('admin/product_table',$data);
+		$html = $this->load->view('admin/product_table', $data, true);
+		die(json_encode($html));
 	}
 }

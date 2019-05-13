@@ -63,7 +63,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Poster Image</label>
                                     <div class="row">
-                                        <img id='poster_image' src="<?php echo base_url('assets/images/borders/border1.jpg')?>"/>
+                                        <img id='poster_image' src="<?php echo base_url('assets/images/borders/233x346@3x.png')?>"/>
                                         <div class="uploader" onclick="$('#posterImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="poster_img" id="posterImg" class="imagePhoto" required="" />
@@ -73,7 +73,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Series Image</label>
                                     <div class="row">
-                                        <img id='series_image' src="<?php echo base_url('assets/images/borders/border2.jpg')?>"/>
+                                        <img id='series_image' src="<?php echo base_url('assets/images/borders/750x667@3x.png')?>"/>
                                         <div class="uploader" onclick="$('#seriesImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="series_img" id="seriesImg" class="imagePhoto" required="" />
@@ -83,7 +83,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Preview Round Image</label>
                                     <div class="row">
-                                        <img id='preview_image' src="<?php echo base_url('assets/images/borders/border3.jpg')?>"/>
+                                        <img id='preview_image' src="<?php echo base_url('assets/images/borders/135x135@3x.png')?>"/>
                                         <div class="uploader" onclick="$('#previewImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="preview_img" id="previewImg" class="imagePhoto"/>
@@ -95,7 +95,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Carousel Banner</label>
                                     <div class="row">
-                                        <img id='carousel_image' src="<?php echo base_url('assets/images/borders/border4.jpg')?>"/>
+                                        <img id='carousel_image' src="<?php echo base_url('assets/images/borders/667x440@3x.png')?>"/>
                                         <div class="uploader" onclick="$('#carouselImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="carousel_img" id="carouselImg" class="imagePhoto" required="" />
@@ -105,7 +105,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Explore Preview Image</label>
                                     <div class="row">
-                                        <img id='explore_image' src="<?php echo base_url('assets/images/borders/border5.jpg')?>"/>
+                                        <img id='explore_image' src="<?php echo base_url('assets/images/borders/650x688@3x.png')?>"/>
                                         <div class="uploader" onclick="$('#exploreImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="explore_img" id="exploreImg" class="imagePhoto"/>

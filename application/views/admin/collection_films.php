@@ -45,12 +45,12 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 										<?php echo '<td><div class="button-list">';
 										if ($row['priority_collection'] > 1) {
 											echo "<a href='" . base_url('collection/upFilm/' . $collection_id . '/' . $row['priority_collection']) . '/' . $row['id'] . "'>
-				                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-up'></i> Up</button>
+				                                    <button class='btn btn-sm btn-purple'><i class='fa fa-long-arrow-alt-up'></i> Up</button>
 				                                </a>";
 										}
 										if ($row['priority_collection'] < $max) {
 											echo "<a href='" . base_url('collection/downFilm/' . $collection_id . '/' . $row['priority_collection']) . '/' . $row['id'] . "'>
-				                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-down'></i> Down</button>
+				                                    <button class='btn btn-sm btn-inverse'><i class='fa fa-long-arrow-alt-down'></i> Down</button>
 				                                </a>";
 										}
 										echo '</div></td>'; ?>
@@ -97,7 +97,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 							<input type="hidden" id='product_id' name='product_id' class='form-control'/>
 							<input type="hidden" name='collection_id' class='form-control' value="<?= $collection_id ?>"/>
 						</div>
-						<div class="form-group m-b-30">
+						<!-- <div class="form-group m-b-30">
 							<label>Promo Image</label>
 							<div class="row">
 								<div class="col-md-4">
@@ -110,7 +110,7 @@ $active = isset($_GET['active']) ? $_GET['active'] : 'list';
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary" name='cmd' value='Add'>Add</button>
 						</div>
