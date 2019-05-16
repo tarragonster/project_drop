@@ -4,7 +4,7 @@
         "title": "Api for SecondScreen App.",
         "version": "1.0.0"
     },
-    "host": "api.secondscreentv.us",
+    "host": "api.10block.com",
     "schemes": [
         "https",
         "http"
@@ -19,6 +19,84 @@
                 "operationId": "skipSyncContact",
                 "produces": [
                     "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/episode/{episode_id}": {
+            "get": {
+                "tags": [
+                    "Episode"
+                ],
+                "summary": "Get Episode detail",
+                "operationId": "getEpisodeDetail",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "episode_id",
+                        "in": "path",
+                        "description": "Episode ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/reviewStatus/{product_id}": {
+            "post": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Save review status",
+                "operationId": "productReviewStatus",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "1"
+                    },
+                    {
+                        "name": "has_reviewed",
+                        "in": "formData",
+                        "description": "Has Reviewed",
+                        "required": true,
+                        "type": "number",
+                        "default": "0",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
                 ],
                 "responses": {
                     "200": {
@@ -224,21 +302,21 @@
                 ]
             }
         },
-        "/user/notification": {
+        "/user/notification/following": {
             "post": {
                 "tags": [
                     "Account"
                 ],
-                "summary": "Submit sms notification setting",
-                "operationId": "updateNotificationSetting",
+                "summary": "Submit following notification setting",
+                "operationId": "followingNotificationSetting",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [
                     {
-                        "name": "follow_me",
+                        "name": "new_followers",
                         "in": "formData",
-                        "description": "Follow",
+                        "description": "New Followers",
                         "required": true,
                         "type": "string",
                         "default": "1",
@@ -248,7 +326,127 @@
                         ]
                     },
                     {
-                        "name": "mention_me",
+                        "name": "new_picks",
+                        "in": "formData",
+                        "description": "New Picks",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_watchlist",
+                        "in": "formData",
+                        "description": "New Adds to Watchlist",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_thumbs_up",
+                        "in": "formData",
+                        "description": "New Thumbs up",
+                        "required": true,
+                        "type": "string",
+                        "default": "0",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/notification/app": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Submit app notification setting",
+                "operationId": "appNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "trending",
+                        "in": "formData",
+                        "description": "Trending",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_stories",
+                        "in": "formData",
+                        "description": "New Stories",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "product_updates",
+                        "in": "formData",
+                        "description": "Product Updates",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/notification/comment": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Submit comment notification setting",
+                "operationId": "commentNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "comment_mentions",
                         "in": "formData",
                         "description": "Comment Mentions",
                         "required": true,
@@ -260,7 +458,7 @@
                         ]
                     },
                     {
-                        "name": "like_comment",
+                        "name": "comment_likes",
                         "in": "formData",
                         "description": "Comment Likes",
                         "required": true,
@@ -272,12 +470,12 @@
                         ]
                     },
                     {
-                        "name": "reply_comment",
+                        "name": "comment_replies",
                         "in": "formData",
                         "description": "Comment Replies",
                         "required": true,
                         "type": "string",
-                        "default": "1",
+                        "default": "0",
                         "enum": [
                             "1",
                             "0"

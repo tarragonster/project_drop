@@ -91,7 +91,31 @@ class Product extends BR_Controller {
 		$captions = $this->jw_lib->getVideoCaptions($product['jw_media_id']);
 		$this->create_success(['captions' => $captions]);
 	}
-
+	/**
+	 * @SWG\Get(
+	 *     path="/product/episode/{episode_id}",
+	 *     summary="Get Episode detail",
+	 *     operationId="getEpisodeDetail",
+	 *     tags={"Episode"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Episode ID",
+	 *         in="path",
+	 *         name="episode_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="1"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function episode_get($episode_id) {
 		$this->load->model('episode_model');
 		$episode = $this->episode_model->getEpisode($episode_id);
@@ -165,6 +189,7 @@ class Product extends BR_Controller {
 		$episode['num_comment'] = $this->episode_model->countComment($episode['episode_id']) + $this->episode_model->countAllSubComment($episode['episode_id']);
 
 		if ($this->user_id != null) {
+			$episode['review_info'] = $this->product_model->getProductUserReview($this->user_id, $episode['product_id']);
 			$episode['has_like'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 1);
 			$episode['has_dislike'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 0);
 			foreach ($comments as $key => $comment) {
@@ -259,6 +284,51 @@ class Product extends BR_Controller {
 			'number_like' => $this->product_model->countProductLikes($product_id)
 		];
 		$this->create_success($response);
+	}
+
+	/**
+	 * @SWG\Post(
+	 *     path="/product/reviewStatus/{product_id}",
+	 *     summary="Save review status",
+	 *     operationId="productReviewStatus",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Has Reviewed",
+	 *         in="formData",
+	 *         name="has_reviewed",
+	 *         required=true,
+	 *         type="number",
+	 *         enum={"1", "0"},
+	 *         default="0"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function reviewStatus_post($product_id) {
+		$this->validate_authorization();
+		$product = $this->product_model->get($product_id);
+		$has_reviewed = $this->c_getNumberNotNull('has_reviewed');
+		if ($product == null) {
+			$this->create_error(-77);
+		}
+		$this->product_model->putProductUserReview($this->user_id, $product_id, $has_reviewed);
+		$this->create_success();
 	}
 
 }

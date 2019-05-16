@@ -405,4 +405,30 @@ class Product_model extends BaseModel {
 		return $query->result_array();
 	}
 
+
+
+	public function getProductUserReview($user_id, $product_id) {
+		$this->db->where('user_id', $user_id);
+		$this->db->where('product_id', $product_id);
+		return $this->db->get('product_user_reviews')->first_row('array');
+	}
+
+	public function putProductUserReview($user_id, $product_id, $has_reviewed) {
+		$item = $this->getProductUserReview($user_id, $product_id);
+		if ($item != null) {
+			$this->db->where('user_id', $user_id);
+			$this->db->where('product_id', $product_id);
+			$this->db->update('product_user_reviews', [
+				'has_reviewed' => $has_reviewed,
+				'updated_at' => time()
+			]);
+		} else {
+			$this->db->insert('product_user_reviews', [
+				'user_id' => $user_id,
+				'product_id' => $product_id,
+				'has_reviewed' => $has_reviewed,
+				'updated_at' => time()
+			]);
+		}
+	}
 }

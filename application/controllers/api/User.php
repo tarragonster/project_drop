@@ -280,6 +280,7 @@ class User extends BR_Controller {
 
 		$user_id = $this->user_model->insert($params);
 		$this->user_id = $user_id;
+		$this->db->insert('user_notification_setting', ['user_id' => $user_id]);
 
 		$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
 		if ($avatar != null) {
@@ -835,6 +836,7 @@ class User extends BR_Controller {
 			];
 			$pick_id = $this->user_model->insertPick($params);
 		}
+		$this->product_model->putProductUserReview($this->user_id, $product_id, 1);
 		$this->create_success(['pick' => $this->user_model->getPick($pick_id)]);
 	}
 
@@ -990,46 +992,88 @@ class User extends BR_Controller {
 		$this->email_model->welcome($email, $params);
 	}
 
-
-
 	/**
 	 * @SWG\Post(
-	 *     path="/user/notification",
-	 *     summary="Submit sms notification setting",
-	 *     operationId="updateNotificationSetting",
+	 *     path="/user/notification/following",
+	 *     summary="Submit following notification setting",
+	 *     operationId="followingNotificationSetting",
 	 *     tags={"Account"},
 	 *     produces={"application/json"},
 	 *     @SWG\Parameter(
-	 *         description="Follow",
+	 *         description="New Followers",
 	 *         in="formData",
-	 *         name="follow_me",
+	 *         name="new_followers",
 	 *         required=true,
 	 *         type="string",
 	 *         enum={"1", "0"},
 	 *         default="1"
 	 *     ),
 	 *     @SWG\Parameter(
-	 *         description="Comment Mentions",
+	 *         description="New Picks",
 	 *         in="formData",
-	 *         name="mention_me",
+	 *         name="new_picks",
 	 *         required=true,
 	 *         type="string",
 	 *         enum={"1", "0"},
 	 *         default="1"
 	 *     ),
 	 *     @SWG\Parameter(
-	 *         description="Comment Likes",
+	 *         description="New Adds to Watchlist",
 	 *         in="formData",
-	 *         name="like_comment",
+	 *         name="new_watchlist",
 	 *         required=true,
 	 *         type="string",
 	 *         enum={"1", "0"},
 	 *         default="1"
 	 *     ),
 	 *     @SWG\Parameter(
-	 *         description="Comment Replies",
+	 *         description="New Thumbs up",
 	 *         in="formData",
-	 *         name="reply_comment",
+	 *         name="new_thumbs_up",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="0"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+
+	/**
+	 * @SWG\Post(
+	 *     path="/user/notification/app",
+	 *     summary="Submit app notification setting",
+	 *     operationId="appNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Trending",
+	 *         in="formData",
+	 *         name="trending",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Stories",
+	 *         in="formData",
+	 *         name="new_stories",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Product Updates",
+	 *         in="formData",
+	 *         name="product_updates",
 	 *         required=true,
 	 *         type="string",
 	 *         enum={"1", "0"},
@@ -1044,20 +1088,70 @@ class User extends BR_Controller {
 	 *     )
 	 * )
 	 */
-	public function notification_post() {
+
+	/**
+	 * @SWG\Post(
+	 *     path="/user/notification/comment",
+	 *     summary="Submit comment notification setting",
+	 *     operationId="commentNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Comment Mentions",
+	 *         in="formData",
+	 *         name="comment_mentions",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Likes",
+	 *         in="formData",
+	 *         name="comment_likes",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Replies",
+	 *         in="formData",
+	 *         name="comment_replies",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="0"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function notification_post($group = '') {
 		$this->validate_authorization();
 		$settings = $this->user_model->getNotificationSetting($this->user_id);
-		$params['follow_me'] = $this->post('follow_me') * 1;
-		$params['mention_me'] = $this->post('mention_me') * 1;
-		$params['like_comment'] = $this->post('like_comment') * 1;
-		$params['reply_comment'] = $this->post('reply_comment') * 1;
-		if ($settings == null) {
-			$params['user_id'] = $this->user_id;
-			$this->db->insert('user_notification_setting', $params);
-		} else {
-			$this->db->where('user_id', $this->user_id);
-			$this->db->update('user_notification_setting', $params);
+		$data = $this->post();
+		$params = [];
+		foreach (NOTIFICATION_KEYS as $key) {
+			if (isset($data[$key]) && is_numeric($data[$key])) {
+				$params[$key] = $data[$key];
+			}
 		}
+		if (count($params) > 0) {
+			if ($settings == null) {
+				$params['user_id'] = $this->user_id;
+				$this->db->insert('user_notification_setting', $params);
+			} else {
+				$this->db->where('user_id', $this->user_id);
+				$this->db->update('user_notification_setting', $params);
+			}
+		}
+
 		$response = array();
 		$response['notification'] = $this->user_model->getNotificationSetting($this->user_id);
 		$this->create_success($response);
