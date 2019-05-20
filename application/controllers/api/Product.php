@@ -260,8 +260,6 @@ class Product extends BR_Controller {
 		$this->create_success(['recently' => $recently]);
 	}
 
-
-
 	public function like_post() {
 		$this->validate_authorization();
 		$product_id = $this->c_getNotNull('product_id');
@@ -272,13 +270,18 @@ class Product extends BR_Controller {
 			$this->create_error(-17);
 		}
 		$userLike = $this->product_model->getUserProductLike($this->user_id, $product_id);
+
+		$this->load->model('notify_model');
+		$notifyParams = ['user_id' => $this->user_id, 'product_id' => $product_id, 'story_name' => $product['name']];
 		if ($userLike) {
 			if ($status == 0) {
 				$this->product_model->removeProductLike($this->user_id, $product_id);
+				$this->notify_model->removeNotify(0, 13, $notifyParams);
 			}
 		} else {
 			if ($status == 1) {
 				$this->product_model->addProductLike($this->user_id, $product_id);
+				$this->notify_model->createNotifyToFollower($this->user_id, 13, $notifyParams, 'default', false);
 			}
 		}
 		$response = [
@@ -329,6 +332,85 @@ class Product extends BR_Controller {
 			$this->create_error(-77);
 		}
 		$this->product_model->putProductUserReview($this->user_id, $product_id, $has_reviewed);
+		$this->create_success();
+	}
+
+	/**
+	 * @SWG\Post(
+	 *     path="/product/{product_id}/share",
+	 *     summary="Share story with 10 block friends",
+	 *     operationId="share-story",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     consumes={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *     ),
+	 *     @SWG\Parameter(
+	 *          name="body",
+	 *          in="body",
+	 *          description="Sending message",
+	 *          required=true,
+	 *          @SWG\Schema(
+	 *              @SWG\Property(
+	 *                  property="message",
+	 *                  type="string",
+	 *              ),
+	 *              @SWG\Property(
+	 *                  property="user_ids",
+	 *                  type="array",
+	 *                  @SWG\Items (
+	 *                      type="integer",
+	 *                      format="int64"
+	 *                  )
+	 *              )
+	 *          )
+	 *     ),
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     }
+	 * )
+	 */
+	public function share_post($product_id) {
+		$product = $this->product_model->get($product_id);
+		if ($product == null) {
+			$this->create_error(-17);
+		}
+		$message = $this->c_getNotNull('message');
+		$friend_ids = $this->post('user_ids');
+		if (!is_array($friend_ids)) {
+			$this->create_error(-6, 'Please select your friend');
+		}
+		$checked_ids = [];
+		foreach ($friend_ids as $friend_id) {
+			if (is_numeric($friend_id)) {
+				$checked_ids[]= $friend_id;
+			}
+		}
+
+		if (count($checked_ids) == 0) {
+			$this->create_error(-6, 'Please select your friend');
+		}
+		$users = $this->user_model->getFollowersInList($this->user_id, $checked_ids);
+		if (count($users) > 0) {
+			$this->load->model('notify_model');
+			$meta = [
+				'user_id' => $this->user_id,
+				'product_id' => $product_id,
+				'message' => $message,
+				'story_name' => $product['name'],
+			];
+			$this->notify_model->createNotifyMany($users, 57, $meta);
+		}
 		$this->create_success();
 	}
 

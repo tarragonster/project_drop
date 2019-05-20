@@ -32,6 +32,31 @@
                 ]
             }
         },
+        "/news/get": {
+            "get": {
+                "tags": [
+                    "New"
+                ],
+                "summary": "Get notification",
+                "operationId": "get-notifications",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/product/episode/{episode_id}": {
             "get": {
                 "tags": [
@@ -96,6 +121,61 @@
                             "1",
                             "0"
                         ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/{product_id}/share": {
+            "post": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Share story with 10 block friends",
+                "operationId": "share-story",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Sending message",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                },
+                                "user_ids": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {

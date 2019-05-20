@@ -3,23 +3,119 @@
 class Notify_model extends CI_Model {
 
 	public static $templates = array(
-		'1' => 'is watching',
-		'2' => "liked",
-		'3' => "disliked",
-		'4' => "wants to watch",
-		'5' => "liked comment",
-		'6' => "commented on",
-		'7' => "Second Screen Series Suggestion:",
-		'8' => "New Season:",
-		'9' => "liked <<username>> 's comment: ",
-		'10' => "replied to <<username>> 's comment on",
-		'11' => "mentioned <<username>> in a comment on",
-		'12' => "started following <<username>> ",
-		'51' => "started following you.",
-		'52' => "mentioned you in a comment on",
-		'53' => "liked your comment on",
-		'54' => "replied to your comment on",
-		'55' => "Welcome to 10 Block! Add a few stories to your watch list for a quick start.",
+		'1' => [
+			'setting_key' => NOTIFICATION_NEW_WATCHLIST,
+			'formatted' => 'is watching',
+		],
+		'2' => [
+			'setting_key' => NOTIFICATION_NEW_THUMBS_UP,
+			'formatted' => "liked",
+		],
+		'3' => [
+			'setting_key' => NOTIFICATION_NEW_THUMBS_UP,
+			'formatted' => "disliked",
+		],
+		'4' => [
+			'setting_key' => NOTIFICATION_NEW_THUMBS_UP,
+			'formatted' => "wants to watch",
+		],
+		'5' => [
+			'setting_key' => NOTIFICATION_COMMENT_LIKES,
+			'formatted' => "liked comment",
+		],
+		'6' => [
+			'setting_key' => NOTIFICATION_COMMENT_REPLIES,
+			'formatted' => "commented on",
+		],
+		'7' => [
+			'setting_key' => NOTIFICATION_NEW_STORIES,
+			'formatted' => "Second Screen Series Suggestion:",
+		],
+		'8' => [
+			'setting_key' => NOTIFICATION_NEW_STORIES,
+			'formatted' => "New Season:"
+		],
+		'9' => [
+			'setting_key' => NOTIFICATION_COMMENT_LIKES,
+			'formatted' => "liked <<username>> 's comment: ",
+		],
+
+		'10' => [
+			'setting_key' => NOTIFICATION_COMMENT_REPLIES,
+			'formatted' => "replied to <<username>> 's comment on",
+		],
+		'11' => [
+			'setting_key' => NOTIFICATION_COMMENT_MENTIONS,
+			'formatted' => "mentioned <<username>> in a comment on",
+		],
+		'12' => [
+			'setting_key' => NOTIFICATION_NEW_FOLLOWERS,
+			'formatted' => "started following <<username>> ",
+		],
+		'13' => [
+			'setting_key' => NOTIFICATION_NEW_THUMBS_UP,
+			'formatted' => "just liked <<story_name>>. Check out the story.",
+		],
+		'14' => [
+			'setting_key' => NOTIFICATION_NEW_WATCHLIST,
+			'formatted' => "added <<story_name>> to their watch list. Are you going to watch it?",
+		],
+		'15' => [
+			'setting_key' => NOTIFICATION_NEW_WATCHLIST,
+			'formatted' => "just wrote a review of <<story_name>>. Go see what they said.",
+		],
+		'51' => [
+			'setting_key' => NOTIFICATION_NEW_FOLLOWERS,
+			'formatted' => "followed you. See who else they're following.",
+		],
+		'52' => [
+			'setting_key' => NOTIFICATION_COMMENT_MENTIONS,
+			'formatted' => "mentioned you",
+		],
+		'53' => [
+			'setting_key' => NOTIFICATION_COMMENT_LIKES,
+			'formatted' => "liked your comment",
+		],
+		'54' => [
+			'setting_key' => NOTIFICATION_COMMENT_REPLIES,
+			'formatted' => "replied to you",
+		],
+		'55' => [
+			'setting_key' => NOTIFICATION_TRENDING,
+			'formatted' => "Welcome to 10 Block Secret Society.",
+		],
+		'56' => [
+			'setting_key' => NOTIFICATION_TRENDING,
+			'formatted' => "Welcome to 10 Block! Add a few stories to your watch list for a quick start.",
+		],
+		'57' => [
+			'setting_key' => NOTIFICATION_NEW_WATCHLIST,
+			'formatted' => "shared <<story_name>> with you: \"<<message>>\"",
+		],
+		'58' => [
+			'setting_key' => NOTIFICATION_NEW_STORIES,
+			'formatted' => "A new story just added! Don't miss <<story_name>>.",
+		],
+		'59' => [
+			'setting_key' => NOTIFICATION_TRENDING,
+			'formatted' => "<<story_name>> is trending. Have you watched it?",
+		],
+		'60' => [
+			'setting_key' => NOTIFICATION_NEW_WATCHLIST,
+			'formatted' => "Add to <<story_name>> your watch list.",
+		],
+		'61' => [
+			'setting_key' => NOTIFICATION_NEW_PICKS,
+			'formatted' => "Pick up <<story_name>> where you left off.",
+		],
+		'62' => [
+			'setting_key' => NOTIFICATION_NEW_PICKS,
+			'formatted' => "Did you enjoy that? Add <<story_name>> to your thumbs up.",
+		],
+		'64' => [
+			'setting_key' => NOTIFICATION_NEW_PICKS,
+			'formatted' => "Let your friend know what you think of <<story_name>>.",
+		],
 	);
 
 	public function __construct() {
@@ -28,40 +124,56 @@ class Notify_model extends CI_Model {
 	}
 
 	public function createNotify($user_id, $type, $data = null, $sound = 'default', $sendPush = true) {
-		$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
-		$this->insertUserNotify($user_id, $type, Notify_model::$templates[$type], $data);
-		$this->sendNotification($user_id, $type, $alert, $data, $sound, $sendPush);
+		$template = Notify_model::$templates[$type];
+		if ($this->checkSetting($user_id, $template['setting_key'])) {
+			$alert = $this->fillDataToTemplate($template['formatted'], $data, $type);
+			$this->insertUserNotify($user_id, $type, $template['formatted'], $data);
+			$this->sendNotification($user_id, $type, $alert, $data, $sound, $sendPush);
+		}
 	}
 
 	public function createNotifyToFollower($user_id, $type, $data = null, $sound = 'default', $sendPush = true) {
 		$users = $this->getUserFollow($user_id);
-//		pre_print($users);
 		if ($users != null) {
-			$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
+			$template = Notify_model::$templates[$type];
+			$alert = $this->fillDataToTemplate($template['formatted'], $data, $type);
 			$count = count($users);
 			foreach ($users as $user) {
-				if (!$this->checkNotify($user['user_id'], $type, $data)) {
-					$this->insertUserNotify($user['user_id'], $type, Notify_model::$templates[$type], $data);
-				} else {
-					$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
+				if ($this->checkSetting($user['user_id'], $template['setting_key'])) {
+					if (!$this->checkNotify($user['user_id'], $type, $data)) {
+						$this->insertUserNotify($user['user_id'], $type, $template['formatted'], $data);
+					} else {
+						$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
+					}
+					if ($sendPush)
+						$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $count < 20);
 				}
-				if ($sendPush)
-					$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $count < 20);
 			}
 		}
 	}
 
+	public function sendToAllUser($type, $data = null, $sound = 'default') {
+		$users = $this->db
+			->select('user_id, full_name')
+			->where('status', 1)
+			->get('user')->result_array();
+		$this->createNotifyMany($users, $type, $data, $sound);
+	}
+
 	public function createNotifyMany($users, $type, $data = null, $sound = 'default') {
-		if ($users != null) {
-			$alert = $this->fillDataToTemplate(Notify_model::$templates[$type], $data, $type);
+		if ($users != null && is_array($users) && count($users) > 0) {
+			$template = Notify_model::$templates[$type];
+			$alert = $this->fillDataToTemplate($template['formatted'], $data, $type);
 			$count = count($users);
 			foreach ($users as $user) {
-				if (!$this->checkNotify($user['user_id'], $type, $data)) {
-					$this->insertUserNotify($user['user_id'], $type, Notify_model::$templates[$type], $data);
-				} else {
-					$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
+				if ($this->checkSetting($user['user_id'], $template['setting_key'])) {
+					if (!$this->checkNotify($user['user_id'], $type, $data)) {
+						$this->insertUserNotify($user['user_id'], $type, $template['formatted'], $data);
+					} else {
+						$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
+					}
+					$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $count < 20);
 				}
-				$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $count < 20);
 			}
 		}
 	}
@@ -70,7 +182,9 @@ class Notify_model extends CI_Model {
 		$this->db->where('type', $type);
 		if ($data != null)
 			$this->db->where('data', json_encode($data));
-		$this->db->where('user_id', $user_id);
+		if ($user_id != 0) {
+			$this->db->where('user_id', $user_id);
+		}
 		$this->db->delete('user_notify');
 	}
 
@@ -101,6 +215,9 @@ class Notify_model extends CI_Model {
 		if (isset($data['user_id'])) {
 			$user = $this->getUserForNotify($data['user_id']);
 			$user_name = $user['user_name'] . ' ';
+		}
+		foreach ($data as $key => $value) {
+			$template = str_replace("<<$key>>", $value, $template);
 		}
 		if ($type >= 50) {
 			// if(isset($data['season_id'])){
@@ -174,51 +291,6 @@ class Notify_model extends CI_Model {
 		}
 	}
 
-	public function onlyPushNotify($device_list, $message, $sendNow = true) {
-		if ($device_list == null || count($device_list) <= 0)
-			return;
-		$data_send = array(
-			'alert' => $message,
-			'type' => '0',
-			'data' => array('uid' => 0),
-			'sound' => 'default',
-		);
-		foreach ($device_list as $device) {
-			if ($device['dtype_id'] == 1) {
-				$this->cipush->addAndroid($device['reg_id'], $data_send, $sendNow);
-			} else {
-				$this->cipush->addIOS($device['reg_id'], $data_send, $sendNow);
-			}
-		}
-	}
-
-	public function getNewForFollowing($user_id, $page = -1) {
-		$this->db->select('un.*');
-		$this->db->from('user_notify un');
-		$this->db->join('user_follow uf', 'uf.follower_id = un.user_id');
-		$this->db->where('uf.user_id', $user_id);
-		$this->db->where('type <', 50);
-		$this->db->order_by('un.notify_id', 'desc');
-		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
-		}
-		$query = $this->db->get();
-		return $query->result_array();
-	}
-
-	public function getNewForYou($user_id, $page = -1) {
-		$this->db->select('*');
-		$this->db->from('user_notify');
-		$this->db->where('user_id', $user_id);
-		$this->db->where('type >', 50);
-		$this->db->order_by('notify_id', 'desc');
-		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
-		}
-		$query = $this->db->get();
-		return $query->result_array();
-	}
-
 	public function getUserForNotify($user_id) {
 		$this->db->select('user_name, user_type, avatar, full_name, email');
 		$this->db->where('user_id', $user_id);
@@ -275,5 +347,17 @@ class Notify_model extends CI_Model {
 		$this->db->where('user_id', $user_id);
 		$query = $this->db->get('user_notify');
 		return $query->num_rows() > 0;
+	}
+
+	public function checkSetting($user_id, $key) {
+		$this->db->from('user_notification_setting');
+		$this->db->where('user_id', $user_id);
+		$item = $this->db->get()->first_row('array');
+		if ($item == null)
+			return false;
+		if (isset($item[$key]) && $item[$key] == 1) {
+			return true;
+		}
+		return false;
 	}
 }

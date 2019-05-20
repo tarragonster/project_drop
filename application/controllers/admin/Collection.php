@@ -122,6 +122,10 @@ class Collection extends Base_Controller {
 					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
 				];
 				$this->collection_model->addFilm($params);
+				if ($collection_id == 1) {
+					$this->load->model('notify_model');
+					$this->notify_model->sendToAllUser(59, ['story_name' => $params['name'], 'product_id' => $product_id]);
+				}
 			} else {
 				$this->session->set_flashdata('msg', 'Missing data field required: image');
 			}

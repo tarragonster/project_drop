@@ -9,7 +9,23 @@ class News extends BR_Controller {
 		$this->load->model('news_model');
 		$this->load->model('user_model');
 	}
-
+	/**
+	 * @SWG\Get(
+	 *     path="/news/get",
+	 *     summary="Get notification",
+	 *     operationId="get-notifications",
+	 *     tags={"New"},
+	 *     produces={"application/json"},
+	 *     consumes={"application/json"},
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     }
+	 * )
+	 */
 	public function get_get() {
 		$this->validate_authorization();
 		$news = array();
@@ -69,6 +85,10 @@ class News extends BR_Controller {
 		$notify['has_followed'] = '0';
 
 		if ($notify['data'] != null) {
+			foreach ($notify['data'] as $key => $value) {
+				$item['content'] = str_replace("<<$key>>", $value, $item['content']);
+			}
+
 			if (isset($notify['data']['user_id'])) {
 				$user = $this->news_model->getUserForNotify($notify['data']['user_id']);
 				if ($user == null) {

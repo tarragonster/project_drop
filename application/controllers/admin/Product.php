@@ -90,6 +90,9 @@ class Product extends Base_Controller {
 
 			$product_id = $this->product_model->insert($params);
 
+			$this->load->model('notify_model');
+			$this->notify_model->sendToAllUser(58, ['story_name' => $params['name'], 'product_id' => $product_id]);
+
 			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
 			if ($preview_img != null && $preview_img['error'] == 0) {
 				$collection_id = 2; // Preview

@@ -6,4 +6,5 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['reset-password'] = 'home/resetPassword';
+$route['api/product/(:num)/share'] = 'api/product/share/$1';
 

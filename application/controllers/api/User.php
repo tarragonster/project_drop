@@ -341,7 +341,8 @@ class User extends BR_Controller {
 		}
 		$this->user_model->addWatch(array('product_id' => $product_id, 'user_id' => $this->user_id));
 		$this->load->model('notify_model');
-		$this->notify_model->createNotifyToFollower($this->user_id, 4, array('user_id' => $this->user_id, 'product_id' => $product_id), 'default', false);
+		$notiParams = ['user_id' => $this->user_id, 'product_id' => $product_id, 'story_name' => $product['name']];
+		$this->notify_model->createNotifyToFollower($this->user_id, 4, $notiParams, 'default', false);
 		$this->create_success(null);
 	}
 
@@ -351,16 +352,17 @@ class User extends BR_Controller {
 			$this->create_error(-10);
 		}
 		$product_id = $this->c_getNotNull('product_id');
-		if ($product_id == 0) {
-
-		} else {
-			$this->load->model('product_model');
-			$product = $this->product_model->checkProduct($product_id);
-			if (!$product) {
-				$this->create_error(-35);
-			}
+		$this->load->model('product_model');
+		$product = $this->product_model->checkProduct($product_id);
+		if (!$product) {
+			$this->create_error(-35);
 		}
 		$this->user_model->removeWatchList($this->user_id, $product_id);
+		// Remove notification
+		$this->load->model('notify_model');
+		$notiParams = ['user_id' => $this->user_id, 'product_id' => $product_id, 'story_name' => $product['name']];
+		$this->notify_model->removeNotify(0, 4, $notiParams);
+
 		$this->create_success(null);
 	}
 
@@ -504,9 +506,11 @@ class User extends BR_Controller {
 			if ($isCheck != $status) {
 				$this->user_model->updateLike($episode_id, $this->user_id, $status);
 				if ($status == 1) {
-					$this->notify_model->updateNotify($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 2, 'content' => Notify_model::$templates[2], 'timestamp' => time()));
+					$template = Notify_model::$templates[2];
+					$this->notify_model->updateNotify($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 2, 'content' => $template['formatted'], 'timestamp' => time()));
 				} else {
-					$this->notify_model->updateNotify($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 3, 'content' => Notify_model::$templates[3], 'timestamp' => time()));
+					$template = Notify_model::$templates[3];
+					$this->notify_model->updateNotify($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 3, 'content' => $template['formatted'], 'timestamp' => time()));
 				}
 			} else {
 				$this->user_model->deleteLike($episode_id, $this->user_id);
@@ -835,6 +839,9 @@ class User extends BR_Controller {
 				'created_at' => time(),
 			];
 			$pick_id = $this->user_model->insertPick($params);
+			$this->load->model('notify_model');
+			$notiParams = ['user_id' => $this->user_id, 'product_id' => $product_id, 'story_name' => $product['name']];
+			$this->notify_model->createNotifyToFollower($this->user_id, 15, $notiParams, 'default', false);
 		}
 		$this->product_model->putProductUserReview($this->user_id, $product_id, 1);
 		$this->create_success(['pick' => $this->user_model->getPick($pick_id)]);
@@ -860,6 +867,11 @@ class User extends BR_Controller {
 			$this->create_error(-1005);
 		}
 		$this->user_model->removePick($pick['pick_id']);
+		$product = $this->product_model->get($pick['product_id']);
+		if ($product != null) {
+			$notiParams = ['user_id' => $this->user_id, 'product_id' => $pick['product_id'], 'story_name' => $product['name']];
+			$this->notify_model->removeNotify(0, 15, $notiParams);
+		}
 		$this->create_success();
 	}
 

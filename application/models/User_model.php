@@ -237,6 +237,16 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function getFollowersInList($follower_id, $user_ids) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user_follow uf');
+		$this->db->join('user u', 'u.user_id = uf.user_id');
+		$this->db->where('uf.follower_id', $follower_id);
+		$this->db->where_in('uf.user_id', $user_ids);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function countFollowing($user_id) {
 		$this->db->from('user_follow');
 		$this->db->where('user_id', $user_id);
