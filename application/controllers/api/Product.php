@@ -14,6 +14,7 @@ class Product extends BR_Controller {
 		if ($this->user_id == null) {
 			$product['start_time'] = 0;
 		} else {
+			$product['review_info'] = $this->product_model->getProductUserReview($this->user_id, $product_id);
 			$product['start_time'] = $this->product_model->getProductContinue($this->user_id, $product_id);
 		}
 		$product['musics'] = $this->product_model->getListMusic($product_id);
