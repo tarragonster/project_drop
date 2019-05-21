@@ -1,2 +1,2 @@
 <?php
-define("API_HOST", 'secondscreentv.us');
+define("API_HOST", 'api.secondscreentv.us');

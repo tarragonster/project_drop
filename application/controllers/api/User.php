@@ -1168,4 +1168,26 @@ class User extends BR_Controller {
 		$response['notification'] = $this->user_model->getNotificationSetting($this->user_id);
 		$this->create_success($response);
 	}
+
+	/**
+	 * @SWG\Get(
+	 *     path="/user/notification",
+	 *     summary="Get notification setting",
+	 *     operationId="getNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function notification_get() {
+		$this->validate_authorization();
+		$response['notification'] = $this->user_model->getNotificationSetting($this->user_id);
+		$this->create_success($response);
+	}
 }

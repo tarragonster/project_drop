@@ -120,10 +120,10 @@ class Cipush {
 // 		$data = array("price" => json_encode($data_send));
 		$params = array('device_type' => 1, 'device_token' => $device_token, 
 				'data' => json_encode($data_send), 'time_queued' => time());
-		if ($sendNow) {
-			if ($this->sendAndroid($device_token, json_encode($data_send)))
-				$params['time_sent'] = time();// g0choozi@15
-		}
+//		if ($sendNow) {
+//			if ($this->sendAndroid($device_token, json_encode($data_send)))
+//				$params['time_sent'] = time();// g0choozi@15
+//		}
 		$this->_CI->db->insert($this->push_table, $params);
 	}
 	
@@ -133,10 +133,10 @@ class Cipush {
 	
 		$params = array('device_type' => 2, 'device_token' => $device_token, 
 				'data' => $payload, 'time_queued' => time());
-		if ($sendNow) {
-			if ($this->sendIOS($device_token, $payload))
-				$params['time_sent'] = time();
-		}
+//		if ($sendNow) {
+//			if ($this->sendIOS($device_token, $payload))
+//				$params['time_sent'] = time();
+//		}
 		$this->_CI->db->insert($this->push_table, $params);
 	}
 }

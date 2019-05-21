@@ -573,6 +573,28 @@
                     }
                 ]
             }
+        },
+        "/user/notification": {
+            "get": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Get notification setting",
+                "operationId": "getNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {},

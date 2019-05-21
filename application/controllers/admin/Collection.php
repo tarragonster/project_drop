@@ -110,24 +110,25 @@ class Collection extends Base_Controller {
 				redirect('collection');
 			}
 
+			$params = [
+				'product_id' => $product_id,
+				'collection_id' => $collection_id,
+				'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
+			];
 			$promoImage = isset($_FILES['promo_image']) ? $_FILES['promo_image'] : null;
 			if ($promoImage != null && $promoImage['error'] == 0) {
 				$this->load->model('file_model');
 				$path = $this->file_model->createFileName($promoImage, 'media/feeds/', 'collection');
+				$params['promo_image'] = $path;
 				$this->file_model->saveFile($promoImage, $path);
-				$params = [
-					'product_id' => $product_id,
-					'collection_id' => $collection_id,
-					'promo_image' => $path,
-					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
-				];
-				$this->collection_model->addFilm($params);
-				if ($collection_id == 1) {
-					$this->load->model('notify_model');
-					$this->notify_model->sendToAllUser(59, ['story_name' => $params['name'], 'product_id' => $product_id]);
-				}
 			} else {
-				$this->session->set_flashdata('msg', 'Missing data field required: image');
+				$params['promo_image'] = $product['image'];
+			}
+
+			$this->collection_model->addFilm($params);
+			if ($collection_id == 1) {
+				$this->load->model('notify_model');
+				$this->notify_model->sendToAllUser(59, ['story_name' => $params['name'], 'product_id' => $product_id]);
 			}
 			redirect('collection/films/' . $collection_id);
 		}
