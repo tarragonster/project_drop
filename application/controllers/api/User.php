@@ -1005,6 +1005,104 @@ class User extends BR_Controller {
 
 	/**
 	 * @SWG\Post(
+	 *     path="/user/notification",
+	 *     summary="Submit notification setting",
+	 *     operationId="postNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="New Followers",
+	 *         in="formData",
+	 *         name="new_followers",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Picks",
+	 *         in="formData",
+	 *         name="new_picks",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Adds to Watchlist",
+	 *         in="formData",
+	 *         name="new_watchlist",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Thumbs up",
+	 *         in="formData",
+	 *         name="new_thumbs_up",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Trending",
+	 *         in="formData",
+	 *         name="trending",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Stories",
+	 *         in="formData",
+	 *         name="new_stories",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Product Updates",
+	 *         in="formData",
+	 *         name="product_updates",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Mentions",
+	 *         in="formData",
+	 *         name="comment_mentions",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Likes",
+	 *         in="formData",
+	 *         name="comment_likes",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Replies",
+	 *         in="formData",
+	 *         name="comment_replies",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	/**
+	 * @SWG\Post(
 	 *     path="/user/notification/following",
 	 *     summary="Submit following notification setting",
 	 *     operationId="followingNotificationSetting",

@@ -382,6 +382,162 @@
                 ]
             }
         },
+        "/user/notification": {
+            "get": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Get notification setting",
+                "operationId": "getNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Submit notification setting",
+                "operationId": "postNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "new_followers",
+                        "in": "formData",
+                        "description": "New Followers",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_picks",
+                        "in": "formData",
+                        "description": "New Picks",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_watchlist",
+                        "in": "formData",
+                        "description": "New Adds to Watchlist",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_thumbs_up",
+                        "in": "formData",
+                        "description": "New Thumbs up",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "trending",
+                        "in": "formData",
+                        "description": "Trending",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_stories",
+                        "in": "formData",
+                        "description": "New Stories",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "product_updates",
+                        "in": "formData",
+                        "description": "Product Updates",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "comment_mentions",
+                        "in": "formData",
+                        "description": "Comment Mentions",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "comment_likes",
+                        "in": "formData",
+                        "description": "Comment Likes",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "comment_replies",
+                        "in": "formData",
+                        "description": "Comment Replies",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/user/notification/following": {
             "post": {
                 "tags": [
@@ -561,28 +717,6 @@
                             "0"
                         ]
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                },
-                "security": [
-                    {
-                        "accessToken": []
-                    }
-                ]
-            }
-        },
-        "/user/notification": {
-            "get": {
-                "tags": [
-                    "Account"
-                ],
-                "summary": "Get notification setting",
-                "operationId": "getNotificationSetting",
-                "produces": [
-                    "application/json"
                 ],
                 "responses": {
                     "200": {
