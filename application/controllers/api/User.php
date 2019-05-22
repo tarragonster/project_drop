@@ -280,7 +280,6 @@ class User extends BR_Controller {
 
 		$user_id = $this->user_model->insert($params);
 		$this->user_id = $user_id;
-		$this->db->insert('user_notification_setting', ['user_id' => $user_id]);
 
 		$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
 		if ($avatar != null) {
