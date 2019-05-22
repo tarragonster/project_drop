@@ -17,6 +17,7 @@ function searchUser()
         }
     });
 }
+
 function fillData(time, data) {
     console.log('   time:  ' + time);
     if (lastTime <= time) {
@@ -28,13 +29,13 @@ function fillData(time, data) {
 function searchFilm()
 {
 	var query = $('#search_text').val();
- 	$.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url: "product/search",
-        data: {query:query},
-        success: function(data) {
-            $('#product_table').html(data);
-        }
-    });
+	$.ajax({
+		type: 'GET',
+		dataType: 'json',
+		url: "product/search",
+		data: {query:query},
+		success: function(data) {
+			$('#product_table').html(data);
+		}
+	});
 }
