@@ -216,8 +216,10 @@ class Notify_model extends CI_Model {
 			$user = $this->getUserForNotify($data['user_id']);
 			$user_name = $user['user_name'] . ' ';
 		}
-		foreach ($data as $key => $value) {
-			$template = str_replace("<<$key>>", $value, $template);
+		if ($data != null && is_array($data)) {
+			foreach ($data as $key => $value) {
+				$template = str_replace("<<$key>>", $value, $template);
+			}
 		}
 		if ($type >= 50) {
 			// if(isset($data['season_id'])){
