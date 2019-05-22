@@ -1046,10 +1046,9 @@ class User extends BR_Controller {
 	 *         description="Trending",
 	 *         in="formData",
 	 *         name="trending",
-	 *         required=true,
+	 *         required=false,
 	 *         type="string",
-	 *         enum={"1", "0"},
-	 *         default="1"
+	 *         enum={"1", "0"}
 	 *     ),
 	 *     @SWG\Parameter(
 	 *         description="New Stories",
@@ -1063,10 +1062,9 @@ class User extends BR_Controller {
 	 *         description="Product Updates",
 	 *         in="formData",
 	 *         name="product_updates",
-	 *         required=true,
+	 *         required=false,
 	 *         type="string",
-	 *         enum={"1", "0"},
-	 *         default="1"
+	 *         enum={"1", "0"}
 	 *     ),
 	 *     @SWG\Parameter(
 	 *         description="Comment Mentions",
