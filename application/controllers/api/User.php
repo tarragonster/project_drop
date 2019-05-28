@@ -860,6 +860,7 @@ class User extends BR_Controller {
 	}
 
 	public function removePick_post() {
+		$this->load->model('product_model');
 		$pick_id = $this->c_getNotNull('pick_id');
 		$pick = $this->user_model->getPick($pick_id);
 		if ($pick == null) {
