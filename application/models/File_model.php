@@ -162,8 +162,7 @@ class File_model extends CI_Model {
 		return $thumbPath;
 	}
 
-	public function createThumbV2($pathEncoded, $size) {
-		$path = base64_decode($pathEncoded);
+	public function createThumbV2($path, $pathEncoded, $size) {
 		$pos = strripos($path, '.');
 		$thumbPath = 'media/cache/' . $pathEncoded . '-' . $size . substr($path, $pos);
 		if (!file_exists($thumbPath)) {
