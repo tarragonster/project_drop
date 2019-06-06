@@ -222,19 +222,15 @@ class Notify_model extends CI_Model {
 			}
 		}
 		if ($type >= 50) {
-			// if(isset($data['season_id'])){
-			// 	$season = $this->getSeasonForNotify($data['season_id']);
-			// 	$content = $content.' '.$season['name'];
-			// }
-			if (isset($data['episode_id'])) {
-				$episode = $this->getPartEpisodeForNotify($data['episode_id']);
-				$content = $content . ' part ' . $episode['position'];
-			}
+//			if (isset($data['episode_id'])) {
+//				$episode = $this->getPartEpisodeForNotify($data['episode_id']);
+//				$content = $content . ' part ' . $episode['position'];
+//			}
 			if (isset($data['product_id'])) {
 				$product = $this->getProductForNotify($data['product_id']);
-			}
-			if ($content != '') {
-				$product_name = $content . ' of ' . $product['name'];
+				if ($product != null) {
+					$template = str_replace("<<story_name>>", $product['name'], $template);
+				}
 			}
 		} else {
 			if (isset($data['product_id'])) {
