@@ -379,6 +379,7 @@ class User extends BR_Controller {
 		}
 		
 		$this->load->model('episode_model');
+		$this->load->model('notify_model');
 		$this->episode_model->addRecentlyWatched($this->user_id, $product_id);
 
 		$episode_id = $this->post('episode_id') * 1;
@@ -396,13 +397,13 @@ class User extends BR_Controller {
 					$this->episode_model->update(array('is_watched' => 1), $episode_id);
 					$episodeNext = $this->episode_model->getNextEpisode($episode['position'], $episode['season_id']);
 					if ($episodeNext == null) {
+						$this->notify_model->createNotify($this->user_id, 64, ['episode_id' => $episode_id, 'product_id' => $product_id]);
 						$this->episode_model->removeWatchEpisode($watch['id']);
 					} else {
 						$this->episode_model->updateWatchEpisode(array('episode_id' => $episodeNext['episode_id'], 'start_time' => 0, 'update_time' => time()), $watch['id']);
 					}
 				} else {
 					$this->episode_model->updateWatchEpisode(array('episode_id' => $episode_id, 'start_time' => $time, 'update_time' => time()), $watch['id']);
-					$this->load->model('notify_model');
 					if ($this->post('start_play') == 1) {
 						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', false);
 					}
@@ -412,7 +413,6 @@ class User extends BR_Controller {
 					$product_id = $this->episode_model->getProdutID($episode['season_id']);
 					$this->user_model->update(array('product_id' => $product_id), $this->user_id);
 					$this->episode_model->addWatchEpisode(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id, 'start_time' => $time, 'update_time' => time()));
-					$this->load->model('notify_model');
 					if ($this->post('start_play') == 1) {
 						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', false);
 					}
