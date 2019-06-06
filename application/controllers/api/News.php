@@ -136,23 +136,25 @@ class News extends BR_Controller {
 					$item['content'] = $item['content'] . ' ' . $content . ' of';
 				}
 			} else {
-				$name = '';
-				if (isset($notify['data']['episode_id'])) {
-					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
-					$notify['episode_image'] = $episode['image'];
-					$name = $name . $episode['name'];
-				}
-				if ($name != '') {
-					$item['content'] = $item['content'] . ' ' . $name . ' of';
-				}
+//				$name = '';
+//				if (isset($notify['data']['episode_id'])) {
+//					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
+//					$notify['episode_image'] = $episode['image'];
+//					$name = $name . $episode['name'];
+//				}
+//				if ($name != '') {
+//					$item['content'] = $item['content'] . ' ' . $name . ' of';
+//				}
 				if (isset($notify['data']['product_id'])) {
 					$product = $this->news_model->getProductForNotify($notify['data']['product_id']);
-					$notify['product_image'] = $product != null ? $product['image'] : '';
-					if ($notify['type'] == 54) {
-						$item['content'] = $item['content'] . ' ' . ($product != null ? $product['name'] : '') . ': ';
-					} else {
-						$notify['product_name'] = ($product != null ? $product['name'] : '');
+					if ($product != null) {
+						$notify['product_image'] = $product['image'];
+						$notify['product_name'] = $product['name'];
+						$item['content'] = str_replace("<<story_name>>", $product['name'], $item['content']);
 					}
+//					if ($notify['type'] == 54) {
+//						$item['content'] = $item['content'] . ' ' . ($product != null ? $product['name'] : '') . ': ';
+//					}
 				}
 				if (isset($notify['data']['replies_id'])) {
 					$replies = $this->news_model->getReply($notify['data']['replies_id']);
