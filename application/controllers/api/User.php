@@ -389,7 +389,7 @@ class User extends BR_Controller {
 			$this->episode_model = new Episode_model();
 			$episode = $this->episode_model->getEpisode($episode_id);
 			if ($episode == null || $episode['product_id'] != $product_id) {
-				$this->create_error(-17, 'Unknow episode_id');
+				$this->create_error(-17, 'Unknown episode_id');
 			}
 			$watch = $this->episode_model->getWatchProduct($this->user_id, $product_id);
 			if ($watch != null) {
@@ -397,7 +397,6 @@ class User extends BR_Controller {
 					$this->episode_model->update(array('is_watched' => 1), $episode_id);
 					$episodeNext = $this->episode_model->getNextEpisode($episode['position'], $episode['season_id']);
 					if ($episodeNext == null) {
-						$this->notify_model->createNotify($this->user_id, 64, ['episode_id' => $episode_id, 'product_id' => $product_id]);
 						$this->episode_model->removeWatchEpisode($watch['id']);
 					} else {
 						$this->episode_model->updateWatchEpisode(array('episode_id' => $episodeNext['episode_id'], 'start_time' => 0, 'update_time' => time()), $watch['id']);
@@ -417,6 +416,9 @@ class User extends BR_Controller {
 						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', false);
 					}
 				}
+			}
+			if (abs($time - $episode['total_time']) < 1) {
+				$this->notify_model->createNotify($this->user_id, 64, ['episode_id' => $episode_id, 'product_id' => $product_id]);
 			}
 		} else {
 			//update for trailler
