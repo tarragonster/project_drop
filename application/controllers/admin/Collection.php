@@ -126,10 +126,10 @@ class Collection extends Base_Controller {
 			}
 
 			$this->collection_model->addFilm($params);
-			if ($collection_id == 1) {
-				$this->load->model('notify_model');
-				$this->notify_model->sendToAllUser(59, ['story_name' => $params['name'], 'product_id' => $product_id]);
-			}
+//			if ($collection_id == 1) {
+//				$this->load->model('notify_model');
+//				$this->notify_model->sendToAllUser(59, ['story_name' => $params['name'], 'product_id' => $product_id]);
+//			}
 			redirect('collection/films/' . $collection_id);
 		}
 		redirect('collection');
