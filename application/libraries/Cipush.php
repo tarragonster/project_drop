@@ -79,7 +79,7 @@ class Cipush {
 			log_message('error', 'Message not delivered');
 			return false;
 		} else {
-			log_message('debug', 'Send push notification successfull');
+			log_message('trace', 'Send push notification successful');
 		}
 		return true;
 	}
