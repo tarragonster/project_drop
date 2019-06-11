@@ -111,7 +111,7 @@ class News extends BR_Controller {
 					$notify['user_name'] .= '*' . $user['user_name'];
 					$notify['avatar2'] = $user['avatar'];
 					$notify['user_type2'] = $user['user_type'];
-					$item['content'] = str_replace(" <<username>> ", '*', $item['content']);
+					$item['content'] = str_replace(" <<username>>", '*', $item['content']);
 				}
 
 				if ($item['type'] == 9 && isset($notify['data']['comment_id'])) {
