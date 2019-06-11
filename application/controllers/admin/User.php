@@ -230,9 +230,11 @@ class User extends Base_Controller {
 	}
 
 	public function delete($user_id = '') {
+		$this->load->model('notify_model');
 		$user = $this->user_model->getUserForAdmin($user_id);
 		if ($user != null) {
 			$this->user_model->delete($user_id);
+			$this->notify_model->deleteReference('user', $user_id);
 		}
 		$this->redirect('user');
 	}

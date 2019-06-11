@@ -49,4 +49,10 @@ class Testing extends CI_Controller {
 		$this->notify_model->createNotify($user_id, 55);
 		echo 'Done';
 	}
+
+	public function testNotify($follower_id) {
+		$this->load->model('notify_model');
+		$this->notify_model->createNotify($follower_id, 51, array('user_id' => 564));
+		echo 'Done';
+	}
 }

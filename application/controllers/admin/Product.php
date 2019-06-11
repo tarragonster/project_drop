@@ -416,7 +416,7 @@ class Product extends Base_Controller {
 			$this->session->set_flashdata('error', 'This Film is not exists!');
 			redirect(base_url('product'));
 		} else {
-			$this->session->set_flashdata('msg', 'Delete success!');
+			// Remove product from collections
 			$this->load->model('collection_model');
 			$products = $this->collection_model->getProductsInCollection($product_id);
 			if (count($products)) {
@@ -424,7 +424,14 @@ class Product extends Base_Controller {
 					$this->collection_model->removeFilm($product['collection_id'], $product['product_id'], $product['priority']);
 				}
 			}
+			// Remove reference notification
+			$this->load->model('notify_model');
+			$this->notify_model->deleteReference('user', $user['user_id']);
+
+			// Delete product
 			$this->product_model->deleteProduct($product_id);
+
+			$this->session->set_flashdata('msg', 'Delete success!');
 			return redirect(base_url('product'));
 		}
 	}

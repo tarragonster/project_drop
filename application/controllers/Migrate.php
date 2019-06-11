@@ -23,11 +23,13 @@ class Migrate extends CI_Controller {
 	}
 
 	public function deleteBlocked() {
+		$this->load->model('notify_model');
 		$this->db->from('user');
 		$this->db->where('status <>', 1);
 		$users = $this->db->get()->result_array();
 		foreach ($users as $user) {
 			$this->user_model->delete($user['user_id']);
+			$this->notify_model->deleteReference('user', $user['user_id']);
 		}
 	}
 

@@ -136,15 +136,17 @@ class News extends BR_Controller {
 					$item['content'] = $item['content'] . ' ' . $content . ' of';
 				}
 			} else {
-//				$name = '';
-//				if (isset($notify['data']['episode_id'])) {
-//					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
-//					$notify['episode_image'] = $episode['image'];
-//					$name = $name . $episode['name'];
-//				}
-//				if ($name != '') {
-//					$item['content'] = $item['content'] . ' ' . $name . ' of';
-//				}
+				$episode_name = '';
+				if (isset($notify['data']['episode_id'])) {
+					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
+					if ($episode != null) {
+						$notify['episode_image'] = $episode['image'];
+						$episode_name = $episode_name . $episode['name'];
+					}
+				}
+				if ($episode_name != '' && in_array($notify['type'], [52, 53, 54])) {
+					$item['content'] = $item['content'] . ' on ' . $episode_name . ' of';
+				}
 				if (isset($notify['data']['product_id'])) {
 					$product = $this->news_model->getProductForNotify($notify['data']['product_id']);
 					if ($product != null) {
@@ -152,9 +154,6 @@ class News extends BR_Controller {
 						$notify['product_name'] = $product['name'];
 						$item['content'] = str_replace("<<story_name>>", $product['name'], $item['content']);
 					}
-//					if ($notify['type'] == 54) {
-//						$item['content'] = $item['content'] . ' ' . ($product != null ? $product['name'] : '') . ': ';
-//					}
 				}
 				if (isset($notify['data']['replies_id'])) {
 					$replies = $this->news_model->getReply($notify['data']['replies_id']);

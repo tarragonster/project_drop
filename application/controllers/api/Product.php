@@ -281,7 +281,7 @@ class Product extends BR_Controller {
 		} else {
 			if ($status == 1) {
 				$this->product_model->addProductLike($this->user_id, $product_id);
-				$this->notify_model->createNotifyToFollower($this->user_id, 13, $notifyParams, 'default', false);
+				$this->notify_model->createNotifyToFollower($this->user_id, 13, $notifyParams, 'default', true);
 			}
 		}
 		$response = [

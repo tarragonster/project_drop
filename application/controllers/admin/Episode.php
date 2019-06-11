@@ -150,6 +150,9 @@ class Episode extends Base_Controller {
         $this->db->trans_start();
         $this->episode_model->updatePosition($season_id, $episode['position']);
         $this->episode_model->delete($episode_id);
+
+	    $this->load->model('notify_model');
+	    $this->notify_model->deleteReference('episode', $episode_id);
         $this->db->trans_complete();
         redirect('season/episode/'.$season_id);
     }

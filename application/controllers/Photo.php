@@ -5,7 +5,7 @@ class Photo extends CI_Controller {
 		parent::__construct();
 	}
 
-	public function thumbnail($pathEncode) {
+	public function thumbnail($pathEncode = '') {
 		$filename = base64_decode($pathEncode);
 		$size = $this->input->get('size') * 1;
 		if ($size > 512)

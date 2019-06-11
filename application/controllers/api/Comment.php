@@ -73,7 +73,7 @@ class Comment extends BR_Controller {
 				'season_id' => $episode['season_id'],
 				'product_id' => $product_id
 			];
-			$this->notify_model->createNotifyToFollower($this->user_id, 6, $meta, 'default', false);
+			$this->notify_model->createNotifyToFollower($this->user_id, 6, $meta, 'default', true);
 		} else {
 			if ($comment_id == 0) {
 				$this->create_error(-1000);
@@ -115,7 +115,7 @@ class Comment extends BR_Controller {
 				'comment_id' => $comment_id,
 				'replies_id' => $replies_id
 			];
-			$this->notify_model->createNotifyToFollower($this->user_id, 10, $meta, 'default', false);
+			$this->notify_model->createNotifyToFollower($this->user_id, 10, $meta, 'default', true);
 		}
 		$users = $this->__checkMentioned($content, $this->user_id);
 		if (count($users) > 0) {
@@ -137,7 +137,7 @@ class Comment extends BR_Controller {
 			];
 			foreach ($users as $user) {
 				$meta['uid_comment'] = $user['user_id'];
-				$this->notify_model->createNotifyToFollower($this->user_id, 11, $meta, 'default', false);
+				$this->notify_model->createNotifyToFollower($this->user_id, 11, $meta, 'default', true);
 			}
 		}
 		$comment['num_like'] = 0;
@@ -183,7 +183,7 @@ class Comment extends BR_Controller {
 						'uid_comment' => $comment['user_id'],
 						'comment_id' => $comment_id
 					];
-					$this->notify_model->createNotifyToFollower($this->user_id, 9, $meta, 'default', false);
+					$this->notify_model->createNotifyToFollower($this->user_id, 9, $meta, 'default', true);
 				}
 			} else {
 				$this->comment_model->removeCommentLike($this->user_id, $comment_id);
@@ -247,6 +247,9 @@ class Comment extends BR_Controller {
 		}
 		$comment_id = $this->c_getNotNull('comment_id');
 		$this->user_model->deleteComment($comment_id);
+
+		$this->load->model('notify_model');
+		$this->notify_model->deleteReference('comment', $comment_id);
 		$this->create_success(null);
 	}
 
