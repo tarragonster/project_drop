@@ -286,9 +286,17 @@ class User_model extends BaseModel {
 	public function updateDeviceUser($user_id, $device_id) {
 		if ($this->checkDeviceId($device_id)) {
 			$this->db->where('device_id', $device_id);
-			$this->db->update('device_user', array('user_id' => $user_id, 'last_activity' => time()));
+			$this->db->update('device_user', [
+				'user_id' => $user_id,
+				'last_activity' => time()
+			]);
 		} else {
-			$this->db->insert('device_user', array('user_id' => $user_id, 'device_id' => $device_id, 'last_activity' => time()));
+			$this->db->insert('device_user', [
+				'user_id' => $user_id,
+				'dtype_id' => strlen($device_id) == 36 ? 2 : 1,
+				'regtime' => time(),
+				'device_id' => $device_id,
+				'last_activity' => time()]);
 		}
 	}
 

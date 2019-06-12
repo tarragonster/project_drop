@@ -20,12 +20,22 @@ class User extends BR_Controller {
 		}
 
 		if (!$this->user_model->checkDeviceId($device_id)) {
-			$q = array('dtype_id' => $dtype_id, 'device_id' => $device_id, 'reg_id' => $reg_id,
-				'regtime' => $time, 'last_activity' => $time, 'user_id' => $user_id);
+			$q = [
+				'dtype_id' => $dtype_id,
+				'device_id' => $device_id,
+				'reg_id' => $reg_id,
+				'regtime' => $time,
+				'last_activity' => $time,
+				'user_id' => $user_id
+			];
 
 			$this->db->insert('device_user', $q);
 		} else {
-			$q = array("reg_id" => $reg_id, "last_activity" => $time);
+			$q = [
+				"dtype_id" => $dtype_id,
+				"reg_id" => $reg_id,
+				"last_activity" => $time
+			];
 			if ($user_id != 0) {
 				$q['user_id'] = $user_id;
 			}
