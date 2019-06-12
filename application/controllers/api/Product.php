@@ -24,6 +24,7 @@ class Product extends BR_Controller {
 		$this->load->model('user_model');
 		$product['watchlist_added'] = $this->user_model->checkInWatchList($product_id, $this->user_id * 1) == null ? '0' : '1';
 		$product['num_watching'] = $this->product_model->countUserWatching($product_id);
+		$product['has_like'] = $this->product_model->getUserProductLike($this->user_id, $product_id) != null ? '1' : '0';
 		$product['number_like'] = $this->product_model->countProductLikes($product_id);
 		$this->load->model('season_model');
 		foreach ($seasons as $key => $season) {
