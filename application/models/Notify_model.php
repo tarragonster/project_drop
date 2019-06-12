@@ -392,6 +392,7 @@ class Notify_model extends CI_Model {
 	public function getUserFollow($user_id) {
 		$this->db->select('u.*');
 		$this->db->from('user_follow u');
+		$this->db->where('u.user_id <>', $user_id);
 		$this->db->where('u.follower_id', $user_id);
 		$query = $this->db->get();
 		return $query->result_array();

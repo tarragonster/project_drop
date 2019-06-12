@@ -3,13 +3,13 @@ CREATE TABLE `user_notification_setting` (
   `new_followers` TINYINT(1) NOT NULL DEFAULT '1' ,
   `new_picks` TINYINT(1) NOT NULL DEFAULT '1' ,
   `new_watchlist` TINYINT(1) NOT NULL DEFAULT '1' ,
-  `new_thumbs_up` TINYINT(1) NOT NULL DEFAULT '0' ,
+  `new_thumbs_up` TINYINT(1) NOT NULL DEFAULT '1' ,
   `trending` TINYINT(1) NOT NULL DEFAULT '1' ,
   `new_stories` TINYINT(1) NOT NULL DEFAULT '1' ,
   `product_updates` TINYINT(1) NOT NULL DEFAULT '1' ,
   `comment_mentions` TINYINT(1) NOT NULL DEFAULT '1' ,
   `comment_likes` TINYINT(1) NOT NULL DEFAULT '1' ,
-  `comment_replies` TINYINT(1) NOT NULL DEFAULT '0' ,
+  `comment_replies` TINYINT(1) NOT NULL DEFAULT '1' ,
   PRIMARY KEY (`user_id`)
 ) ENGINE = InnoDB;
 

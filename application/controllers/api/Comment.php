@@ -96,16 +96,18 @@ class Comment extends BR_Controller {
 			$replies_id = $this->comment_model->insertReplies($replyParams);
 			$comment = $this->comment_model->getReplyById($replies_id);
 
-			// Push notification to owner of comment
-			$meta = [
-				'user_id' => $this->user_id,
-				'episode_id' => $check['episode_id'],
-				'season_id' => $episode['season_id'],
-				'product_id' => $product_id,
-				'comment_id' => $comment_id,
-				'replies_id' => $replies_id
-			];
-			$this->notify_model->createNotify($check['user_id'], 54, $meta);
+			// Push notification to owner of comment.
+			if ($this->user_id != $check['user_id']) {
+				$meta = [
+					'user_id' => $this->user_id,
+					'episode_id' => $check['episode_id'],
+					'season_id' => $episode['season_id'],
+					'product_id' => $product_id,
+					'comment_id' => $comment_id,
+					'replies_id' => $replies_id
+				];
+				$this->notify_model->createNotify($check['user_id'], 54, $meta);
+			}
 			$meta = [
 				'user_id' => $this->user_id,
 				'uid_comment' => $check['user_id'],

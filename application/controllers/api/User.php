@@ -451,6 +451,9 @@ class User extends BR_Controller {
 		if (!$this->user_model->checkUid($follower_id)) {
 			$this->create_error(-10);
 		}
+		if ($follower_id == $this->user_id) {
+			$this->create_error(-10, 'You can not follow yourself');
+		}
 		if ($this->user_model->checkFollower($this->user_id, $follower_id)) {
 			$this->user_model->removeFollow($this->user_id, $follower_id);
 			$this->load->model('notify_model');
@@ -476,6 +479,9 @@ class User extends BR_Controller {
 		$this->load->model('notify_model');
 		foreach ($friends as $friend) {
 			$follower_id = $friend['user_id'];
+			if ($follower_id == $this->user_id) {
+				continue;
+			}
 			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
 			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id));
 		}
