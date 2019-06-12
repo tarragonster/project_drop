@@ -603,7 +603,7 @@ class User extends BR_Controller {
 		if (!$this->user_model->checkUid($user_id)) {
 			$this->create_error(-10);
 		}
-		$user = $this->__getUserProfile($user_id);
+		$user = $this->__getUserProfile($user_id, true);
 		$user['is_follow'] = '0';
 		if ($this->user_id != null) {
 			if ($this->user_model->checkFollower($this->user_id, $user_id)) {
