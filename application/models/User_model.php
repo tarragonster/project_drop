@@ -247,6 +247,15 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function getUserListByIds($user_id, $user_ids) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user u');
+		$this->db->where('u.user_id <>', $user_id);
+		$this->db->where_in('u.user_id', $user_ids);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function get10BlockUsers($user_id, $page = -1, $limit = 12) {
 //		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, uf1.user_id as follower_id, uf2.follower_id as following_id , cf.contact_id, fp.user_id as featured_user_id');
 		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar');

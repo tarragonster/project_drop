@@ -401,7 +401,7 @@ class Product extends BR_Controller {
 		if (count($checked_ids) == 0) {
 			$this->create_error(-6, 'Please select your friend');
 		}
-		$users = $this->user_model->getFollowersInList($this->user_id, $checked_ids);
+		$users = $this->user_model->getUserListByIds($this->user_id, $checked_ids);
 		if (count($users) > 0) {
 			$this->load->model('notify_model');
 			$meta = [
