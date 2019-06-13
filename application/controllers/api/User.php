@@ -706,6 +706,62 @@ class User extends BR_Controller {
 		$this->create_success(array('followers' => $followers));
 	}
 
+	/**
+	 * @SWG\Get(
+	 *     path="/user/tenBlockUsers",
+	 *     summary="Register an account",
+	 *     operationId="tenBlockUsers",
+	 *     tags={"Authorization"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Page",
+	 *         in="query",
+	 *         name="page",
+	 *         required=false,
+	 *         type="integer",
+	 *         format="int64",
+	 *         default="0"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Limit",
+	 *         in="query",
+	 *         name="limit",
+	 *         required=false,
+	 *         type="integer",
+	 *         format="int64",
+	 *         default="12"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function tenBlockUsers_get() {
+		$this->validate_authorization();
+		$page = $this->get('page') * 1;
+		$limit = $this->get('limit') * 1;
+		if ($limit <= 0) {
+			$limit = 12;
+		}
+		$response = [];
+		$users = $this->user_model->get10BlockUsers($this->user_id, $page, $limit);
+//		$response['query'] = $this->db->last_query();
+		$following = $this->user_model->getFollowing($this->user_id);
+		$mapped = [];
+		foreach ($following as $follow) {
+			$mapped[] = $follow['follower_id'];
+		}
+		foreach ($users as $key => $user) {
+			$users[$key]['isFollow'] = in_array($user['user_id'], $mapped) ? '1' : '0';
+		}
+		$response['users'] = $users;
+		$this->create_success($response);
+	}
+
 	public function streamingQuality_post() {
 		$page = $this->post('page');
 		$collection = null;

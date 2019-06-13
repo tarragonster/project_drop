@@ -247,6 +247,28 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function get10BlockUsers($user_id, $page = -1, $limit = 12) {
+//		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, uf1.user_id as follower_id, uf2.follower_id as following_id , cf.contact_id, fp.user_id as featured_user_id');
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user u');
+		// Followers user
+		$this->db->join('(select user_id from user_follow where follower_id = ' . $user_id . ') as uf1', 'uf1.user_id = u.user_id', 'left');
+		// Following users
+		$this->db->join('(select follower_id from user_follow where user_id = ' . $user_id . ') as uf2', 'uf2.follower_id = u.user_id', 'left');
+		$this->db->join('(select contact_id from contact_friends where user_id = ' . $user_id . ') as cf ', 'cf.contact_id = u.user_id', 'left');
+		$this->db->join('(select user_id, priority as fp_priority from featured_profiles where status = 1) as fp ', 'fp.user_id = u.user_id', 'left');
+		$this->db->order_by('uf1.user_id', 'desc');
+		$this->db->order_by('uf2.follower_id', 'desc');
+		$this->db->order_by('cf.contact_id', 'desc');
+		$this->db->order_by('fp.user_id', 'desc');
+		$this->db->order_by('u.user_name');
+		if ($page >= 0) {
+			$this->db->limit($limit, $limit * $page);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function countFollowing($user_id) {
 		$this->db->from('user_follow');
 		$this->db->where('user_id', $user_id);
@@ -723,7 +745,6 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-
 	public function hiddenYourPick($pick_id, $is_hidden) {
 		$this->db->where('pick_id', $pick_id);
 		$this->db->update('user_picks', ['is_hidden' => $is_hidden]);
@@ -835,7 +856,7 @@ class User_model extends BaseModel {
 		$this->db->or_where('reference_id', $user_id);
 		$this->db->delete('contact_contacts');
 
-		$this->db->like('data', '"user_id":'.$user_id, 'both');
+		$this->db->like('data', '"user_id":' . $user_id, 'both');
 		$this->db->delete('user_notify');
 
 //		$this->db->where('user_id', $user_id);

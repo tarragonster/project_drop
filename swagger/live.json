@@ -324,6 +324,48 @@
                 ]
             }
         },
+        "/user/tenBlockUsers": {
+            "get": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Register an account",
+                "operationId": "tenBlockUsers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": "0"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": "12"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/user/forgotPassword": {
             "post": {
                 "tags": [
