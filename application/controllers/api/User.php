@@ -709,7 +709,7 @@ class User extends BR_Controller {
 	/**
 	 * @SWG\Get(
 	 *     path="/user/tenBlockUsers",
-	 *     summary="Register an account",
+	 *     summary="Get list 10 Block's user by some priority",
 	 *     operationId="tenBlockUsers",
 	 *     tags={"Authorization"},
 	 *     produces={"application/json"},

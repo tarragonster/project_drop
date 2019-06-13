@@ -329,7 +329,7 @@
                 "tags": [
                     "Authorization"
                 ],
-                "summary": "Register an account",
+                "summary": "Get list 10 Block's user by some priority",
                 "operationId": "tenBlockUsers",
                 "produces": [
                     "application/json"
