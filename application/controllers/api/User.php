@@ -711,7 +711,7 @@ class User extends BR_Controller {
 	 *     path="/user/tenBlockUsers",
 	 *     summary="Get list 10 Block's user by some priority",
 	 *     operationId="tenBlockUsers",
-	 *     tags={"Authorization"},
+	 *     tags={"Contact"},
 	 *     produces={"application/json"},
 	 *     @SWG\Parameter(
 	 *         description="Page",

@@ -327,7 +327,7 @@
         "/user/tenBlockUsers": {
             "get": {
                 "tags": [
-                    "Authorization"
+                    "Contact"
                 ],
                 "summary": "Get list 10 Block's user by some priority",
                 "operationId": "tenBlockUsers",
