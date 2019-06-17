@@ -50,7 +50,7 @@ class Product extends Base_Controller {
 			$params['rate_id'] = $this->input->post('rate_id');
 			$params['creators'] = $this->input->post('creators');
 			$params['status'] = 1;
-			$params['jw_media_id'] = $this->input->post('jw_media_id');
+			$params['jw_media_id'] = trim($this->input->post('jw_media_id'));
 
 			$jw_media_id = $this->input->post('jw_media_id');
 			if (!empty($jw_media_id)) {
@@ -154,7 +154,7 @@ class Product extends Base_Controller {
 			if ($this->input->post('creators') != '')
 				$params['creators'] = $this->input->post('creators');
 
-			$jw_media_id = $this->input->post('jw_media_id');
+			$jw_media_id = trim($this->input->post('jw_media_id'));
 			if (!empty($jw_media_id) && $jw_media_id != $product['jw_media_id']) {
 				$this->load->library('jw_lib');
 				$video = $this->jw_lib->getVideo($jw_media_id);
