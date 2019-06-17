@@ -50,7 +50,7 @@ class Episode extends Base_Controller {
             $params['description'] = $this->input->post('description');
             $params['created'] = time();
             $params['season_id'] = $season_id;
-            $jw_media_id = $this->input->post('jw_media_id');
+            $jw_media_id = trim($this->input->post('jw_media_id'));
 
 			$this->load->library('jw_lib');
 			$video = $this->jw_lib->getVideo($jw_media_id);
@@ -102,7 +102,7 @@ class Episode extends Base_Controller {
             if($this->input->post('description') != '')
                 $params['description'] = $this->input->post('description');
 
-	        $jw_media_id = $this->input->post('jw_media_id');
+	        $jw_media_id = trim($this->input->post('jw_media_id'));
 			if (!empty($jw_media_id) && $jw_media_id != $episode['jw_media_id']) {
 				$this->load->library('jw_lib');
 				$video = $this->jw_lib->getVideo($jw_media_id);
