@@ -51,10 +51,17 @@ class Migrate extends CI_Controller {
 	}
 
 	public function notificationReference() {
+		$this->db->where('max(notify_id) max_notify_id');
+		$this->db->from('notification_references');
+		$item = $this->db->get()->first_row();
+		$notify_id = $item != null ? ($item->max_notify_id) : 0;
+
 		$this->db->select('notify_id, data');
 		$this->db->from('user_notify');
-		$this->db->where('status', 1);
+		$this->db->where('notify_id >', $notify_id);
+		$this->db->limit(1024);
 		$notifies = $this->db->get()->result_array();
+
 		foreach ($notifies as $notify) {
 			$data = json_decode($notify['data'], TRUE);
 			if ($data == null || empty($data)) {
