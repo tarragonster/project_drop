@@ -51,7 +51,7 @@ class Migrate extends CI_Controller {
 	}
 
 	public function notificationReference() {
-		$this->db->where('max(notify_id) max_notify_id');
+		$this->db->select('max(notify_id) max_notify_id');
 		$this->db->from('notification_references');
 		$item = $this->db->get()->first_row();
 		$notify_id = $item != null ? ($item->max_notify_id) : 0;
@@ -80,5 +80,6 @@ class Migrate extends CI_Controller {
 				}
 			}
 		}
+		echo 'Number of notifies: ' . count($notifies);
 	}
 }
