@@ -51,6 +51,7 @@ class Migrate extends CI_Controller {
 	}
 
 	public function notificationReference() {
+		$this->db->select('notify_id, data');
 		$this->db->from('user_notify');
 		$this->db->where('status', 1);
 		$notifies = $this->db->get()->result_array();
