@@ -20,12 +20,22 @@ class User extends BR_Controller {
 		}
 
 		if (!$this->user_model->checkDeviceId($device_id)) {
-			$q = array('dtype_id' => $dtype_id, 'device_id' => $device_id, 'reg_id' => $reg_id,
-				'regtime' => $time, 'last_activity' => $time, 'user_id' => $user_id);
+			$q = [
+				'dtype_id' => $dtype_id,
+				'device_id' => $device_id,
+				'reg_id' => $reg_id,
+				'regtime' => $time,
+				'last_activity' => $time,
+				'user_id' => $user_id
+			];
 
 			$this->db->insert('device_user', $q);
 		} else {
-			$q = array("reg_id" => $reg_id, "last_activity" => $time);
+			$q = [
+				"dtype_id" => $dtype_id,
+				"reg_id" => $reg_id,
+				"last_activity" => $time
+			];
 			if ($user_id != 0) {
 				$q['user_id'] = $user_id;
 			}
@@ -81,7 +91,7 @@ class User extends BR_Controller {
 		if ($user_id == -1) {
 			$this->create_error(-4);
 		}
-
+		$this->user_id = $user_id;
 		$this->user_model->updateDeviceUser($user_id, $device_id);
 		$params = array();
 		$params['last_login'] = $time;
@@ -279,6 +289,7 @@ class User extends BR_Controller {
 		$params['full_name'] = $full_name;
 
 		$user_id = $this->user_model->insert($params);
+		$this->user_id = $user_id;
 
 		$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
 		if ($avatar != null) {
@@ -295,6 +306,7 @@ class User extends BR_Controller {
 		// add in-app notification
 		$this->load->model('notify_model');
 		$this->notify_model->createNotify($user_id, 55);
+		$this->notify_model->createNotify($user_id, 56);
 
 		$this->user_model->update($params, $user_id);
 
@@ -339,7 +351,8 @@ class User extends BR_Controller {
 		}
 		$this->user_model->addWatch(array('product_id' => $product_id, 'user_id' => $this->user_id));
 		$this->load->model('notify_model');
-		$this->notify_model->createNotifyToFollower($this->user_id, 4, array('user_id' => $this->user_id, 'product_id' => $product_id), 'default', false);
+		$notiParams = ['user_id' => $this->user_id, 'product_id' => $product_id, 'story_name' => $product['name']];
+		$this->notify_model->createNotifyToFollower($this->user_id, 4, $notiParams, 'default', true);
 		$this->create_success(null);
 	}
 
@@ -349,16 +362,17 @@ class User extends BR_Controller {
 			$this->create_error(-10);
 		}
 		$product_id = $this->c_getNotNull('product_id');
-		if ($product_id == 0) {
-
-		} else {
-			$this->load->model('product_model');
-			$product = $this->product_model->checkProduct($product_id);
-			if (!$product) {
-				$this->create_error(-35);
-			}
+		$this->load->model('product_model');
+		$product = $this->product_model->checkProduct($product_id);
+		if (!$product) {
+			$this->create_error(-35);
 		}
 		$this->user_model->removeWatchList($this->user_id, $product_id);
+		// Remove notification
+		$this->load->model('notify_model');
+		$notiParams = ['user_id' => $this->user_id, 'product_id' => $product_id, 'story_name' => $product['name']];
+		$this->notify_model->removeNotify(0, 4, $notiParams);
+
 		$this->create_success(null);
 	}
 
@@ -376,6 +390,7 @@ class User extends BR_Controller {
 		}
 		
 		$this->load->model('episode_model');
+		$this->load->model('notify_model');
 		$this->episode_model->addRecentlyWatched($this->user_id, $product_id);
 
 		$episode_id = $this->post('episode_id') * 1;
@@ -385,7 +400,7 @@ class User extends BR_Controller {
 			$this->episode_model = new Episode_model();
 			$episode = $this->episode_model->getEpisode($episode_id);
 			if ($episode == null || $episode['product_id'] != $product_id) {
-				$this->create_error(-17, 'Unknow episode_id');
+				$this->create_error(-17, 'Unknown episode_id');
 			}
 			$watch = $this->episode_model->getWatchProduct($this->user_id, $product_id);
 			if ($watch != null) {
@@ -399,9 +414,8 @@ class User extends BR_Controller {
 					}
 				} else {
 					$this->episode_model->updateWatchEpisode(array('episode_id' => $episode_id, 'start_time' => $time, 'update_time' => time()), $watch['id']);
-					$this->load->model('notify_model');
 					if ($this->post('start_play') == 1) {
-						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', false);
+						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', true);
 					}
 				}
 			} else {
@@ -409,11 +423,13 @@ class User extends BR_Controller {
 					$product_id = $this->episode_model->getProdutID($episode['season_id']);
 					$this->user_model->update(array('product_id' => $product_id), $this->user_id);
 					$this->episode_model->addWatchEpisode(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id, 'start_time' => $time, 'update_time' => time()));
-					$this->load->model('notify_model');
 					if ($this->post('start_play') == 1) {
-						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', false);
+						$this->notify_model->createNotifyToFollower($this->user_id, 1, array('user_id' => $this->user_id, 'product_id' => $product_id, 'episode_id' => $episode_id), 'default', true);
 					}
 				}
+			}
+			if (abs($time - $episode['total_time']) < 1) {
+				$this->notify_model->createNotify($this->user_id, 64, ['episode_id' => $episode_id, 'product_id' => $product_id]);
 			}
 		} else {
 			//update for trailler
@@ -445,6 +461,9 @@ class User extends BR_Controller {
 		if (!$this->user_model->checkUid($follower_id)) {
 			$this->create_error(-10);
 		}
+		if ($follower_id == $this->user_id) {
+			$this->create_error(-10, 'You can not follow yourself');
+		}
 		if ($this->user_model->checkFollower($this->user_id, $follower_id)) {
 			$this->user_model->removeFollow($this->user_id, $follower_id);
 			$this->load->model('notify_model');
@@ -453,7 +472,7 @@ class User extends BR_Controller {
 			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
 			$this->load->model('notify_model');
 			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id));
-			$this->notify_model->createNotifyToFollower($this->user_id, 12, array('user_id' => $this->user_id, 'uid_comment' => $follower_id), 'default', false);
+			$this->notify_model->createNotifyToFollower($this->user_id, 12, array('user_id' => $this->user_id, 'uid_comment' => $follower_id), 'default', true);
 		}
 		$this->create_success(null);
 	}
@@ -470,8 +489,11 @@ class User extends BR_Controller {
 		$this->load->model('notify_model');
 		foreach ($friends as $friend) {
 			$follower_id = $friend['user_id'];
+			if ($follower_id == $this->user_id) {
+				continue;
+			}
 			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
-			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id), false);
+			$this->notify_model->createNotify($follower_id, 51, array('user_id' => $this->user_id));
 		}
 		$this->create_success(null);
 	}
@@ -494,17 +516,19 @@ class User extends BR_Controller {
 		if ($isCheck == -1) {
 			$this->user_model->addLike(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'status' => $status));
 			if ($status == 1) {
-				$this->notify_model->createNotifyToFollower($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), 'default', false);
+				$this->notify_model->createNotifyToFollower($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), 'default', true);
 			} else {
-				$this->notify_model->createNotifyToFollower($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), 'default', false);
+				$this->notify_model->createNotifyToFollower($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), 'default', true);
 			}
 		} else {
 			if ($isCheck != $status) {
 				$this->user_model->updateLike($episode_id, $this->user_id, $status);
 				if ($status == 1) {
-					$this->notify_model->updateNotify($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 2, 'content' => Notify_model::$templates[2], 'timestamp' => time()));
+					$template = Notify_model::$templates[2];
+					$this->notify_model->updateNotify($this->user_id, 3, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 2, 'content' => $template['formatted'], 'timestamp' => time()));
 				} else {
-					$this->notify_model->updateNotify($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 3, 'content' => Notify_model::$templates[3], 'timestamp' => time()));
+					$template = Notify_model::$templates[3];
+					$this->notify_model->updateNotify($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), array('type' => 3, 'content' => $template['formatted'], 'timestamp' => time()));
 				}
 			} else {
 				$this->user_model->deleteLike($episode_id, $this->user_id);
@@ -595,7 +619,7 @@ class User extends BR_Controller {
 		if (!$this->user_model->checkUid($user_id)) {
 			$this->create_error(-10);
 		}
-		$user = $this->__getUserProfile($user_id);
+		$user = $this->__getUserProfile($user_id, true);
 		$user['is_follow'] = '0';
 		if ($this->user_id != null) {
 			if ($this->user_model->checkFollower($this->user_id, $user_id)) {
@@ -680,6 +704,62 @@ class User extends BR_Controller {
 			}
 		}
 		$this->create_success(array('followers' => $followers));
+	}
+
+	/**
+	 * @SWG\Get(
+	 *     path="/user/tenBlockUsers",
+	 *     summary="Get list 10 Block's user by some priority",
+	 *     operationId="tenBlockUsers",
+	 *     tags={"Contact"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Page",
+	 *         in="query",
+	 *         name="page",
+	 *         required=false,
+	 *         type="integer",
+	 *         format="int64",
+	 *         default="0"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Limit",
+	 *         in="query",
+	 *         name="limit",
+	 *         required=false,
+	 *         type="integer",
+	 *         format="int64",
+	 *         default="12"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function tenBlockUsers_get() {
+		$this->validate_authorization();
+		$page = $this->get('page') * 1;
+		$limit = $this->get('limit') * 1;
+		if ($limit <= 0) {
+			$limit = 12;
+		}
+		$response = [];
+		$users = $this->user_model->get10BlockUsers($this->user_id, $page, $limit);
+//		$response['query'] = $this->db->last_query();
+		$following = $this->user_model->getFollowing($this->user_id);
+		$mapped = [];
+		foreach ($following as $follow) {
+			$mapped[] = $follow['follower_id'];
+		}
+		foreach ($users as $key => $user) {
+			$users[$key]['isFollow'] = in_array($user['user_id'], $mapped) ? '1' : '0';
+		}
+		$response['users'] = $users;
+		$this->create_success($response);
 	}
 
 	public function streamingQuality_post() {
@@ -833,7 +913,11 @@ class User extends BR_Controller {
 				'created_at' => time(),
 			];
 			$pick_id = $this->user_model->insertPick($params);
+			$this->load->model('notify_model');
+			$notiParams = ['user_id' => $this->user_id, 'product_id' => $product_id, 'story_name' => $product['name']];
+			$this->notify_model->createNotifyToFollower($this->user_id, 15, $notiParams, 'default', true);
 		}
+		$this->product_model->putProductUserReview($this->user_id, $product_id, 1);
 		$this->create_success(['pick' => $this->user_model->getPick($pick_id)]);
 	}
 
@@ -851,12 +935,19 @@ class User extends BR_Controller {
 	}
 
 	public function removePick_post() {
+		$this->load->model('product_model');
+		$this->load->model('notify_model');
 		$pick_id = $this->c_getNotNull('pick_id');
 		$pick = $this->user_model->getPick($pick_id);
 		if ($pick == null) {
 			$this->create_error(-1005);
 		}
 		$this->user_model->removePick($pick['pick_id']);
+		$product = $this->product_model->get($pick['product_id']);
+		if ($product != null) {
+			$notiParams = ['user_id' => $this->user_id, 'product_id' => $pick['product_id'], 'story_name' => $product['name']];
+			$this->notify_model->removeNotify(0, 15, $notiParams);
+		}
 		$this->create_success();
 	}
 
@@ -987,5 +1078,288 @@ class User extends BR_Controller {
 		$params['username'] = 'Cuong Do';
 		$this->load->model("email_model");
 		$this->email_model->welcome($email, $params);
+	}
+
+	/**
+	 * @SWG\Post(
+	 *     path="/user/notification",
+	 *     summary="Submit notification setting",
+	 *     operationId="postNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="New Followers",
+	 *         in="formData",
+	 *         name="new_followers",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Picks",
+	 *         in="formData",
+	 *         name="new_picks",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Adds to Watchlist",
+	 *         in="formData",
+	 *         name="new_watchlist",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Thumbs up",
+	 *         in="formData",
+	 *         name="new_thumbs_up",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Trending",
+	 *         in="formData",
+	 *         name="trending",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Stories",
+	 *         in="formData",
+	 *         name="new_stories",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Product Updates",
+	 *         in="formData",
+	 *         name="product_updates",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Mentions",
+	 *         in="formData",
+	 *         name="comment_mentions",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Likes",
+	 *         in="formData",
+	 *         name="comment_likes",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Replies",
+	 *         in="formData",
+	 *         name="comment_replies",
+	 *         required=false,
+	 *         type="string",
+	 *         enum={"1", "0"}
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	/**
+	 * @SWG\Post(
+	 *     path="/user/notification/following",
+	 *     summary="Submit following notification setting",
+	 *     operationId="followingNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="New Followers",
+	 *         in="formData",
+	 *         name="new_followers",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Picks",
+	 *         in="formData",
+	 *         name="new_picks",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Adds to Watchlist",
+	 *         in="formData",
+	 *         name="new_watchlist",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Thumbs up",
+	 *         in="formData",
+	 *         name="new_thumbs_up",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="0"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+
+	/**
+	 * @SWG\Post(
+	 *     path="/user/notification/app",
+	 *     summary="Submit app notification setting",
+	 *     operationId="appNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Trending",
+	 *         in="formData",
+	 *         name="trending",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="New Stories",
+	 *         in="formData",
+	 *         name="new_stories",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Product Updates",
+	 *         in="formData",
+	 *         name="product_updates",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+
+	/**
+	 * @SWG\Post(
+	 *     path="/user/notification/comment",
+	 *     summary="Submit comment notification setting",
+	 *     operationId="commentNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Comment Mentions",
+	 *         in="formData",
+	 *         name="comment_mentions",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Likes",
+	 *         in="formData",
+	 *         name="comment_likes",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Comment Replies",
+	 *         in="formData",
+	 *         name="comment_replies",
+	 *         required=true,
+	 *         type="string",
+	 *         enum={"1", "0"},
+	 *         default="0"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function notification_post($group = '') {
+		$this->validate_authorization();
+		$settings = $this->user_model->getNotificationSetting($this->user_id);
+		$data = $this->post();
+		$params = [];
+		foreach (NOTIFICATION_KEYS as $key) {
+			if (isset($data[$key]) && is_numeric($data[$key])) {
+				$params[$key] = $data[$key];
+			}
+		}
+		if (count($params) > 0) {
+			if ($settings == null) {
+				$params['user_id'] = $this->user_id;
+				$this->db->insert('user_notification_setting', $params);
+			} else {
+				$this->db->where('user_id', $this->user_id);
+				$this->db->update('user_notification_setting', $params);
+			}
+		}
+
+		$response = array();
+		$response['notification'] = $this->user_model->getNotificationSetting($this->user_id);
+		$this->create_success($response);
+	}
+
+	/**
+	 * @SWG\Get(
+	 *     path="/user/notification",
+	 *     summary="Get notification setting",
+	 *     operationId="getNotificationSetting",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function notification_get() {
+		$this->validate_authorization();
+		$response['notification'] = $this->user_model->getNotificationSetting($this->user_id);
+		$this->create_success($response);
 	}
 }

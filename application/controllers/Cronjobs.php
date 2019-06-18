@@ -27,4 +27,16 @@ class Cronjobs extends Base_Controller {
 		log_message('trace', 'Number of videos: ' . count($videos));
 	}
 
+	// Per 15 mins
+	public function welcome() {
+		$users = $this->db
+			->select('user_id, full_name')
+			->where('joined >', time() - 3 * 3600)
+			->where('joined <', time() - 3 * 3600 + 900) // From 2h45 -> 3h ago
+			->where('status', 1)
+			->get('user')->result_array();
+		$this->load->model('notify_model');
+		$this->notify_model->createNotifyMany($users, 56, []);
+	}
+
 }

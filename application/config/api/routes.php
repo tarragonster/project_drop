@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //product
 $route['product/(:num)'] = 'product/get/$1';
+$route['product/(:num)/share'] = 'product/share/$1';
 $route['collection/list'] = 'collection/list';
 
 //actor

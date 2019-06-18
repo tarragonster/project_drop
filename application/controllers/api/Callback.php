@@ -46,6 +46,6 @@ class Callback extends BR_Controller {
 			], $user['user_id']);
 		}
 
-		$this->create_error(-40, 'Unknow');
+		$this->create_error(-40, 'Unknown');
 	}
 }

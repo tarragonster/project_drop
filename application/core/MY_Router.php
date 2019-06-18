@@ -6,7 +6,6 @@ class MY_Router extends CI_Router {
 	public function __construct() {
 		$HTTP_HOST = str_replace('www.', '', $_SERVER['HTTP_HOST']);
 		$first_uri = explode('.', $HTTP_HOST)[0];
-
 		if ($first_uri == 'admin') {
 			$this->group = 'admin';
 		} else if ($first_uri == 'swagger') {

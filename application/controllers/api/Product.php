@@ -14,6 +14,7 @@ class Product extends BR_Controller {
 		if ($this->user_id == null) {
 			$product['start_time'] = 0;
 		} else {
+			$product['review_info'] = $this->product_model->getProductUserReview($this->user_id, $product_id);
 			$product['start_time'] = $this->product_model->getProductContinue($this->user_id, $product_id);
 		}
 		$product['musics'] = $this->product_model->getListMusic($product_id);
@@ -23,6 +24,7 @@ class Product extends BR_Controller {
 		$this->load->model('user_model');
 		$product['watchlist_added'] = $this->user_model->checkInWatchList($product_id, $this->user_id * 1) == null ? '0' : '1';
 		$product['num_watching'] = $this->product_model->countUserWatching($product_id);
+		$product['has_like'] = $this->product_model->getUserProductLike($this->user_id, $product_id) != null ? '1' : '0';
 		$product['number_like'] = $this->product_model->countProductLikes($product_id);
 		$this->load->model('season_model');
 		foreach ($seasons as $key => $season) {
@@ -91,7 +93,31 @@ class Product extends BR_Controller {
 		$captions = $this->jw_lib->getVideoCaptions($product['jw_media_id']);
 		$this->create_success(['captions' => $captions]);
 	}
-
+	/**
+	 * @SWG\Get(
+	 *     path="/product/episode/{episode_id}",
+	 *     summary="Get Episode detail",
+	 *     operationId="getEpisodeDetail",
+	 *     tags={"Episode"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Episode ID",
+	 *         in="path",
+	 *         name="episode_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="1"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function episode_get($episode_id) {
 		$this->load->model('episode_model');
 		$episode = $this->episode_model->getEpisode($episode_id);
@@ -165,6 +191,7 @@ class Product extends BR_Controller {
 		$episode['num_comment'] = $this->episode_model->countComment($episode['episode_id']) + $this->episode_model->countAllSubComment($episode['episode_id']);
 
 		if ($this->user_id != null) {
+			$episode['review_info'] = $this->product_model->getProductUserReview($this->user_id, $episode['product_id']);
 			$episode['has_like'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 1);
 			$episode['has_dislike'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 0);
 			foreach ($comments as $key => $comment) {
@@ -234,8 +261,6 @@ class Product extends BR_Controller {
 		$this->create_success(['recently' => $recently]);
 	}
 
-
-
 	public function like_post() {
 		$this->validate_authorization();
 		$product_id = $this->c_getNotNull('product_id');
@@ -246,19 +271,148 @@ class Product extends BR_Controller {
 			$this->create_error(-17);
 		}
 		$userLike = $this->product_model->getUserProductLike($this->user_id, $product_id);
+
+		$this->load->model('notify_model');
+		$notifyParams = ['user_id' => $this->user_id, 'product_id' => $product_id, 'story_name' => $product['name']];
 		if ($userLike) {
 			if ($status == 0) {
 				$this->product_model->removeProductLike($this->user_id, $product_id);
+				$this->notify_model->removeNotify(0, 13, $notifyParams);
 			}
 		} else {
 			if ($status == 1) {
 				$this->product_model->addProductLike($this->user_id, $product_id);
+				$this->notify_model->createNotifyToFollower($this->user_id, 13, $notifyParams, 'default', true);
 			}
 		}
 		$response = [
 			'number_like' => $this->product_model->countProductLikes($product_id)
 		];
 		$this->create_success($response);
+	}
+
+	/**
+	 * @SWG\Post(
+	 *     path="/product/reviewStatus/{product_id}",
+	 *     summary="Save review status",
+	 *     operationId="productReviewStatus",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="1"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Has Reviewed",
+	 *         in="formData",
+	 *         name="has_reviewed",
+	 *         required=true,
+	 *         type="number",
+	 *         enum={"1", "0"},
+	 *         default="0"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function reviewStatus_post($product_id) {
+		$this->validate_authorization();
+		$product = $this->product_model->get($product_id);
+		$has_reviewed = $this->c_getNumberNotNull('has_reviewed');
+		if ($product == null) {
+			$this->create_error(-77);
+		}
+		$this->product_model->putProductUserReview($this->user_id, $product_id, $has_reviewed);
+		$this->create_success();
+	}
+
+	/**
+	 * @SWG\Post(
+	 *     path="/product/{product_id}/share",
+	 *     summary="Share story with 10 block friends",
+	 *     operationId="share-story",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     consumes={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *     ),
+	 *     @SWG\Parameter(
+	 *          name="body",
+	 *          in="body",
+	 *          description="Sending message",
+	 *          required=true,
+	 *          @SWG\Schema(
+	 *              @SWG\Property(
+	 *                  property="message",
+	 *                  type="string",
+	 *              ),
+	 *              @SWG\Property(
+	 *                  property="user_ids",
+	 *                  type="array",
+	 *                  @SWG\Items (
+	 *                      type="integer",
+	 *                      format="int64"
+	 *                  )
+	 *              )
+	 *          )
+	 *     ),
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     }
+	 * )
+	 */
+	public function share_post($product_id) {
+		$product = $this->product_model->get($product_id);
+		if ($product == null) {
+			$this->create_error(-17);
+		}
+		$message = $this->c_getNotNull('message');
+		$friend_ids = $this->post('user_ids');
+		if (!is_array($friend_ids)) {
+			$this->create_error(-6, 'Please select your friend');
+		}
+		$checked_ids = [];
+		foreach ($friend_ids as $friend_id) {
+			if (is_numeric($friend_id)) {
+				$checked_ids[]= $friend_id;
+			}
+		}
+
+		if (count($checked_ids) == 0) {
+			$this->create_error(-6, 'Please select your friend');
+		}
+		$users = $this->user_model->getUserListByIds($this->user_id, $checked_ids);
+		if (count($users) > 0) {
+			$this->load->model('notify_model');
+			$meta = [
+				'user_id' => $this->user_id,
+				'product_id' => $product_id,
+				'message' => $message,
+				'story_name' => $product['name'],
+			];
+			$this->notify_model->createNotifyMany($users, 57, $meta);
+		}
+		$this->create_success();
 	}
 
 }

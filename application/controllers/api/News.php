@@ -9,7 +9,23 @@ class News extends BR_Controller {
 		$this->load->model('news_model');
 		$this->load->model('user_model');
 	}
-
+	/**
+	 * @SWG\Get(
+	 *     path="/news/get",
+	 *     summary="Get notification",
+	 *     operationId="get-notifications",
+	 *     tags={"New"},
+	 *     produces={"application/json"},
+	 *     consumes={"application/json"},
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     }
+	 * )
+	 */
 	public function get_get() {
 		$this->validate_authorization();
 		$news = array();
@@ -69,6 +85,10 @@ class News extends BR_Controller {
 		$notify['has_followed'] = '0';
 
 		if ($notify['data'] != null) {
+			foreach ($notify['data'] as $key => $value) {
+				$item['content'] = str_replace("<<$key>>", $value, $item['content']);
+			}
+
 			if (isset($notify['data']['user_id'])) {
 				$user = $this->news_model->getUserForNotify($notify['data']['user_id']);
 				if ($user == null) {
@@ -91,7 +111,7 @@ class News extends BR_Controller {
 					$notify['user_name'] .= '*' . $user['user_name'];
 					$notify['avatar2'] = $user['avatar'];
 					$notify['user_type2'] = $user['user_type'];
-					$item['content'] = str_replace(" <<username>> ", '*', $item['content']);
+					$item['content'] = str_replace(" <<username>>", '*', $item['content']);
 				}
 
 				if ($item['type'] == 9 && isset($notify['data']['comment_id'])) {
@@ -116,22 +136,23 @@ class News extends BR_Controller {
 					$item['content'] = $item['content'] . ' ' . $content . ' of';
 				}
 			} else {
-				$name = '';
+				$episode_name = '';
 				if (isset($notify['data']['episode_id'])) {
 					$episode = $this->news_model->getPartEpisodeForNotify($notify['data']['episode_id']);
-					$notify['episode_image'] = $episode['image'];
-					$name = $name . $episode['name'];
+					if ($episode != null) {
+						$notify['episode_image'] = $episode['image'];
+						$episode_name = $episode_name . $episode['name'];
+					}
 				}
-				if ($name != '') {
-					$item['content'] = $item['content'] . ' ' . $name . ' of';
+				if ($episode_name != '' && in_array($notify['type'], [52, 53, 54])) {
+					$item['content'] = $item['content'] . ' on ' . $episode_name . ' of';
 				}
 				if (isset($notify['data']['product_id'])) {
 					$product = $this->news_model->getProductForNotify($notify['data']['product_id']);
-					$notify['product_image'] = $product != null ? $product['image'] : '';
-					if ($notify['type'] == 54) {
-						$item['content'] = $item['content'] . ' ' . ($product != null ? $product['name'] : '') . ': ';
-					} else {
-						$notify['product_name'] = ($product != null ? $product['name'] : '');
+					if ($product != null) {
+						$notify['product_image'] = $product['image'];
+						$notify['product_name'] = $product['name'];
+						$item['content'] = str_replace("<<story_name>>", $product['name'], $item['content']);
 					}
 				}
 				if (isset($notify['data']['replies_id'])) {

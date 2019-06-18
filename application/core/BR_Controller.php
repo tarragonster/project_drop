@@ -270,24 +270,27 @@ class BR_Controller extends REST_Controller {
 		return null;
 	}
 
-	public function __getUserProfile($user_id) {
+	public function __getUserProfile($user_id, $publicProfile = false) {
 		$profile = $this->user_model->getProfileUser($user_id);
 		$profile['num_following'] = $this->user_model->countFollowing($user_id);
 		$profile['num_followers'] = $this->user_model->countFollowers($user_id);
 		$this->load->model('news_model');
 		$profile['num_news'] = $this->news_model->countNotification($this->user_id);
+		if ($this->user_id == $user_id) {
+			$profile['notification'] = $this->user_model->getNotificationSetting($this->user_id);
+		}
 
 		$configs = $this->user_model->getProfileConfigs($user_id);
 		$profile['configs'] = $configs;
 
 		$this->load->model('product_model');
-		if ($this->user_id == $user_id || $configs['picks_enabled'] == 1) {
-			$profile['your_picks'] = $this->user_model->getUserPicks($user_id, $this->user_id == $user_id);
+		if (!$publicProfile || $configs['picks_enabled'] == 1) {
+			$profile['your_picks'] = $this->user_model->getUserPicks($user_id, !$publicProfile);
 		} else {
 			$profile['your_picks'] = [];
 		}
-		if ($this->user_id == $user_id || $configs['continue_enabled'] == 1) {
-			$continue_watching = $this->user_model->getListContinue($user_id, -1, $this->user_id == $user_id);
+		if (!$publicProfile || $configs['continue_enabled'] == 1) {
+			$continue_watching = $this->user_model->getListContinue($user_id, -1, !$publicProfile);
 
 			if (is_array($continue_watching)) {
 				foreach ($continue_watching as &$cwItem) {
@@ -302,13 +305,13 @@ class BR_Controller extends REST_Controller {
 		} else {
 			$profile['continue_watching'] = [];
 		}
-		if ($this->user_id == $user_id || $configs['watch_enabled'] == 1) {
-			$profile['watch_list'] =  $this->user_model->getListWatching($user_id, -1, $this->user_id == $user_id);
+		if (!$publicProfile || $configs['watch_enabled'] == 1) {
+			$profile['watch_list'] =  $this->user_model->getListWatching($user_id, -1, !$publicProfile);
 		} else {
 			$profile['watch_list'] = [];
 		}
-		if ($this->user_id == $user_id || $configs['thumbs_up_enabled'] == 1) {
-			$profile['thumbs_up'] =  $this->user_model->getProductThumbUpList($user_id, -1, $this->user_id == $user_id);
+		if (!$publicProfile || $configs['thumbs_up_enabled'] == 1) {
+			$profile['thumbs_up'] =  $this->user_model->getProductThumbUpList($user_id, -1, !$publicProfile);
 		} else {
 			$profile['thumbs_up'] = [];
 		}

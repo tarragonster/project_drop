@@ -199,7 +199,7 @@ class Episode_model extends BaseModel {
 			$this->db->where('product_id', $product_id);
 			$this->db->update('watched', ['updated_at' => time()]);
 		} else {
-			$this->db->insert('watched', ['user_id' => $user_id, 'product_id'=> $product_id, 'updated_at' => time()]);
+			$this->db->insert('watched', ['user_id' => $user_id, 'product_id' => $product_id, 'updated_at' => time()]);
 		}
 	}
 
