@@ -49,4 +49,28 @@ class Migrate extends CI_Controller {
 			$this->db->insert('user_notification_setting', ['user_id' => $user['user_id']]);
 		}
 	}
+
+	public function notificationReference() {
+		$this->db->from('user_notify');
+		$this->db->where('status', 1);
+		$notifies = $this->db->get()->result_array();
+		foreach ($notifies as $notify) {
+			$data = json_decode($notify['data'], TRUE);
+			if ($data == null || empty($data)) {
+				return;
+			}
+			$reference_types = ['user' => 'user', 'product' => 'product', 'episode' => 'episode', 'comment' => 'comment', 'follower' => 'user', 'uid' => 'user'];
+			foreach ($data as $key => $value) {
+				foreach ($reference_types as $type => $mappedType) {
+					if (startsWith($key, $type)) {
+						$this->db->insert('notification_references', [
+							'refer_type' => $mappedType,
+							'notify_id' => $notify['notify_id'],
+							'refer_id' => $value,
+						]);
+					}
+				}
+			}
+		}
+	}
 }
