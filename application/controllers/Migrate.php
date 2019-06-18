@@ -65,7 +65,7 @@ class Migrate extends CI_Controller {
 		foreach ($notifies as $notify) {
 			$data = json_decode($notify['data'], TRUE);
 			if ($data == null || empty($data)) {
-				return;
+				continue;
 			}
 			$reference_types = ['user' => 'user', 'product' => 'product', 'episode' => 'episode', 'comment' => 'comment', 'follower' => 'user', 'uid' => 'user'];
 			foreach ($data as $key => $value) {
