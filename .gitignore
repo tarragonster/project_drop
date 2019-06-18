@@ -3,3 +3,4 @@ application/cache/ci_session*
 .idea
 assets/less
 application/logs
+swagger/local.json

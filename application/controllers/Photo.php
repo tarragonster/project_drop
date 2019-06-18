@@ -5,7 +5,7 @@ class Photo extends CI_Controller {
 		parent::__construct();
 	}
 
-	public function thumbnail($pathEncode) {
+	public function thumbnail($pathEncode = '') {
 		$filename = base64_decode($pathEncode);
 		$size = $this->input->get('size') * 1;
 		if ($size > 512)
@@ -18,7 +18,7 @@ class Photo extends CI_Controller {
 		}
 
 		$this->load->model('file_model');
-		$thumbFile = $this->file_model->createThumbV2($pathEncode, $size);
+		$thumbFile = $this->file_model->createThumbV2($filename, $pathEncode, $size);
 		if (!file_exists($thumbFile) || !is_file($thumbFile) || !getimagesize($thumbFile)) {
 			// Not an image, or file doesn't exist. Redirect user
 			header("Location: " . base_url($filename));

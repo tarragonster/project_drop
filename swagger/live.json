@@ -1,0 +1,788 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Api for SecondScreen App.",
+        "version": "1.0.0"
+    },
+    "host": "api.10block.com",
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/contact/skip": {
+            "post": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "skip Sync Contact",
+                "operationId": "skipSyncContact",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/news/get": {
+            "get": {
+                "tags": [
+                    "New"
+                ],
+                "summary": "Get notification",
+                "operationId": "get-notifications",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/episode/{episode_id}": {
+            "get": {
+                "tags": [
+                    "Episode"
+                ],
+                "summary": "Get Episode detail",
+                "operationId": "getEpisodeDetail",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "episode_id",
+                        "in": "path",
+                        "description": "Episode ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/reviewStatus/{product_id}": {
+            "post": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Save review status",
+                "operationId": "productReviewStatus",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "1"
+                    },
+                    {
+                        "name": "has_reviewed",
+                        "in": "formData",
+                        "description": "Has Reviewed",
+                        "required": true,
+                        "type": "number",
+                        "default": "0",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/{product_id}/share": {
+            "post": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Share story with 10 block friends",
+                "operationId": "share-story",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Sending message",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                },
+                                "user_ids": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "format": "int64"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Login via email",
+                "operationId": "login",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "User email",
+                        "required": true,
+                        "type": "string",
+                        "default": "email@example.com"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Password",
+                        "required": true,
+                        "type": "string",
+                        "default": "123456"
+                    },
+                    {
+                        "name": "device_id",
+                        "in": "formData",
+                        "description": "Device ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/user/registerProfile": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Register an account",
+                "operationId": "registerProfile",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_name",
+                        "in": "formData",
+                        "description": "User Name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "full_name",
+                        "in": "formData",
+                        "description": "Full Name",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "User email",
+                        "required": true,
+                        "type": "string",
+                        "default": "email@example.com"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "Password",
+                        "required": true,
+                        "type": "string",
+                        "default": "123456"
+                    },
+                    {
+                        "name": "device_id",
+                        "in": "formData",
+                        "description": "Device ID",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "access_token",
+                        "in": "formData",
+                        "description": "Facebook access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "google_id",
+                        "in": "formData",
+                        "description": "Google ID",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/user/profile": {
+            "get": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Get user profile",
+                "operationId": "profile",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/tenBlockUsers": {
+            "get": {
+                "tags": [
+                    "Contact"
+                ],
+                "summary": "Get list 10 Block's user by some priority",
+                "operationId": "tenBlockUsers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": "0"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "default": "12"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/forgotPassword": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "forgotPassword",
+                "operationId": "forgotPassword",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "description": "User email",
+                        "required": true,
+                        "type": "string",
+                        "default": "email@example.com"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/user/subscription": {
+            "post": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Create a subscription",
+                "operationId": "subscription",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "stripe_token",
+                        "in": "formData",
+                        "description": "Stripe Token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/notification": {
+            "get": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Get notification setting",
+                "operationId": "getNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Submit notification setting",
+                "operationId": "postNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "new_followers",
+                        "in": "formData",
+                        "description": "New Followers",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_picks",
+                        "in": "formData",
+                        "description": "New Picks",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_watchlist",
+                        "in": "formData",
+                        "description": "New Adds to Watchlist",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_thumbs_up",
+                        "in": "formData",
+                        "description": "New Thumbs up",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "trending",
+                        "in": "formData",
+                        "description": "Trending",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_stories",
+                        "in": "formData",
+                        "description": "New Stories",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "product_updates",
+                        "in": "formData",
+                        "description": "Product Updates",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "comment_mentions",
+                        "in": "formData",
+                        "description": "Comment Mentions",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "comment_likes",
+                        "in": "formData",
+                        "description": "Comment Likes",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "comment_replies",
+                        "in": "formData",
+                        "description": "Comment Replies",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/notification/following": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Submit following notification setting",
+                "operationId": "followingNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "new_followers",
+                        "in": "formData",
+                        "description": "New Followers",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_picks",
+                        "in": "formData",
+                        "description": "New Picks",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_watchlist",
+                        "in": "formData",
+                        "description": "New Adds to Watchlist",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_thumbs_up",
+                        "in": "formData",
+                        "description": "New Thumbs up",
+                        "required": true,
+                        "type": "string",
+                        "default": "0",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/notification/app": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Submit app notification setting",
+                "operationId": "appNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "trending",
+                        "in": "formData",
+                        "description": "Trending",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "new_stories",
+                        "in": "formData",
+                        "description": "New Stories",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "product_updates",
+                        "in": "formData",
+                        "description": "Product Updates",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/notification/comment": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Submit comment notification setting",
+                "operationId": "commentNotificationSetting",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "comment_mentions",
+                        "in": "formData",
+                        "description": "Comment Mentions",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "comment_likes",
+                        "in": "formData",
+                        "description": "Comment Likes",
+                        "required": true,
+                        "type": "string",
+                        "default": "1",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    },
+                    {
+                        "name": "comment_replies",
+                        "in": "formData",
+                        "description": "Comment Replies",
+                        "required": true,
+                        "type": "string",
+                        "default": "0",
+                        "enum": [
+                            "1",
+                            "0"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {},
+    "securityDefinitions": {
+        "accessToken": {
+            "type": "apiKey",
+            "name": "Authorization-Data",
+            "in": "header"
+        }
+    },
+    "tags": [
+        {
+            "name": "Authorization",
+            "description": "Authorization for the app"
+        }
+    ]
+}

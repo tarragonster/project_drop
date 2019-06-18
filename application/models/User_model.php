@@ -13,6 +13,12 @@ class User_model extends BaseModel {
 		return $this->getObjectById($user_id);
 	}
 
+	public function insert($params) {
+		$user_id = parent::insert($params);
+		$this->db->insert("user_notification_setting", ['user_id' => $user_id]);
+		return $user_id;
+	}
+
 	public function getUserForAdmin($user_id) {
 		$this->db->where($this->id_name, $user_id);
 		$query = $this->db->get('user');
@@ -231,6 +237,47 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function getFollowersInList($follower_id, $user_ids) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user_follow uf');
+		$this->db->join('user u', 'u.user_id = uf.user_id');
+		$this->db->where('uf.follower_id', $follower_id);
+		$this->db->where_in('uf.user_id', $user_ids);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getUserListByIds($user_id, $user_ids) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user u');
+		$this->db->where('u.user_id <>', $user_id);
+		$this->db->where_in('u.user_id', $user_ids);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function get10BlockUsers($user_id, $page = -1, $limit = 12) {
+//		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, uf1.user_id as follower_id, uf2.follower_id as following_id , cf.contact_id, fp.user_id as featured_user_id');
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user u');
+		// Followers user
+		$this->db->join('(select user_id from user_follow where follower_id = ' . $user_id . ') as uf1', 'uf1.user_id = u.user_id', 'left');
+		// Following users
+		$this->db->join('(select follower_id from user_follow where user_id = ' . $user_id . ') as uf2', 'uf2.follower_id = u.user_id', 'left');
+		$this->db->join('(select contact_id from contact_friends where user_id = ' . $user_id . ') as cf ', 'cf.contact_id = u.user_id', 'left');
+		$this->db->join('(select user_id, priority as fp_priority from featured_profiles where status = 1) as fp ', 'fp.user_id = u.user_id', 'left');
+		$this->db->order_by('uf1.user_id', 'desc');
+		$this->db->order_by('uf2.follower_id', 'desc');
+		$this->db->order_by('cf.contact_id', 'desc');
+		$this->db->order_by('fp.user_id', 'desc');
+		$this->db->order_by('u.user_name');
+		if ($page >= 0) {
+			$this->db->limit($limit, $limit * $page);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function countFollowing($user_id) {
 		$this->db->from('user_follow');
 		$this->db->where('user_id', $user_id);
@@ -270,9 +317,17 @@ class User_model extends BaseModel {
 	public function updateDeviceUser($user_id, $device_id) {
 		if ($this->checkDeviceId($device_id)) {
 			$this->db->where('device_id', $device_id);
-			$this->db->update('device_user', array('user_id' => $user_id, 'last_activity' => time()));
+			$this->db->update('device_user', [
+				'user_id' => $user_id,
+				'last_activity' => time()
+			]);
 		} else {
-			$this->db->insert('device_user', array('user_id' => $user_id, 'device_id' => $device_id, 'last_activity' => time()));
+			$this->db->insert('device_user', [
+				'user_id' => $user_id,
+				'dtype_id' => strlen($device_id) == 36 ? 2 : 1,
+				'regtime' => time(),
+				'device_id' => $device_id,
+				'last_activity' => time()]);
 		}
 	}
 
@@ -546,7 +601,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getContactFriends($user_id, $page = -1) {
-		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email, if(uf.follower_id is null, 0, 1) as is_follow');
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email, u.phone_number, if(uf.follower_id is null, 0, 1) as is_follow');
 		$this->db->from('contact_friends cf');
 		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
 		$this->db->join('user u', 'u.user_id = cc.reference_id');
@@ -574,7 +629,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getFacebookFriends($user_id, $page = -1) {
-		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email, if(uf.follower_id is null, 0, 1) as is_follow');
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email, u.phone_number, if(uf.follower_id is null, 0, 1) as is_follow');
 		$this->db->from('contact_friends cf');
 		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
 		$this->db->join('user u', 'u.user_id = cc.reference_id');
@@ -592,7 +647,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getUnFollowContactFriends($user_id) {
-		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email');
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email, u.phone_number');
 		$this->db->from('contact_friends cf');
 		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
 		$this->db->join('user u', 'u.user_id = cc.reference_id');
@@ -606,7 +661,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getUnFollowFacebookFriends($user_id) {
-		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email');
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.avatar, u.user_type, u.email, u.phone_number');
 		$this->db->from('contact_friends cf');
 		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
 		$this->db->join('user u', 'u.user_id = cc.reference_id');
@@ -698,7 +753,6 @@ class User_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
-
 
 	public function hiddenYourPick($pick_id, $is_hidden) {
 		$this->db->where('pick_id', $pick_id);
@@ -811,11 +865,29 @@ class User_model extends BaseModel {
 		$this->db->or_where('reference_id', $user_id);
 		$this->db->delete('contact_contacts');
 
-		$this->db->like('data', '"user_id":'.$user_id, 'both');
+		$this->db->like('data', '"user_id":' . $user_id, 'both');
 		$this->db->delete('user_notify');
 
 //		$this->db->where('user_id', $user_id);
 //		$this->db->delete('user');
 		return parent::delete($user_id);
+	}
+
+	public function getNotificationSetting($user_id) {
+		$this->db->from('user_notification_setting');
+		$this->db->where('user_id', $user_id);
+
+		return $this->db->get()->first_row('array');
+	}
+
+	public function isEnableNotification($user_id, $key) {
+		$settings = $this->getNotificationSetting($user_id);
+		if ($settings == null) {
+			return true;
+		}
+		if (isset($settings[$key])) {
+			return $settings[$key] == 1;
+		}
+		return false;
 	}
 }

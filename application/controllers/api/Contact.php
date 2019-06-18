@@ -40,7 +40,7 @@ class Contact extends BR_Controller {
 					$phoneContacts[] = $phone;
 				}
 			}
-			if (count($contacts) > 0) {
+			if (count($phoneContacts) > 0) {
 				$this->contact_lib->pushFriends($this->user_id, CONTACT_TYPE_PHONE, $phoneContacts);
 			}
 		}

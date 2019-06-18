@@ -73,6 +73,8 @@ class Comment extends Base_Controller {
 
 	public function delete($comment_id) {
 		$this->comment_model->delete($comment_id);
+		$this->load->model('notify_model');
+		$this->notify_model->deleteReference('comment', $comment_id);
 		$this->ajaxComment();
 	}
 
