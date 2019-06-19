@@ -12,7 +12,7 @@ class Product extends BR_Controller {
 	/**
 	 * @SWG\Get(
 	 *     path="/product/{product_id}",
-	 *     summary="Get Story Detail",
+	 *     summary="Get product Detail",
 	 *     operationId="getStoryDetail",
 	 *     tags={"Story"},
 	 *     produces={"application/json"},

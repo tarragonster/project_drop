@@ -62,7 +62,7 @@
                 "tags": [
                     "Story"
                 ],
-                "summary": "Get Story Detail",
+                "summary": "Get product Detail",
                 "operationId": "getStoryDetail",
                 "produces": [
                     "application/json"
