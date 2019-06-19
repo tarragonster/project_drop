@@ -4,8 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //product
 $route['product/(:num)'] = 'product/get/$1';
 $route['product/(:num)/share'] = 'product/share/$1';
-$route['collection/list'] = 'collection/list';
+$route['product/(:num)/reviews'] = 'product/reviews/$1';
+$route['product/(:num)/captions'] = 'product/captions/$1';
+$route['product/(:num)/numWatching'] = 'product/numWatching/$1';
+$route['recentlyWatched'] = 'product/recentlyWatched';
 
+$route['collection/list'] = 'collection/list';
 //actor
 $route['actor/(:num)'] = 'actor/get/$1';
 

@@ -334,6 +334,31 @@ class User extends BR_Controller {
 		$this->create_success(array('terms' => $terms));
 	}
 
+	/**
+	 * @SWG\Post(
+	 *     path="/user/addWatch",
+	 *     summary="User add Watch",
+	 *     operationId="userAddWatch",
+	 *     tags={"Story", "Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="formData",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="34"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function addWatch_post() {
 		$this->validate_authorization();
 		if (!$this->user_model->checkUid($this->user_id)) {
@@ -376,6 +401,48 @@ class User extends BR_Controller {
 		$this->create_success(null);
 	}
 
+	/**
+	 * @SWG\Post(
+	 *     path="/user/watchEpisode",
+	 *     summary="User Watch Episode",
+	 *     operationId="userWatchEpisode",
+	 *     tags={"Story", "Episode", "Account"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="formData",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="34"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Episode ID. Emtpty when watching trailer.",
+	 *         in="formData",
+	 *         name="episode_id",
+	 *         required=false,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Time (In seconds)",
+	 *         in="formData",
+	 *         name="time",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="20"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function watchEpisode_post() {
 		$this->validate_authorization();
 		if (!$this->user_model->checkUid($this->user_id)) {

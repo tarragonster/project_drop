@@ -57,6 +57,70 @@
                 ]
             }
         },
+        "/product/{product_id}": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Get Story Detail",
+                "operationId": "getStoryDetail",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/{product_id}/captions": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Get Story Captions",
+                "operationId": "getStoryCaptions",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/product/episode/{episode_id}": {
             "get": {
                 "tags": [
@@ -72,6 +136,166 @@
                         "name": "episode_id",
                         "in": "path",
                         "description": "Episode ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/{product_id}/numWatching": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Get Number Watching",
+                "operationId": "getNumWatching",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "34"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/nextEpisode/{episode_id}": {
+            "get": {
+                "tags": [
+                    "Episode"
+                ],
+                "summary": "Get Next Episode",
+                "operationId": "getNextEpisode",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "episode_id",
+                        "in": "path",
+                        "description": "Episode ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/watching/{product_id}": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Get Watching Users",
+                "operationId": "getWatchingUsers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/recentlyWatched": {
+            "get": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Get Watching Users",
+                "operationId": "getRecentlyWatched",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/like": {
+            "post": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Update like story status",
+                "operationId": "updateLikeStoryStatus",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "formData",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "status",
+                        "in": "formData",
+                        "description": "Status",
                         "required": true,
                         "type": "number",
                         "format": "int64",
@@ -176,6 +400,56 @@
                                 }
                             }
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/product/{product_id}/reviews": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Get Story Reviews",
+                "operationId": "getStoryReviews",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "0"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of items per page.",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "24"
                     }
                 ],
                 "responses": {
@@ -300,6 +574,92 @@
                         "description": "Successful operation"
                     }
                 }
+            }
+        },
+        "/user/addWatch": {
+            "post": {
+                "tags": [
+                    "Story",
+                    "Account"
+                ],
+                "summary": "User add Watch",
+                "operationId": "userAddWatch",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "formData",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "34"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/user/watchEpisode": {
+            "post": {
+                "tags": [
+                    "Story",
+                    "Episode",
+                    "Account"
+                ],
+                "summary": "User Watch Episode",
+                "operationId": "userWatchEpisode",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "formData",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "34"
+                    },
+                    {
+                        "name": "episode_id",
+                        "in": "formData",
+                        "description": "Episode ID. Emtpty when watching trailer.",
+                        "required": false,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "time",
+                        "in": "formData",
+                        "description": "Time (In seconds)",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "20"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
             }
         },
         "/user/profile": {

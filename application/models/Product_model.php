@@ -431,4 +431,16 @@ class Product_model extends BaseModel {
 			]);
 		}
 	}
+
+	public function getProductReviews($product_id, $page, $page_size = 12) {
+		$this->db->select('up.pick_id, up.user_id, up.quote, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user_picks up');
+		$this->db->join('user u', 'u.user_id = up.user_id');
+		$this->db->group_by('up.pick_id');
+		$this->db->order_by('up.pick_id', 'desc');
+		$this->db->order_by('up.product_id', $product_id);
+		$this->db->limit($page_size, $page_size * $page);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }

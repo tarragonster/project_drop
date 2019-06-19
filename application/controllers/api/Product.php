@@ -9,6 +9,30 @@ class Product extends BR_Controller {
 		$this->load->model('product_model');
 	}
 
+	/**
+	 * @SWG\Get(
+	 *     path="/product/{product_id}",
+	 *     summary="Get Story Detail",
+	 *     operationId="getStoryDetail",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function get_get($product_id = -1) {
 		$product = $this->product_model->getProductDetail($product_id);
 		if ($this->user_id == null) {
@@ -72,15 +96,42 @@ class Product extends BR_Controller {
 		$product['paywall_episode_ids'] = $paywall_episode_ids;
 
 		$watchers = $this->product_model->getProductWatchers($product_id);
+		$reviews = $this->product_model->getProductReviews($product_id, 0, 24);
 
 		$response = [
 			'product' => $product,
-			'watchers' => $watchers
+			'watchers' => $watchers,
+			'reviews' => $reviews
 		];
 
 		$this->create_success($response);
 	}
 
+
+	/**
+	 * @SWG\Get(
+	 *     path="/product/{product_id}/captions",
+	 *     summary="Get Story Captions",
+	 *     operationId="getStoryCaptions",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function captions_get($product_id) {
 		$product = $this->product_model->getProductDetail($product_id);
 		if ($product == null) {
@@ -134,6 +185,31 @@ class Product extends BR_Controller {
 		$this->create_success(array('episode' => $episode));
 	}
 
+	/**
+	 * @SWG\Get(
+	 *     path="/product/{product_id}/numWatching",
+	 *     summary="Get Number Watching",
+	 *     operationId="getNumWatching",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="34"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function numWatching_get($product_id) {
 		$watching = $this->product_model->countUserWatching($product_id);
 
@@ -147,6 +223,30 @@ class Product extends BR_Controller {
 		$this->create_success($response);
 	}
 
+	/**
+	 * @SWG\Get(
+	 *     path="/product/nextEpisode/{episode_id}",
+	 *     summary="Get Next Episode",
+	 *     operationId="getNextEpisode",
+	 *     tags={"Episode"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Episode ID",
+	 *         in="path",
+	 *         name="episode_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function nextEpisode_get($episode_id) {
 		$this->load->model('episode_model');
 		$episodeOld = $this->episode_model->checkEpisode($episode_id);
@@ -161,6 +261,30 @@ class Product extends BR_Controller {
 		$this->create_success(array('episode' => $episode));
 	}
 
+	/**
+	 * @SWG\Get(
+	 *     path="/product/watching/{product_id}",
+	 *     summary="Get Watching Users",
+	 *     operationId="getWatchingUsers",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function watching_get($product_id) {
 		if ($this->user_id != null) {
 			$watching = $this->product_model->getProductWatching($product_id, $this->user_id);
@@ -247,7 +371,24 @@ class Product extends BR_Controller {
 		return $episode;
 	}
 
+	/**
+	 * @SWG\Get(
+	 *     path="/recentlyWatched",
+	 *     summary="Get Watching Users",
+	 *     operationId="getRecentlyWatched",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function recentlyWatched_get() {
+		$this->validate_authorization();
 		$recently = $this->product_model->getRecentlyWatched($this->user_id);
 //		if (is_array($recently)) {
 //			foreach ($recently as &$product) {
@@ -261,6 +402,39 @@ class Product extends BR_Controller {
 		$this->create_success(['recently' => $recently]);
 	}
 
+	/**
+	 * @SWG\Post(
+	 *     path="/product/like",
+	 *     summary="Update like story status",
+	 *     operationId="updateLikeStoryStatus",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="formData",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Status",
+	 *         in="formData",
+	 *         name="status",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="1"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function like_post() {
 		$this->validate_authorization();
 		$product_id = $this->c_getNotNull('product_id');
@@ -413,6 +587,58 @@ class Product extends BR_Controller {
 			$this->notify_model->createNotifyMany($users, 57, $meta);
 		}
 		$this->create_success();
+	}
+
+	/**
+	 * @SWG\Get(
+	 *     path="/product/{product_id}/reviews",
+	 *     summary="Get Story Reviews",
+	 *     operationId="getStoryReviews",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Page",
+	 *         in="query",
+	 *         name="page",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="0"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Number of items per page.",
+	 *         in="query",
+	 *         name="limit",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default="24"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
+	public function reviews_get($product_id) {
+		$page = $this->get('page') * 1;
+		$page_size = $this->get('limit') * 1;
+		if ($page_size <= 0) {
+			$page_size = 24;
+		}
+		$reviews = $this->product_model->getProductReviews($product_id, $page, $page_size);
+		$this->create_success(['reviews' => $reviews]);
 	}
 
 }
