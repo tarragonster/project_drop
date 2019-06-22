@@ -26,7 +26,7 @@ class News_model extends BaseModel {
 
 	public function getNewForYou($user_id, $page = -1) {
 		$this->db->select('*');
-		$this->db->from('user_notify');
+		$this->db->from('user_notify un');
 		$this->db->where('user_id', $user_id);
 		$this->db->where('un.timestamp <=', time());
 		$this->db->where('type >', 50);
