@@ -13,7 +13,9 @@ class News_model extends BaseModel {
 		$this->db->select('un.*');
 		$this->db->from('user_notify un');
 		$this->db->where('un.user_id', $user_id);
+		$this->db->where('un.timestamp <=', time());
 		$this->db->where('type <', 50);
+		$this->db->order_by('un.timestamp', 'desc');
 		$this->db->order_by('un.notify_id', 'desc');
 		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
@@ -26,8 +28,10 @@ class News_model extends BaseModel {
 		$this->db->select('*');
 		$this->db->from('user_notify');
 		$this->db->where('user_id', $user_id);
+		$this->db->where('un.timestamp <=', time());
 		$this->db->where('type >', 50);
-		$this->db->order_by('notify_id', 'desc');
+		$this->db->order_by('un.timestamp', 'desc');
+		$this->db->order_by('un.notify_id', 'desc');
 		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}

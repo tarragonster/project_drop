@@ -155,7 +155,7 @@ class Notify_model extends CI_Model {
 		$template = Notify_model::$templates[$type];
 		if ($this->checkSetting($user_id, $template['setting_key'])) {
 			$alert = $this->fillDataToTemplate($template['formatted'], $data, $type);
-			$this->insertUserNotify($user_id, $type, $template['formatted'], $data);
+			$this->insertUserNotify($user_id, $type, $template['formatted'], $data, $template['delay_seconds']);
 			$this->sendNotification($user_id, $type, $alert, $data, $sound, $template['delay_seconds']);
 		}
 	}
@@ -168,9 +168,9 @@ class Notify_model extends CI_Model {
 			foreach ($users as $user) {
 				if ($this->checkSetting($user['user_id'], $template['setting_key'])) {
 					if (!$this->checkNotify($user['user_id'], $type, $data)) {
-						$this->insertUserNotify($user['user_id'], $type, $template['formatted'], $data);
+						$this->insertUserNotify($user['user_id'], $type, $template['formatted'], $data, $template['delay_seconds']);
 					} else {
-						$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
+						$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time() + $template['delay_seconds']));
 					}
 					if ($sendPush)
 						$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $template['delay_seconds']);
@@ -194,9 +194,9 @@ class Notify_model extends CI_Model {
 			foreach ($users as $user) {
 				if ($this->checkSetting($user['user_id'], $template['setting_key'])) {
 					if (!$this->checkNotify($user['user_id'], $type, $data)) {
-						$this->insertUserNotify($user['user_id'], $type, $template['formatted'], $data);
+						$this->insertUserNotify($user['user_id'], $type, $template['formatted'], $data, $template['delay_seconds']);
 					} else {
-						$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time()));
+						$this->updateNotify($user['user_id'], $type, $data, array('status' => 1, 'timestamp' => time() + $template['delay_seconds']));
 					}
 					$this->sendNotification($user['user_id'], $type, $alert, $data, $sound, $template['delay_seconds']);
 				}
@@ -222,11 +222,11 @@ class Notify_model extends CI_Model {
 		$this->db->update('user_notify', $params);
 	}
 
-	private function insertUserNotify($user_id, $type, $template, $data) {
+	private function insertUserNotify($user_id, $type, $template, $data, $delay_seconds = 0) {
 		$params = array();
 		$params['user_id'] = $user_id;
 		$params['type'] = $type;
-		$params['timestamp'] = time();
+		$params['timestamp'] = time() + $delay_seconds;
 		$params['content'] = $template;
 		if ($data != null)
 			$params['data'] = json_encode($data);
