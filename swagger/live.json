@@ -4,7 +4,7 @@
         "title": "Api for SecondScreen App.",
         "version": "1.0.0"
     },
-    "host": "api.10block.com",
+    "host": "api.10-block.com",
     "schemes": [
         "https",
         "http"
