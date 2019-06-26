@@ -305,7 +305,7 @@ class User extends BR_Controller {
 
 		// add in-app notification
 		$this->load->model('notify_model');
-		$this->notify_model->createNotify($user_id, 55);
+//		$this->notify_model->createNotify($user_id, 55);
 		$this->notify_model->createNotify($user_id, 56);
 
 		$this->user_model->update($params, $user_id);
