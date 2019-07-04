@@ -36,9 +36,11 @@
 <script>
 	window.onload = function () {
 
+		let host = window.location.hostname;
+		let fileName = host == 'sstv.us' ? 'local' : (host == '10-block.com' ? 'live' : 'stage');
 		// Build a system
 		const ui = SwaggerUIBundle({
-			url: url = window.location.protocol + "//" + window.location.hostname + "/swagger/stage.json",
+			url: url = window.location.protocol + "//" + host + "/swagger/" + fileName + ".json",
 			dom_id: '#swagger-ui',
 			deepLinking: true,
 			presets: [

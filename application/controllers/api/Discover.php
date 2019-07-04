@@ -11,9 +11,13 @@ class Discover extends BR_Controller {
 	}
 
 	public function index_get() {
-
+		$response = [];
 		$this->load->model('product_model');
 		$featured_profiles = $this->user_model->getFeaturedProfiles();
+
+		$this->load->model('genre_model');
+		$genres = $this->genre_model->getGenresList();
+		$response['genres'] = $genres;
 
 		$following = $this->user_model->getFollowing($this->user_id);
 		foreach ($featured_profiles as $key => $user) {
@@ -25,7 +29,7 @@ class Discover extends BR_Controller {
 				}
 			}
 		}
-		$response = ['featured_profiles' => $featured_profiles];
+		$response['featured_profiles'] = $featured_profiles;
 
 		$explore_previews = $this->product_model->getExplorePreviews();
 		foreach ($explore_previews as $key => $product) {

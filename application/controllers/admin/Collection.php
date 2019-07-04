@@ -68,11 +68,11 @@ class Collection extends Base_Controller {
 
 		$this->load->model("product_model");
 		$content_layout = '';
-		if ($collection['collection_type'] == 3) {
+		if ($collection['collection_type'] == COLLECTION_TYPE_CONTINUE_WATCHING) {
 			$collection['products'] = [];
 			$content_layout = 'collection_continue';
 		} else {
-			if ($collection['collection_type'] == 4) {
+			if (in_array($collection['collection_type'], [COLLECTION_TYPE_CONTINUE_WATCHING, COLLECTION_TYPE_TOP_PICKS, COLLECTION_TYPE_FRIEND_WATCHING, COLLECTION_TYPE_SUGGESTED_USERS])) {
 				$collection['products'] = $this->user_model->getTopPicks();
 				$content_layout = 'collection_top_picks';
 			} else {

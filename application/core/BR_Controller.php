@@ -6,7 +6,11 @@ require_once APPPATH . '/libraries/REST_Controller.php';
 class BR_Controller extends REST_Controller {
 	public $oauths;
 	protected $access_token = '';
-	protected $user_id;
+	protected $device_type = 'Android';
+	protected $app_version = '0.0.1';
+	protected $build_number = '1';
+	protected $user_id = 0;
+	static $ALLOW_HEADERS = 'Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data,X-User-Agents';
 
 	public function __construct() {
 		parent::__construct();
@@ -15,8 +19,19 @@ class BR_Controller extends REST_Controller {
 		if ($this->input->server('REQUEST_METHOD') == 'OPTIONS') {
 			header('Access-Control-Allow-Origin: *');
 			header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
-			header('Access-Control-Allow-Headers: Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data');
+			header('Access-Control-Allow-Headers: ' . BR_Controller::$ALLOW_HEADERS);
 			$this->response(['granted' => true], 200);
+		}
+		$app_data = $this->input->get_request_header('X-User-Agents');
+		if (!empty($app_data)) {
+			$arr = explode('|', $app_data);
+			if (count($arr) == 3) {
+				$this->device_type = strtolower($arr[0]);
+				$this->build_number = strtolower($arr[2]);
+				if (version_compare($arr[1], '0.0.1') > 0) {
+					$this->app_version = $arr[1];
+				}
+			}
 		}
 
 		$this->validate_authorization(1);
@@ -32,7 +47,7 @@ class BR_Controller extends REST_Controller {
 	protected function create_error($code, $message = '') {
 		header('Access-Control-Allow-Origin: *');
 		header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
-		header('Access-Control-Allow-Headers: Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data');
+		header('Access-Control-Allow-Headers: ' . BR_Controller::$ALLOW_HEADERS);
 		if (empty($message)) {
 			$message = $this->getErrorMessage($code);
 		}
@@ -65,7 +80,7 @@ class BR_Controller extends REST_Controller {
 	protected function create_success($data = null, $message = 'Success') {
 		header('Access-Control-Allow-Origin: *');
 		header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');
-		header('Access-Control-Allow-Headers: Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data');
+		header('Access-Control-Allow-Headers: ' . BR_Controller::$ALLOW_HEADERS);
 		if ($this->input->get_request_header('Devicetype') == 'Android') {
 			if ($data == null) {
 				$response = array();

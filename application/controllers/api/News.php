@@ -9,12 +9,13 @@ class News extends BR_Controller {
 		$this->load->model('news_model');
 		$this->load->model('user_model');
 	}
+
 	/**
 	 * @SWG\Get(
 	 *     path="/news/get",
 	 *     summary="Get notification",
 	 *     operationId="get-notifications",
-	 *     tags={"New"},
+	 *     tags={"Account"},
 	 *     produces={"application/json"},
 	 *     consumes={"application/json"},
 	 *     @SWG\Response(
@@ -55,6 +56,23 @@ class News extends BR_Controller {
 		$this->create_success(array('news' => $news));
 	}
 
+	/**
+	 * @SWG\Get(
+	 *     path="/news/getBadge",
+	 *     summary="Get notification getBadge",
+	 *     operationId="get-badge",
+	 *     tags={"Account"},
+	 *     produces={"application/json"},
+	 *     consumes={"application/json"},
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     }
+	 * )
+	 */
 	public function getBadge_get() {
 		$this->validate_authorization();
 		$news['num_news'] = $this->news_model->countNotification($this->user_id);

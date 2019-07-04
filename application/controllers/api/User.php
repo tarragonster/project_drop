@@ -232,20 +232,20 @@ class User extends BR_Controller {
 	public function registerProfile_post() {
 		$time = time();
 		$email = $this->c_getEmail('email');
-		$password = $this->c_getWithLength('password', 32, 6);
-		$device_id = $this->c_getNotNull('device_id');
-		$user_name = $this->c_getNotNull('user_name');
-		$full_name = $this->c_getNotNull('full_name');
-		$access_token = $this->post('access_token');
-		$google_id = $this->post('google_id');
-
-		if ($this->user_model->checkUserName($user_name)) {
-			$this->create_error(-78);
-		}
 
 		if ($this->user_model->checkEmail($email)) {
 			$this->create_error(-5);
 		}
+		$user_name = $this->c_getNotNull('user_name');
+
+		if ($this->user_model->checkUserName($user_name)) {
+			$this->create_error(-78);
+		}
+		$password = $this->c_getWithLength('password', 32, 6);
+		$device_id = $this->c_getNotNull('device_id');
+		$full_name = $this->c_getNotNull('full_name');
+		$access_token = $this->post('access_token');
+		$google_id = $this->post('google_id');
 
 		$facebook_id = '';
 		$params = [];

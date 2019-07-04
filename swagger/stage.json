@@ -10,6 +10,82 @@
         "http"
     ],
     "paths": {
+        "/collection/list": {
+            "get": {
+                "tags": [
+                    "Collection"
+                ],
+                "summary": "Get collection list",
+                "operationId": "get-collections",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "userAgents": [],
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/collection/suggestedUsers": {
+            "get": {
+                "tags": [
+                    "Collection"
+                ],
+                "summary": "Get suggested users",
+                "operationId": "getSuggestedUsers",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "genre_id",
+                        "in": "path",
+                        "description": "Genre ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "0"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of items per page.",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "24"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/contact/skip": {
             "post": {
                 "tags": [
@@ -32,13 +108,113 @@
                 ]
             }
         },
+        "/data": {
+            "get": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Get config data",
+                "operationId": "get-data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/genre/{genre_id}/films": {
+            "get": {
+                "tags": [
+                    "Collection"
+                ],
+                "summary": "Get Genre films",
+                "operationId": "getGenreFilms",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "genre_id",
+                        "in": "path",
+                        "description": "Genre ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "0"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of items per page.",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": "24"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/news/get": {
             "get": {
                 "tags": [
-                    "New"
+                    "Account"
                 ],
                 "summary": "Get notification",
                 "operationId": "get-notifications",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/news/getBadge": {
+            "get": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Get notification getBadge",
+                "operationId": "get-badge",
                 "consumes": [
                     "application/json"
                 ],
@@ -1133,6 +1309,11 @@
     },
     "definitions": {},
     "securityDefinitions": {
+        "userAgents": {
+            "type": "apiKey",
+            "name": "X-User-Agents",
+            "in": "header"
+        },
         "accessToken": {
             "type": "apiKey",
             "name": "Authorization-Data",
@@ -1143,6 +1324,18 @@
         {
             "name": "Authorization",
             "description": "Authorization for the app"
+        },
+        {
+            "name": "Account",
+            "description": "User APIs"
+        },
+        {
+            "name": "Collection",
+            "description": "Collection APIs"
+        },
+        {
+            "name": "Story",
+            "description": "Story APIs"
         }
     ]
 }

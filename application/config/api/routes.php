@@ -2,10 +2,12 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 //product
+$route['data'] = 'data/index';
 $route['product/(:num)'] = 'product/get/$1';
 $route['product/(:num)/share'] = 'product/share/$1';
 $route['product/(:num)/reviews'] = 'product/reviews/$1';
 $route['product/(:num)/captions'] = 'product/captions/$1';
+$route['genre/(:num)/films'] = 'genre/films/$1';
 $route['product/(:num)/numWatching'] = 'product/numWatching/$1';
 $route['recentlyWatched'] = 'product/recentlyWatched';
 

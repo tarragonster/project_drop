@@ -380,7 +380,7 @@ class Product_model extends BaseModel {
 				                left join product_likes as pl on p.product_id = pl.product_id)
 				                join film_rate as fr on p.rate_id = fr.rate_id)
 				          		left join episode as e on p.paywall_episode = e.episode_id
-				          	where p.name like '%" . $query ."%'
+				          	where p.name like '%" . $query . "%'
 				            group by product_id) s1
 				    left join user_picks as up on s1.product_id = up.product_id 
 				    group by s1.product_id) s2
@@ -404,8 +404,6 @@ class Product_model extends BaseModel {
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
-
-
 
 	public function getProductUserReview($user_id, $product_id) {
 		$this->db->where('user_id', $user_id);
@@ -440,6 +438,23 @@ class Product_model extends BaseModel {
 		$this->db->group_by('up.pick_id');
 		$this->db->order_by('up.pick_id', 'desc');
 		$this->db->limit($page_size, $page_size * $page);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getFriendsWatching($user_id, $page = -1, $limit = 24) {
+		$this->db->select('p.*, uf.follower_id');
+		$this->db->from('user_watch w');
+		$this->db->join('(SELECT follower_id FROM user_follow WHERE user_id = ' . $user_id . ') uf', 'uf.follower_id = w.user_id');
+		$this->db->join('product_view p', 'p.product_id = w.product_id');
+		$this->db->where('w.episode_id <>', 0);
+		$this->db->where('w.user_id <>', $user_id);
+		$this->db->where('p.status', 1);
+		$this->db->group_by('w.product_id');
+		$this->db->order_by('w.id', 'desc');
+		if ($page >= 0) {
+			$this->db->limit($limit, $limit * $page);
+		}
 		$query = $this->db->get();
 		return $query->result_array();
 	}

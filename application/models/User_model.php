@@ -474,7 +474,7 @@ class User_model extends BaseModel {
 		return $user;
 	}
 
-	public function getFeaturedProfiles() {
+	public function getFeaturedProfiles($page = -1, $limit = 24) {
 		$this->db->from('featured_profiles fp');
 		$this->db->join('user u', 'fp.user_id = u.user_id');
 		$this->db->select('u.user_id, user_name, user_type, full_name, email, avatar, level, joined');
@@ -483,6 +483,9 @@ class User_model extends BaseModel {
 		$this->db->group_by('u.user_id');
 		$this->db->order_by('fp.priority');
 		$this->db->order_by('user_name');
+		if ($page >= 0) {
+			$this->db->limit($limit, $limit * $page);
+		}
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -549,6 +552,18 @@ class User_model extends BaseModel {
 		$this->db->group_by('up.pick_id');
 		$this->db->order_by('up.pick_id', 'desc');
 		$this->db->limit(25);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getFriendsTopPicks($user_id) {
+		$this->db->select('up.pick_id, up.user_id, p.*, up.quote, u.user_name, u.full_name, u.avatar');
+		$this->db->from('user_picks up');
+		$this->db->join('product_view p', 'p.product_id = up.product_id');
+		$this->db->join('user u', 'u.user_id = up.user_id');
+		$this->db->group_by('up.pick_id');
+		$this->db->order_by('up.pick_id', 'desc');
+//		$this->db->limit(25);
 		$query = $this->db->get();
 		return $query->result_array();
 	}
