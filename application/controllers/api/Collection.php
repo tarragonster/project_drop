@@ -113,14 +113,6 @@ class Collection extends BR_Controller {
 	 *     tags={"Collection"},
 	 *     produces={"application/json"},
 	 *     @SWG\Parameter(
-	 *         description="Genre ID",
-	 *         in="path",
-	 *         name="genre_id",
-	 *         required=true,
-	 *         type="number",
-	 *         format="int64"
-	 *     ),
-	 *     @SWG\Parameter(
 	 *         description="Page",
 	 *         in="query",
 	 *         name="page",
