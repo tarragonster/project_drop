@@ -78,6 +78,7 @@ class Collection extends BR_Controller {
 							$friends_watching[$key]['num_watching'] = $this->product_model->countUserWatching($product['product_id']);
 							$friends_watching[$key]['watchlist_added'] = $this->user_model->checkWatchList($this->user_id, $product['product_id']) ? '1' : '0';
 						}
+						$friends_watching = $this->user_model->expand($friends_watching, 'follower_id', 'friend', 'user_id, user_name, full_name, avatar');
 						$collection['products'] = $friends_watching;
 						$selected_collections[] = $collection;
 					}
