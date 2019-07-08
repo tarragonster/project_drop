@@ -48,14 +48,6 @@
                 ],
                 "parameters": [
                     {
-                        "name": "genre_id",
-                        "in": "path",
-                        "description": "Genre ID",
-                        "required": true,
-                        "type": "number",
-                        "format": "int64"
-                    },
-                    {
                         "name": "page",
                         "in": "query",
                         "description": "Page",
