@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/core/BR_Controller.php';
 
 class Collection extends BR_Controller {
-	const SUPPORTED_IOS_VERSION = '1.0.8';
+	const SUPPORTED_IOS_VERSION = '1.0.7';
 	const SUPPORTED_AND_VERSION = '1.0.4';
 	public function __construct() {
 		parent::__construct();
