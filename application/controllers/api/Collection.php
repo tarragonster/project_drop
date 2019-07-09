@@ -42,10 +42,10 @@ class Collection extends BR_Controller {
 							$episode['product_id'] = $product['product_id'];
 							$episode['product_name'] = $product['name'];
 							$episode['start_time'] = $product['start_time'];
-							$products[$key]['episode'] = $episode;
+							$episode_products[$key]['episode'] = $episode;
 						}
 					}
-					$collection['products'] = $products;
+					$collection['products'] = $episode_products;
 					$selected_collections[] = $collection;
 				} else if ($collection['collection_type'] == COLLECTION_TYPE_TOP_PICKS) {
 					$top_picks = $this->user_model->getFriendsTopPicks($this->user_id);
