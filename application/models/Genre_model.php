@@ -10,7 +10,7 @@ class Genre_model extends BaseModel {
 	}
 
 	public function getGenresList() {
-		$this->db->select('id, name');
+		$this->db->select('id, name, image');
 		$this->db->order_by('priority');
 		$this->db->order_by($this->id_name);
 		$query = $this->db->get($this->table);

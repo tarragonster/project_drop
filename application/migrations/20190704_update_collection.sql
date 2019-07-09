@@ -29,3 +29,5 @@ ALTER TABLE `product`
   ADD CONSTRAINT `fk_product_vs_genres`
   FOREIGN KEY (`genre_id`) REFERENCES `story_genres`(`id`)
   ON DELETE SET NULL ON UPDATE SET NULL;
+
+ALTER TABLE `story_genres` ADD `image` VARCHAR(255) NOT NULL AFTER `name`;
