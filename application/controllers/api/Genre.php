@@ -66,7 +66,7 @@ class Genre extends BR_Controller {
 			$films[$key]['num_watching'] = $this->product_model->countUserWatching($film['product_id']);
 			$films[$key]['watchlist_added'] = $this->user_model->checkWatchList($this->user_id, $film['product_id']) ? '1' : '0';
 		}
-		$response['films'] = $films;
+		$response['products'] = $films;
 		$this->create_success($response, 'Successfully');
 	}
 

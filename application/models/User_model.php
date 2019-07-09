@@ -557,9 +557,10 @@ class User_model extends BaseModel {
 	}
 
 	public function getFriendsTopPicks($user_id) {
-		$this->db->select('up.pick_id, up.user_id, p.*, up.quote, u.user_name, u.full_name, u.avatar');
+		$this->db->select('up.pick_id, up.user_id, p.*, up.quote, u.user_name, u.full_name, u.avatar, uf.follower_id');
 		$this->db->from('user_picks up');
 		$this->db->join('product_view p', 'p.product_id = up.product_id');
+		$this->db->join('(select * from user_follow where user_id = ' . $user_id . ') uf', 'uf.follower_id = up.user_id');
 		$this->db->join('user u', 'u.user_id = up.user_id');
 		$this->db->group_by('up.pick_id');
 		$this->db->order_by('up.pick_id', 'desc');

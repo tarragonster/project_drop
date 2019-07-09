@@ -36,16 +36,17 @@ class Collection extends BR_Controller {
 			foreach ($collections as &$collection) {
 				if ($collection['collection_type'] == COLLECTION_TYPE_CONTINUE_WATCHING) {
 					$episode_products = $this->product_model->getContinueWatching($this->user_id);
+					$s_products = [];
 					if (is_array($episode_products)) {
-						foreach ($episode_products as &$product) {
+						foreach ($episode_products as $key => $product) {
 							$episode = $this->product_model->getEpisode($product['episode_id']);
 							$episode['product_id'] = $product['product_id'];
 							$episode['product_name'] = $product['name'];
 							$episode['start_time'] = $product['start_time'];
-							$product['episode'] = $episode;
+							$products[$key]['episode'] = $episode;
 						}
 					}
-					$collection['products'] = $episode_products;
+					$collection['products'] = $s_products;
 					$selected_collections[] = $collection;
 				} else if ($collection['collection_type'] == COLLECTION_TYPE_TOP_PICKS) {
 					$top_picks = $this->user_model->getFriendsTopPicks($this->user_id);
