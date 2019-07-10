@@ -45,13 +45,13 @@ class Notify_model extends CI_Model {
 		],
 		'9' => [
 			'setting_key' => NOTIFICATION_COMMENT_LIKES,
-			'formatted' => "liked <<username>> 's comment: ",
+			'formatted' => "liked <<username>>'s comment: ",
 			'delay_seconds' => 0,
 		],
 
 		'10' => [
 			'setting_key' => NOTIFICATION_COMMENT_REPLIES,
-			'formatted' => "replied to <<username>> 's comment on",
+			'formatted' => "replied to <<username>>'s comment on",
 			'delay_seconds' => 0,
 		],
 		'11' => [
