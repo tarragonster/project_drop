@@ -443,10 +443,11 @@ class Product_model extends BaseModel {
 	}
 
 	public function getFriendsWatching($user_id, $page = -1, $limit = 24) {
-		$this->db->select('p.*, uf.follower_id');
+		$this->db->select('p.*, uf.follower_id, ep.id, ep.promo_image');
 		$this->db->from('user_watch w');
 		$this->db->join('(SELECT follower_id FROM user_follow WHERE user_id = ' . $user_id . ') uf', 'uf.follower_id = w.user_id');
 		$this->db->join('product_view p', 'p.product_id = w.product_id');
+		$this->db->join('explore_previews ep', 'ep.product_id = p.product_id');
 		$this->db->where('w.episode_id <>', 0);
 		$this->db->where('w.user_id <>', $user_id);
 		$this->db->where('p.status', 1);

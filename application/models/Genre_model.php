@@ -18,8 +18,9 @@ class Genre_model extends BaseModel {
 	}
 
 	public function getGenreFilms($genre_id, $page = -1, $limit = 24) {
-		$this->db->select('p.*');
+		$this->db->select('p.*, ep.id, ep.promo_image');
 		$this->db->from('product_view p');
+		$this->db->join('explore_previews ep', 'ep.product_id = p.product_id');
 		$this->db->where('p.genre_id', $genre_id);
 		if ($page >= 0) {
 			$this->db->limit($limit, $limit * $page);
