@@ -2,7 +2,7 @@
 <html class="bg-black">
     <head>
         <meta charset="UTF-8">
-        <title>Admin | Log in</title>
+        <title>10 Block cPanel | Log in</title>
         <link rel="shortcut icon" type="image/ico" href="<?php echo base_url("media/core/favicon.ico"); ?>" />
         <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <!-- bootstrap 3.0.2 -->
@@ -25,7 +25,7 @@
         <div class="wrapper-page">
             <div class=" card-box">
             <div class="panel-heading"> 
-                <h3 class="text-center"> Sign In to <strong class="text-custom">Second Screend</strong> </h3>
+                <h3 class="text-center"> Sign In to <strong class="text-custom">10 Block</strong> </h3>
             </div> 
 
 
