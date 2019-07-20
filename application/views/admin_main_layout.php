@@ -8,7 +8,7 @@
 
 	<link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon_1.ico'); ?>">
 
-	<title>Second Screen cPanel</title>
+	<title>10 Block cPanel</title>
 
 	<link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/core.css'); ?>" rel="stylesheet" type="text/css"/>
@@ -55,7 +55,7 @@
 		<!-- LOGO -->
 		<div class="topbar-left">
 			<div class="text-center">
-				<a href="<?php echo base_url('') ?>" class="logo"><i class="icon-magnet icon-c-logo"></i><span>Second Screen</span></a>
+				<a href="<?php echo base_url('') ?>" class="logo"><i class="icon-magnet icon-c-logo"></i><span>10 Block</span></a>
 			</div>
 		</div>
 

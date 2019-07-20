@@ -35,7 +35,7 @@ class Notify_model extends CI_Model {
 		],
 		'7' => [
 			'setting_key' => NOTIFICATION_NEW_STORIES,
-			'formatted' => "Second Screen Series Suggestion:",
+			'formatted' => "10 Block Series Suggestion:",
 			'delay_seconds' => 0,
 		],
 		'8' => [
