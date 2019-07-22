@@ -58,10 +58,10 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Status</label>
-                            <select id='rate_id' class="form-control" required name='rate_id'>
+                            <select id='status' class="form-control" required name='status'>
                                 <option value="">Select Status</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
                             </select>
                         </div>
                     </div>

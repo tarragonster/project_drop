@@ -40,9 +40,7 @@ class Product extends Base_Controller {
 		$data['parent_id'] = 3;
 		$data['sub_id'] = 32;
 		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/product_list', array(
-			'products' => $products,
-			'pinfo' => $pinfo), true);
+		$data['content'] = $this->load->view('admin/product_list', array('products' => $products,'pinfo' => $pinfo), true);
 		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js','assets/app/delete-confirm.js', 'assets/js/settings.js', 'assets/app/search.js');
 		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css', 'assets/css/settings.css');
 		$this->load->view('admin_main_layout', $data);
@@ -98,7 +96,6 @@ class Product extends Base_Controller {
 				$this->file_model->saveFile($carousel_img, $path);
 				$params['trailler_image'] = $path;
 			}
-
 			$product_id = $this->product_model->insert($params);
 
 			$this->load->model('notify_model');
@@ -472,6 +469,14 @@ class Product extends Base_Controller {
 		}else
 		{
 			$products = $this->product_model-> getProductListByStatus($status);
+		}
+		foreach ($products as $key => $value) {
+			$products[$key]['genres'] = $this->product_genres_model->getAll($products[$key]['product_id']);
+			$arrGenre = array();
+			foreach ($products[$key]['genres'] as $keyG => $value) {
+				$arrGenre[$keyG] = $products[$key]['genres'][$keyG]['genre_name'];
+			}
+			$products[$key]['genre'] = implode(', ', $arrGenre);
 		}
 		$data = ['products' => $products];
 		$html = $this->load->view('admin/product_table', $data, true);
