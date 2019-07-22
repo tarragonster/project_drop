@@ -5,7 +5,8 @@
 			<th>Film ID</th>
 			<th>Film Name</th>
 			<th># of Blocks</th>
-			<th>Paywall Block</th>
+            <th>Paywall Block</th>
+			<th>Genre</th>
 			<th>Rating</th>
 			<th>Year</th>
 			<th>Film Activity</th>
@@ -28,6 +29,7 @@
                         echo ($row['paywall_episode_id'] == null)? 'N/a' : 'B' . $row['position'] . ' - ' . $row['paywall_episode_name'] 
                     ?>
                 </td>
+                <td><?php echo ($row['genre'] == null) ? 'N/a' : $row['genre'] ?></td>
                 <td><?php echo $row['rate_name']?></td> 
                 <td><?php echo $row['publish_year']; ?></td>
                 <td>Comments:&nbsp;<?php echo $row['total_cmt']?><br>

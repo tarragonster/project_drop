@@ -143,6 +143,10 @@ $('body').delegate('.btnAct', 'click', function(e) {
     });
 });
 
+//Multiple select
+$('#genre_id').multipleSelect({
+    placeholder: 'Select Genre'
+})
 
 
 

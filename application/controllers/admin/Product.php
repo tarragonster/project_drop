@@ -8,6 +8,8 @@ class Product extends Base_Controller {
 		$this->verifyAdmin();
 
 		$this->load->model("product_model");
+		$this->load->model("story_genres_model");
+		$this->load->model("product_genres_model");
 	}
 
 	public function index($page = 1) {
@@ -27,6 +29,14 @@ class Product extends Base_Controller {
 		);
 
 		$products = $this->product_model->getProductListForAdmin($page - 1);
+		foreach ($products as $key => $value) {
+			$products[$key]['genres'] = $this->product_genres_model->getAll($products[$key]['product_id']);
+			$arrGenre = array();
+			foreach ($products[$key]['genres'] as $keyG => $value) {
+				$arrGenre[$keyG] = $products[$key]['genres'][$keyG]['genre_name'];
+			}
+			$products[$key]['genre'] = implode(', ', $arrGenre);
+		}
 		$data['parent_id'] = 3;
 		$data['sub_id'] = 32;
 		$data['account'] = $this->account;
@@ -51,7 +61,8 @@ class Product extends Base_Controller {
 			$params['creators'] = $this->input->post('creators');
 			$params['status'] = 1;
 			$params['jw_media_id'] = trim($this->input->post('jw_media_id'));
-
+			$genres = $this->input->post('genre_id');
+			
 			$jw_media_id = $this->input->post('jw_media_id');
 			if (!empty($jw_media_id)) {
 				$this->load->library('jw_lib');
@@ -113,6 +124,14 @@ class Product extends Base_Controller {
 				$this->file_model->saveFile($explore_img, $path);
 				$this->preview_model->addFilm($product_id, $path);
 			}
+			foreach ($genres as $item) {
+				$paramsGenre = array(
+					'product_id' => $product_id,
+					'genre_id' => $item,
+					'added_at' => time()
+				);
+				$this->product_genres_model->insert($paramsGenre);
+			}
 			
 			if ($cmd == 'Save') {
 				$this->session->set_flashdata('msg', 'Add success!');
@@ -121,11 +140,13 @@ class Product extends Base_Controller {
 		}
 		
 		$rates = $this->product_model->getRates();
+		$genres = $this->story_genres_model->getAll();
 		$data['parent_id'] = 3;
 		$data['sub_id'] = 31;
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/product_add', array(
-			'rates' => $rates
+			'rates' => $rates,
+			'genres' => $genres
 		), true);
 		$data['customJs'] = array('assets/js/settings.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/info_video.js');
 		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');

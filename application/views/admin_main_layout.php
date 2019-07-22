@@ -19,6 +19,7 @@
 	<link href="<?php echo base_url('assets/css/font-awesome.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" >
+	<link rel="stylesheet" href="<?php echo base_url('assets/css/node_modules/multiple-select/dist/multiple-select.min.css'); ?>">
 
 	<!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -220,6 +221,7 @@
 <script src="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.js'); ?>"></script>
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script src="<?php echo base_url('assets/css/node_modules/multiple-select/dist/multiple-select.min.js'); ?>"></script>
 
 <?php
 if (isset($customJs) && is_array($customJs)) {
