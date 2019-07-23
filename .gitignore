@@ -4,3 +4,4 @@ application/cache/ci_session*
 assets/less
 application/logs
 swagger/local.json
+.env
