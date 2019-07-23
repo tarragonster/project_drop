@@ -369,7 +369,7 @@ class Comment extends BR_Controller {
 				'content' => $content,
 				'edited_at' => time()
 			];
-			$this->comment_model->updateReply($params);
+			$this->comment_model->updateReply($params, $reply_id);
 			$comment = $this->comment_model->getReplyById($reply_id);
 			$comment['num_like'] = 0;
 			$comment['has_like'] = 0;
