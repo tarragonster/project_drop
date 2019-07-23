@@ -78,6 +78,93 @@
                 ]
             }
         },
+        "/comment/remove": {
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "remove comment",
+                "operationId": "removeComment",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "comment_id",
+                        "in": "formData",
+                        "description": "Comment ID",
+                        "required": false,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "reply_id",
+                        "in": "formData",
+                        "description": "Reply ID",
+                        "required": false,
+                        "type": "number",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
+        "/comment/update": {
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "update comment",
+                "operationId": "updateComment",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "comment_id",
+                        "in": "formData",
+                        "description": "Comment ID",
+                        "required": false,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "reply_id",
+                        "in": "formData",
+                        "description": "Reply ID",
+                        "required": false,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "content",
+                        "in": "formData",
+                        "description": "Content",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/contact/skip": {
             "post": {
                 "tags": [

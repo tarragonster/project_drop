@@ -243,25 +243,149 @@ class Comment extends BR_Controller {
 		$this->create_success(array('likes' => $data));
 	}
 
+	/**
+	 * @SWG\Post(
+	 *     path="/comment/remove",
+	 *     summary="remove comment",
+	 *     operationId="removeComment",
+	 *     tags={"Comment"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Comment ID",
+	 *         in="formData",
+	 *         name="comment_id",
+	 *         required=false,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Reply ID",
+	 *         in="formData",
+	 *         name="reply_id",
+	 *         required=false,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function remove_post() {
 		if (!$this->user_model->checkUid($this->user_id)) {
 			$this->create_error(-10);
 		}
-		$comment_id = $this->c_getNotNull('comment_id');
-		$this->user_model->deleteComment($comment_id);
+		$reply_id = $this->post('reply_id');
+		if (!empty($reply_id) && is_numeric($reply_id)) {
+			$reply = $this->comment_model->getReplyById($reply_id);
+			if ($reply == null) {
+				$this->create_error(-1005);
+			}
+			if ($reply['user_id'] != $this->user_id) {
+				$this->create_error(-1003);
+			}
+			$this->load->model('notify_model');
+			$this->notify_model->deleteReference('reply', $reply_id);
 
+			$this->comment_model->deleteReplies($reply_id);
+			$this->create_success(null);
+		}
+
+		$comment_id = $this->c_getNotNull('comment_id');
+
+		$comment = $this->comment_model->get($comment_id);
+		if ($comment == null) {
+			$this->create_error(-1005);
+		}
+		if ($comment['user_id'] != $this->user_id) {
+			$this->create_error(-1003);
+		}
 		$this->load->model('notify_model');
 		$this->notify_model->deleteReference('comment', $comment_id);
+
+		$this->comment_model->delete($comment_id);
 		$this->create_success(null);
 	}
 
+	/**
+	 * @SWG\Post(
+	 *     path="/comment/update",
+	 *     summary="update comment",
+	 *     operationId="updateComment",
+	 *     tags={"Comment"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Comment ID",
+	 *         in="formData",
+	 *         name="comment_id",
+	 *         required=false,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Reply ID",
+	 *         in="formData",
+	 *         name="reply_id",
+	 *         required=false,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Content",
+	 *         in="formData",
+	 *         name="content",
+	 *         required=true,
+	 *         type="string"
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     },
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     )
+	 * )
+	 */
 	public function update_post() {
 		if (!$this->user_model->checkUid($this->user_id)) {
 			$this->create_error(-10);
 		}
+
+		$reply_id = $this->post('reply_id');
+		if (!empty($reply_id) && is_numeric($reply_id)) {
+			$reply = $this->comment_model->getReplyById($reply_id);
+			if ($reply == null) {
+				$this->create_error(-1005);
+			}
+			if ($reply['user_id'] != $this->user_id) {
+				$this->create_error(-1003);
+			}
+			$content = $this->c_getNotNull('content');
+			$params = [
+				'content' => $content,
+				'edited_at' => time()
+			];
+			$this->comment_model->updateReply($params);
+			$this->create_success(null);
+		}
 		$comment_id = $this->c_getNotNull('comment_id');
+		$comment = $this->comment_model->get($comment_id);
+		if ($comment == null) {
+			$this->create_error(-1005);
+		}
+		if ($comment['user_id'] != $this->user_id) {
+			$this->create_error(-1003);
+		}
 		$content = $this->c_getNotNull('content');
-		$this->comment_model->update($comment_id, array('content' => $content, 'timestamp' => time()));
+		$params = [
+			'content' => $content,
+			'edited_at' => time()
+		];
+		$this->comment_model->update($params, $comment_id);
 		$this->create_success(null);
 	}
 

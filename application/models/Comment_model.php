@@ -73,6 +73,11 @@ class Comment_model extends BaseModel {
 		return $this->db->insert_id();
 	}
 
+	public function updateReply($params, $id) {
+		$this->db->where('replies_id', $id);
+		$this->db->update('comment_replies', $params);
+	}
+
 	public function insertCommentLike($params) {
 		$this->db->insert('comment_like', $params);
 		return $this->db->insert_id();
