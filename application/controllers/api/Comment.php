@@ -21,10 +21,10 @@ class Comment extends BR_Controller {
 			foreach ($comments as $key => $comment) {
 				$replies = $this->episode_model->getReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
-					$replies[$t]['has_like'] = $this->episode_model->hasLikeReplies($rep['replies_id'], $this->user_id);
+					$replies[$t]['has_like'] = $this->comment_model->hasLikeReplies($rep['replies_id'], $this->user_id);
 				}
 				$comments[$key]['replies'] = $replies;
-				$comments[$key]['has_like'] = $this->episode_model->hasLikeComment($comment['comment_id'], $this->user_id);
+				$comments[$key]['has_like'] = $this->comment_model->hasLikeComment($comment['comment_id'], $this->user_id);
 			}
 		} else {
 			foreach ($comments as $key => $comment) {
@@ -199,8 +199,8 @@ class Comment extends BR_Controller {
 				];
 				$this->notify_model->removeNotify($this->user_id, 9, $meta);
 			}
-			$data['num_like'] = $this->episode_model->countCommentLike($comment_id);
-			$data['has_like'] = $this->episode_model->hasLikeComment($comment_id, $this->user_id);
+			$data['num_like'] = $this->comment_model->countCommentLike($comment_id);
+			$data['has_like'] = $this->comment_model->hasLikeComment($comment_id, $this->user_id);
 		} else {
 			if ($replies_id == 0) {
 				$this->create_error(-1000);
@@ -237,8 +237,8 @@ class Comment extends BR_Controller {
 				$this->notify_model->removeNotify($replies['user_id'], 53, $meta);
 			}
 
-			$data['num_like'] = $this->episode_model->countRepliesLike($replies_id);
-			$data['has_like'] = $this->episode_model->hasLikeReplies($replies_id, $this->user_id);
+			$data['num_like'] = $this->comment_model->countRepliesLike($replies_id);
+			$data['has_like'] = $this->comment_model->hasLikeReplies($replies_id, $this->user_id);
 		}
 		$this->create_success(array('likes' => $data));
 	}
@@ -370,7 +370,12 @@ class Comment extends BR_Controller {
 				'edited_at' => time()
 			];
 			$this->comment_model->updateReply($params);
-			$this->create_success(null);
+			$comment = $this->comment_model->getReplyById($reply_id);
+			$comment['num_like'] = 0;
+			$comment['has_like'] = 0;
+			$comment['num_like'] = $this->comment_model->countRepliesLike($reply_id);
+			$comment['has_like'] = $this->comment_model->hasLikeReplies($reply_id, $this->user_id);
+			$this->create_success(['comment' => $comment]);
 		}
 		$comment_id = $this->c_getNotNull('comment_id');
 		$comment = $this->comment_model->get($comment_id);
@@ -386,16 +391,19 @@ class Comment extends BR_Controller {
 			'edited_at' => time()
 		];
 		$this->comment_model->update($params, $comment_id);
-		$this->create_success(null);
+		$comment = $this->comment_model->getCommentById($comment_id);
+		$comment['num_like'] = $this->comment_model->countCommentLike($comment_id);
+		$comment['has_like'] = $this->comment_model->hasLikeComment($comment_id, $this->user_id);
+		$this->create_success(['comment' => $comment]);
 	}
 
 	public function updateComment($comment, $type = 1) {
 		if ($type == 2) {
-			$comment['num_like'] = $this->episode_model->countRepliesLike($comment['replies_id']);
-			$comment['has_like'] = $this->episode_model->hasLikeReplies($comment['replies_id'], $this->user_id);
+			$comment['num_like'] = $this->comment_model->countRepliesLike($comment['replies_id']);
+			$comment['has_like'] = $this->comment_model->hasLikeReplies($comment['replies_id'], $this->user_id);
 		} else {
-			$comment['num_like'] = $this->episode_model->countCommentLike($comment['comment_id']);
-			$comment['has_like'] = $this->episode_model->hasLikeComment($comment['comment_id'], $this->user_id);
+			$comment['num_like'] = $this->comment_model->countCommentLike($comment['comment_id']);
+			$comment['has_like'] = $this->comment_model->hasLikeComment($comment['comment_id'], $this->user_id);
 		}
 		return $comment;
 	}

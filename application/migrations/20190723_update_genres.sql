@@ -1,4 +1,4 @@
-ALTER TABLE `secondscreen`.`product` DROP FOREIGN KEY `fk_product_vs_genres`;
+ALTER TABLE `product` DROP FOREIGN KEY `fk_product_vs_genres`;
 ALTER TABLE `product` DROP INDEX `fk_product_vs_genres`;
 ALTER TABLE `product` DROP `genre_id`;
 
