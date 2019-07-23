@@ -82,4 +82,12 @@ class Migrate extends CI_Controller {
 		}
 		echo 'Number of notifies: ' . count($notifies);
 	}
+
+	public function genres() {
+		$products = $this->db->select('product_id, genre_id')->where('genre_id >', 0)->get('product')->result_array();
+		foreach ($products as $product) {
+			$product['added_at'] = time();
+			$this->db->insert('product_genres', $product);
+		}
+	}
 }

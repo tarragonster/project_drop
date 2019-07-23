@@ -59,6 +59,16 @@ class Genre extends BR_Controller {
 		if ($limit <= 0) {
 			$limit = 24;
 		}
+
+		$this->load->model('genre_model');
+		$genre = $this->genre_model->get($genre_id);
+		if ($genre == null) {
+			$this->create_error(-901);
+		}
+		if ($genre['status'] != 1) {
+			$this->create_error(-86);
+		}
+
 		$films = $this->genre_model->getGenreFilms($genre_id, $page, $limit);
 		$this->load->model('product_model');
 		foreach ($films as $key => $film) {

@@ -283,10 +283,10 @@ class Comment extends BR_Controller {
 		if (!empty($reply_id) && is_numeric($reply_id)) {
 			$reply = $this->comment_model->getReplyById($reply_id);
 			if ($reply == null) {
-				$this->create_error(-1005);
+				$this->create_error(-901);
 			}
 			if ($reply['user_id'] != $this->user_id) {
-				$this->create_error(-1003);
+				$this->create_error(-902);
 			}
 			$this->load->model('notify_model');
 			$this->notify_model->deleteReference('reply', $reply_id);
@@ -299,10 +299,10 @@ class Comment extends BR_Controller {
 
 		$comment = $this->comment_model->get($comment_id);
 		if ($comment == null) {
-			$this->create_error(-1005);
+			$this->create_error(-901);
 		}
 		if ($comment['user_id'] != $this->user_id) {
-			$this->create_error(-1003);
+			$this->create_error(-902);
 		}
 		$this->load->model('notify_model');
 		$this->notify_model->deleteReference('comment', $comment_id);
@@ -359,10 +359,10 @@ class Comment extends BR_Controller {
 		if (!empty($reply_id) && is_numeric($reply_id)) {
 			$reply = $this->comment_model->getReplyById($reply_id);
 			if ($reply == null) {
-				$this->create_error(-1005);
+				$this->create_error(-901);
 			}
 			if ($reply['user_id'] != $this->user_id) {
-				$this->create_error(-1003);
+				$this->create_error(-902);
 			}
 			$content = $this->c_getNotNull('content');
 			$params = [
@@ -375,10 +375,10 @@ class Comment extends BR_Controller {
 		$comment_id = $this->c_getNotNull('comment_id');
 		$comment = $this->comment_model->get($comment_id);
 		if ($comment == null) {
-			$this->create_error(-1005);
+			$this->create_error(-901);
 		}
 		if ($comment['user_id'] != $this->user_id) {
-			$this->create_error(-1003);
+			$this->create_error(-902);
 		}
 		$content = $this->c_getNotNull('content');
 		$params = [
