@@ -309,6 +309,7 @@ class Product extends BR_Controller {
 	}
 
 	public function loadEpisode($episode) {
+		$this->load->model('comment_model');
 		$episode['num_like'] = $this->episode_model->countLike($episode['episode_id'], 1);
 		$episode['num_dislike'] = $this->episode_model->countLike($episode['episode_id'], 0);
 		$comments = $this->episode_model->getComments($episode['episode_id'], 1, 0);
