@@ -1,0 +1,27 @@
+#sidebar-menu{
+
+    background: #28292C;
+    width: 250px;
+    height: 100%;
+    padding-top: 15px!important;
+    padding-bottom: 15px!important;
+}
+
+#sidebar-menu > ul > li > a{
+
+    color: #FFFFFF;
+    font-family: 'Montserrat';
+    font-weight: bold;
+    font-size: 16px;
+    font-style: normal;
+}
+
+.side-menu{
+    width: 250px!important;
+    top: 66px!important;
+
+}
+
+.sidebar-inner{
+
+}

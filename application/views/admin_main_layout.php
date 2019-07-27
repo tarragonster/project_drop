@@ -10,6 +10,7 @@
 
 	<title>10 Block cPanel</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap" rel="stylesheet">
 	<link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/core.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/components.css'); ?>" rel="stylesheet" type="text/css"/>
@@ -18,7 +19,9 @@
 	<link href="<?php echo base_url('assets/css/responsive.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/font-awesome.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo base_url('module/css/admin_main_layout.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" >
+
 
 	<!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -77,7 +80,7 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-									<li><a href="<?php echo base_url('logout'); ?>"><i class="ti-power-off m-r-5"></i> Logout</a></li>
+<!--									<li><a href="--><?php //echo base_url('logout'); ?><!--"><i class="ti-power-off m-r-5"></i> Logout</a></li>-->
 								</ul>
 							</li>
 							
@@ -139,24 +142,15 @@
 						</ul>
 					</li>
 					<li>
-						<a href="<?php echo base_url('product'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 3 ? ' active' : ''; ?>"><i class="fa fa-leaf"></i> <span>Series</span></a>
-					</li>
-					<li>
-						<a href="<?php echo base_url('season'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 7 ? ' active' : ''; ?>"><i class="fa fa-ship"></i> <span>Seasons</span></a>
+						<a href="<?php echo base_url('product'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 3 ? ' active' : ''; ?>"><i class="fa fa-leaf"></i> <span>Stories</span></a>
 					</li>
 					<li>
 						<a href="<?php echo base_url('preview'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>"><i class="fa fa-industry"></i>
-							<span>Explore Previews</span></a>
+							<span>Explore</span></a>
 					</li>
 					<li>
 						<a href="<?php echo base_url('collection'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 4 ? ' active' : ''; ?>"><i class="fa fa-industry"></i>
 							<span>Collections</span></a>
-					</li>
-					<li>
-						<a href="<?php echo base_url('actor'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 5 ? ' active' : ''; ?>"><i class="fa fa-male"></i> <span>Actors</span></a>
-					</li>
-					<li>
-						<a href="<?php echo base_url('music'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 6 ? ' active' : ''; ?>"><i class="fa fa-music"></i> <span>Musics</span></a>
 					</li>
 					<li class="has_sub">
 						<a href="#" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>"> <i class="ti-comment"></i> <span>Comments</span> </a>
@@ -169,6 +163,14 @@
 							</li>
 						</ul>
 					</li>
+                    <li>
+                        <a href="<?php echo base_url('lockscreen'); ?>" class="waves-effect"><i class="fa fa-industry"></i>
+                            <span>Settings</span></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url('logout'); ?>" class="waves-effect"><i class="fa fa-industry"></i>
+                            <span>Log Out</span></a>
+                    </li>
 				</ul>
 				<div class="clearfix"></div>
 			</div>
