@@ -51,33 +51,15 @@
                         <img src="<?php echo base_url('favicon.ico')?>" width="120" alt="logo name">
                     </div>
                     <form class="m-form" action="<?php echo isset($url) ? "?url=$url" : ''; ?>" method="post">
-                        <?php 
-                            if (isset($error)) {
-                                echo "
-                                <div style='color: white; margin-bottom: 20px;border: solid 1px #ffffff; background: rgba(255, 255, 255, 0.15); padding: 10px; border-radius: 5px'>
-                                    $error
-                                </div>";
-                            }
-                        ?>
-                        <div class="form-group">
-                            <label id="m_email_label" class="form-label">EMAIL ADDRESS</label>
-                            <input type="text" class="m-form-control" name="email" required="" autocomplete="off" value="<?php echo isset($email) ? $email : '';?>" autofocus="">
+                        <div class="login-title text-center">
+                            Reset Password Successfuly
                         </div>
-                        <div class="form-group">
-                            <label id="m_password_label" class="form-label">PASSWORD</label>
-                            <input type="password" class="m-form-control" name="password" required="" autocomplete="off"value="<?php echo isset($password) ? $password : '';?>">
-                        </div>
-                        <div class="text-center text-guide">By logging in you agree to our terms of service and privacy policy.</div>
-                        <div class="form-group text-center">
-                            <input type="submit" class="btn" name="cmd" value="login">
+                        <div class="form-group text-center" style="margin-top: 20px;">
+                            <a href="<?php echo base_url('dashboard')?>" type="submit" class="btn" name="cmd" style="padding: 0 !important">go to dashboard</a>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
-
-        <div class="forgot-block text-center">
-            <a href="<?php echo base_url('forgotPassword')?>">Forgot Password?</a>
         </div>
     </body>
 </html>

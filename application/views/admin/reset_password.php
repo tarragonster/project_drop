@@ -59,25 +59,26 @@
                                 </div>";
                             }
                         ?>
+                    	<div class="login-title text-center">
+		                    Reset Password
+		                </div>
+		                <div class="text-guide text-center">
+		                    Enter your new password
+		                </div>
                         <div class="form-group">
-                            <label id="m_email_label" class="form-label">EMAIL ADDRESS</label>
-                            <input type="text" class="m-form-control" name="email" required="" autocomplete="off" value="<?php echo isset($email) ? $email : '';?>" autofocus="">
+                            <label id="m_email_label" class="form-label">NEW PASSWORD</label>
+                            <input type="password" class="m-form-control" name="password" required="" autocomplete="off" autofocus="">
                         </div>
                         <div class="form-group">
-                            <label id="m_password_label" class="form-label">PASSWORD</label>
-                            <input type="password" class="m-form-control" name="password" required="" autocomplete="off"value="<?php echo isset($password) ? $password : '';?>">
+                            <label id="m_password_label" class="form-label">CONFIRM PASSWORD</label>
+                            <input type="password" class="m-form-control" name="re_password" required="" autocomplete="off">
                         </div>
-                        <div class="text-center text-guide">By logging in you agree to our terms of service and privacy policy.</div>
                         <div class="form-group text-center">
-                            <input type="submit" class="btn" name="cmd" value="login">
+                            <input type="submit" class="btn" name="cmd" value="reset password">
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
-
-        <div class="forgot-block text-center">
-            <a href="<?php echo base_url('forgotPassword')?>">Forgot Password?</a>
         </div>
     </body>
 </html>

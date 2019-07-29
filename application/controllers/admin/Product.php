@@ -57,7 +57,7 @@ class Product extends Base_Controller {
 			$params['publish_year'] = $this->input->post('publish_year');
 			$params['rate_id'] = $this->input->post('rate_id');
 			$params['creators'] = $this->input->post('creators');
-			$params['status'] = 1;
+			$params['status'] = $this->input->post('status');
 			$params['jw_media_id'] = trim($this->input->post('jw_media_id'));
 			$genres = $this->input->post('genre_id');
 			
