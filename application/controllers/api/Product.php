@@ -309,6 +309,7 @@ class Product extends BR_Controller {
 	}
 
 	public function loadEpisode($episode) {
+		$this->load->model('comment_model');
 		$episode['num_like'] = $this->episode_model->countLike($episode['episode_id'], 1);
 		$episode['num_dislike'] = $this->episode_model->countLike($episode['episode_id'], 0);
 		$comments = $this->episode_model->getComments($episode['episode_id'], 1, 0);
@@ -321,10 +322,10 @@ class Product extends BR_Controller {
 			foreach ($comments as $key => $comment) {
 				$replies = $this->episode_model->getReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
-					$replies[$t]['has_like'] = $this->episode_model->hasLikeReplies($rep['replies_id'], $this->user_id);
+					$replies[$t]['has_like'] = $this->comment_model->hasLikeReplies($rep['replies_id'], $this->user_id);
 				}
 				$comments[$key]['replies'] = $replies;
-				$comments[$key]['has_like'] = $this->episode_model->hasLikeComment($comment['comment_id'], $this->user_id);
+				$comments[$key]['has_like'] = $this->comment_model->hasLikeComment($comment['comment_id'], $this->user_id);
 			}
 			$watch = $this->episode_model->getWatchEpisode($this->user_id, $episode['episode_id']);
 			$episode['start_time'] = $watch != null ? $watch['start_time'] : 0;

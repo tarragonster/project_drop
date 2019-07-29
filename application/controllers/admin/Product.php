@@ -444,7 +444,7 @@ class Product extends Base_Controller {
 			}
 			// Remove reference notification
 			$this->load->model('notify_model');
-			$this->notify_model->deleteReference('user', $user['user_id']);
+			$this->notify_model->deleteReference('product', $product_id);
 
 			// Delete product
 			$this->product_model->deleteProduct($product_id);

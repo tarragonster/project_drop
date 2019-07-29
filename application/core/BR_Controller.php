@@ -73,7 +73,7 @@ class BR_Controller extends REST_Controller {
 			}
 		}
 		if ($temp == -1) {
-			$this->create_error(-1003);
+			$this->create_error(-902);
 		}
 	}
 
@@ -192,11 +192,14 @@ class BR_Controller extends REST_Controller {
 		-83 => 'Access token has expired',
 		-84 => 'Not found reply',
 		-85 => 'Not found jw media id',
+		-86 => 'Genre is not available',
+
+		-901 => 'Unknown resource',
+		-902 => "Access denied.",
+
 		-1000 => 'Undefined error',
 		-1001 => 'Api key invalid',
 		-1002 => 'Your account has been deactivated.',
-		-1003 => "Access denied.",
-		-1005 => 'Unknown resource',
 	);
 
 	public function c_getNotNull($key) {

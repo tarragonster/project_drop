@@ -1,0 +1,3 @@
+127.0.0.1       secondscreen.co
+127.0.0.1       admin.secondscreen.co
+127.0.0.1       api.secondscreen.co

@@ -127,32 +127,6 @@ class Episode_model extends BaseModel {
 		return $query->num_rows() > 0 ? 1 : 0;
 	}
 
-	public function hasLikeComment($comment_id, $user_id) {
-		$this->db->where('comment_id', $comment_id);
-		$this->db->where('user_id', $user_id);
-		$query = $this->db->get('comment_like');
-		return $query->num_rows() > 0 ? 1 : 0;
-	}
-
-	public function hasLikeReplies($replies_id, $user_id) {
-		$this->db->where('replies_id', $replies_id);
-		$this->db->where('user_id', $user_id);
-		$query = $this->db->get('replies_like');
-		return $query->num_rows() > 0 ? 1 : 0;
-	}
-
-	public function countCommentLike($comment_id) {
-		$this->db->from('comment_like');
-		$this->db->where('comment_id', $comment_id);
-		return $this->db->count_all_results();
-	}
-
-	public function countRepliesLike($replies_id) {
-		$this->db->from('replies_like');
-		$this->db->where('replies_id', $replies_id);
-		return $this->db->count_all_results();
-	}
-
 	public function checkWatchEpisode($user_id, $episode_id) {
 		$this->db->select('id');
 		$this->db->where('episode_id', $episode_id);

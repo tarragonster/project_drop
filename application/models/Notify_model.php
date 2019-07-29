@@ -237,7 +237,7 @@ class Notify_model extends CI_Model {
 		if ($data == null || empty($data)) {
 			return;
 		}
-		$reference_types = ['user' => 'user', 'product' => 'product', 'episode' => 'episode', 'comment' => 'comment', 'follower' => 'user', 'uid' => 'user'];
+		$reference_types = ['user' => 'user', 'product' => 'product', 'episode' => 'episode', 'comment' => 'comment', 'follower' => 'user', 'uid' => 'user', 'replies' => 'reply'];
 		foreach ($data as $key => $value) {
 			foreach ($reference_types as $type => $mappedType) {
 				if (startsWith($key, $type)) {
@@ -252,7 +252,7 @@ class Notify_model extends CI_Model {
 	}
 
 	public function deleteReference($refer_type, $refer_id) {
-		$this->db->get('notification_references');
+		$this->db->from('notification_references');
 		$this->db->where('refer_type', $refer_type);
 		$this->db->where('refer_id', $refer_id);
 		$this->db->select('notify_id');

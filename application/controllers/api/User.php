@@ -993,7 +993,7 @@ class User extends BR_Controller {
 		$quote = $this->c_getNotNull('quote');
 		$pick = $this->user_model->getPick($pick_id);
 		if ($pick == null) {
-			$this->create_error(-1005);
+			$this->create_error(-901);
 		}
 		if ($pick != null) {
 			$this->user_model->updatePick(['quote' => $quote], $pick['pick_id']);
@@ -1007,7 +1007,7 @@ class User extends BR_Controller {
 		$pick_id = $this->c_getNotNull('pick_id');
 		$pick = $this->user_model->getPick($pick_id);
 		if ($pick == null) {
-			$this->create_error(-1005);
+			$this->create_error(-901);
 		}
 		$this->user_model->removePick($pick['pick_id']);
 		$product = $this->product_model->get($pick['product_id']);
