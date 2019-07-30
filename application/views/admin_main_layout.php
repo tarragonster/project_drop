@@ -103,7 +103,12 @@
 									<a href="<?php echo base_url('product/add')?>">Add Film</a>
 								</button>
 							</li>
-						<?php else:?>
+						<?php elseif(isset($sub_id) && $sub_id == 51):?>
+							<li class="btn-export">
+								<button type="button" class="btn btn-header">
+									<a href="<?php echo base_url('product/add')?>">Add Genre</a>
+								</button>
+							</li>
 						<?php endif;?>
 					</ul>
 				</div>
@@ -199,8 +204,8 @@
 						</ul>
 					</li>
                     <li>
-                        <a href="<?php echo base_url('lockscreen'); ?>" class="waves-effect">
-                            <?php if (isset($parent_id) && $parent_id == 1) { ?>
+                        <a href="<?php echo base_url('setting'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 5 ? ' active' : ''; ?>">
+                            <?php if (isset($parent_id) && $parent_id == 5) { ?>
                                 <img src= "assets/images/left-sidebar/Settings-active.svg" alt="Settings">
                             <?php }else{ ?>
                                 <img src= "assets/images/left-sidebar/Settings.svg" alt="Settings">
@@ -238,9 +243,9 @@
 				?>
 			</div> <!-- container -->
 		</div> <!-- content -->
-		<footer class="footer text-right">
+		<!-- <footer class="footer text-right">
 			2018 © <a href="http://secondscreentv.us">www.secondscreentv.us</a>
-		</footer>
+		</footer> -->
 
 	</div>
 
