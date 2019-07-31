@@ -225,3 +225,15 @@ element.style {
 .table-bordered {
   border-top: 1.5px solid #979797;
 }
+.ms-choice {
+    border: none;
+}
+.ms-choice>span {
+    top: 7px;
+    padding-left: 0;
+}
+.ms-parent {
+    border: none;
+    border-bottom: 1px solid #E3E3E3;
+    border-radius: unset;
+}

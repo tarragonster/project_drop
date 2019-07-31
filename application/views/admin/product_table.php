@@ -1,11 +1,12 @@
-<table id="example4" class="table table-bordered-bottom table-hover" style="width:100%">
+<table id="example4" class="table table-bordered-bottom table-hover dataTable" style="width:100%">
 	<thead>
 		<tr><hr>
 			<th></th>
 			<th>Film ID</th>
 			<th>Film Name</th>
 			<th># of Blocks</th>
-			<th>Paywall Block</th>
+            <th>Paywall Block</th>
+			<th>Genre</th>
 			<th>Rating</th>
 			<th>Year</th>
 			<th>Film Activity</th>
@@ -15,9 +16,9 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php
-		if ($products != null && count($products) > 0) {
-			foreach ($products as $row): ?>
+        <?php
+        if ($products != null && count($products) > 0) {
+            foreach ($products as $row): ?>
                 <tr>
                 <td><img style="max-width: 50px; height: 75px;border-radius: 5px;" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
                 <td><?php echo $row['product_id']?></td>
@@ -28,7 +29,8 @@
                         echo ($row['paywall_episode_id'] == null)? 'N/a' : 'B' . $row['position'] . ' - ' . $row['paywall_episode_name'] 
                     ?>
                 </td>
-                <td><?php echo $row['rate_name']?></td> 
+                <td><?php echo empty($row['genre']) ? 'N/a' : $row['genre']?></td>
+                <td><?php echo $row['rate_name']?></td>
                 <td><?php echo $row['publish_year']; ?></td>
                 <td>Comments:&nbsp;<?php echo $row['total_cmt']?><br>
                   Thumbs&nbsp;up:&nbsp;<?php echo $row['total_like']?> <br>
@@ -146,7 +148,5 @@
               'dom' : 'frtilp',
               'searching': false,
           });
-
-        
     });
 </script>

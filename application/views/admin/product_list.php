@@ -102,4 +102,3 @@ if($this->session->flashdata('error')){
 			</div>
 		</div>
 	</div>
-

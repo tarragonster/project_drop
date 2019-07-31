@@ -85,7 +85,7 @@ class Product_model extends BaseModel {
 		if ($page >= 0) {
 			$this->db->limit(PERPAGE_ADMIN, PERPAGE_ADMIN * $page);
 		}
-		$this->db->order_by('product_id', 'desc');
+		// $this->db->order_by('product_id', 'desc');
 		$query = $this->db->get();
 		return $query->result_array();
 	}

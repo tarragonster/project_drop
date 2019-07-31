@@ -43,6 +43,28 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Genre</label>
+                            <select id='genre_id' class="form-control" required name='genre_id[]' multiple="multiple">
+                                <?php
+                                foreach ($genres as $item) {
+                                    echo "<option value='{$item['id']}'>{$item['name']}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id='status' class="form-control" required name='status'>
+                                <option value="">Select Status</option>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-12">
                         <label>Creators</label>
                         <div class="form-group">
@@ -129,4 +151,3 @@
         </div>
     </form>
 </div>
-

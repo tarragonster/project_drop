@@ -1,8 +1,10 @@
 <?php
 
-class Admin_model extends CI_Model {
+class Admin_model extends BaseModel {
 	public function __construct() {
 		parent::__construct();
+		$this->table = 'admin';
+		$this->id_name = 'id';
 	}
 
 	public function getAdminAccount($email, $password) {
