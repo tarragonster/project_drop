@@ -977,3 +977,24 @@ table, th, td {
   color: #565656;
 }
 /*End Modal*/
+
+.section-content {
+    background-color: #fff;
+    border-radius: 5px;
+    margin-top: 20px; 
+}
+.edit-popup .dropdown-arrow {
+    left: 315px;
+}
+.dropdown-arrow {
+    width: 16px;
+    height: 16px;
+    background-color: #ffffff;
+    position: absolute;
+    top: -8.5px;
+    left: 40px;
+    transform: rotate(45deg);
+    border-top: 1px solid #EEEDEB;
+    border-left: 1px solid #EEEDEB;
+    z-index: 10000;
+}

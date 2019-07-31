@@ -7,6 +7,7 @@ class Genre extends My_Controller {
 		parent::__construct();
 
 		$this->load->model("story_genres_model");
+		$this->load->model("product_genres_model");
 		$this->load->model('file_model');
 	}
 
@@ -14,7 +15,9 @@ class Genre extends My_Controller {
 		$conditions = array();
 		parse_str($_SERVER['QUERY_STRING'], $conditions);
 		$genres = $this->story_genres_model->getAll($conditions);
-		print_r($genres);die();
+		foreach ($genres as $key => $value) {
+			$genres[$key]['num_stories'] = count($this->product_genres_model->countStoryByGenre($genres[$key]['id']));
+		}
 		$headers = array(
 			'image' => array('label' => '', 'sorting' => false),
 			'id' => array('label' => 'Genre ID', 'sorting' => false),
@@ -42,19 +45,41 @@ class Genre extends My_Controller {
 		$this->render('/setting/setting_page', $params, 5, 51);
 	}
 
-	public function ajaxAddGenre() {
-		$this->load->view('admin/setting/sub_page/add_genre');
+	public function ajaxGenre() {
+		$key = $this->input->post('key');
+		$genre_id = !empty($this->input->post('genre_id')) ? $this->input->post('genre_id') : '';
+		$data['genre'] = $this->story_genres_model->get($genre_id);
+
+		if ($key == 'add') {
+			$this->load->view('admin/setting/sub_page/add_genre');
+		}else {
+			$this->load->view('admin/setting/sub_page/edit_genre', $data);
+		}
 	}
 
 	public function addGenre() {
 		$params['name'] = $this->input->post('genre_name');
-		$genre_image = $this->input->post('genre_image');
-		if ($genre_image != null) {
-			$path = $this->file_model->createFileName($genre_image, 'media/genres/', 'genre');
-			$this->file_model->saveFile($genre_image, $path);
+		$image = isset($_FILES['genre_img']) ? $_FILES['genre_img'] : null;
+		if ($image != null && $image['error'] == 0) {
+			$path = $this->file_model->createFileName($image, 'media/genres/', 'genre');
+			$this->file_model->saveFile($image, $path);
 			$params['image'] = $path;
 		}
 		$params['created_at'] = time();
 		$this->story_genres_model->insert($params);
+		$this->redirect('genre');
+	}
+
+	public function editGenre() {
+		$genre_id = $this->input->post('genre_id');
+		$params['name'] = $this->input->post('genre_name');
+		$image = isset($_FILES['genre_img']) ? $_FILES['genre_img'] : null;
+		if ($image != null && $image['error'] == 0) {
+			$path = $this->file_model->createFileName($image, 'media/genres/', 'genre');
+			$this->file_model->saveFile($image, $path);
+			$params['image'] = $path;
+		}
+		$this->story_genres_model->update($params, $genre_id);
+		$this->redirect('genre');
 	}
 }

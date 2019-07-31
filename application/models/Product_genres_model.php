@@ -16,4 +16,9 @@ class Product_genres_model extends BaseModel {
 		$this->db->join('story_genres sg', 'pg.genre_id = sg.id');
 		return $this->db->get()->result_array();
 	}
+
+	public function countStoryByGenre($genre_id) {
+		$this->db->where('genre_id', $genre_id);
+		return $this->db->get($this->table)->result_array();
+	}
 }
