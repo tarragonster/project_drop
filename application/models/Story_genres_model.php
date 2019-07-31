@@ -9,7 +9,14 @@ class Story_genres_model extends BaseModel {
 		$this->id_name = 'id';
 	}
 
-	public function getAll() {
+	public function getAll($conditions) {
+		if (!empty($conditions['sort_by'])) {
+			if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+				$this->db->order_by($conditions['sort_by'], 'desc');
+			}else {
+				$this->db->order_by($conditions['sort_by'], 'asc');
+			}
+		}
 		return $this->db->get($this->table)->result_array();
 	}
 }

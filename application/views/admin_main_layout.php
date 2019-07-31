@@ -105,9 +105,7 @@
 							</li>
 						<?php elseif(isset($sub_id) && $sub_id == 51):?>
 							<li class="btn-export">
-								<button type="button" class="btn btn-header">
-									<a href="<?php echo base_url('product/add')?>">Add Genre</a>
-								</button>
+								<button type="button" class="btn btn-header" id="add-genre-btn">Add Genre</button>
 							</li>
 						<?php endif;?>
 					</ul>
@@ -284,6 +282,7 @@ if (isset($customJs) && is_array($customJs)) {
 ?>
 <script src="<?php echo base_url('assets/js/jquery.core.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.app.js'); ?>"></script>
+<script src="<?php echo base_url('module/js/setting-action.js'); ?>"></script>
 <?= isset($bottom_html) ? $bottom_html : ''; ?>
 </body>
 </html>

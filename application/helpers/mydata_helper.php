@@ -328,3 +328,10 @@ function html_percent($percent, $arrow = true) {
 		return '<span class="text-danger">' . ($arrow ? '<i class="fa fa-arrow-down"></i> ' : '') . number_format(abs($percent)) . '%</span>';
 	endif;
 }
+
+function ShowHeaderFAQ($str){
+    $new_str = str_replace("&nbsp;", '', $str);
+    $new_str = 'header_'.$new_str;
+    $new_str = strtolower($new_str);
+    return $new_str;
+}

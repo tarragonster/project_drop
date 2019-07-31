@@ -25,4 +25,12 @@
 	<span>Click <b>Add Genre</b> to add a new genreto 10 block</span>
 </div>
 
-
+<div class="modal custom-modal below-header fade visiting right" id="add-genre-popup" tabindex="-1" role="dialog">
+	<form action="" method="post" id="genre-form" >
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" id="add-genre-form" style="padding: 0px">
+				
+			</div>
+		</div>
+	</form>
+</div>
