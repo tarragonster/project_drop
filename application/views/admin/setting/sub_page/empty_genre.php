@@ -26,7 +26,7 @@
 </div>
 
 <div class="modal custom-modal below-header fade visiting right" id="add-genre-popup" tabindex="-1" role="dialog">
-	<form action="" method="post" id="genre-form" >
+	<form action="<?php echo base_url('genre/addGenre')?>" method="post" id="genre-form" enctype="multipart/form-data">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content" id="add-genre-form" style="padding: 0px">
 				
