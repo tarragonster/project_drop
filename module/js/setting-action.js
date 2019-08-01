@@ -31,4 +31,33 @@ $('.edit-genre-btn').on('click', function (e) {
 	});
 });
 
+//Action update status of genre
+$('body').delegate('.btnAct', 'click', function(e) {
+    e.preventDefault();
+
+    var genre_id = $(this).data('id');
+
+    $('.dis-confirm').click(function(){
+        $.get('genre/disable', {genre_id:genre_id}, function(data){
+	        $(this).attr('data-dismiss', 'modal');
+	        location.reload();
+        });
+    });
+
+    $('.en-confirm').click(function(){
+        $.get('genre/enable', {genre_id:genre_id}, function(data){
+	        $(this).attr('data-dismiss', 'modal');
+	        location.reload();
+        });
+    });
+
+    $('.del-confirm').click(function(){
+        if ($('#text-confirm').val() == 'DELETE') {
+            $.get('genre/delete', {genre_id:genre_id}, function(data){
+                $(this).attr('data-dismiss', 'modal');
+		        location.reload();
+            });
+        }
+    });
+});
 

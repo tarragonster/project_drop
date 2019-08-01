@@ -958,7 +958,7 @@ table, th, td {
     border-radius: 11px;
     position: relative;
 }
-.uploader button {
+.uploader button, .uploader button:hover, .uploader button:focus {
     font-size: 10px;
     text-transform: uppercase;
     border-radius: 20px;
@@ -997,4 +997,34 @@ table, th, td {
     border-top: 1px solid #EEEDEB;
     border-left: 1px solid #EEEDEB;
     z-index: 10000;
+}
+.modal-dialog {
+    width: 30%;
+    margin: 200px auto;
+}
+.modal-content-popup {
+    padding: 30px 60px !important;
+    text-align: center;
+}
+.modal-button {
+    margin-top: 40px;
+}
+.modal-button button {
+    border-radius: 20px;
+    padding: 6px 26px;
+}
+.modal-button .cancel-btn {
+    margin-right: 10px;
+    color: #FFFFFF;
+    background-color: #9B9B9B;
+}
+.modal-button .dis-confirm {
+    background-color: #FFC17C !important;
+}
+#confirm-del-modal #text-confirm {
+    width: 80%;
+    border-radius: 5px;
+    border: 1px solid;
+    padding: 5px;
+    margin-top: 20px;
 }

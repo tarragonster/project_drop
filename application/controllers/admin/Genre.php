@@ -42,6 +42,7 @@ class Genre extends My_Controller {
 		$this->customCss[] = 'module/css/submenu.css';
 		$this->customCss[] = 'module/css/genre.css';
 		$this->customJs[] = 'module/js/coreTable.js';
+		$this->customJs[] = 'module/js/setting-action.js';
 		$this->render('/setting/setting_page', $params, 5, 51);
 	}
 
@@ -80,6 +81,41 @@ class Genre extends My_Controller {
 			$params['image'] = $path;
 		}
 		$this->story_genres_model->update($params, $genre_id);
+		$this->redirect('genre');
+	}
+
+	public function disable($genre_id = 0) {
+		$genre_id = $this->input->get('genre_id');
+		$genre = $this->story_genres_model->get($genre_id);
+		if ($genre == null) {
+			$this->redirect('genre');
+		} else {
+			$this->story_genres_model->update(array('status' => 0), $genre_id);
+			return $this->redirect('genre');
+		}
+	}
+
+	public function enable($genre_id = 0) {
+		$genre_id = $this->input->get('genre_id');
+		$genre = $this->story_genres_model->get($genre_id);
+		if ($genre == null) {
+			$this->redirect('genre');
+		}else {
+			$this->story_genres_model->update(array('status' => 1), $genre_id);
+			return $this->redirect('genre');
+		}
+	}
+
+	public function delete($genre_id = 0) {
+		$genre_id = $this->input->get('genre_id');
+		$genre = $this->story_genres_model->get($genre_id);
+		if ($genre == null) {
+			$this->redirect('genre');
+		}
+		//Delete product_genres
+		$this->product_genres_model->deleteByGenre($genre_id);
+		//Delete story_genres
+		$this->story_genres_model->delete($genre_id);
 		$this->redirect('genre');
 	}
 }

@@ -282,7 +282,6 @@ if (isset($customJs) && is_array($customJs)) {
 ?>
 <script src="<?php echo base_url('assets/js/jquery.core.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.app.js'); ?>"></script>
-<script src="<?php echo base_url('module/js/setting-action.js'); ?>"></script>
 <?= isset($bottom_html) ? $bottom_html : ''; ?>
 </body>
 </html>

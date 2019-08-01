@@ -18,9 +18,17 @@
 								<li class="edit-genre-btn" data-id="<?php echo $row['id']; ?>">
 									<a href="#">Edit<span class="action-icon"> <i class="fa fa-edit"></i></span></a>
 								</li>
+								<?php if($row['status'] == 1):?>
+								<li class="dis-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#dis-modal">
+									<a href="#">Disable<span class="action-icon"> <i class="fa fa-block"></i></span></a>
+								</li>
+								<?php else: ?>
+								<li class="en-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#en-modal">
+									<a href="#">Enable<span class="action-icon"> <i class="fa fa-edit"></i></span></a>
+								</li>
+								<?php endif; ?>
 								<li class="divider"></li>
-								<li class="delete-click"
-								    data-url="<?php echo base_url('customer/delete/' . $row['id'] . '?redirect=' . uri_string()); ?>">
+								<li class="delete-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#del-modal">
 									<a href="#">Delete<span class="action-icon"> <i class="fa fa-trash"></i></span></a>
 								</li>
 							</ul>
@@ -50,4 +58,72 @@
 			</div>
 		</div>
 	</form>
+</div>
+<div class="modal fade" id="dis-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal-content-popup">
+			<div class="modal-img">
+				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
+			</div>
+			<div class="modal-description">
+				<h2>Are you sure?</h2>
+				<p>Are you sure you want to disable this genre? You will be able to undo this in the actions section.</p>
+			</div>
+			<div class="modal-button">
+				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-warning dis-confirm">Disable</button>
+			</div>	
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="en-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal-content-popup">
+			<div class="modal-img">
+				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
+			</div>
+			<div class="modal-description">
+				<h2>Are you sure?</h2>
+				<p>Are you sure you want to enable this genre? You will be able to undo this in the actions section.</p>
+			</div>
+			<div class="modal-button">
+				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-warning en-confirm">Enable</button>
+			</div>	
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="del-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal-content-popup">
+			<div class="modal-img">
+				<img src="<?php echo base_url('assets/images/quit.jpg')?>">
+			</div>
+			<div class="modal-description">
+				<h2>Are you sure?</h2>
+				<p>Are you sure you want to delete this genre? You will not be able to undo this.</p>
+			</div>
+			<div class="modal-button">
+				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
+				<button class="btn btn-danger" data-toggle="modal" data-target="#confirm-del-modal" data-dismiss="modal" >Delete</button>
+			</div>	
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="confirm-del-modal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content modal-content-popup">
+			<div class="modal-img">
+				<img src="<?php echo base_url('assets/images/quit.jpg')?>">
+			</div>
+			<div class="modal-description" style="margin-top: 10px">
+				<p>Type "DELETE" in the box below to proceed. You will not be able to undo this.</p>
+				<input type="text" id="text-confirm">
+			</div>
+			<div class="modal-button">
+				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-danger del-confirm">Delete</button>
+			</div>  
+		</div>
+	</div>
 </div>
