@@ -149,7 +149,7 @@
     list-style-type: none;
     margin: 18px 5px;
 }
-.btn-header, .btn-header:hover {
+.btn-header, .btn-header:hover, .btn-header:focus {
     padding: 4px 10px !important;
     font-size: 14px;
     border-radius: 20px;

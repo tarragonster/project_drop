@@ -21,4 +21,9 @@ class Product_genres_model extends BaseModel {
 		$this->db->where('genre_id', $genre_id);
 		return $this->db->get($this->table)->result_array();
 	}
+
+	public function deleteByGenre($genre_id) {
+		$this->db->where('genre_id', $genre_id);
+		$this->db->delete($this->table);
+	}
 }
