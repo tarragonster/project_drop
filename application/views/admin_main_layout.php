@@ -264,6 +264,7 @@
 <script src="<?php echo base_url('assets/js/jquery.blockUI.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/waves.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/wow.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-ui.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.scrollTo.min.js'); ?>"></script>
 
