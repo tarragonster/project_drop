@@ -1,10 +1,12 @@
 .container {
     padding-left: 11px;
+    padding-right: 0;
 }
 .content-page > .content {
     margin-bottom: 0;
     padding-top: 0;
-    padding-left: 0px;
+    padding-left: 0;
+    padding-bottom: 0;
 }
 .section-container {
 	overflow-y: hidden;
@@ -62,6 +64,7 @@
 	font-size: 11px;
 	font-weight: 600;
 	letter-spacing: 0.73px;
+	font-weight: 500;
 }
 
 .section-menu ul li.active a {
@@ -75,7 +78,7 @@
 	right: 0px;
 	bottom: 0px;
 	overflow-y: scroll;
-	overflow-x: hidden;
+	/*overflow-x: hidden;*/
 }
 
 .section-content h3.card-title {
