@@ -392,22 +392,64 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getAllUsers($query = '') {
-		$sql = "select ul.*, count(up.pick_id) as total_pick 
-					from user_picks as up right join (select uc.*, count(el.episode_id) as total_like 
-						from episode_like as el right join (select u.*, count(c.comment_id) as total_comment, dt.name as device_name
-				    		from (((user as u 
-							    left join comments as c on u.user_id = c.user_id)
-							    left join device_user as du on u.user_id = du.user_id)
-							    left join device_type as dt on du.dtype_id = dt.dtype_id)
-						        where user_name LIKE '%" . $query . "%'
-				    			group by user_id) uc on uc.user_id = el.user_id
-				    		group by user_id) ul on ul.user_id = up.user_id
-				    	group by ul.user_id
-				    	order by user_id desc";
-		$query = $this->db->query($sql);
-		return $query->result_array();
+	public function getAllUsers($conditions = array()) {
+        $this->makeQuery($conditions);
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id', 'user_name', 'email', 'joined','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('u.user_id', 'desc');
+        }
+        return $this->db->get()->result_array();
 	}
+
+    protected function makeQuery($conditions = array()) {
+	    $this->db->select('u.*');
+        $this->db->from('user u');
+
+        if (!empty($conditions['key'])) {
+            $this->makeSearchQuery(['lower(u.user_name)','lower(u.user_id)','lower(u.email)'], strtolower($conditions['key']));
+        }
+    }
+
+    public function getVersion($user_ids){
+
+	    $this->db->select('du.*,dt.*');
+        $this->db->where_in('du.user_id', $user_ids);
+        $this->db->from('device_user du');
+        $this->db->join('device_type dt','du.dtype_id = dt.dtype_id');
+        $data = $this->db->get()->result_array();
+        return $data;
+    }
+
+    public function getAllPick($user_ids){
+        $this->db->select('up.*');
+        $this->db->where_in('up.user_id', $user_ids);
+        $this->db->from('user_picks up');
+        $data = $this->db->get()->result_array();
+        return $data;
+
+    }
+
+    public function getAllLike($user_ids){
+        $this->db->select('el.*');
+        $this->db->where_in('el.user_id',$user_ids);
+        $this->db->from('episode_like el');
+        $data = $this->db->get()->result_array();
+        return $data;
+    }
+
+    public function getAllComment($user_ids){
+        $this->db->select('c.*');
+        $this->db->where_in('c.user_id',$user_ids);
+        $this->db->from('comments c');
+        $data = $this->db->get()->result_array();
+        return $data;
+
+    }
 
 	public function clearData($user_id) {
 		$this->db->trans_start();

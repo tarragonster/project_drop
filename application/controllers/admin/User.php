@@ -7,6 +7,7 @@ class User extends Base_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->verifyAdmin();
+        $this->load->library('hash');
 	}
 
 	public function index($page = 1) {
@@ -21,26 +22,80 @@ class User extends Base_Controller {
 		$config['cur_page'] = $page;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
+
+        $conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+
+        $headers = array(
+            'img' => array('label' => '', 'sorting' => false),
+            'user_id' => array('label' => 'User ID', 'sorting' => true),
+            'user_name' => array('label' => 'Name', 'sorting' => true),
+            'email' => array('label' => 'Email', 'sorting' => true),
+            'total_pick'=> array('label' => 'Activity', 'sorting' => true),
+            'dt' => array('label' => 'Version'),
+            'joined' => array('label' => 'Create Date'),
+            'status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action', 'sorting' => false));
+
 		$pinfo = array(
 			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
 			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
-		$users = $this->user_model->getAllUsers();
-		$layoutParams = [
+		$users = $this->user_model->getAllUsers($conditions);
+
+        $user_ids = Hash::combine($users,'{n}.user_id','{n}.user_id');
+
+        //todo Get Like by user_ids
+        $likes = ($this->user_model->getAllLike($user_ids));
+        $likes= Hash::combine($likes,'{n}.id','{n}','{n}.user_id');
+
+        //todo Get comment by user_ids
+        $comments = $this->user_model->getAllComment($user_ids);
+        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
+        //todo Get pick by user_ids
+        $picks = $this->user_model->getAllPick($user_ids);
+        $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
+        //todo Get Version by user_ids
+        $version = $this->user_model->getVersion($user_ids);
+        $version= Hash::combine($version,'{n}.id','{n}','{n}.user_id');
+
+
+        foreach ($users as $key=>$value){
+            $users[$key]['likes'] = !empty($likes[$value['user_id']])?$likes[$value['user_id']]:[];
+            $users[$key]['total_like'] = count($users[$key]['likes']);
+            $users[$key]['comments'] = !empty($comments[$value['user_id']])?$comments[$value['user_id']]:[];
+            $users[$key]['total_comment'] = count($users[$key]['comments']);
+            $users[$key]['picks'] = !empty($picks[$value['user_id']])?$picks[$value['user_id']]:[];
+            $users[$key]['total_pick'] = count($users[$key]['picks']);
+            $users[$key]['version'] = !empty($version[$value['user_id']])?$version[$value['user_id']]:[];
+            $users[$key]['total_version'] = count($users[$key]['version']);
+        }
+
+//        pre_print($users);
+
+		$userData['users']=$users;
+        $userData['headers'] = $headers;
+        $userData['conditions'] = $conditions;
+
+        $userContent = $this->load->view('admin/users_table',$userData, true);
+        $layoutParams = [
 			'title' => 'Active Users',
 			'users' => $users,
-			'pinfo' => $pinfo
+			'pinfo' => $pinfo,
+            'sub_id' => 21,
+            'userContent' => $userContent,
+            'conditions' =>$conditions
 		];
 		$content = $this->load->view('admin/users_list', $layoutParams, true);
 
 		$data = array();
-		$data['customCss'] = array('assets/css/settings.css');
-		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js');
+		$data['customCss'] = array('assets/css/settings.css','module/css/user.css');
+		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
-		$data['content'] = $content;
+        $data['content'] = $content;
 		$this->load->view('admin_main_layout', $data);
 	}
 
@@ -411,19 +466,19 @@ class User extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function getUsersByStatus()
-	{
-		$status = $this->input->get('status');
-		if ($status == 0 || $status == 1) {
-			$users = $this->user_model->getUsersForAdmin($status);
-		}else
-		{
-			$users = $this->user_model->getAllUsers();
-		}
-		$data = ['users' => $users];
-		$html = $this->load->view('admin/users_table', $data, true);
-		die(json_encode($html));
-	}
+//	public function getUsersByStatus()
+//	{
+//		$status = $this->input->get('status');
+//		if ($status == 0 || $status == 1) {
+//			$users = $this->user_model->getUsersForAdmin($status);
+//		}else
+//		{
+//			$users = $this->user_model->getAllUsers();
+//		}
+//		$data = ['users' => $users];
+//		$html = $this->load->view('admin/users_table', $data, true);
+//		die(json_encode($html));
+//	}
 
 	public function search()
 	{
