@@ -22,9 +22,9 @@
                 $class = 'sorting';
             }
             $url = base_url('user') . '?' . http_build_query($conditions);
-            echo '<th th-header-url="' . $url . '" class="'. ShowHeaderFAQ($row['label']). ' th-header ' . $class.'">'. $row['label'] . '</th>';
+            echo '<th th-header-url="' . $url . '" class="'. ShowHeaderFAQ($row['label']). ' th-header ' . $class.'"><span style="margin-left: 14px;">'. $row['label'] . '</span></th>';
         } else
-            echo '<th class="noSortHeader'.$row['label'] .' ">'. (is_array($row) ? $row['label'] : $row) . '</th>';
+            echo '<th class="noSortHeader'.$row['label'] .' "><span style="margin-left: 14px;">'. (is_array($row) ? $row['label'] : $row) . '</span></th>';
     }
     ?>
 </tr>

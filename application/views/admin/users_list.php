@@ -11,7 +11,7 @@
             </div>
             <div class="cover-submenu-item">
                 <a href="<?php echo base_url('user/reports'); ?>"
-                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 10 ? ' active' : ''; ?>">Reported
+                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 23 ? ' active' : ''; ?>">Reported
                     Users</a>
             </div>
         </div>

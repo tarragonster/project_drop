@@ -369,8 +369,8 @@ class User_model extends BaseModel {
 		$this->db->insert('user_timeuse', $params);
 	}
 
-	public function getNumOfUser($status = 1) {
-		$this->db->where('status', $status);
+	public function getNumOfUser() {
+		$this->db->select();
 		$this->db->from('user');
 		return $this->db->count_all_results();
 	}
@@ -392,7 +392,7 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getAllUsers($conditions = array()) {
+	public function getAllUsers($conditions = array(), $page = 0) {
         $this->makeQuery($conditions);
         if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id', 'user_name', 'email', 'joined','status'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
@@ -403,6 +403,14 @@ class User_model extends BaseModel {
         }else{
             $this->db->order_by('u.user_id', 'desc');
         }
+            if (!empty($conditions['per_page'])) {
+                $per_page = $conditions['per_page'] * 1;
+            } else {
+                $per_page = 25;
+            }
+            if ($page >= 0){
+                $this->db->limit($per_page, $page * $per_page);
+            }
         return $this->db->get()->result_array();
 	}
 

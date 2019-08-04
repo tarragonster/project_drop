@@ -107,7 +107,7 @@
 
     padding-right: 20px;
     padding-left: 20px;
-    margin-top: 65px;
+    margin-top: 25px;
 }
 
 .search-container input[type=search]{
@@ -127,6 +127,8 @@
     padding-left: 0;
     padding-right: 0;
     margin-top: 0;
+    border: none;
+    background: transparent;
 
 }
 
@@ -196,6 +198,7 @@
 table.dataTable{
 
     margin-top: 0!important;
+    margin-bottom: 0!important;
 }
 
 table.dataTable thead .sorting,
@@ -212,12 +215,10 @@ table.dataTable thead .sorting_asc:before,
 table.dataTable thead .sorting_desc:before {
     position: absolute;
     top: 50%;
-    right: 8px;
-    font-size: 14px;
-    margin-top: -9px;
     display: block;
     font-family: 'FontAwesome';
     opacity: 0.5;
+    font-size: 11px;
 }
 
 table.dataTable thead .sorting:before {
@@ -259,10 +260,107 @@ table.dataTable thead .sorting_desc:after {
     font-weight: 500;
     font-size: 11px;
     color: #9B9B9B;
+    height: 36px;
+    padding-top: 20px!important;
+}
+
+.table > thead:first-child > tr:first-child > th:last-child span{
+
+    margin-left: 0!important;
+
 }
 
 .btnAction{
 
     margin-left: 0;
 
+}
+
+.table > tbody > tr > td{
+
+    padding-left: 21px!important;
+    border-top: 1px solid #979797;
+    background: #ffffff;
+
+    font-family: 'AvenirNext-Medium';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    color: #403F3F;
+
+    height: 59px;
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+    word-wrap: break-word;
+}
+
+.table > tbody > tr > td:first-child{
+
+    padding-left: 9px!important;
+
+}
+
+.table > tbody > tr > td:last-child{
+
+    padding-left: 0!important;
+
+}
+
+.table > tbody > tr:first-child > td{
+
+    border-top: none;
+
+}
+
+.table > tbody > tr:first-child > td:first-child{
+
+    border-top-left-radius: 6px;
+
+}
+
+.table > tbody > tr:last-child > td{
+
+    border-bottom: 1px solid #979797;
+
+}
+
+.table > tbody > tr:first-child > td:last-child{
+
+    border-top-right-radius: 6px;
+
+}
+
+.table > tbody > tr > td:last-child >div>span>i{
+
+    font-size: 25px;
+
+}
+
+.table > tbody > tr > td:last-child >div{
+
+    margin-left: 6px;
+
+}
+
+.status-tb{
+
+    font-family: 'AvenirNext-DemiBold'!important;
+    font-size: 12px!important;
+
+}
+
+.drp-items > span{
+
+    font-family: 'AvenirNext-Medium';
+    font-weight: 500;
+    font-size: 11px;
+    color: #9B9B9B;
+
+}
+
+.drp-items{
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+    height: 25px!important;
 }

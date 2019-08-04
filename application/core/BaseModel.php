@@ -246,4 +246,8 @@ class BaseModel extends CI_Model {
             $this->db->where('(' . $sql . ')');
         }
     }
+
+    public function setMoreConditions($moreConditions = array()) {
+        $this->moreConditions = $moreConditions;
+    }
 }
