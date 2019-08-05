@@ -369,8 +369,8 @@ class User_model extends BaseModel {
 		$this->db->insert('user_timeuse', $params);
 	}
 
-	public function getNumOfUser($status = 1) {
-		$this->db->where('status', $status);
+	public function getNumOfUser() {
+		$this->db->select();
 		$this->db->from('user');
 		return $this->db->count_all_results();
 	}
@@ -392,22 +392,72 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getAllUsers($query = '') {
-		$sql = "select ul.*, count(up.pick_id) as total_pick 
-					from user_picks as up right join (select uc.*, count(el.episode_id) as total_like 
-						from episode_like as el right join (select u.*, count(c.comment_id) as total_comment, dt.name as device_name
-				    		from (((user as u 
-							    left join comments as c on u.user_id = c.user_id)
-							    left join device_user as du on u.user_id = du.user_id)
-							    left join device_type as dt on du.dtype_id = dt.dtype_id)
-						        where user_name LIKE '%" . $query . "%'
-				    			group by user_id) uc on uc.user_id = el.user_id
-				    		group by user_id) ul on ul.user_id = up.user_id
-				    	group by ul.user_id
-				    	order by user_id desc";
-		$query = $this->db->query($sql);
-		return $query->result_array();
+	public function getAllUsers($conditions = array(), $page = 0) {
+        $this->makeQuery($conditions);
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id', 'user_name', 'email', 'joined','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('u.user_id', 'desc');
+        }
+            if (!empty($conditions['per_page'])) {
+                $per_page = $conditions['per_page'] * 1;
+            } else {
+                $per_page = 25;
+            }
+            if ($page >= 0){
+                $this->db->limit($per_page, $page * $per_page);
+            }
+        return $this->db->get()->result_array();
 	}
+
+    protected function makeQuery($conditions = array()) {
+	    $this->db->select('u.*');
+        $this->db->from('user u');
+
+        if (!empty($conditions['key'])) {
+            $this->makeSearchQuery(['lower(u.user_name)','lower(u.user_id)','lower(u.email)'], strtolower($conditions['key']));
+        }
+    }
+
+    public function getVersion($user_ids){
+
+	    $this->db->select('du.*,dt.*');
+        $this->db->where_in('du.user_id', $user_ids);
+        $this->db->from('device_user du');
+        $this->db->join('device_type dt','du.dtype_id = dt.dtype_id');
+        $data = $this->db->get()->result_array();
+        return $data;
+    }
+
+    public function getAllPick($user_ids){
+        $this->db->select('up.*');
+        $this->db->where_in('up.user_id', $user_ids);
+        $this->db->from('user_picks up');
+        $data = $this->db->get()->result_array();
+        return $data;
+
+    }
+
+    public function getAllLike($user_ids){
+        $this->db->select('el.*');
+        $this->db->where_in('el.user_id',$user_ids);
+        $this->db->from('episode_like el');
+        $data = $this->db->get()->result_array();
+        return $data;
+    }
+
+    public function getAllComment($user_ids){
+        $this->db->select('c.*');
+        $this->db->where_in('c.user_id',$user_ids);
+        $this->db->from('comments c');
+        $data = $this->db->get()->result_array();
+        return $data;
+
+    }
 
 	public function clearData($user_id) {
 		$this->db->trans_start();
@@ -482,6 +532,32 @@ class User_model extends BaseModel {
 		$this->db->where('fp.status', 1);
 		$this->db->group_by('u.user_id');
 		$this->db->order_by('fp.priority');
+		$this->db->order_by('user_name');
+		if ($page >= 0) {
+			$this->db->limit($limit, $limit * $page);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getSuggestedProfiles($user_id, $page = -1, $limit = 24) {
+		$this->db->from('(select follower_id from user_follow where user_id = ' . $user_id . ') uf1');
+		$this->db->join('user_follow uf2', 'uf2.user_id = uf1.follower_id');
+		$this->db->join('user u', 'uf2.follower_id = u.user_id');
+		$this->db->join('(select follower_id from user_follow where user_id = ' . $user_id . ') uf3', 'uf3.follower_id = uf2.follower_id', 'left');
+
+		$this->db->join('(select user_id, count(*) as num_of_reviews from user_picks group by user_id) as ur', 'ur.user_id = uf2.follower_id', 'left');
+		$this->db->join('(select user_id, count(*) as num_of_comments from comments group by user_id) as uc', 'uc.user_id = uf2.follower_id', 'left');
+		$this->db->join('(select follower_id, count(*) as num_of_followers from user_follow group by follower_id) as uf4', 'uf4.follower_id = uf2.follower_id', 'left');
+
+		$this->db->select('uf2.follower_id, u.user_id, u.user_name, u.user_type, u.full_name, u.email, u.avatar, u.level, u.joined, num_of_reviews, num_of_comments, num_of_followers');
+
+		$this->db->where('uf3.follower_id is null');
+		$this->db->where('u.status', 1);
+		$this->db->group_by('uf2.follower_id');
+		$this->db->order_by('ur.num_of_reviews', 'desc');
+		$this->db->order_by('uc.num_of_comments', 'desc');
+		$this->db->order_by('uf4.num_of_followers', 'desc');
 		$this->db->order_by('user_name');
 		if ($page >= 0) {
 			$this->db->limit($limit, $limit * $page);

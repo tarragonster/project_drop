@@ -235,4 +235,19 @@ class BaseModel extends CI_Model {
 		}
 		return $items;
 	}
+
+    protected function makeSearchQuery($searchBy = array(), $keyword) {
+        $keyword = str_replace('+', ' ', $keyword);
+        if (is_array($searchBy) && count($searchBy) > 0) {
+            $sql = $searchBy[0] . ' like "%' . $keyword . '%"';
+            for ($i = 1; $i < count($searchBy); $i++) {
+                $sql .= ' or ' . $searchBy[$i] . ' like "%' . $keyword . '%"';
+            }
+            $this->db->where('(' . $sql . ')');
+        }
+    }
+
+    public function setMoreConditions($moreConditions = array()) {
+        $this->moreConditions = $moreConditions;
+    }
 }

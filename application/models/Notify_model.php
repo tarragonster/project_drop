@@ -141,7 +141,7 @@ class Notify_model extends CI_Model {
 		],
 		'64' => [
 			'setting_key' => NOTIFICATION_NEW_PICKS,
-			'formatted' => "Let your friend know what you think of <<story_name>>.",
+			'formatted' => "Let your friends know what you think of <<story_name>>.",
 			'delay_seconds' => 20 * 60,
 		],
 	);

@@ -37,7 +37,7 @@
 
 .side-menu{
     width: 250px!important;
-    top: 66px!important;
+    top: 59px!important;
     background: #28292C!important;
 }
 
@@ -51,5 +51,26 @@
 #sidebar-menu > ul > li > a > img{
 
     margin-right: 9px;
+
+}
+
+.navbar-default{
+
+    height: 59px!important;
+    background: #28292C!important;
+
+}
+
+.navbar .navbar-default{
+
+    height: 59px!important;
+    background: #28292C!important;
+
+}
+
+.topbar{
+
+    height: 59px!important;
+    background: #28292C!important;
 
 }
