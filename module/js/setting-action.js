@@ -76,7 +76,4 @@ $(".sortable").sortable({
 			}
 		});
 	},
-	start: function (event, ui) {
-		$('#dragging-item-' + $(this).attr('cat-id')).val(ui.item.attr('data-id'));
-	}
 }).disableSelection();
