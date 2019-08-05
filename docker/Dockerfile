@@ -17,7 +17,6 @@ RUN apt-get update -q && apt-get install -qy \
        libmcrypt-dev \
        libpng-dev \
        libzip-dev \
-       ssmtp \
        unzip \
        dos2unix \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
