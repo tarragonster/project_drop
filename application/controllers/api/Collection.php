@@ -54,19 +54,17 @@ class Collection extends BR_Controller {
 				} else if ($collection['collection_type'] == COLLECTION_TYPE_SUGGESTED_USERS) {
 					if (($this->device_type == DEVICE_TYPE_ANDROID && version_compare($this->app_version, '1.0.4') >= 0)
 						|| ($this->device_type == DEVICE_TYPE_IOS && version_compare($this->app_version, '1.0.8') >= 0)) {
-						$featured_profiles = $this->user_model->getFeaturedProfiles(0);
 
-						$following = $this->user_model->getFollowing($this->user_id);
-						foreach ($featured_profiles as $key => $user) {
-							$featured_profiles[$key]['isFollow'] = '0';
-							foreach ($following as $follow) {
-								if ($user['user_id'] == $follow['follower_id']) {
-									$featured_profiles[$key]['is_follow'] = '1';
-									break;
-								}
+						if ($this->user_model->countFollowing($this->user_id) == 0) {
+							$featured_profiles = $this->user_model->getFeaturedProfiles(0, 20);
+							foreach ($featured_profiles as $key => $user) {
+								$featured_profiles[$key]['is_follow'] = '0';
 							}
+							$collection['users'] = $featured_profiles;
+						}  else {
+							$suggested_profiles = $this->user_model->getSuggestedProfiles($this->user_id, 0, 20);
+							$collection['users'] = $suggested_profiles;
 						}
-						$collection['users'] = $featured_profiles;
 						$selected_collections[] = $collection;
 					}
 				} else if ($collection['collection_type'] == COLLECTION_TYPE_FRIEND_WATCHING) {
@@ -146,19 +144,17 @@ class Collection extends BR_Controller {
 		if ($limit <= 0) {
 			$limit = 24;
 		}
-		$featured_profiles = $this->user_model->getFeaturedProfiles($page, $limit);
-
-		$following = $this->user_model->getFollowing($this->user_id);
-		foreach ($featured_profiles as $key => $user) {
-			$featured_profiles[$key]['isFollow'] = '0';
-			foreach ($following as $follow) {
-				if ($user['user_id'] == $follow['follower_id']) {
-					$featured_profiles[$key]['is_follow'] = '1';
-					break;
-				}
+		if ($this->user_model->countFollowing($this->user_id) == 0) {
+			$featured_profiles = $this->user_model->getFeaturedProfiles($page, $limit);
+			foreach ($featured_profiles as $key => $user) {
+				$featured_profiles[$key]['is_follow'] = '0';
 			}
+			$users = $featured_profiles;
+		}  else {
+			$suggested_profiles = $this->user_model->getSuggestedProfiles($this->user_id, $page, $limit);
+//			pre_print($this->db->last_query());
+			$users = $suggested_profiles;
 		}
-		$collection['users'] = $featured_profiles;
-		$this->create_success(['users' => $featured_profiles]);
+		$this->create_success(['users' => $users]);
 	}
 }
