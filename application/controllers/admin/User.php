@@ -7,40 +7,115 @@ class User extends Base_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->verifyAdmin();
+        $this->load->library('hash');
 	}
 
 	public function index($page = 1) {
+        $conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+
 		$this->load->library('pagination');
 
 		$page = ($page <= 0) ? 1 : $page;
 
-		$config['base_url'] = base_url('user');
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+            if ($per_page < 50)
+                $per_page = 25;
+            if ($per_page > 100)
+                $per_page = 100;
+            $conditions['per_page'] = $per_page;
+        } else {
+            $per_page = 25;
+        }
 
-		$config['total_rows'] = $this->user_model->getNumOfUser(1);
+		$config['base_url'] = base_url('user');
+		$config['total_rows'] = $this->user_model->getNumOfUser();
 		$config['per_page'] = PERPAGE_ADMIN;
 		$config['cur_page'] = $page;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
+
+        $paging = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+            'dropdown-size' => 125,
+        );
+
+//        pre_print($conditions['per_page']);
+
+        $headers = array(
+            'img' => array('label' => '', 'sorting' => false),
+            'user_id' => array('label' => 'User ID', 'sorting' => true),
+            'user_name' => array('label' => 'Name', 'sorting' => true),
+            'email' => array('label' => 'Email', 'sorting' => true),
+            'total_pick'=> array('label' => 'Activity', 'sorting' => true),
+            'dt' => array('label' => 'Version'),
+            'joined' => array('label' => 'Create Date'),
+            'status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action', 'sorting' => false));
+
 		$pinfo = array(
 			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
 			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
-		$users = $this->user_model->getAllUsers();
-		$layoutParams = [
+		$users = $this->user_model->getAllUsers($conditions,$page - 1);
+
+        $user_ids = Hash::combine($users,'{n}.user_id','{n}.user_id');
+
+        //todo Get Like by user_ids
+        $likes = ($this->user_model->getAllLike($user_ids));
+        $likes= Hash::combine($likes,'{n}.id','{n}','{n}.user_id');
+
+        //todo Get comment by user_ids
+        $comments = $this->user_model->getAllComment($user_ids);
+        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
+        //todo Get pick by user_ids
+        $picks = $this->user_model->getAllPick($user_ids);
+        $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
+        //todo Get Version by user_ids
+        $version = $this->user_model->getVersion($user_ids);
+        $version= Hash::combine($version,'{n}.id','{n}','{n}.user_id');
+
+
+        foreach ($users as $key=>$value){
+            $users[$key]['likes'] = !empty($likes[$value['user_id']])?$likes[$value['user_id']]:[];
+            $users[$key]['total_like'] = count($users[$key]['likes']);
+            $users[$key]['comments'] = !empty($comments[$value['user_id']])?$comments[$value['user_id']]:[];
+            $users[$key]['total_comment'] = count($users[$key]['comments']);
+            $users[$key]['picks'] = !empty($picks[$value['user_id']])?$picks[$value['user_id']]:[];
+            $users[$key]['total_pick'] = count($users[$key]['picks']);
+            $users[$key]['version'] = !empty($version[$value['user_id']])?$version[$value['user_id']]:[];
+            $users[$key]['total_version'] = count($users[$key]['version']);
+        }
+
+
+		$userData['users']=$users;
+        $userData['headers'] = $headers;
+        $userData['conditions'] = $conditions;
+        $userData['paging'] = $paging;
+
+        $userContent = $this->load->view('admin/users_table',$userData, true);
+        $layoutParams = [
 			'title' => 'Active Users',
 			'users' => $users,
-			'pinfo' => $pinfo
+			'pinfo' => $pinfo,
+            'sub_id' => 21,
+            'userContent' => $userContent,
+            'conditions' =>$conditions,
 		];
 		$content = $this->load->view('admin/users_list', $layoutParams, true);
 
 		$data = array();
-		$data['customCss'] = array('assets/css/settings.css');
-		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js');
+		$data['customCss'] = array('assets/css/settings.css','module/css/user.css');
+		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user_list.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
-		$data['content'] = $content;
+        $data['content'] = $content;
+
 		$this->load->view('admin_main_layout', $data);
 	}
 
@@ -296,7 +371,7 @@ class User extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function profile($user_id = '') {
+	public function ajaxProfile($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
 		if ($user == null) {
 			redirect(base_url('user'));
@@ -341,14 +416,21 @@ class User extends Base_Controller {
 		);
 		$reports = $this->user_model->getReports($page - 1);
 
-		$content = $this->load->view('admin/users/report', array('reports' => $reports, 'pinfo' => $pinfo), true);
+		$reportParam['reports'] = $reports;
+		$reportParam['info'] = $pinfo;
+		$reportParam['sub_id'] = 23;
+
+		$content = $this->load->view('admin/users/report',$reportParam, true);
 
 		$data = array();
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 23;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
-		$this->load->view('admin_main_layout', $data);
+        $data['customCss'] = array('module/css/user.css');
+        $data['customJs'] = array('assets/app/search.js');
+
+        $this->load->view('admin_main_layout', $data);
 	}
 
 	public function deleteReport($report_id) {
@@ -411,19 +493,19 @@ class User extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function getUsersByStatus()
-	{
-		$status = $this->input->get('status');
-		if ($status == 0 || $status == 1) {
-			$users = $this->user_model->getUsersForAdmin($status);
-		}else
-		{
-			$users = $this->user_model->getAllUsers();
-		}
-		$data = ['users' => $users];
-		$html = $this->load->view('admin/users_table', $data, true);
-		die(json_encode($html));
-	}
+//	public function getUsersByStatus()
+//	{
+//		$status = $this->input->get('status');
+//		if ($status == 0 || $status == 1) {
+//			$users = $this->user_model->getUsersForAdmin($status);
+//		}else
+//		{
+//			$users = $this->user_model->getAllUsers();
+//		}
+//		$data = ['users' => $users];
+//		$html = $this->load->view('admin/users_table', $data, true);
+//		die(json_encode($html));
+//	}
 
 	public function search()
 	{

@@ -1,55 +1,77 @@
-<div class="row">
-	<div class="col-xs-12" style='margin-top: 10px'>
-		<div class="box">
-			<div class="card-box table-responsive">
-				<div class="box-header">
-					<h3 class="box-title">Reported Users</h3>
-				</div>
-				<table id="example3" class="table table-bordered table-hover">
-					<thead>
-					<tr>
-						<th>#</th>
-						<th>User&nbsp;Name</th>
-						<th>Reporter</th>
-						<th>Date</th>
-						<th>Action</th>
-					</tr>
-					</thead>
-					<tbody>
-					<?php
-					if (isset($reports) && is_array($reports)) {
-						foreach ($reports as $row) {
-							echo '<tr>';
-							echo '<td align="center">' . $row['report_id'] . '</td>';
-							echo '<td>' . $row['full_name'] . '</td>';
-							echo '<td>' . $row['reporter_name'] . '</td>';
-							echo '<td>' . timeFormat($row['created_at']) . '</td>';
-							echo "<td><div class='button-list'>";
-							echo "<a href='" . base_url('user/deleteReport/' . $row['report_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
-							echo '</div></td>';
-							echo '</tr>';
-						}
-					}
-					?>
-					</tbody>
-				</table>
+<div class="outer-user-live">
+    <div class="sub-menu">
+        <div>
+            <span class="submenu-title">Users</span>
+        </div>
+        <div class="submenu-content">
+            <div class="cover-submenu-item">
+                <a href="<?php echo base_url('user'); ?>"
+                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 21 ? ' active' : ''; ?>">View
+                    Users</a>
+            </div>
+            <div class="cover-submenu-item">
+                <a href="<?php echo base_url('user/reports'); ?>"
+                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 23 ? ' active' : ''; ?>">Reported
+                    Users</a>
+            </div>
+        </div>
+    </div>
 
-				<?php $has_items = isset($paging) && $paging['total'] > 0; ?>
-				<div class="row">
-					<?php if ($has_items): ?>
-						<div class="col-xs-6">
-							<div class="dataTables_info" id="example3_info">
-								<?php echo "Showing {$pinfo['from']} to {$pinfo['to']} of {$pinfo['total']} entries" ?>
-							</div>
-						</div>
-						<div class="col-xs-6">
-							<div class="dataTables_paginate paging_bootstrap">
-								<?php echo $this->pagination->create_links(); ?>
-							</div>
-						</div>
-					<?php endif; ?>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="not-menu">
+        <div class="row">
+            <div class="col-xs-12 list-content" style='margin-top: 10px'>
+                <div class="box">
+                    <div class="card-box table-responsive">
+                        <div class="box-header">
+                            <h3 class="box-title">Reported Users</h3>
+                        </div>
+                        <table id="example3" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>User&nbsp;Name</th>
+                                <th>Reporter</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            if (isset($reports) && is_array($reports)) {
+                                foreach ($reports as $row) {
+                                    echo '<tr>';
+                                    echo '<td align="center">' . $row['report_id'] . '</td>';
+                                    echo '<td>' . $row['full_name'] . '</td>';
+                                    echo '<td>' . $row['reporter_name'] . '</td>';
+                                    echo '<td>' . timeFormat($row['created_at']) . '</td>';
+                                    echo "<td><div class='button-list'>";
+                                    echo "<a href='" . base_url('user/deleteReport/' . $row['report_id'] . '?redirect=' . uri_string()) . "' /><button class='btn btn-danger btn-sm'>Delete</button></a>";
+                                    echo '</div></td>';
+                                    echo '</tr>';
+                                }
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+
+                        <?php $has_items = isset($paging) && $paging['total'] > 0; ?>
+                        <div class="row">
+                            <?php if ($has_items): ?>
+                                <div class="col-xs-6">
+                                    <div class="dataTables_info" id="example3_info">
+                                        <?php echo "Showing {$pinfo['from']} to {$pinfo['to']} of {$pinfo['total']} entries" ?>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="dataTables_paginate paging_bootstrap">
+                                        <?php echo $this->pagination->create_links(); ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
