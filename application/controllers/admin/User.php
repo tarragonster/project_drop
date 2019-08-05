@@ -110,7 +110,7 @@ class User extends Base_Controller {
 
 		$data = array();
 		$data['customCss'] = array('assets/css/settings.css','module/css/user.css');
-		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js');
+		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user_list.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
@@ -371,7 +371,7 @@ class User extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function profile($user_id = '') {
+	public function ajaxProfile($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
 		if ($user == null) {
 			redirect(base_url('user'));
