@@ -130,8 +130,11 @@ class Index extends MY_Controller {
 				$admin = $this->admin_model->getAdminAccountByEmail($email);
 				if ($admin != null) {
 					$adminCode = $this->passcode_model->addRequestPassword($admin['id'], $group = 1);
-					$data['url_code'] = base_url('reset-password/' . $adminCode);
-					$this->load->view('admin/email_reset_password', $data);
+					$params['url_code'] = base_url('reset-password/' . $adminCode);
+					$params['base_url'] = base_url();
+					$html = $this->email_model->emailForgotPassword($email, $params);
+					$this->session->set_flashdata('mess', 'Check your email for reset password');
+					$this->redirect('login');
 				}else {
 					$data['error'] = 'The email not linked to any existing admin account';
 					$this->load->view('admin/forgot_password', $data);
