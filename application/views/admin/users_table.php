@@ -41,7 +41,7 @@
                         <span class="btnAction dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-ellipsis-h"
                                                                                            style="color: #d8d8d8"></i></span>
                         <ul class="dropdown-menu" id="customDropdown">
-                            <li class="text-uppercase"><a href="<?php echo base_url('user/profile/' . $row['user_id']) ?>" class="drp-items"><span>View</span><img
+                            <li class="text-uppercase view-user-click" data-user_id="<?= $row['user_id'] ?>"><a href="#" class="drp-items"><span>View</span><img
                                             src="<?= base_url('assets/images/view.svg') ?>" alt=""></a>
                             </li>
                             <li class="text-uppercase"><a href="<?php echo base_url('user/edit/' . $row['user_id']) ?>" class="drp-items"><span>Edit</span><img
