@@ -540,6 +540,32 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function getSuggestedProfiles($user_id, $page = -1, $limit = 24) {
+		$this->db->from('(select follower_id from user_follow where user_id = ' . $user_id . ') uf1');
+		$this->db->join('user_follow uf2', 'uf2.user_id = uf1.follower_id');
+		$this->db->join('user u', 'uf2.follower_id = u.user_id');
+		$this->db->join('(select follower_id from user_follow where user_id = ' . $user_id . ') uf3', 'uf3.follower_id = uf2.follower_id', 'left');
+
+		$this->db->join('(select user_id, count(*) as num_of_reviews from user_picks group by user_id) as ur', 'ur.user_id = uf2.follower_id', 'left');
+		$this->db->join('(select user_id, count(*) as num_of_comments from comments group by user_id) as uc', 'uc.user_id = uf2.follower_id', 'left');
+		$this->db->join('(select follower_id, count(*) as num_of_followers from user_follow group by follower_id) as uf4', 'uf4.follower_id = uf2.follower_id', 'left');
+
+		$this->db->select('uf2.follower_id, u.user_id, u.user_name, u.user_type, u.full_name, u.email, u.avatar, u.level, u.joined, num_of_reviews, num_of_comments, num_of_followers');
+
+		$this->db->where('uf3.follower_id is null');
+		$this->db->where('u.status', 1);
+		$this->db->group_by('uf2.follower_id');
+		$this->db->order_by('ur.num_of_reviews', 'desc');
+		$this->db->order_by('uc.num_of_comments', 'desc');
+		$this->db->order_by('uf4.num_of_followers', 'desc');
+		$this->db->order_by('user_name');
+		if ($page >= 0) {
+			$this->db->limit($limit, $limit * $page);
+		}
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
 	public function getUserPick($user_id, $product_id) {
 		$this->db->where('product_id', $product_id);
 		$this->db->where('user_id', $user_id);
