@@ -779,6 +779,25 @@ class User_model extends BaseModel {
 		return $this->db->get()->result_array();
 	}
 
+    public function getUserLikes($user_id, $isMe = true) {
+        $this->db->select();
+        $this->db->from('episode_like el');
+        $this->db->where('el.user_id', $user_id);
+        if (!$isMe) {
+            $this->db->where('up.is_hidden', 0);
+        }
+
+        return $this->db->get()->result_array();
+    }
+
+    public function getUserComments($user_id, $isMe = true) {
+        $this->db->select();
+        $this->db->from('comments c');
+        $this->db->where('c.user_id', $user_id);
+
+        return $this->db->get()->result_array();
+    }
+
 	public function getListContinue($user_id, $page = -1, $isMe = true) {
 		$this->db->select('w.id, w.user_id, p.*, w.start_time, w.episode_id, w.is_hidden');
 		$this->db->from('user_watch w');

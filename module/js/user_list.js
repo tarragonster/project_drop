@@ -7,7 +7,7 @@ $('.view-user-click').on('click', function (e) {
         dataType: "",
         url: BASE_APP_URL + 'user/ajaxProfile/' + user_id,
         success: function (data) {
-            $('#view-user-content').html(data);
+            $('#view-user-content').html(data.content);
 
             var viewModalLazyLoad;
             $('#view-user-popup')

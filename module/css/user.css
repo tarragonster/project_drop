@@ -364,3 +364,239 @@ table.dataTable thead .sorting_desc:after {
     align-items: center;
     height: 25px!important;
 }
+
+.right{
+    padding: 0!important;
+
+}
+
+.style-modal{
+
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-top: 0;
+
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: #ffffff;
+    overflow: hidden;
+    width: 600px;
+}
+
+.group-popup{
+
+    height: 100%;
+    border: unset!important;
+}
+
+.btn-group-vertical>.btn-group:after,
+.btn-group-vertical>.btn-group:before,
+.btn-toolbar:after, .btn-toolbar:before,
+.clearfix:after, .clearfix:before,
+.container-fluid:after,
+.container-fluid:before,
+.container:after,
+.container:before, .dl-horizontal dd:after,
+.dl-horizontal dd:before, .form-horizontal .form-group:after,
+.form-horizontal .form-group:before, .modal-footer:after,
+.modal-footer:before, .nav:after, .nav:before, .navbar-collapse:after,
+.navbar-collapse:before, .navbar-header:after, .navbar-header:before,
+.navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after,
+.panel-body:before, .row:after, .row:before{
+
+    display: unset!important;
+
+}
+
+.modal-title{
+
+    text-align: left;
+
+}
+
+.modal-title span{
+
+    font-family: 'Avenir Next';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    color: #403F3F;
+}
+
+.nav-tabs li{
+
+    background: #EFEFEF;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-tabs li a{
+
+    height: 100%;
+    width: 100%;
+    padding: 0!important;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: 'AvenirNext-DemiBold'!important;
+    font-style: normal;
+    font-size: 14px;
+    color: #403F3F!important;
+}
+
+.nav-tabs .active a:focus{
+    color: #403F3F!important;
+}
+
+.nav.nav-tabs > li > a:hover, .nav.tabs-vertical > li > a:hover{
+
+    color: #403F3F!important;
+
+}
+
+.tab-pane{
+
+    padding-top: 65px;
+
+}
+
+#profile{
+
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 72px;
+}
+
+.modal .modal-dialog .modal-content{
+
+    text-align: left!important;
+    font-family: 'AvenirNext-DemiBold'!important;
+    font-style: normal!important;
+    font-size: 14px!important;
+    color: #403F3F!important;
+}
+
+@media (min-width: 768px){
+
+    .lead {
+        font-size: 14px!important;
+    }
+}
+
+.table-user-detail > tbody > tr > td{
+
+    border: 0 !important;
+    height: 23px!important;
+
+}
+
+.table-user-detail{
+
+    table-layout: fixed;
+    width: 315px;
+}
+
+.first-column{
+
+    width: 93px!important;
+    font-family: 'AvenirNext-Medium'!important;
+    font-size: 13px!important;
+    color: #9B9B9B!important;
+    text-transform: uppercase!important;
+}
+
+.next-column{
+
+   width: 215px!important;
+    font-family: 'Avenir Next'!important;
+
+    font-size: 13px!important;
+    color: #403F3F!important;
+}
+
+.the-avatar{
+
+    width: 100%;
+    height: 100%
+}
+
+.outer-img{
+
+    width: 100px;
+    height:100px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.ava-text{
+
+    font-family: 'AvenirNext-DemiBold';
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #9B9B9B;
+}
+
+.upper-info{
+
+    display: flex;
+    justify-content: left;
+
+}
+
+.right-info{
+    margin-top: 42px;
+}
+
+.under-info{
+
+    margin-top: 30px;
+
+}
+
+.stats-element{
+    width: 177px;
+    height: 99px;
+    border: 1px solid #EFEFEF;
+}
+
+.container-stats{
+
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.title-stats{
+    width: 100%;
+    height: 25px;
+    background: #EFEFEF;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.title-stats span{
+
+    font-family: "Avenir Next";
+    font-size: 14px;
+    color: #505458;
+}
+
+.content-stats{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'AvenirNext-DemiBold';
+    font-size: 18px;
+    font-weight: 900;
+    color: #505458;
+
+    height: calc(100% - 25px)
+}

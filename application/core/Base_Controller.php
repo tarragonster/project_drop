@@ -137,4 +137,29 @@ class Base_Controller extends CI_Controller {
 		}
 		redirect(base_url($redirect) . $query);
 	}
+
+    protected function ajaxSuccess($data = []) {
+        if ($data == null) {
+            $response = array();
+        } else {
+            $response = $data;
+        }
+        $response['success'] = true;
+        header('Content-Type: application/json');
+        echo json_encode($response, JSON_PRETTY_PRINT);
+        die("");
+    }
+
+    protected function ajaxError($error_message = 'Resource not found', $data = array()) {
+        if ($data == null) {
+            $response = array();
+        } else {
+            $response = $data;
+        }
+        $response['success'] = false;
+        $response['error_message'] = $error_message;
+        header('Content-Type: application/json');
+        echo json_encode($response, JSON_PRETTY_PRINT);
+        die("");
+    }
 }

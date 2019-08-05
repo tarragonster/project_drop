@@ -1,27 +1,99 @@
-<div class="modal-header" style="padding: 20px 20px 10px; background-color: #e9e9e9; border-bottom-width: 0px">
+<div class="modal-header" style="padding: 30px 25px 35px 28px; background-color: #EFEFEF; border-bottom-width: 0px">
     <?php
     $active = isset($_GET['active']) ? $_GET['active'] : 'profile';
     ?>
+
+    <div class="modal-title">
+        <span>User Profile</span>
+        <button class="edit-btn" style="display: none"></button>
+    </div>
 </div>
 <ul class="nav nav-tabs">
-    <li <?= $active == 'profile' ? 'class="active"' : '' ?>>
+    <li <?= $active == 'profile' ? 'class="active"' : '' ?> style="width: 97px;height: 35px">
         <a data-toggle="tab" href="#profile">Profile</a>
     </li>
-    <li <?= $active == 'your-picks' ? 'class="active"' : '' ?>>
+    <li <?= $active == 'comments' ? 'class="active"' : '' ?> style="width: 120px;height: 35px">
+        <a data-toggle="tab" href="#comments">Comments</a>
+    </li>
+    <li <?= $active == 'your-picks' ? 'class="active"' : '' ?> style="width: 123px;height: 35px">
         <a data-toggle="tab" href="#your-picks">Your Picks</a>
     </li>
-    <li <?= $active == 'watch-list' ? 'class="active"' : '' ?>>
+    <li <?= $active == 'watch-list' ? 'class="active"' : '' ?> style="width: 121px;height: 35px">
         <a data-toggle="tab" href="#watch-list">Watch List</a>
     </li>
-    <li <?= $active == 'thumb-up' ? 'class="active"' : '' ?>>
-        <a data-toggle="tab" href="#thumb-up">Thumb up</a>
+    <li <?= $active == 'thumb-up' ? 'class="active"' : '' ?> style="width: 139px;height: 35px">
+        <a data-toggle="tab" href="#thumb-up">Thumbs up</a>
     </li>
 </ul>
 
-<div class="row card-box">
+<div class="outer-content">
     <div class="tab-content">
-        <div id="profile" class="tab-pane fade in<?= $active == 'profile' ? ' active' : '' ?>">
-            <div class="row">
+        <div id="profile" class="tab-pane fade in<?=  $active== 'profile' ? ' active' : '' ?>">
+            <div class="row" style="margin: 0">
+                <div class="upper-info">
+                    <div class="left-info">
+                        <span class="lead text-uppercase">User Details</span>
+                        <div class="table-responsive" style="padding-top: 20px!important;">
+                            <table class="table table-user-detail">
+                                <tbody>
+                                <tr>
+                                    <td style="padding-left: 0!important;" class="first-column">Full Name:</td>
+                                    <td class="next-column"><?php echo empty($user['full_name']) ? 'N/A' : $user['full_name']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 0!important;" class="first-column">User Name:</td>
+                                    <td class="next-column"><?php echo empty($user['user_name']) ? 'N/A' : $user['user_name']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 0!important;" class="first-column">Email:</td>
+                                    <td class="next-column"><?php echo $user['email']; ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 0!important;" class="first-column">Feature:</td>
+                                    <td class="next-column"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 0!important;" class="first-column">Curator:</td>
+                                    <td class="next-column"></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-left: 0!important;" class="first-column">Bio:</td>
+                                    <td class="next-column"><?php echo $user['bio']; ?></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="right-info">
+                        <div>
+                            <span class="text-uppercase ava-text">Avatar Image :</span>
+                            <div class="outer-img"><img width='80' class="the-avatar" src='<?= media_thumbnail($user['avatar'], 80) ?>'/></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="under-info">
+                    <span class="lead text-uppercase">User Stats</span>
+                    <div class="container-stats" style="margin-top: 20px">
+                        <div class="stats-element">
+                            <div class="title-stats"><span># of Comments:</span></div>
+                            <div class="content-stats"><span style="display: block"><?php echo count($user_comments) ?></span></div>
+                        </div>
+                        <div class="stats-element">
+                            <div class="title-stats"><span># of Picks:</span></div>
+                            <div class="content-stats"><span style="display: block"><?php echo count($your_picks) ?></span></div>
+                        </div>
+                        <div class="stats-element">
+                            <div class="title-stats"><span># of Thumbs Up:</span></div>
+                            <div class="content-stats"><span style="display: block"><?php echo count($user_likes) ?></span></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="comments" class="tab-pane fade in<?= $active == 'comments' ? ' active' : '' ?>">
+            <div class="row" style="margin: 0">
                 <div class="col-xs-6">
                     <p class="lead">General</p>
                     <div class="table-responsive">

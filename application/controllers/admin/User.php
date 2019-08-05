@@ -371,7 +371,7 @@ class User extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function ajaxProfile($user_id = '') {
+	public function ajaxProfile($user_id) {
 		$user = $this->user_model->getUserForAdmin($user_id);
 		if ($user == null) {
 			redirect(base_url('user'));
@@ -382,6 +382,8 @@ class User extends Base_Controller {
 			'user' => $user
 		];
 		$layoutParams['your_picks'] = $this->user_model->getUserPicks($user_id, -1);
+		$layoutParams['user_likes'] = $this->user_model->getUserLikes($user_id, -1);
+		$layoutParams['user_comments'] = $this->user_model->getUserComments($user_id, -1);
 		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
 		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
 
@@ -393,8 +395,8 @@ class User extends Base_Controller {
 		// $data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
 		$data['sub_id'] = 22;
 		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/user_profile', $layoutParams, true);
-		$this->load->view('admin_main_layout', $data);
+		$data['content'] = $this->load->view('admin/users/user_profile_ajax', $layoutParams, true);
+		$this->ajaxSuccess($data);
 	}
 
 	public function reports($page = 1) {

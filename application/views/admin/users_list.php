@@ -48,3 +48,5 @@
         </form>
     </div>
 </div>
+
+<?php $this->load->view('admin/modals/modal_user') ?>
