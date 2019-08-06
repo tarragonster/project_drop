@@ -7,19 +7,19 @@
                 echo '</div></div>';
             } ?>
         </div>
-        <div class="title">Add Series</div> 
+        <div class="title">Add Story</div> 
         <hr>
         <div class="row">
             <div class="content-form">
                 <div class="col-md-7">
                     <div class="col-md-12">
-                        <label>Series Name</label>
+                        <label>Story Name</label>
                         <div class="form-group">
                             <input type="text" name='name' value="" class="form-control" required="" placeholder="Type Name"/>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <label>Series Description</label>
+                        <label>Story Description</label>
                         <div class="form-group">
                             <textarea name="description" id='text-area-des' maxlength='475' class="form-control textarea" required="" rows="4" placeholder="Type Description"></textarea>
                         </div>
@@ -72,6 +72,14 @@
                         </div>
                     </div>
                     <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Paywall Block</label>
+                            <select id='paywall_episode' class="form-control" name='paywall_episode' disabled="disabled">
+                                <option>Select Paywall Block</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
                         <label>Trailer JW Media ID</label>
                         <div class="form-group">
                             <input type="text" name='jw_media_id' value="" class="form-control" required="" placeholder="Type JW Media ID" />
@@ -93,7 +101,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 portlets m-b-30">
-                                    <label>Series Image</label>
+                                    <label>Story Image</label>
                                     <div class="row">
                                         <img id='series_image' src="<?php echo base_url('assets/images/borders/750x667@3x.png')?>"/>
                                         <div class="uploader" onclick="$('#seriesImg').click()">
@@ -144,7 +152,7 @@
             <div class="bottom">
                 <div style='margin-top: 16px' class="col-md-12">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-update" name='cmd' value='Save'>Update</button>
+                        <button type="submit" class="btn btn-update" name='cmd' value='Save'>Create</button>
                     </div>
                 </div>
             </div>

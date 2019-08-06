@@ -17,8 +17,6 @@ $('#add-genre-btn').on('click', function (e) {
 $('.edit-genre-btn').on('click', function (e) {
 	e.preventDefault();
 	var genre_id = $(this).data('id')
-	console.log(genre_id)
-	// $('#edit-genre-form').html("");
 	$.ajax({
 		type: "POST",
 		dataType: "html",

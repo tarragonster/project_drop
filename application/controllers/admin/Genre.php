@@ -77,12 +77,16 @@ class Genre extends My_Controller {
 
 	public function editGenre() {
 		$genre_id = $this->input->post('genre_id');
-		$params['name'] = $this->input->post('genre_name');
-		$image = isset($_FILES['genre_img']) ? $_FILES['genre_img'] : null;
-		if ($image != null && $image['error'] == 0) {
-			$path = $this->file_model->createFileName($image, 'media/genres/', 'genre');
-			$this->file_model->saveFile($image, $path);
-			$params['image'] = $path;
+		if (!empty($this->input->post('genre_name'))) {
+			$params['name'] = $this->input->post('genre_name');
+		}
+		if(!empty($_FILES['genre_img'])) {
+			$image = $_FILES['genre_img'];
+			if ($image != null && $image['error'] == 0) {
+				$path = $this->file_model->createFileName($image, 'media/genres/', 'genre');
+				$this->file_model->saveFile($image, $path);
+				$params['image'] = $path;
+			}
 		}
 		$this->story_genres_model->update($params, $genre_id);
 		$this->redirect('genre');
