@@ -10,26 +10,90 @@ class Product extends Base_Controller {
 		$this->load->model("product_model");
 		$this->load->model("story_genres_model");
 		$this->load->model("product_genres_model");
+		$this->load->library('hash');
+		$this->load->library('pagination');
 	}
 
 	public function index($page = 1) {
-		$this->load->library('pagination');
+		$conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+
+		$page = ($page <= 0) ? 1 : $page;
+
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+            if ($per_page < 50)
+                $per_page = 25;
+            if ($per_page > 100)
+                $per_page = 100;
+            $conditions['per_page'] = $per_page;
+        } else {
+            $per_page = 25;
+        }
+        // print_r($per_page);die();
+
 		$config['base_url'] = base_url('product');
 		$config['total_rows'] = $this->product_model->countAll();
-		$config['per_page'] = PERPAGE_ADMIN;
+		$config['per_page'] = $per_page;
 		$config['cur_page'] = $page;
-		$config['use_page_numbers'] = TRUE;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
+		// print_r($this->pagination->create_links());die();
+        $paging = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+            'dropdown-size' => 125,
+        );
+		$headers = array(
+            'img' => array('label' => '', 'sorting' => false),
+            'product_id' => array('label' => 'ID', 'sorting' => true),
+            'name' => array('label' => 'Story Name', 'sorting' => true),
+            'total_block' => array('label' => '# of Blocks', 'sorting' => false),
+            'paywall_block_name'=> array('label' => 'Paywall Block', 'sorting' => false),
+            'genre' => array('label' => 'Genre', 'sorting' => false),
+            'activity' => array('label' => 'Story Activity', 'sorting' => false),
+            'created' => array('label' => 'Create Date', 'sorting' => true),
+            'status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action')
+        );
 
-		$pinfo = array(
-			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
-			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
-			'total' => $config['total_rows'],
-		);
+		$products = $this->product_model->getProductListForAdmin($page - 1, $conditions);
+		$product_ids = Hash::combine($products,'{n}.product_id','{n}.product_id');
+		if(!empty($product_ids)) {
+	        //Get blocks by product_ids
+			$blocks = $this->product_model->getAllBlock($product_ids);
+	        $blocks= Hash::combine($blocks,'{n}.episode_id','{n}','{n}.product_id');
 
-		$products = $this->product_model->getProductListForAdmin($page - 1);
+			//Get comments by product_ids
+			$comments = $this->product_model->getAllComment($product_ids);
+	        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.product_id');
+
+	        //Get likes by product_ids
+			$likes = $this->product_model->getAllLike($product_ids);
+	        $likes = Hash::combine($likes,'{n}.id','{n}','{n}.product_id');
+
+	        //Get picks by product_ids
+			$picks = $this->product_model->getAllPick($product_ids);
+	        $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.product_id');
+		}
+
+
 		foreach ($products as $key => $value) {
+			$products[$key]['comments'] = !empty($comments[$value['product_id']]) ? $comments[$value['product_id']] : [];
+			$products[$key]['total_cmt'] = count($products[$key]['comments']);
+
+			$products[$key]['likes'] = !empty($likes[$value['product_id']]) ? $likes[$value['product_id']] : [];
+			$products[$key]['total_like'] = count($products[$key]['likes']);
+
+			$products[$key]['picks'] = !empty($picks[$value['product_id']]) ? $picks[$value['product_id']] : [];
+			$products[$key]['total_pick'] = count($products[$key]['picks']);
+
+			$products[$key]['blocks'] = !empty($blocks[$value['product_id']]) ? $blocks[$value['product_id']] : [];
+			$products[$key]['total_block'] = count($products[$key]['blocks']);
+
+			
+
 			$products[$key]['genres'] = $this->product_genres_model->getAll($products[$key]['product_id']);
 			$arrGenre = array();
 			foreach ($products[$key]['genres'] as $keyG => $value) {
@@ -37,12 +101,18 @@ class Product extends Base_Controller {
 			}
 			$products[$key]['genre'] = implode(', ', $arrGenre);
 		}
+		$params = array(
+			'headers' => $headers,
+			'paging' => $paging,
+			'products' => $products,
+			'conditions' => $conditions
+		);
 		$data['parent_id'] = 3;
 		$data['sub_id'] = 32;
 		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/product_list', array('products' => $products,'pinfo' => $pinfo), true);
-		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js','assets/app/delete-confirm.js', 'assets/js/settings.js', 'assets/app/search.js');
-		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css', 'assets/css/settings.css');
+		$data['content'] = $this->load->view('admin/products/product_list', $params, true);
+		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js','assets/app/delete-confirm.js', 'module/js/product.js', 'assets/app/search.js', 'assets/app/core-table/coreTable.js');
+		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css', 'assets/css/settings.css', 'module/css/product.css');
 		$this->load->view('admin_main_layout', $data);
 	}
 
@@ -403,7 +473,7 @@ class Product extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function enable($product_id = 0) {
+	public function enable() {
 		$product_id = $this->input->get('product_id');
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == null || $product['status'] != 0) {
@@ -415,7 +485,7 @@ class Product extends Base_Controller {
 		}
 	}
 
-	public function disable($product_id = 0) {
+	public function disable() {
 		$product_id = $this->input->get('product_id');
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == null || $product['status'] != 1) {
@@ -427,7 +497,7 @@ class Product extends Base_Controller {
 		}
 	}
 
-	public function delete($product_id = 0) {
+	public function delete() {
 		$product_id = $this->input->get('product_id');
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == '' || $product['status'] < 0) {

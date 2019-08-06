@@ -100,8 +100,8 @@
 								</button>
 							</li>
 							<li class="btn-export">
-								<button type="button" class="btn">
-									<a href="<?php echo base_url('product/add')?>">Add Film</a>
+								<button type="button" class="btn btn-header">
+									<a href="<?php echo base_url('product/add')?>">Add Story</a>
 								</button>
 							</li>
 						<?php elseif(isset($sub_id) && $sub_id == 51):?>

@@ -117,7 +117,7 @@ function handleCoverImage(e) {
 //     loadData(sttFilm);
 // });
 
-// Update Product Status
+// Update Product Status //NEED UPDATE
 // $('body').delegate('.btnAct', 'click', function(e) {
 //     e.preventDefault();
 //     var product_id = $(this).attr('data-id');
