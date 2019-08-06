@@ -182,40 +182,17 @@
     font-size: 20px;
     margin-left: 12px;
 }
-hr {
-    margin: 10px 20px 30px 12px;
-    border-top: 2px solid #eee;
-}
-.content-form label {
-    font-weight: 100;
-    text-transform: uppercase;
-    font-size: 12px;
-}
+
+
 #upload-img label {
     font-weight: 100;
     text-transform: uppercase;
     font-size: 12px;
     margin-left: -11px; 
 }
-.form-group input, .form-group select, .form-group input:focus, .form-group select:focus {
-    border: none;
-    border-bottom: 1px solid #eee;
-    border-bottom-left-radius: inherit;
-    border-bottom-right-radius: inherit;
-    padding: inherit;
-}
-.form-group #text-area-des {
-    border: 1px solid #727272;
-    border-radius: 10px;
-}
-.btn-update, .btn-update:hover {
-    background-color: #62c17f;
-    color: white;
-    padding: 5px 40px;
-    border-radius: 15px;
-    text-transform: uppercase;
-    font-size: 13px;
-}
+
+
+
 
 .table > thead > tr > th {
     border-bottom: 0;

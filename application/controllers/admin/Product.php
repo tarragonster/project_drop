@@ -211,12 +211,12 @@ class Product extends Base_Controller {
 		$data['parent_id'] = 3;
 		$data['sub_id'] = 31;
 		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/product_add', array(
+		$data['content'] = $this->load->view('admin/products/product_add', array(
 			'rates' => $rates,
 			'genres' => $genres
 		), true);
 		$data['customJs'] = array('assets/js/settings.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/info_video.js');
-		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');
+		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css', 'module/css/product.css');
 		$this->load->view('admin_main_layout', $data);
 	}
 
