@@ -10,7 +10,7 @@ class Product_genres_model extends BaseModel {
 	}
 
 	public function getAll($product_id) {
-		$this->db->select('sg.name as genre_name');
+		$this->db->select('sg.id as genre_id, sg.name as genre_name');
 		$this->db->where('product_id', $product_id);
 		$this->db->from('product_genres pg');
 		$this->db->join('story_genres sg', 'pg.genre_id = sg.id');
@@ -25,5 +25,16 @@ class Product_genres_model extends BaseModel {
 	public function deleteByGenre($genre_id) {
 		$this->db->where('genre_id', $genre_id);
 		$this->db->delete($this->table);
+	}
+
+	public function getSelectedGenres($product_id) {
+		$this->db->select('genre_id');
+		$this->db->where('product_id', $product_id);
+		return $this->db->get($this->table)->result_array();
+	}
+	public function checkIfExist($product_id, $item) {
+		$this->db->where('product_id', $product_id);
+		$this->db->where('genre_id', $item);
+		return $this->db->count_all_results($this->table);
 	}
 }

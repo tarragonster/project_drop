@@ -9,7 +9,7 @@
     <div class="section-content">
         <div class="tab-content">
         <?php
-            $this->load->view('admin/setting/sub_page/'.$page_index);
+            $this->load->view('admin/setting/sub_page/' . $page_index);
         ?>
         </div>
     </div>

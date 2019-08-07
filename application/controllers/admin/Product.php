@@ -215,8 +215,8 @@ class Product extends Base_Controller {
 			'rates' => $rates,
 			'genres' => $genres
 		), true);
-		$data['customJs'] = array('assets/js/settings.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/info_video.js');
-		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css', 'module/css/product.css');
+		$data['customJs'] = array('assets/js/settings.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/info_video.js','assets/plugins/multiselect/js/jquery.multiselect.js','module/js/product.js');
+		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css', 'assets/plugins/multiselect/css/jquery.multiselect.css','module/css/product.css');
 		$this->load->view('admin_main_layout', $data);
 	}
 
@@ -241,7 +241,19 @@ class Product extends Base_Controller {
 				$params['publish_year'] = $this->input->post('publish_year');
 			if ($this->input->post('creators') != '')
 				$params['creators'] = $this->input->post('creators');
-
+			if ($this->input->post('genre_id') != '')
+				$genres = $this->input->post('genre_id');
+				foreach ($genres as $item) {
+					$check = $this->product_genres_model->checkIfExist($product_id, $item);
+					if($check == 0) {
+						$paramsGenre = array(
+							'product_id' => $product_id,
+							'genre_id' => $item,
+							'added_at' => time()
+						);
+						$this->product_genres_model->insert($paramsGenre);
+					}
+				}
 			$jw_media_id = trim($this->input->post('jw_media_id'));
 			if (!empty($jw_media_id) && $jw_media_id != $product['jw_media_id']) {
 				$this->load->library('jw_lib');
@@ -317,10 +329,8 @@ class Product extends Base_Controller {
 		$data['sub_id'] = 33;
 		$data['account'] = $this->account;
 
-		$rates = $this->product_model->getRates();
-		$episodes = $this->product_model->getEpisodeSeasons($product_id);
-		$product['rates'] = $rates;
-		$product['episodes'] = $episodes;
+		$product['rates'] = $this->product_model->getRates();
+		$product['episodes'] = $this->product_model->getEpisodeSeasons($product_id);
 		$product['explore_img'] = $explore_product['promo_image'];
 		$product['preview_img'] = $collection_product['promo_image'];
 		if ($product['paywall_episode'] != 0) {
@@ -330,11 +340,32 @@ class Product extends Base_Controller {
 		}else {
 			$product['paywall_episode_name'] = 'None';
 		}
-
-		$data['content'] = $this->load->view('admin/product_edit', $product, true);
-		$data['customCss'] = array('assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css');
-		$data['customJs'] = array('assets/js/settings.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/info_video.js');
-		$this->load->view('admin_main_layout', $data);
+		// Get genres
+		$product['genres'] = $this->story_genres_model->getAll();
+		$product['selected_genres'] = $this->product_genres_model->getAll($product_id);
+		if (!empty($this->product_genres_model->getAll($product_id))) {
+			$selected_genres = array();
+			foreach ($product['selected_genres'] as $key => $value) {
+				$selected_genres[] = $value['genre_id'];
+			}
+			$product['deselect_genres'] = $this->story_genres_model->getDeselectGenre($product_id, $selected_genres);
+		}
+		$params = array(
+			'page_index' => 'product_edit',
+			'page_base' => 'product',
+			'product' => $product
+		);
+		$this->customCss[] = 'assets/css/settings.css';
+		$this->customCss[] = 'assets/css/smoothness.jquery-ui.css';
+		$this->customCss[] = 'module/css/submenu.css';
+		$this->customCss[] = 'assets/plugins/multiselect/css/jquery.multiselect.css';
+		$this->customCss[] = 'module/css/product.css';
+		$this->customJs[] = 'assets/js/settings.js';
+		$this->customJs[] = 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js';
+		$this->customJs[] = 'assets/app/length.js';
+		$this->customJs[] = 'assets/plugins/multiselect/js/jquery.multiselect.js';
+		$this->customJs[] = 'module/js/product.js';
+		$this->render('/products/product_manage', $params, 3, 31);
 	}
 
 	public function managerActor($product_id = 0) {
@@ -477,7 +508,7 @@ class Product extends Base_Controller {
 		$product_id = $this->input->get('product_id');
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == null || $product['status'] != 0) {
-			redirect(base_url('product'));
+			$this->redirect('product');
 		} else {
 			$this->session->set_flashdata('msg', 'Edit success!');
 			$this->product_model->update(array('status' => 1), $product_id);
@@ -489,7 +520,7 @@ class Product extends Base_Controller {
 		$product_id = $this->input->get('product_id');
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == null || $product['status'] != 1) {
-			redirect(base_url('product'));
+			$this->redirect('product');
 		} else {
 			$this->session->set_flashdata('msg', 'Edit success!');
 			$this->product_model->update(array('status' => 0), $product_id);
@@ -502,7 +533,7 @@ class Product extends Base_Controller {
 		$product = $this->product_model->getProductById($product_id);
 		if ($product == '' || $product['status'] < 0) {
 			$this->session->set_flashdata('error', 'This Film is not exists!');
-			redirect(base_url('product'));
+			$this->redirect('product');
 		} else {
 			// Remove product from collections
 			$this->load->model('collection_model');
@@ -520,7 +551,7 @@ class Product extends Base_Controller {
 			$this->product_model->deleteProduct($product_id);
 
 			$this->session->set_flashdata('msg', 'Delete success!');
-			return redirect(base_url('product'));
+			return $this->redirect('product');
 		}
 	}
 

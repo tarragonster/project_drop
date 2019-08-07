@@ -58,7 +58,7 @@ if($this->session->flashdata('error')){
 													<ul class="dropdown-menu" role="menu" style="min-width: 87px">
 														<div class="dropdown-arrow"></div>
 														<li class="edit-genre-btn" data-id="<?php echo $row['product_id']; ?>">
-															<a href="#">Edit
+															<a href="<?php echo base_url('product/edit/' . $row['product_id'])?>">Edit
 																<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/edit.svg')?>"></span>
 															</a>
 														</li>
