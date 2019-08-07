@@ -110,7 +110,7 @@ class User extends Base_Controller {
 
 		$data = array();
 		$data['customCss'] = array('assets/css/settings.css','module/css/user.css');
-		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user_list.js');
+		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
@@ -314,29 +314,30 @@ class User extends Base_Controller {
 		$this->redirect('user');
 	}
 
-	public function edit($user_id = '') {
+	public function ajaxEdit($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
-		if ($user == null) {
-			redirect('user');
-		}
+//		if ($user == null) {
+//			redirect('user');
+//		}
 
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$params = array();
 			$params['email'] = $this->input->post('email');
 			$params['user_name'] = $this->input->post('user_name');
 			$params['full_name'] = $this->input->post('full_name');
-			$params['user_type'] = $this->input->post('user_type');
+//			$params['user_type'] = $this->input->post('user_type');
+			$params['bio'] = $this->input->post('bio');
 
 			$userEmail = $this->user_model->getByEmail($params['email']);
 			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
 				$this->session->set_flashdata('error_message', 'Sorry, this email is already linked to an existing account');
-				redirect(base_url('user/edit/' . $user_id));
+//				redirect(base_url('user/edit/' . $user_id));
 			}
 
 			$userX = $this->user_model->getByUsername($params['user_name']);
 			if ($userX != null && $userX['user_id'] != $user_id) {
 				$this->session->set_flashdata('error_message', 'Sorry, this username is already linked to an existing account');
-				redirect(base_url('user/edit/' . $user_id));
+//				redirect(base_url('user/edit/' . $user_id));
 			}
 
 			$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
@@ -358,17 +359,8 @@ class User extends Base_Controller {
 				$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $params['email'], $user_id);
 			}
 
-			redirect(base_url('user/edit/' . $user_id));
+            $this->ajaxSuccess($params);
 		}
-
-		$data = array();
-		$data['parent_id'] = 2;
-		// $data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
-		$data['sub_id'] = 22;
-		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/user_edit', $user, true);
-
-		$this->load->view('admin_main_layout', $data);
 	}
 
 	public function ajaxProfile($user_id) {
@@ -386,8 +378,13 @@ class User extends Base_Controller {
 		$layoutParams['user_comments'] = $this->user_model->getUserComments($user_id, -1);
 		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
 		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
+        $layoutParams['isEdit'] = $this->input->get('isEdit');
+        $layoutParams['isProfile'] = $this->input->get('isProfile');
+        $layoutParams['active'] = $this->input->get('active');
 
-		$data = array();
+
+
+        $data = array();
 		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css');
 		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/sweet-alerts.js');
 
@@ -482,17 +479,20 @@ class User extends Base_Controller {
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$quote = $this->input->post('quote');
 			$this->user_model->updatePick(['quote' => $quote], $pick_id);
-
-			$this->redirect(make_url('user/profile/' . $pick['user_id'], ['active' => 'your-picks']));
+			$this->ajaxSuccess();
 		}
 
 		$user = $this->user_model->get($pick['user_id']);
-		$data = array();
-		$data['parent_id'] = 2;
-		$data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
-		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/users/edit_pick', $pick, true);
-		$this->load->view('admin_main_layout', $data);
+
+        $data = array();
+        $data['parent_id'] = 2;
+        $data['sub_id'] = $user != null && $user['status'] == 1 ? 21 : 22;
+        $data['account'] = $this->account;
+        $data['content'] = $this->load->view('admin/users/edit_pick_content', $pick, true);
+
+        $this->ajaxSuccess($data);
+
+//		$this->load->view('admin_main_layout', $data);
 	}
 
 //	public function getUsersByStatus()
