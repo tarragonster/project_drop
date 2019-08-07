@@ -1,5 +1,6 @@
 .content-page > .content {
-    margin-top: 35px;
+    margin-top: 55px;
+    margin-bottom: 0;
 }
 .btn-export {
     float: right;
@@ -169,31 +170,6 @@
 .modal-content .modal-button button a {
     color: #FFFFFF;
 }
-
-/*form add film*/
-.background {
-    background-color: #ffffff;
-    border-radius: 5px;
-    padding: 20px;
-}
-.title {
-    margin: 20px 0;
-    font-weight: bold;
-    font-size: 20px;
-    margin-left: 12px;
-}
-
-
-#upload-img label {
-    font-weight: 100;
-    text-transform: uppercase;
-    font-size: 12px;
-    margin-left: -11px; 
-}
-
-
-
-
 .table > thead > tr > th {
     border-bottom: 0;
 }

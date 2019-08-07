@@ -1,4 +1,4 @@
-<div class="table-responsive " style="width: 100%; border: 0">
+<div class="table-responsive " style="width: 100%; border: 0;overflow-y: hidden;">
 	<table class="table dataTable">
 		
 			<?php $this->load->view('admin/base/table_header') ?>
