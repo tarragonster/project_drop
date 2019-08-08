@@ -48,7 +48,7 @@
 	function saveGenre() {
 		var genre_name = $('#genre_name').val()
 		var genre_image = $('#genreImg').val()
-		if (genre_name != '' && genre_image != '') {
+		if (genre_name != '' || genre_image != '') {
 			$('#genre-form-edit').submit();
 		}
 	}

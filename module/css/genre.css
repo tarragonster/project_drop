@@ -998,7 +998,7 @@ table, th, td {
 .section-content {
     /*background-color: #fff;*/
     border-radius: 5px;
-    margin-top: 20px; 
+    margin-top: 10px; 
 }
 .edit-popup .dropdown-arrow {
     left: 315px;

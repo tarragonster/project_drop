@@ -1,0 +1,251 @@
+/*STORY LIST*/
+.table-responsive {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 0;
+    border: none;
+    background: transparent;
+    font-size: 11px;
+    letter-spacing: 0.81px;
+    overflow: inherit;
+}
+.table > tbody > tr > td {
+    border: none;
+    border-bottom: 1px solid #979797;
+    background: #ffffff;
+    font-family: 'AvenirNext-Medium';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    color: #403F3F;
+    height: 59px;
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+    word-wrap: break-word;
+}
+.table > thead:first-child > tr:first-child > th {
+    padding-left: 0;
+    color: #979797;
+}
+table.dataTable{
+
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+}
+
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before {
+    position: absolute;
+    top: 4px;
+    display: block;
+    font-family: 'FontAwesome';
+    opacity: 0.5;
+    font-size: 11px;
+}
+
+table.dataTable thead .sorting:before {
+    opacity: 0.2;
+    content: "\f0dc"; /* sort */
+}
+
+table.dataTable thead .sorting_asc:before {
+    content: "\f0de"; /* sort-by-attributes */
+}
+
+table.dataTable thead .sorting_desc:before {
+    content: "\f0dd"; /* sort-by-attributes-alt */
+}
+
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:before {
+    color: #eee;
+}
+
+table.dataTable thead .sorting:after {
+    opacity: 0.2;
+    content: none; /* sort */
+}
+
+table.dataTable thead .sorting_asc:after {
+    content: none; /* sort-by-attributes */
+}
+
+table.dataTable thead .sorting_desc:after {
+    content: none; /* sort-by-attributes-alt */
+}
+.table > tbody > tr:first-child > td:first-child {
+    border-top-left-radius: 6px;
+}
+.table > tbody > tr:first-child > td:last-child {
+    border-top-right-radius: 6px;
+}
+.table > tbody > tr > td:first-child {
+        padding-left: 2px;
+}
+
+.dropdown-arrow {
+    width: 16px;
+    height: 16px;
+    background-color: #ffffff;
+    position: absolute;
+    top: -8.5px;
+    left: 40px;
+    transform: rotate(45deg);
+    border-top: 1px solid #EEEDEB;
+    border-left: 1px solid #EEEDEB;
+    z-index: 10000;
+}
+.dropdown-menu {
+    left: -30px;
+    text-transform: uppercase;
+}
+.dropdown-menu > li > a {
+    padding: 0px 10px;
+    color: #9B9B9B;
+    font-size: 11px;
+    padding: 5px 7px;
+}
+.dropdown-menu > li > a:focus, .dropdown-menu > li >a:hover {
+    color: #9B9B9B;
+    text-decoration: none;
+    background-color: unset;
+    font-weight: 500;
+}
+.action-icon {
+    float: right;
+}
+.modal-button button {
+    border-radius: 20px;
+    padding: 6px 26px;
+}
+.modal-button .cancel-btn {
+    margin-right: 10px;
+    color: #FFFFFF;
+    background-color: #9B9B9B;
+}
+.modal-button .dis-confirm, .en-confirm {
+    background-color: #FFC17C !important;
+}
+.del-btn, .del-confirm {
+    background-color: #E62C30  !important;
+}
+.modal-content .modal-description h2 {
+    letter-spacing: 2.28px;
+}
+.btn-export button {
+    float: right;
+    list-style-type: none;
+    margin: 0;
+    border: none;
+}
+.btn-header, .btn-header:hover, .btn-header:focus {
+    padding: 4px 10px !important;
+    font-size: 14px;
+    border-radius: 20px;
+    background-color: #c7ae6e !important;
+    color: #fff;
+}
+
+/*STORY LIST*/
+
+/*STORY FORM*/
+hr {
+    margin: 10px 20px 30px 12px;
+    border-top: 1px solid #eee;
+}
+.content-form label {
+    font-weight: 100;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+.form-group input, .form-group select, .form-group input:focus, .form-group select:focus {
+    border: none;
+    border-bottom: 1px solid #eee;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    padding: inherit;
+    font-size: 13px;
+}
+.form-group input {
+    height: 25px;
+}
+.form-group select {
+    color: #403F3F;
+    height: 27px;
+}
+.form-group #text-area-des {
+    border: 1px solid #979797;
+    border-radius: 10px;
+}
+.ms-choice>span.placeholder {
+    color: #403F3F;
+    font-size: 13px;
+    margin-top: -7px;
+}
+.ms-parent {
+    height: 27px;
+}
+.ms-choice {
+    margin-top: 25px;
+}
+.btn-update, .btn-update:hover {
+    background-color: #C7AE6E;
+    color: white;
+    padding: 5px 40px;
+    border-radius: 15px;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+.background {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 20px;
+}
+.title {
+    font-weight: bold;
+    font-size: 36px;
+    margin-left: 12px;
+}
+#upload-img label {
+    font-weight: 100;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-left: -11px; 
+}
+.ms-options-wrap > button:focus, .ms-options-wrap > button {
+    position: relative;
+    width: 100%;
+    text-align: left;
+    background-color: #fff;
+    padding: 3px 20px 3px 5px;
+    margin-top: 1px;
+    font-size: 13px;
+    color: #403F3F;
+    outline-offset: -2px;
+    white-space: nowrap;
+    border: none;
+    border-bottom: 1px solid #eee;
+}
+.ms-options-wrap > .ms-options > ul input[type="checkbox"] {
+    top: 0;
+}
+.ms-options-wrap > button:after {
+    border: 3px solid rgba(0, 0, 0, 0);
+}
+.section-content {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow-y: unset;
+}
+/*STORY FORM*/

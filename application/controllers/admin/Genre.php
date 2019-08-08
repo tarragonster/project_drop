@@ -68,6 +68,8 @@ class Genre extends My_Controller {
 			$this->file_model->saveFile($image, $path);
 			$params['image'] = $path;
 		}
+		$max_priority = $this->story_genres_model->getMaxPriority();
+		$params['priority'] = $max_priority['priority'] + 1;
 		$params['created_at'] = time();
 		$this->story_genres_model->insert($params);
 		$this->redirect('genre');
@@ -75,12 +77,16 @@ class Genre extends My_Controller {
 
 	public function editGenre() {
 		$genre_id = $this->input->post('genre_id');
-		$params['name'] = $this->input->post('genre_name');
-		$image = isset($_FILES['genre_img']) ? $_FILES['genre_img'] : null;
-		if ($image != null && $image['error'] == 0) {
-			$path = $this->file_model->createFileName($image, 'media/genres/', 'genre');
-			$this->file_model->saveFile($image, $path);
-			$params['image'] = $path;
+		if (!empty($this->input->post('genre_name'))) {
+			$params['name'] = $this->input->post('genre_name');
+		}
+		if(!empty($_FILES['genre_img'])) {
+			$image = $_FILES['genre_img'];
+			if ($image != null && $image['error'] == 0) {
+				$path = $this->file_model->createFileName($image, 'media/genres/', 'genre');
+				$this->file_model->saveFile($image, $path);
+				$params['image'] = $path;
+			}
 		}
 		$this->story_genres_model->update($params, $genre_id);
 		$this->redirect('genre');
@@ -127,43 +133,12 @@ class Genre extends My_Controller {
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$dragging_id = $this->input->post('dragging');
 			$positions = $this->input->post('positions');
-			$genres = $this->story_genres_model->getAll();
-			if (is_array($positions) && count($positions) > 1
-				&& is_array($genres) && count($genres) > 1
-			) {
-				$newPositions = [];
-				foreach ($genres as $key => $genre) {
-					if ($genre['id'] != $dragging_id) {
-						$newPositions[] = $genre['id'];
-					}
-				}
-				$new_index = -1;
-				$aboveItemId = -1;
-				foreach ($positions as $key => $genre_id) {
-					if ($genre_id == $dragging_id) {
-						if ($key == 0) {
-							$new_index = $key;
-						} else {
-							$aboveItemId = $positions[$key - 1];
-						}
-						break;
-					}
-				}
-				if ($aboveItemId > 0) {
-					foreach ($newPositions as $key => $genre_id) {
-						if ($aboveItemId == $genre_id) {
-							$new_index = $key + 1;
-						}
-					}
-				} else if ($new_index == -1) {
-					$new_index = count($newPositions);
-				}
-				array_splice($newPositions, $new_index, 0, [$dragging_id]);
-				foreach ($newPositions as $priority => $genre_id) {
-					$this->story_genres_model->update(['priority' => $priority], $genre_id);
-				}
-				$response['success'] = true;
+
+			$ids = array_keys($positions);
+			foreach ($ids as $key => $id) {
+				$this->story_genres_model->update(['priority' => $key + 1], $id);
 			}
+			$response['success'] = true;
 		}
 		echo json_encode($response);
 	}

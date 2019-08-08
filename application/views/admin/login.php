@@ -58,6 +58,13 @@
                                     $error
                                 </div>";
                             }
+                            if(!empty($this->session->flashdata('mess'))) {
+                            ?>
+                                <div style='color: white; margin-bottom: 20px;border: solid 1px #ffffff; background: rgba(255, 255, 255, 0.15); padding: 10px; border-radius: 5px'>
+                                    <?php echo $this->session->flashdata('mess'); ?>
+                                </div>
+                            <?php
+                            }
                         ?>
                         <div class="form-group">
                             <label id="m_email_label" class="form-label">EMAIL ADDRESS</label>
