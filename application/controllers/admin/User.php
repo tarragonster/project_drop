@@ -441,11 +441,22 @@ class User extends Base_Controller {
 
 	public function removePick($pick_id) {
 		$pick = $this->user_model->getPick($pick_id);
-		if ($pick == null) {
-			$this->redirect();
-		}
+		$confirmDelete = $this->input->post('confirmDelete');
+        $data = [];
+        if (trim($confirmDelete, ' ') != "DELETE") {
+            $data['id'] = $pick_id;
+            $data['code'] = -1;
+            $data['message'] = 'Sorry, it must be confirmed by typing "DELETE" into input box above';
+            $this->ajaxSuccess($data);
+
+        }
+//		if ($pick == null) {
+//			$this->redirect();
+//		}
+        $data['message'] = "";
 		$this->user_model->removePick($pick_id);
-		$this->redirect();
+        $this->ajaxSuccess($data);
+//		$this->redirect();
 	}
 
 	public function removeWatch($id) {

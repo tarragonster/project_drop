@@ -262,6 +262,7 @@ table.dataTable thead .sorting_desc:after {
     color: #9B9B9B;
     height: 36px;
     padding-top: 20px!important;
+    text-transform: uppercase;
 }
 
 .table > thead:first-child > tr:first-child > th:last-child span{
@@ -806,4 +807,69 @@ label[for='upload-photo']{
 
 #delete-content{
     border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 76px!important;
+    padding-right:76px!important;
+    padding-bottom: 28px!important;
+}
+
+.upper-delete-img{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 13px!important;
+}
+.outer-img{
+    width: 104px;
+    height: 104px;
+}
+
+.outer-img img{
+    width: 100%;
+    height:100%;
+}
+.outer-text span{
+    display: block;
+    width: 100%;
+    font-family: 'AvenirNext-Medium';
+    font-size: 14px;
+    text-align: center;
+    color: #403F3F;
+
+    margin-bottom: 29px;
+}
+.outer-input input{
+    width: 269px;
+    height: 33px;
+
+    border: 1px solid #979797;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+    padding-left: 10px;
+}
+.outer-input{
+    margin-bottom: 34px;
+    display: flex;
+    justify-content: center;
+}
+.btn-confirm{
+    width: 100px;
+    height: 35px;
+
+    border-radius: 17.5px;
+    background: #9B9B9B;
+    text-transform: uppercase;
+    border: none;
+
+    color: #FFFFFF;
+    font-size: 11px;
+    font-family: 'AvenirNext-DemiBold';
+}
+.outer-btn{
+    display: flex;
+    justify-content: space-evenly;
 }

@@ -76,6 +76,18 @@ var User = /** @class */ (function () {
             model.active = 'profile';
         });
     };
+    User.prototype.deletePick = function () {
+        this.url = 'user/removePick/' + this.pick_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            confirmDelete: this.confirmDelete
+        };
+        this.sendAjaxRequest(function (data) {
+            model.active = 'your-picks';
+            model.showUserProfile();
+            model.active = 'profile';
+        });
+    };
     User.object = new User();
     return User;
 }());
@@ -132,6 +144,12 @@ function SaveEditPick() {
     model.saveEditPick();
     $('#edit-pick-view').modal('hide');
 }
-function DeletePick() {
+function DeleteShow(event) {
+    model.pick_id = $(event).data('pick_id');
     $('#delete-view').modal('show');
+}
+function ConfirmDeletePick() {
+    model.confirmDelete = $('#input-confirm-delete').val();
+    model.deletePick();
+    $('#delete-view').modal('hide');
 }

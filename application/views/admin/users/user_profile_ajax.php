@@ -186,8 +186,8 @@
                     <table class="table dataTable table-hover table-modal">
                         <thead>
                         <tr>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Comment Id</th>
-                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Comment</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Picks</th>
                             <th style="width: 20%;padding: 0!important; height: 24px!important;">Date</th>
                             <th style="width: 20%;padding: 0!important; height: 24px!important;">Status</th>
                             <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
@@ -213,7 +213,7 @@
                                                 <li class="text-uppercase view-user-click" data-pick_id="<?= $row['pick_id'] ?>" onclick="ShowEditPick(this)"><a href="#" class="drp-items"><span>Edit</span>
                                                         <img src="<?= base_url('assets/images/edit.svg') ?>" alt=""></a>
                                                 </li>
-                                                <li class="text-uppercase" onclick="DeletePick(this)">
+                                                <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="<?= $row['pick_id'] ?>">
                                                     <a class="drp-items"><span>Delete</span>
                                                         <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                                             </ul>
