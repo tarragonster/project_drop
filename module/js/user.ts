@@ -1,0 +1,220 @@
+declare var $: any;
+declare var ajax: any;
+
+class User{
+
+    paramreq: any;
+    url: string;
+    typereq: string = 'get';
+    paramheader:any;
+    static object = new User();
+    isEdit:boolean = false;
+    isProfile:boolean = true;
+    user_id:any;
+    active:string = 'profile';
+
+    userName:any;
+    fullName:string;
+    email:string;
+    bio:string;
+    file:string;
+    switch:boolean = false;
+
+    contentType:boolean = false;
+    processData:boolean = true;
+
+    pick_id:number;
+    quote:string;
+    confirmDelete: string;
+
+    sendAjaxRequest(_callback) {
+
+        $.ajax({
+            type: this.typereq,
+            dataType: 'json',
+            url: this.url,
+            data: this.paramreq,
+            headers: this.paramheader,
+
+            success: function (data) {
+
+                _callback(data);
+
+            },
+        });
+    }
+
+    sendAjaxFormData(_callback) {
+
+        $.ajax({
+            type: this.typereq,
+            dataType: 'json',
+            url: this.url,
+            data: this.paramreq,
+            enctype: 'multipart/form-data',
+            headers: this.paramheader,
+
+            success: function (data) {
+
+                _callback(data);
+
+            },
+            contentType: this.contentType,
+            processData: this.processData,
+        });
+    }
+
+    showUserProfile(){
+        $('#view-user-content').html("");
+        this.paramreq = {
+            user_id: this.user_id,
+            isEdit: this.isEdit,
+            isProfile: this.isProfile,
+            active: this.active,
+        };
+        this.url = 'user/ajaxProfile/' + this.user_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+
+            $('#view-user-content').html(data.content);
+        })
+
+    }
+
+    saveUpdateProfile(myFormData){
+        this.paramreq = myFormData;
+        this.url = 'user/ajaxEdit/' + this.user_id;
+        this.typereq = 'POST';
+
+        this.sendAjaxFormData(function (data) {
+
+            model.showUserProfile()
+        })
+    }
+
+    showEditPick(){
+
+        this.url = 'user/editPick/' + this.pick_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#edit-pick-content').html(data.content)
+
+        })
+    }
+
+    saveEditPick(){
+        this.url = 'user/editPick/' + this.pick_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            quote: this.quote
+        };
+
+        this.sendAjaxRequest(function (data) {
+
+            model.active = 'your-picks';
+            model.showUserProfile()
+            model.active = 'profile';
+        })
+
+    }
+
+    deletePick(){
+        this.url = 'user/removePick/' + this.pick_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            confirmDelete: this.confirmDelete
+        };
+        this.sendAjaxRequest(function (data) {
+
+            model.active = 'your-picks';
+            model.showUserProfile()
+            model.active = 'profile';
+        })
+    }
+}
+
+let model = User.object;
+
+function ShowUserProfile(event){
+
+    model.isProfile =true
+    model.user_id = $(event).data('user_id') * 1;
+    model.showUserProfile()
+    $('#view-user-popup').modal('show');
+}
+
+function EditUserProfile(event){
+    model.isProfile =false
+    model.isEdit= true
+    model.showUserProfile()
+    model.isEdit= false
+    model.isProfile =true
+
+}
+
+function readURL(input){
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        $('.the-avatar').attr('src', "");
+        reader.onload = function (e) {
+            $('.the-avatar')
+                .attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+
+}
+
+function SaveUpdateProfile(){
+
+    model.contentType = false;
+    model.processData = false;
+
+    var myformData = new FormData();
+    myformData.append('full_name', $('input[name=full_name]').val());
+    myformData.append('user_name', $('input[name=user_name]').val());
+    myformData.append('email', $('input[name=email]').val());
+    myformData.append('bio', $('.bio-input').text());
+    myformData.append('avatar', $('input[name=avatar]')[0].files[0]);
+
+
+    model.saveUpdateProfile(myformData);
+    model.switch = true
+}
+
+$('#view-user-popup').on('hidden.bs.modal', function () {
+
+    if(model.switch == true){
+        location.reload();
+        model.switch = false
+    }
+});
+
+function ShowEditPick(event){
+    model.pick_id = $(event).data('pick_id');
+
+    model.showEditPick()
+    $('#edit-pick-view').modal('show')
+
+}
+
+function SaveEditPick(){
+
+    model.quote = $('.quote-input').text();
+    model.saveEditPick()
+    $('#edit-pick-view').modal('hide')
+}
+
+function DeleteShow(event){
+    model.pick_id = $(event).data('pick_id')
+    $('#delete-view').modal('show');
+}
+
+function ConfirmDeletePick(){
+    model.confirmDelete = $('#input-confirm-delete').val();
+    model.deletePick();
+    $('#delete-view').modal('hide')
+}

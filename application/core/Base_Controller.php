@@ -6,7 +6,7 @@ class Base_Controller extends CI_Controller {
 	protected $customJs = array();
 	protected $customCss = array();
 	protected $mainParams = array();
-	
+
 	public function __construct() {
 		parent::__construct();
 		date_default_timezone_set('America/Los_Angeles');
@@ -161,4 +161,29 @@ class Base_Controller extends CI_Controller {
 
 		$this->load->view('admin_main_layout', $this->mainParams);
 	}
+
+    protected function ajaxSuccess($data = []) {
+        if ($data == null) {
+            $response = array();
+        } else {
+            $response = $data;
+        }
+        $response['success'] = true;
+        header('Content-Type: application/json');
+        echo json_encode($response, JSON_PRETTY_PRINT);
+        die("");
+    }
+
+    protected function ajaxError($error_message = 'Resource not found', $data = array()) {
+        if ($data == null) {
+            $response = array();
+        } else {
+            $response = $data;
+        }
+        $response['success'] = false;
+        $response['error_message'] = $error_message;
+        header('Content-Type: application/json');
+        echo json_encode($response, JSON_PRETTY_PRINT);
+        die("");
+    }
 }

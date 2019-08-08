@@ -573,10 +573,11 @@ class User_model extends BaseModel {
 	}
 
 	public function getPick($pick_id) {
-		$this->db->select('p.*, up.user_id, up.pick_id, up.quote');
+		$this->db->select('p.*,u.*, up.user_id, up.pick_id, up.quote');
 		$this->db->from('user_picks up');
 		$this->db->where('up.pick_id', $pick_id);
 		$this->db->join('product_view p', 'p.product_id = up.product_id');
+		$this->db->join('user u','u.user_id = up.user_id');
 		return $this->db->get()->first_row('array');
 	}
 
@@ -767,7 +768,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getUserPicks($user_id, $isMe = true) {
-		$this->db->select('up.pick_id as id, up.pick_id, p.*, up.quote, up.is_hidden');
+		$this->db->select('up.pick_id as id, up.created_at, up.pick_id, p.*, up.quote, up.is_hidden');
 		$this->db->from('user_picks up');
 		$this->db->where('up.user_id', $user_id);
 		if (!$isMe) {
@@ -778,6 +779,25 @@ class User_model extends BaseModel {
 
 		return $this->db->get()->result_array();
 	}
+
+    public function getUserLikes($user_id, $isMe = true) {
+        $this->db->select();
+        $this->db->from('episode_like el');
+        $this->db->where('el.user_id', $user_id);
+        if (!$isMe) {
+            $this->db->where('up.is_hidden', 0);
+        }
+
+        return $this->db->get()->result_array();
+    }
+
+    public function getUserComments($user_id, $isMe = true) {
+        $this->db->select();
+        $this->db->from('comments c');
+        $this->db->where('c.user_id', $user_id);
+        $this->db->join('episode e','c.episode_id = e.episode_id');
+        return $this->db->get()->result_array();
+    }
 
 	public function getListContinue($user_id, $page = -1, $isMe = true) {
 		$this->db->select('w.id, w.user_id, p.*, w.start_time, w.episode_id, w.is_hidden');
