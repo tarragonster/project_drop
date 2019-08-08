@@ -17,8 +17,6 @@ $('#add-genre-btn').on('click', function (e) {
 $('.edit-genre-btn').on('click', function (e) {
 	e.preventDefault();
 	var genre_id = $(this).data('id')
-	console.log(genre_id)
-	// $('#edit-genre-form').html("");
 	$.ajax({
 		type: "POST",
 		dataType: "html",
@@ -76,7 +74,4 @@ $(".sortable").sortable({
 			}
 		});
 	},
-	start: function (event, ui) {
-		$('#dragging-item-' + $(this).attr('cat-id')).val(ui.item.attr('data-id'));
-	}
 }).disableSelection();

@@ -17,6 +17,19 @@ class Story_genres_model extends BaseModel {
 				$this->db->order_by($conditions['sort_by'], 'asc');
 			}
 		}
+		$this->db->order_by('priority');
 		return $this->db->get($this->table)->result_array();
+	}
+
+	public function getMaxPriority() {
+		$this->db->select_max('priority');
+		return $this->db->get($this->table)->first_row('array');
+	}
+
+	public function getDeselectGenre($product_id, $selected_genres) {
+		$this->db->select('*');
+		$this->db->from('story_genres sg');
+		$this->db->where_not_in('sg.id', $selected_genres);
+		return $this->db->get()->result_array();
 	}
 }

@@ -403,14 +403,14 @@ class User_model extends BaseModel {
         }else{
             $this->db->order_by('u.user_id', 'desc');
         }
-            if (!empty($conditions['per_page'])) {
-                $per_page = $conditions['per_page'] * 1;
-            } else {
-                $per_page = 25;
-            }
-            if ($page >= 0){
-                $this->db->limit($per_page, $page * $per_page);
-            }
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+        } else {
+            $per_page = 25;
+        }
+        if ($page >= 0){
+            $this->db->limit($per_page, $page * $per_page);
+        }
         return $this->db->get()->result_array();
 	}
 

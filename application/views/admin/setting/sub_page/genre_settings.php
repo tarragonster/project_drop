@@ -1,83 +1,85 @@
-<div class="table-responsive " style="width: 100%; border: 0">
+<div class="table-responsive " style="width: 100%; border: 0;overflow-y: hidden;">
 	<table class="table dataTable">
-			<form action="" method="post" id="form-data">
 		
 			<?php $this->load->view('admin/base/table_header') ?>
 		<tbody>
-				<ul data-url="<?= base_url('genre/sortable')?>" class="sortable">
-					<input type="hidden" name="dragging" value="0"/>
-				<?php foreach ($genres as $key => $row): ?>
-					<li id="genre_<?php echo $row['id']; ?>" data-id="<?php echo $row['id']; ?>">
-	                    <input type="hidden" name="positions[]" value="<?php echo $row['id']; ?>">
-	                    <div class="card-box card-sorting row">
-	                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="padding: 0px">
-	                            <div class="sortable-move"><i class="icon-menu"></i></div>
-	                        </div>
-	                        <div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px">
-	                               <img src="<?php echo base_url($row['image'])?>" alt='genre-image' width='102' height='60'>
-	                        </div>
-	                        <div class="col-sm-3 col-lg-1 sortable-box width-9" style="padding: 0px">
-                                <?php echo $row['id']?>
-	                        </div>
-	                        <div class="col-sm-3 col-lg-2 sortable-box width-18">
-                                <?= $row['name'] ?>
-                            </div>
-                            <div class="col-sm-3 col-lg-1 sortable-box width-18">
-                                <?= $row['num_stories'] ?>
-	                        </div>
-	                        <div class="col-sm-3 col-lg-2 sortable-box width-18">
-                                <?= date('m/d/Y h:iA', $row['created_at']) ?>
+			<tr><td colspan="8">
+				<form action="" method="post" id="form-data">
+					<ul data-url="<?= base_url('genre/sortable')?>" class="sortable">
+						<input type="hidden" name="dragging" value="0"/>
+						<?php foreach ($genres as $key => $row):?>
+						<li id="genre_<?php echo $row['id']; ?>" data-id="<?php echo $row['id']; ?>">
+		                    <input type="hidden" name="positions[<?php echo $row['id']?>]" value="1">
+		                    <div class="card-box card-sorting row">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="padding: 0px">
+		                            <div class="sortable-move"><i class="icon-menu"></i></div>
+		                        </div>
+		                        <div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px">
+		                               <img src="<?php echo base_url($row['image'])?>" alt='genre-image' width='102' height='60'>
+		                        </div>
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-9" style="padding: 0px">
+	                                <?php echo $row['id']?>
+		                        </div>
+		                        <div class="col-sm-3 col-lg-2 sortable-box width-18">
+	                                <?= $row['name'] ?>
+	                            </div>
+	                            <div class="col-sm-3 col-lg-1 sortable-box width-18">
+	                                <?= $row['num_stories'] ?>
+		                        </div>
+		                        <div class="col-sm-3 col-lg-2 sortable-box width-18">
+	                                <?= date('m/d/Y h:iA', $row['created_at']) ?>
+			                    </div>
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-13">
+		                        	<?php if($row['status'] == 0): ?>
+		                                <i class="fa fa-circle text-danger" style="font-size: 60%;"></i>&nbsp;&nbsp;
+		                                <span>DISABLED</span>
+	                                <?php else: ?>
+	                                	<i class="fa fa-circle text-success" style="font-size: 60%;"></i>&nbsp;&nbsp;
+		                                <span>ENABLE</span>
+	                                <?php endif;?>
+	                            </div>
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-5">
+		                            <div class="btn-group">
+										<i type="button" style="font-size: 36px; color: #c7c7c7; line-height: 25px;" class="md md-more-horiz m-r-5 dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></i>
+										<ul class="dropdown-menu" role="menu" style="min-width: 87px">
+											<div class="dropdown-arrow"></div>
+											<li class="edit-genre-btn" data-id="<?php echo $row['id']; ?>">
+												<a href="#">
+													Edit
+													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/edit.svg')?>"></span>
+												</a>
+											</li>
+											<?php if($row['status'] == 1):?>
+											<li class="dis-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#dis-modal">
+												<a href="#">
+													Disable
+													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/block.svg')?>"></span>
+												</a>
+											</li>
+											<?php else: ?>
+											<li class="en-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#en-modal">
+												<a href="#">
+													Enable
+													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/block.svg')?>"></span>
+												</a>
+											</li>
+											<?php endif; ?>
+											<li class="delete-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#del-modal">
+												<a href="#">
+													Delete
+													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/trash.svg')?>"></span>
+												</a>
+											</li>
+										</ul>
+									</div>
+		                        </div>
 		                    </div>
-	                        <div class="col-sm-3 col-lg-1 sortable-box width-13">
-	                        	<?php if($row['status'] == 0): ?>
-	                                <i class="fa fa-circle text-danger" style="font-size: 60%;"></i>&nbsp;&nbsp;
-	                                <span>DISABLED</span>
-                                <?php else: ?>
-                                	<i class="fa fa-circle text-success" style="font-size: 60%;"></i>&nbsp;&nbsp;
-	                                <span>ENABLE</span>
-                                <?php endif;?>
-                            </div>
-	                        <div class="col-sm-3 col-lg-1 sortable-box width-5">
-	                            <div class="btn-group">
-									<i type="button" style="font-size: 36px; color: #c7c7c7; line-height: 25px;" class="md md-more-horiz m-r-5 dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></i>
-									<ul class="dropdown-menu" role="menu" style="min-width: 87px">
-										<div class="dropdown-arrow"></div>
-										<li class="edit-genre-btn" data-id="<?php echo $row['id']; ?>">
-											<a href="#">
-												Edit
-												<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/edit.svg')?>"></span>
-											</a>
-										</li>
-										<?php if($row['status'] == 1):?>
-										<li class="dis-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#dis-modal">
-											<a href="#">
-												Disable
-												<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/block.svg')?>"></span>
-											</a>
-										</li>
-										<?php else: ?>
-										<li class="en-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#en-modal">
-											<a href="#">
-												Enable
-												<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/block.svg')?>"></span>
-											</a>
-										</li>
-										<?php endif; ?>
-										<li class="delete-genre-btn btnAct" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#del-modal">
-											<a href="#">
-												Delete
-												<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/trash.svg')?>"></span>
-											</a>
-										</li>
-									</ul>
-								</div>
-	                        </div>
-	                    </div>
-	                </li>
-				<?php endforeach; ?>
-				</ul>
+		                </li>
+					<?php endforeach; ?>
+					</ul>
+				</form>
+			</td></tr>
 		</tbody>
-			</form>
 	</table>
 </div>
 

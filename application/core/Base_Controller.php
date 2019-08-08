@@ -2,6 +2,11 @@
 
 class Base_Controller extends CI_Controller {
 	protected $account;
+	protected $baseView = 'admin';
+	protected $customJs = array();
+	protected $customCss = array();
+	protected $mainParams = array();
+	
 	public function __construct() {
 		parent::__construct();
 		date_default_timezone_set('America/Los_Angeles');
@@ -136,5 +141,24 @@ class Base_Controller extends CI_Controller {
 			$query = "?" . implode('&', $search);
 		}
 		redirect(base_url($redirect) . $query);
+	}
+
+	public function render($layout = '', $params = array(), $parent = 1, $sub = 11) {
+		$this->mainParams['parent_id'] = $parent;
+		$this->mainParams['sub_id'] = $sub;
+		$this->mainParams['customJs'] = $this->customJs;
+		$this->mainParams['customCss'] = $this->customCss;
+
+
+		if (empty($layout)) {
+			die('Missing layout');
+		} else {
+			if (strpos($layout, "/") < 1) {
+				$layout = $this->baseView . $layout;
+			}
+			$this->mainParams['content'] = $this->load->view($layout, $params, true);
+		}
+
+		$this->load->view('admin_main_layout', $this->mainParams);
 	}
 }

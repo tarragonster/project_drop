@@ -18,9 +18,9 @@ class Email_model extends CI_Model {
 		$this->createNewEmail();
 		$this->email->to($email);
 		$this->email->subject('Reset your password');
-		$html = $this->loadTemplate("forgotpassword");
-		$html = str_replace('{{var username}}', $params['username'], $html);
+		$html = $this->loadTemplate("email_reset_password");
 		$html = str_replace('{{var url_code}}', $params['url_code'], $html);
+		$html = str_replace('{{var base_url}}', $params['base_url'], $html);
 		$this->email->message($html);
 		$this->email->send();
 	}
