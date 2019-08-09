@@ -212,6 +212,14 @@ class User{
 
         })
     }
+    editReportNote(){
+        this.url = '/user/editNote/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-note-content').html(data.content);
+
+        })
+    }
 }
 
 let model = User.object;
@@ -374,7 +382,7 @@ function ToCloseUserModal(){
 // report modal
 
 function ShowReportNote(event){
-    model.report_id = $('event').data('report_id')
+    model.report_id = $(event).data('report_id')
     model.showReportNote()
     $('#view-note-popup').modal('show')
 }
@@ -382,4 +390,8 @@ function ShowReportNote(event){
 function SaveReportNote(){
     model.note = $('.note-input').text()
     model.saveReportNote()
+}
+
+function EditReportNote(){
+    model.editReportNote()
 }

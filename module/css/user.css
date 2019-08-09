@@ -976,3 +976,15 @@ label[for='upload-photo']{
     padding-left: 5px!important;
     margin-top: 5px!important;
 }
+
+.text-note-confirm{
+    margin-top: 13px;
+    font-family: 'Avenir Next';
+    font-weight: normal;
+    font-size: 14px;
+    color: #403F3F;
+}
+
+.tab-content{
+    box-shadow: none;
+}

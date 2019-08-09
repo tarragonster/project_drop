@@ -710,6 +710,13 @@ class User_model extends BaseModel {
 
     }
 
+    public function getReportNote($report_id){
+	    $this->db->select();
+        $this->db->where('report_id', $report_id);
+        $this->db->from('user_reports');
+        return $this->db->get()->result_array();
+    }
+
 	public function countContactFriends($user_id) {
 		$this->db->from('contact_friends cf');
 		$this->db->join('contact_contacts cc', 'cc.contact_id = cf.contact_id');
