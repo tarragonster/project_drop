@@ -1,0 +1,1 @@
+ALTER TABLE `user_picks` ADD `priority` INT NOT NULL AFTER `quote`;

@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="padding-left: 0;padding-right: 0">
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Carousel Banner</label>
                                     <div class="row">

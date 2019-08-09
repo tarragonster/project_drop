@@ -108,7 +108,7 @@ class Product extends Base_Controller {
 			'conditions' => $conditions
 		);
 		$data['parent_id'] = 3;
-		$data['sub_id'] = 32;
+		$data['sub_id'] = 31;
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/products/product_list', $params, true);
 		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js','assets/app/delete-confirm.js', 'module/js/product.js', 'assets/app/search.js', 'assets/app/core-table/coreTable.js');
@@ -220,7 +220,9 @@ class Product extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function edit($product_id) {
+	public function edit($product_id = 0) {
+		$this->session->set_userdata('product_id', $product_id);
+
 		$this->load->model("collection_model");
 		$this->load->model('preview_model');
 		$this->load->model('episode_model');
@@ -324,10 +326,6 @@ class Product extends Base_Controller {
 			$this->session->set_flashdata('msg', 'Edit success!');
 			redirect(base_url('product/edit/' . $product_id));
 		}
-		$data = array();
-		$data['parent_id'] = 3;
-		$data['sub_id'] = 33;
-		$data['account'] = $this->account;
 
 		$product['rates'] = $this->product_model->getRates();
 		$product['episodes'] = $this->product_model->getEpisodeSeasons($product_id);
@@ -363,9 +361,8 @@ class Product extends Base_Controller {
 		$this->customJs[] = 'assets/js/settings.js';
 		$this->customJs[] = 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js';
 		$this->customJs[] = 'assets/app/length.js';
-		$this->customJs[] = 'assets/plugins/multiselect/js/jquery.multiselect.js';
 		$this->customJs[] = 'module/js/product.js';
-		$this->render('/products/product_manage', $params, 3, 31);
+		$this->render('/products/product_manage', $params, 3, 32);
 	}
 
 	public function managerActor($product_id = 0) {
@@ -584,11 +581,93 @@ class Product extends Base_Controller {
 		die(json_encode($html));
 	}
 
-	public function search() {
-		$query = $this->input->get('query');
-		$products = $this->product_model->getAllProducts($query);
-		$data = ['products' => $products];
-		$html = $this->load->view('admin/product_table', $data, true);
-		die(json_encode($html));
+	public function manageReview($product_id = 0) {
+		$product = $this->product_model->checkProduct($product_id);
+		
+		$conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+        $reviews = $this->product_model->getProductReviewsForAdmin($product_id, $conditions);
+
+        $headers = array(
+            'icon' => array('label' => '', 'sorting' => false),
+            'avatar' => array('label' => '', 'sorting' => false),
+            'full_name' => array('label' => 'Username', 'sorting' => true),
+            'name' => array('label' => 'Story Name', 'sorting' => true),
+            'quote' => array('label' => 'Reviews', 'sorting' => false),
+            'status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Actions')
+        );
+
+        $params = array(
+			'page_index' => 'manage_review',
+			'page_base' => 'product/manageReview/' . $product_id,
+			'headers' => $headers,
+			'product' => $product,
+			'reviews' => $reviews,
+			'conditions' => $conditions
+		);
+		$this->customCss[] = 'module/css/submenu.css';
+		$this->customCss[] = 'module/css/product.css';
+		$this->customJs[] = 'module/js/coreTable.js';
+		$this->customJs[] = 'module/js/product.js';
+		$this->render('/products/product_manage', $params, 3, 33);
+	}
+
+	public function sortable() {
+		header('Content-Type: application/json');
+		$response = ['success' => false];
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			$dragging_id = $this->input->post('dragging');
+			$positions = $this->input->post('positions');
+
+			$ids = array_keys($positions);
+			foreach ($ids as $key => $id) {
+				$this->product_model->updatePriority(['priority' => $key + 1], $id);
+			}
+			$response['success'] = true;
+		}
+		echo json_encode($response);
+	}
+
+	public function disableReview() {
+		$pick_id = $this->input->get('pick_id');
+		$product_id = $this->input->get('product_id');
+
+		$pick = $this->product_model->getPick($pick_id);
+		if ($pick == null) {
+			return $this->manageReview($product_id);
+		} else {
+			$this->session->set_flashdata('msg', 'Edit success!');
+			$this->product_model->updatePriority(['is_hidden' => 1], $pick_id);
+			return $this->manageReview($product_id);
+		}
+	}
+
+	public function enableReview() {
+		$pick_id = $this->input->get('pick_id');
+		$product_id = $this->input->get('product_id');
+
+		$pick = $this->product_model->getPick($pick_id);
+		if ($pick == null) {
+			return $this->manageReview($product_id);
+		} else {
+			$this->session->set_flashdata('msg', 'Edit success!');
+			$this->product_model->updatePriority(['is_hidden' => 0], $pick_id);
+			return $this->manageReview($product_id);
+		}
+	}
+
+	public function deleteReview() {
+		$pick_id = $this->input->get('pick_id');
+		$product_id = $this->input->get('product_id');
+
+		$pick = $this->product_model->getPick($pick_id);
+		if ($pick == null) {
+			return $this->manageReview($product_id);
+		} else {
+			$this->session->set_flashdata('msg', 'Edit success!');
+			$this->product_model->deletePick($pick_id);
+			return $this->manageReview($product_id);
+		}
 	}
 }
