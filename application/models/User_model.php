@@ -665,7 +665,8 @@ class User_model extends BaseModel {
 	}
 
 	public function getNumReports() {
-		$this->db->from('user_reports ur');
+        $this->db->select();
+        $this->db->from('user_reports ur');
 		$this->db->join('user u1', 'u1.user_id = ur.user_id');
 		$this->db->join('user u2', 'u2.user_id = ur.reporter_id');
 		$this->db->select('ur.report_id, u1.full_name, u2.full_name as reporter_name, ur.created_at');
@@ -679,7 +680,7 @@ class User_model extends BaseModel {
 		$this->db->select('ur.report_id, u1.*, u2.full_name as reporter_name, ur.created_at');
 
         if (!empty($conditions['key'])) {
-            $this->makeSearchQuery(['lower(ur.report_id)','lower(ur.full_name)','lower(ur.reporter_name)','lower(ur.created_at)'], strtolower($conditions['key']));
+            $this->makeSearchQuery(['lower(ur.report_id)','lower(u1.full_name)','lower(u2.full_name)','lower(ur.created_at)'], strtolower($conditions['key']));
         }
 
         if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id', 'full_name', 'reporter_name','status'))) {

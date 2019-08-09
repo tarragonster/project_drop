@@ -32,7 +32,7 @@
                 <div class="box">
                     <div class="card-box table-responsive">
                         <div class="user_table">
-                            <table id="example3" class="table table-bordered table-hover">
+                            <table id="example3" class="table dataTable table-hover">
                                 <?php $this->load->view('admin/users/table_header_report') ?>
                                 <tbody>
                                 <?php

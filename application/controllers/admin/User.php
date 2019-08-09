@@ -462,6 +462,7 @@ class User extends Base_Controller {
             'report_id' => array('label' => 'Report ID', 'sorting' => true),
             'full_name' => array('label' => 'Reported User', 'sorting' => true),
             'reporter_name' => array('label' => 'Reporter User', 'sorting' => true),
+            'created_at' => array('label' => 'Report Date', 'sorting' => false),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
