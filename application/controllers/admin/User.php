@@ -512,6 +512,17 @@ class User extends Base_Controller {
         $this->ajaxSuccess($data);
     }
 
+    public function editNote($report_id){
+        $param = [];
+        $report = $this->user_model->getReportNote($report_id);
+        $param['report_id'] = $report_id;
+        $param['report'] = $report;
+        $data['code'] = 200;
+        $data['content'] = $this->load->view('admin/users/edit_report_ajax',$param,true);
+
+        $this->ajaxSuccess($data);
+    }
+
 	public function deleteReport($report_id) {
 		$this->db->where('report_id', $report_id);
 		$this->db->delete('user_reports');
