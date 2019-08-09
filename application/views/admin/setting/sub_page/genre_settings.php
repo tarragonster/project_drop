@@ -1,4 +1,4 @@
-<div class="table-responsive " style="width: 100%; border: 0;overflow-y: hidden;">
+<div class="table-responsive " style="width: 100%; border: 0;overflow: unset;">
 	<table class="table dataTable">
 		
 			<?php $this->load->view('admin/base/table_header') ?>
@@ -15,7 +15,7 @@
 		                            <div class="sortable-move"><i class="icon-menu"></i></div>
 		                        </div>
 		                        <div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px">
-		                               <img src="<?php echo base_url($row['image'])?>" alt='genre-image' width='102' height='60'>
+		                               <img src="<?php echo media_thumbnail($row['image'], 70)?>" alt='genre-image' width='102' height='60'>
 		                        </div>
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-9" style="padding: 0px">
 	                                <?php echo $row['id']?>
@@ -29,7 +29,7 @@
 		                        <div class="col-sm-3 col-lg-2 sortable-box width-18">
 	                                <?= date('m/d/Y h:iA', $row['created_at']) ?>
 			                    </div>
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-13">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-13" style="font-family:'AvenirNext-DemiBold';font-size: 12px;letter-spacing: 0.8px">
 		                        	<?php if($row['status'] == 0): ?>
 		                                <i class="fa fa-circle text-danger" style="font-size: 60%;"></i>&nbsp;&nbsp;
 		                                <span>DISABLED</span>
@@ -147,7 +147,7 @@
 			</div>
 			<div class="modal-button">
 				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
-				<button class="btn btn-danger" data-toggle="modal" data-target="#confirm-del-modal" data-dismiss="modal" >Delete</button>
+				<button class="btn btn-danger del-btn" data-toggle="modal" data-target="#confirm-del-modal" data-dismiss="modal" >Delete</button>
 			</div>	
 		</div>
 	</div>

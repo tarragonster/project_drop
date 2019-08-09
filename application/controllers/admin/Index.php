@@ -74,7 +74,7 @@ class Index extends MY_Controller {
 					$this->session->set_userdata('admin', array('email'=>$account['email'], 'group'=>$account['group']));
 					$this->redirect('dashboard');
 				} else {
-					$this->load->view('admin/login', array('error'=>'The email not linked to any existing account.'));
+					$this->load->view('admin/login', array('error'=>'Email or Password is incorrect. Please try again'));
 				}
 			}
 		} else {
@@ -152,11 +152,15 @@ class Index extends MY_Controller {
 			if ($this->input->server('REQUEST_METHOD') == 'POST') {
 				$password = $this->input->post('password');
 				$re_password = $this->input->post('re_password');
+
 				if (strlen($password) < 6 || strlen($password) > 32) {
 					$data['error'] = 'Password length must be from 6 to 32 characters';
 				} else if ($password != $re_password) {
-					$data['error'] = 'Password not match';
-				} else {
+					$data['error'] = 'Password does not match';
+				} 
+				if(!empty($data)) {
+					$this->load->view('admin/reset_password', $data);
+				}else {
 					$this->admin_model->update(['password' => md5($password)], $verify['user_id']);
 					$this->passcode_model->clearPasswordCode($verify['user_id']);
 					$account = $this->admin_model->getObjectById($verify['user_id']);
@@ -166,7 +170,7 @@ class Index extends MY_Controller {
 					}
 				}
 			}else {
-				$this->load->view('admin/reset_password', $data);
+				$this->load->view('admin/reset_password');
 			}
 		} else {
 			$data['error'] = 'Your verify code is invalid';

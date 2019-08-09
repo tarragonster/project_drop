@@ -52,7 +52,7 @@
                     </div>
                     <form class="m-form" action="<?php echo isset($url) ? "?url=$url" : ''; ?>" method="post">
                         <div class="login-title text-center">
-                            Reset Password Successfuly
+                            Reset Password Successfully
                         </div>
                         <div class="form-group text-center" style="margin-top: 20px;">
                             <a href="<?php echo base_url('dashboard')?>" type="submit" class="btn" name="cmd" style="padding: 0 !important">go to dashboard</a>
