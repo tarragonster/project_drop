@@ -677,7 +677,7 @@ class User_model extends BaseModel {
 		$this->db->from('user_reports ur');
 		$this->db->join('user u1', 'u1.user_id = ur.user_id');
 		$this->db->join('user u2', 'u2.user_id = ur.reporter_id');
-		$this->db->select('ur.report_id, u1.*, u2.full_name as reporter_name, ur.created_at');
+		$this->db->select('ur.report_id, u1.*, u2.full_name as reporter_name,u2.user_name as reporter_user_name, ur.created_at');
 
         if (!empty($conditions['key'])) {
             $this->makeSearchQuery(['lower(ur.report_id)','lower(u1.full_name)','lower(u2.full_name)','lower(ur.created_at)'], strtolower($conditions['key']));
@@ -703,6 +703,12 @@ class User_model extends BaseModel {
 
 		return $this->db->get()->result_array();
 	}
+
+	public function updateReportNote($report_id,$note){
+        $this->db->where('report_id', $report_id);
+        $this->db->update('user_reports', ['report_note' => $note]);
+
+    }
 
 	public function countContactFriends($user_id) {
 		$this->db->from('contact_friends cf');

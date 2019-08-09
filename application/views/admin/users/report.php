@@ -50,7 +50,10 @@
                                                 <?php echo $row['full_name'] ?><br>
                                                 <span style="font-weight: 500!important;">@<?php echo $row['user_name'] ?></span>
                                             </td>
-                                            <td class="header-item-content item-style"><?php echo $row['reporter_name'] ?></td>
+                                            <td class="header-item-content item-style" style="font-weight: 900;">
+                                                <?php echo $row['reporter_name'] ?><br>
+                                                <span style="font-weight: 500!important;">@<?php echo $row['reporter_user_name'] ?></span>
+                                            </td>
 
                                             <td class="header-item-content item-style"><?php echo date('m/d/Y h:iA', $row['created_at']) ?></td>
                                             <td class="header-item-content item-style status-tb">1</td>
@@ -61,31 +64,31 @@
                                                                                  style="color: #d8d8d8"></i></span>
                                                     <ul class="dropdown-menu" id="customDropdown">
                                                         <li class="text-uppercase view-user-click"
-                                                            data-user_id="<?= $row['report_id'] ?>"><a
+                                                            data-report_id="<?= $row['report_id'] ?>" onclick="ShowReportNote(this)"><a
                                                                     class="drp-items"><span>
-                                                                View Notes
+                                                                Add Notes
                                                             </span></a>
                                                         </li>
                                                         <li class="text-uppercase"
-                                                            data-user_id="<?= $row['report_id'] ?>">
+                                                            data-report_id="<?= $row['report_id'] ?>">
                                                             <a class="drp-items"><span>
                                                                 View User
                                                             </span></a>
                                                         </li>
                                                         <li class="text-uppercase"
-                                                            data-user_id="<?= $row['report_id'] ?>">
+                                                            data-report_id="<?= $row['report_id'] ?>">
                                                             <a class="drp-items"><span>
-                                                                Enable User
+                                                                Disable User
                                                             </span></a>
                                                         </li>
                                                         <li class="text-uppercase"
-                                                            data-user_id="<?= $row['report_id'] ?>">
+                                                            data-report_id="<?= $row['report_id'] ?>">
                                                             <a class="drp-items"><span>
                                                                 Remove Report
                                                             </span></a>
                                                         </li>
                                                         <li class="text-uppercase"
-                                                            data-user_id="<?= $row['user_id'] ?>"><a
+                                                            data-report_id="<?= $row['user_id'] ?>"><a
                                                                     class="drp-items"><span>
                                                                 Delete User</span></a>
                                                         </li>
@@ -149,3 +152,5 @@
         </form>
     </div>
 </div>
+
+<?php $this->load->view('admin/modals/modal_user') ?>
