@@ -43,7 +43,7 @@ var User = /** @class */ (function () {
             isProfile: this.isProfile,
             active: this.active,
         };
-        this.url = 'user/ajaxProfile/' + this.user_id;
+        this.url = '/user/ajaxProfile/' + this.user_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#view-user-content').html(data.content);
@@ -83,9 +83,64 @@ var User = /** @class */ (function () {
             confirmDelete: this.confirmDelete
         };
         this.sendAjaxRequest(function (data) {
+            $('.msg-toDelete').text(data.message);
             model.active = 'your-picks';
             model.showUserProfile();
             model.active = 'profile';
+            ToClosePickModal();
+        });
+    };
+    User.prototype.confirmDeleteWatch = function () {
+        this.url = 'user/removeWatch/' + this.watch_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            confirmDelete: this.confirmDelete
+        };
+        this.sendAjaxRequest(function (data) {
+            $('.msg-toDelete-watch').text(data.message);
+            model.active = 'watch-list';
+            model.showUserProfile();
+            model.active = 'profile';
+            ToCloseWatchModal();
+        });
+    };
+    User.prototype.saveBlockUser = function () {
+        this.url = 'user/block/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
+    User.prototype.saveUnblockUser = function () {
+        this.url = 'user/unblock/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
+    User.prototype.showFirstDeleteModal = function () {
+        this.url = 'user/firstModalDelete';
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-user-content').html(data.content);
+        });
+    };
+    User.prototype.showSecondDeleteModal = function () {
+        this.url = 'user/secondModalDelete';
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-user-content').html(data.content);
+        });
+    };
+    User.prototype.confirmDeleteUser = function () {
+        this.url = 'user/delete/' + this.user_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            confirmDelete: this.confirmDelete
+        };
+        this.sendAjaxRequest(function (data) {
+            $('.msg-toDelete-user').text(data.message);
+            ToCloseUserModal();
         });
     };
     User.object = new User();
@@ -146,10 +201,67 @@ function SaveEditPick() {
 }
 function DeleteShow(event) {
     model.pick_id = $(event).data('pick_id');
+    $('.msg-toDelete').text(' ');
+    $('.text-diff').text('delete');
     $('#delete-view').modal('show');
+    $('#input-confirm-delete').val('');
 }
 function ConfirmDeletePick() {
     model.confirmDelete = $('#input-confirm-delete').val();
     model.deletePick();
-    $('#delete-view').modal('hide');
+}
+function ToClosePickModal() {
+    if ($('.msg-toDelete').text().trim() == '') {
+        $('#delete-view').modal('hide');
+        model.switch = true;
+    }
+}
+function DeleteShowWatch(event) {
+    model.watch_id = $(event).data('watch_id');
+    $('.msg-toDelete-watch').text(' ');
+    $('.text-diff').text('remove');
+    $('#delete-view-watch').modal('show');
+    $('#watch-confirm-delete').val('');
+}
+function ConfirmDeleteWatch() {
+    model.confirmDelete = $('#watch-confirm-delete').val();
+    console.log(model.confirmDelete);
+    model.confirmDeleteWatch();
+}
+function ToCloseWatchModal() {
+    if ($('.msg-toDelete-watch').text().trim() == '') {
+        $('#delete-view-watch').modal('hide');
+        model.switch = true;
+    }
+}
+function ShowBlockUser(event) {
+    model.user_id = $(event).data('user_id');
+    $('#disable-view').modal('show');
+}
+function SaveBlockUser() {
+    model.saveBlockUser();
+}
+function ShowUnblockUser(event) {
+    model.user_id = $(event).data('user_id');
+    $('#enable-view').modal('show');
+}
+function SaveUnblockUser() {
+    model.saveUnblockUser();
+}
+function ShowFirstDeleteModal(event) {
+    model.user_id = $(event).data('user_id');
+    model.showFirstDeleteModal();
+    $('#delete-user').modal('show');
+}
+function ShowSecondDeleteModal() {
+    model.showSecondDeleteModal();
+}
+function ConfirmDeleteUser() {
+    model.confirmDelete = $('#user-confirm-delete').val();
+    model.confirmDeleteUser();
+}
+function ToCloseUserModal() {
+    if ($('.msg-toDelete-user').text().trim() == '') {
+        location.reload();
+    }
 }

@@ -672,15 +672,35 @@ class User_model extends BaseModel {
 		return $this->db->count_all_results();
 	}
 
-	public function getReports($page = 0) {
+	public function getReports($conditions = array(), $page = 0) {
 		$this->db->from('user_reports ur');
 		$this->db->join('user u1', 'u1.user_id = ur.user_id');
 		$this->db->join('user u2', 'u2.user_id = ur.reporter_id');
-		$this->db->select('ur.report_id, u1.full_name, u2.full_name as reporter_name, ur.created_at');
-		$this->db->order_by('report_id', 'desc');
-		$this->db->limit(PERPAGE_ADMIN, $page * PERPAGE_ADMIN);
-		$query = $this->db->get();
-		return $query->result_array();
+		$this->db->select('ur.report_id, u1.*, u2.full_name as reporter_name, ur.created_at');
+
+        if (!empty($conditions['key'])) {
+            $this->makeSearchQuery(['lower(ur.report_id)','lower(ur.full_name)','lower(ur.reporter_name)','lower(ur.created_at)'], strtolower($conditions['key']));
+        }
+
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id', 'full_name', 'reporter_name','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('ur.report_id', 'desc');
+        }
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+        } else {
+            $per_page = 25;
+        }
+        if ($page >= 0){
+            $this->db->limit($per_page, $page * $per_page);
+        }
+
+		return $this->db->get()->result_array();
 	}
 
 	public function countContactFriends($user_id) {
@@ -818,7 +838,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getListWatching($user_id, $page = -1, $isMe = true) {
-		$this->db->select('w.id, w.user_id, p.*, w.is_hidden');
+		$this->db->select('w.id, w.user_id,w.added_at, p.*, w.is_hidden');
 		$this->db->from('watch_list w');
 		$this->db->join('product_view p', 'p.product_id = w.product_id');
 		$this->db->where('w.user_id', $user_id);
@@ -977,11 +997,16 @@ class User_model extends BaseModel {
 		$this->db->or_where('reference_id', $user_id);
 		$this->db->delete('contact_contacts');
 
+        $this->db->or_where('user_id', $user_id);
+        $this->db->delete('user_notification_setting');
+
+		$this->db->where('user_id', $user_id);
+        $this->db->delete('user');
+
 		$this->db->like('data', '"user_id":' . $user_id, 'both');
 		$this->db->delete('user_notify');
 
-//		$this->db->where('user_id', $user_id);
-//		$this->db->delete('user');
+
 		return parent::delete($user_id);
 	}
 
