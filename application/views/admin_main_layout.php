@@ -21,6 +21,7 @@
     <link href="<?php echo base_url('assets/app/core-table/coreTable.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url('module/css/admin_main_layout.css'); ?>" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/multiselect/css/jquery.multiselect.css')?>">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" >
 
 	<!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -85,18 +86,7 @@
 							</li>
 							
 						</ul>
-						<?php if(isset($sub_id) && $sub_id == 21):?>
-							<li class="btn-export">
-								<button type="button" class="btn">
-									<a href="<?php echo base_url('user/exportUsers')?>">Export</a>
-								</button>
-							</li>
-						<?php elseif(isset($sub_id) && $sub_id == 32):?>
-							<li class="btn-export">
-								<button type="button" class="btn">
-									<a href="<?php echo base_url('product/exportFilms')?>">Export</a>
-								</button>
-							</li>
+						<?php if(isset($sub_id) && $sub_id == 31):?>
 							<li class="btn-export">
 								<button type="button" class="btn btn-header">
 									<a href="<?php echo base_url('product/add')?>">Add Story</a>
@@ -253,6 +243,7 @@
 
 <script src="<?php echo base_url('assets/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/multiselect/js/jquery.multiselect.js')?>"></script>
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 <?php
