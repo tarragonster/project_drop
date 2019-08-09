@@ -4,6 +4,7 @@
 }
 .content-page > .content {
     margin-top: 60px;
+    margin-bottom: 0;
     padding-top: 0;
     padding-left: 0;
     padding-bottom: 0;
@@ -83,15 +84,21 @@
 }
 
 .section-content h3.card-title {
-	padding-bottom: 10px;
-	margin-bottom: 20px;
-	border-bottom: 1px solid #e6e6e6
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e6e6e6;
+    font-size: 20px;
+    font-family: 'AvenirNext-DemiBold';
+    letter-spacing: 0.5px;
+    color: #403F3F;
 }
 
 .setting-card-box {
 	border-radius: 16px;
 	min-height: 180px;
 	border: 0;
+	font-size: 11px;
+    font-family: 'AvenirNext-DemiBold';
 	box-shadow: rgba(216, 216, 216, 0.2) 0 0 10px 0;
 }
 
@@ -100,7 +107,7 @@
 	font-weight: 600 !important;
 	margin-bottom: 0px !important;
 	color: #9B9B9B;
-    letter-spacing: 0.72px;
+    letter-spacing: 0.73px;
 }
 
 .dispatch-modal .form-group label.error, .form-dispatch.form-group label.error {
@@ -159,4 +166,14 @@
     border-radius: 20px;
     background-color: #c7ae6e;
     color: #fff;
+}
+.form-dispatch.form-control, .form-dispatch.form-control:hover {
+	color: #9B9B9B;
+	font-family: 'Avenir Next';
+	padding-left: 0;
+    font-size: 11px;
+}
+.alert-warning {
+	font-size: 13px;
+    font-family: 'Avenir Next';
 }

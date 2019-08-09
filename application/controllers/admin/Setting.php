@@ -27,16 +27,26 @@ class Setting extends MY_Controller {
 			$password = $this->input->post('account_password');
 
 			$account = $this->admin_model->getAdminAccountByEmail($admin['email']);
-			if (validate_email($new_email)) {
-				if ($account['password'] == md5($password) && $account['email'] == $current_email) {
+			$existEmail = $this->admin_model->getAdminAccountByEmail($new_email);
+
+			if ($account['password'] != md5($password)) {
+				$this->session->set_flashdata('error_email', 'Password is incorrect');
+			}
+			else if($account['email'] != $current_email) {
+				$this->session->set_flashdata('error_email', 'Current email is incorrect');
+			}
+			else {
+				if ($existEmail != null) {
+					$this->session->set_flashdata('error_email', 'The email exists');
+				} 
+				else if(!validate_email($new_email)){
+					$this->session->set_flashdata('error_email', 'The new email is invalid');
+				} 
+				else {
 					$this->admin_model->update(array('email' => $new_email), $account['id']);
 					$this->session->set_userdata('admin', array('email'=> $new_email, 'group'=> $account['group']));
 					$this->session->set_flashdata('success_email', 'The email is updated');
-				} else {
-					$this->session->set_flashdata('error_email', 'The information is incorrect');
 				}
-			} else {
-				$this->session->set_flashdata('error_email', 'The new email is invalid');
 			}
 		}
 		$this->redirect('setting');
@@ -53,13 +63,18 @@ class Setting extends MY_Controller {
 			$re_password = $this->input->post('re_password');
 
 			$account = $this->admin_model->getAdminAccountByEmail($admin['email']);
-			if ($account['password'] == md5($password)) {
+			if ($account['password'] != md5($password)) {
+				$this->session->set_flashdata('error_password', 'Current password is invalid');
+			} 
+			else if(strlen($new_password) < 6 || strlen($new_password) > 32) {
+				$this->session->set_flashdata('error_password', 'Password length must be from 6 to 32 characters');
+			}
+			else if($re_password != $new_password) {
+				$this->session->set_flashdata('error_password', 'Password does not match');
+			} 
+			else {
 				$this->admin_model->update(array('password' => md5($new_password)), $account['id']);
 				$this->session->set_flashdata('success_password', 'The password is updated');
-			} else if($new_password != $re_password) {
-				$this->session->set_flashdata('error_password', 'Password does not match');
-			} else {
-				$this->session->set_flashdata('error_password', 'Password is invalid');
 			}
 		}
 		$this->redirect('setting');
