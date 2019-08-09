@@ -47,16 +47,18 @@
                             <li class="text-uppercase view-user-click" data-user_id="<?= $row['user_id'] ?>" onclick="ShowUserProfile(this)"><a href="#" class="drp-items"><span>View</span><img
                                             src="<?= base_url('assets/images/view.svg') ?>" alt=""></a>
                             </li>
-                            <li class="text-uppercase"><a href="<?php echo base_url('user/edit/' . $row['user_id']) ?>" class="drp-items"><span>Edit</span><img
-                                            src="<?= base_url('assets/images/edit.svg') ?>" alt=""></a></li>
+                            <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>"><a href="" class="drp-items"><span>Add</span><img
+                                            src="<?= base_url('assets/images/addTrue.svg') ?>" alt=""></a></li>
+                            <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>"><a href="" class="drp-items"><span>Add</span><img
+                                            src="<?= base_url('assets/images/addB.svg') ?>" alt=""></a></li>
                             <?php if ($row['status'] == 1): ?>
-                                <li class="text-uppercase"><a href="<?php echo base_url('user/block/' . $row['user_id']) ?>" class="drp-items"><span>Disable</span><img
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="ShowBlockUser(this)"><a class="drp-items"><span>Disable</span><img
                                                 src="<?= base_url('assets/images/block.svg') ?>" alt=""></a></li>
                             <?php else: ?>
-                                <li class="text-uppercase"><a href="<?php echo base_url('user/unBlock/' . $row['user_id']) ?>" class="drp-items"><span>Enable</span><img
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="ShowUnblockUser(this)"><a class="drp-items"><span>Enable</span><img
                                                 src="<?= base_url('assets/images/block.svg') ?>" alt=""></a></li>
                             <?php endif; ?>
-                            <li class="text-uppercase"><a href="<?php echo base_url('user/delete/' . $row['user_id']) ?>" class="drp-items"><span>Delete</span><img
+                            <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="ShowFirstDeleteModal(this)"><a href="#" class="drp-items"><span>Delete</span><img
                                             src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                         </ul>
                     </div>

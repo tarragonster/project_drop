@@ -43,14 +43,12 @@ class User extends Base_Controller {
             'dropdown-size' => 125,
         );
 
-//        pre_print($conditions['per_page']);
-
         $headers = array(
             'img' => array('label' => '', 'sorting' => false),
             'user_id' => array('label' => 'User ID', 'sorting' => true),
             'user_name' => array('label' => 'Name', 'sorting' => true),
             'email' => array('label' => 'Email', 'sorting' => true),
-            'total_pick'=> array('label' => 'Activity', 'sorting' => true),
+            'total_pick'=> array('label' => 'Activity', 'sorting' => false),
             'dt' => array('label' => 'Version'),
             'joined' => array('label' => 'Create Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
@@ -284,6 +282,7 @@ class User extends Base_Controller {
 			$this->load->library('oauths');
 			$this->oauths->delete($user['user_id']);
 			$this->user_model->clearData($user['user_id']);
+			$this->ajaxSuccess($user);
 		}
 		$this->redirect('user');
 
@@ -299,20 +298,49 @@ class User extends Base_Controller {
 			$this->load->library('oauths');
 			$this->oauths->delete($user['user_id']);
 			$this->user_model->clearData($user['user_id']);
-		}
+            $this->ajaxSuccess($user);
+        }
 		$this->redirect('user');
 
 	}
 
 	public function delete($user_id = '') {
 		$this->load->model('notify_model');
-		$user = $this->user_model->getUserForAdmin($user_id);
+        $confirmDelete = $this->input->post('confirmDelete');
+        $user = $this->user_model->getUserForAdmin($user_id);
+        $data = [];
+        if (trim($confirmDelete, ' ') != "DELETE-USER") {
+            $data['id'] = $user_id;
+            $data['code'] = -1;
+            $data['message'] = 'Sorry, it must be confirmed by typing "DELETE-USER" into input box above';
+            $this->ajaxSuccess($data);
+
+        }
+
 		if ($user != null) {
+            $data['message'] = "";
 			$this->user_model->delete($user_id);
 			$this->notify_model->deleteReference('user', $user_id);
-		}
-		$this->redirect('user');
+            $this->ajaxSuccess($data);
+
+        }
+//		$this->redirect('user');
 	}
+	public function firstModalDelete(){
+        $param =[];
+	    $data = [];
+        $data['success'] = '1';
+	    $data['content'] = $this->load->view('admin/users/deleteUser_firstModal',$param,true);
+	    $this->ajaxSuccess($data);
+    }
+
+    public function secondModalDelete(){
+        $param =[];
+        $data = [];
+        $data['success'] = '1';
+        $data['content'] = $this->load->view('admin/users/deleteUser_secondModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
 
 	public function ajaxEdit($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
@@ -397,37 +425,70 @@ class User extends Base_Controller {
 	}
 
 	public function reports($page = 1) {
-		$this->load->library('pagination');
+        $conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+
+        $this->load->library('pagination');
 
 		$page = ($page <= 0) ? 1 : $page;
 
-		$config['base_url'] = base_url('user/reports');
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+            if ($per_page < 50)
+                $per_page = 25;
+            if ($per_page > 100)
+                $per_page = 100;
+            $conditions['per_page'] = $per_page;
+        } else {
+            $per_page = 25;
+        }
 
+		$config['base_url'] = base_url('user/reports');
 		$config['total_rows'] = $this->user_model->getNumReports();
 		$config['per_page'] = PERPAGE_ADMIN;
 		$config['cur_page'] = $page;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
-		$pinfo = array(
+
+        $paging = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+            'dropdown-size' => 125,
+        );
+
+        $headers = array(
+            'img' => array('label' => '', 'sorting' => false),
+            'report_id' => array('label' => 'Report ID', 'sorting' => true),
+            'full_name' => array('label' => 'Reported User', 'sorting' => true),
+            'reporter_name' => array('label' => 'Reporter User', 'sorting' => true),
+            'status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action', 'sorting' => false));
+
+        $pinfo = array(
 			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
 			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
-		$reports = $this->user_model->getReports($page - 1);
+
+        $reports = $this->user_model->getReports($conditions,$page - 1);
 
 		$reportParam['reports'] = $reports;
 		$reportParam['info'] = $pinfo;
 		$reportParam['sub_id'] = 23;
+        $reportParam['conditions'] = $conditions;
+        $reportParam['paging'] = $paging;
+        $reportParam['headers'] = $headers;
 
-		$content = $this->load->view('admin/users/report',$reportParam, true);
+        $content = $this->load->view('admin/users/report',$reportParam, true);
 
 		$data = array();
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 23;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
-        $data['customCss'] = array('module/css/user.css');
-        $data['customJs'] = array('assets/app/search.js');
+        $data['customCss'] = array('assets/css/settings.css','module/css/user.css');
+        $data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js');
 
         $this->load->view('admin_main_layout', $data);
 	}
@@ -461,11 +522,22 @@ class User extends Base_Controller {
 
 	public function removeWatch($id) {
 		$watch = $this->user_model->getWatch($id);
-		if ($watch == null) {
-			$this->redirect();
-		}
+        $confirmDelete = $this->input->post('confirmDelete');
+        $data = [];
+        if (trim($confirmDelete, ' ') != "REMOVE") {
+            $data['id'] = $id;
+            $data['code'] = -1;
+            $data['message'] = 'Sorry, it must be confirmed by typing "REMOVE" into input box above';
+            $this->ajaxSuccess($data);
+
+        }
+//		if ($watch == null) {
+//			$this->redirect();
+//		}
+        $data['message'] = "";
 		$this->user_model->removeWatch($id);
-		$this->redirect();
+        $this->ajaxSuccess($data);
+//		$this->redirect();
 	}
 
 	public function removeLike($id) {

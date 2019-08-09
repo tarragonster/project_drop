@@ -855,6 +855,7 @@ label[for='upload-photo']{
     margin-bottom: 34px;
     display: flex;
     justify-content: center;
+    position: relative;
 }
 .btn-confirm{
     width: 100px;
@@ -872,4 +873,88 @@ label[for='upload-photo']{
 .outer-btn{
     display: flex;
     justify-content: space-evenly;
+}
+.msg-toDelete{
+    position: absolute;
+    bottom: -29px;
+    font-size: 10px;
+    padding-left: 31px;
+    padding-right: 31px;
+    left: 0;
+    right: 0;
+    color: #E62C30;
+}
+
+.msg-toDelete-watch{
+    position: absolute;
+    bottom: -29px;
+    font-size: 10px;
+    padding-left: 31px;
+    padding-right: 31px;
+    left: 0;
+    right: 0;
+    color: #E62C30;
+}
+
+.outer-text-dis span{
+    display: block;
+    width: 100%;
+    font-family: 'AvenirNext-Bold';
+    font-weight: bold;
+    font-size: 31px;
+    text-align: center;
+    color: #403F3F;
+
+    margin-bottom: 10px;
+}
+
+.detail-dis{
+    font-family: 'AvenirNext-Medium';
+    font-size: 14px;
+    text-align: center;
+    color: #403F3F;
+    margin-bottom: 30px;
+}
+#disable-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 76px!important;
+    padding-right:76px!important;
+    padding-bottom: 28px!important;
+}
+
+#enable-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 76px!important;
+    padding-right:76px!important;
+    padding-bottom: 28px!important;
+}
+
+#delete-user-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 76px!important;
+    padding-right:76px!important;
+    padding-bottom: 28px!important;
+}
+
+.msg-toDelete-user{
+    position: absolute;
+    bottom: -29px;
+    font-size: 10px;
+    padding-left: 31px;
+    padding-right: 31px;
+    left: 0;
+    right: 0;
+    color: #E62C30;
 }

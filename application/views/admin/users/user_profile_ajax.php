@@ -229,35 +229,37 @@
         </div>
 
         <div id="watch-list" class="tab-pane fade in<?= $active == 'watch-list' ? ' active' : '' ?>">
-            <div class="row">
-                <div class="col-xs-12">
-                    <table class="table table-striped table-bordered"
-                           data-delete-alert="Are you want to remove this series from you watch list?"
-                           data-delete-confirm="Remove">
+            <div class="row" style="margin: 0">
+                <div class="modal-content group-popup outer-table-modal">
+                    <table class="table dataTable table-hover table-modal">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Series Name</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>
+                            <th style="width: 40%;padding: 0!important; height: 24px!important;">Picks</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Date</th>
+                            <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php
-                        if ($watch_list != null && count($watch_list) > 0) {
+                        if ($watch_list!= null && count($watch_list) > 0) {
                             foreach ($watch_list as $row): ?>
                                 <tr>
-                                    <td align="center"><?php echo $row['product_id']; ?></td>
-                                    <td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
-                                    <td><?php echo $row['name'] ?></td>
-                                    <td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
-                                    <td>
-                                        <div class='button-list'>
-                                            <button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-                                                    data-href="<?php echo redirect_url('user/removeWatch/' . $row['id'], ['active' => 'watch-list']) ?>">
-                                                Remove
-                                            </button>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['id']; ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
+                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
+                                    </td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo $row['added_at'] ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                        <div class="dropdown">
+                                                <span class="btnAction dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
+                                            <ul class="dropdown-menu" id="customDropdown">
+                                                <li class="text-uppercase" onclick="DeleteShowWatch(this)" data-watch_id="<?= $row['id'] ?>">
+                                                    <a class="drp-items"><span>Remove</span>
+                                                        <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </td>
                                 </tr>
@@ -270,43 +272,51 @@
         </div>
 
         <div id="thumb-up" class="tab-pane fade in<?= $active == 'thumb-up' ? ' active' : '' ?>">
-            <div class="row">
-                <div class="col-xs-12">
-                    <table class="table table-striped table-bordered"
-                           data-delete-alert="Are you want to remove this episode from your thumb up list?"
-                           data-delete-confirm="Remove">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                        if ($thumbs_up != null && count($thumbs_up) > 0) {
-                            foreach ($thumbs_up as $row): ?>
-                                <tr>
-                                    <td align="center"><?php echo $row['product_id']; ?></td>
-                                    <td><img style="max-width: 70px; max-height: 70px" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
-                                    <td><?php echo $row['name'] ?></td>
-                                    <td><?php echo($row['status'] == 1 ? 'Enable' : ($row['status'] == 0 ? 'Disable' : 'Deleted')) ?></td>
-                                    <td>
-                                        <div class='button-list'>
-                                            <button class="btn btn-danger btn-custom btn-xs sa-delete" type="button"
-                                                    data-href="<?php echo redirect_url('user/removeProductLike/' . $row['id'], ['active' => 'thumb-up']) ?>">
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            <?php endforeach;
-                        } ?>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="row" style="margin: 0">
+<!--                <div class="modal-content group-popup outer-table-modal">-->
+<!--                    <table class="table dataTable table-hover table-modal">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>-->
+<!--                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Story</th>-->
+<!--                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Type</th>-->
+<!--                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Date</th>-->
+<!--                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Status</th>-->
+<!--                            <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        --><?php
+//                        if ($likes!= null && count($likes) > 0) {
+//                            foreach ($likes as $row): ?>
+<!--                                <tr>-->
+<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;">--><?php //echo $row['pick_id']; ?><!--</td>-->
+<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">-->
+<!--                                        <span style="font-weight: 900;!important;">--><?php //echo $row['name']; ?><!--</span><br>-->
+<!--                                        --><?php //echo $row['quote']; ?>
+<!--                                    </td>-->
+<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">--><?php //echo $row['created_at'] ?><!--</td>-->
+<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"></td>-->
+<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">-->
+<!--                                        <div class="dropdown">-->
+<!--                                                <span class="btnAction dropdown-toggle" data-toggle="dropdown">-->
+<!--                                                        <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>-->
+<!--                                            <ul class="dropdown-menu" id="customDropdown">-->
+<!--                                                <li class="text-uppercase view-user-click" data-pick_id="--><?//= $row['pick_id'] ?><!--" onclick="ShowEditPick(this)"><a href="#" class="drp-items"><span>Edit</span>-->
+<!--                                                        <img src="--><?//= base_url('assets/images/edit.svg') ?><!--" alt=""></a>-->
+<!--                                                </li>-->
+<!--                                                <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="--><?//= $row['pick_id'] ?><!--">-->
+<!--                                                    <a class="drp-items"><span>Delete</span>-->
+<!--                                                        <img src="--><?//= base_url('assets/images/delete.svg') ?><!--" alt=""></a></li>-->
+<!--                                            </ul>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                            --><?php //endforeach;
+//                        } ?>
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
             </div>
         </div>
 
