@@ -480,4 +480,36 @@ class Product_model extends BaseModel {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function getProductReviewsForAdmin($product_id, $conditions = '') {
+		$this->db->where('p.product_id', $product_id);
+		$this->db->select('up.*, p.name, u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('product p');
+		$this->db->join('user_picks up', 'p.product_id = up.product_id');
+		$this->db->join('user u', 'up.user_id = u.user_id');
+        $this->db->order_by('up.priority');
+		if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('full_name', 'name', 'up.status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }
+		return $this->db->get()->result_array();
+	}
+
+	public function updatePriority($params, $id) {
+		$this->db->where('pick_id', $id);
+		$this->db->update('user_picks', $params);
+	}
+
+	public function getPick($pick_id) {
+		$this->db->where('pick_id', $pick_id);
+		return $this->db->get('user_picks')->result_array();
+	}
+
+	public function deletePick($pick_id) {
+		$this->db->where('pick_id', $pick_id);
+		$this->db->delete('user_picks');
+	}
 }
