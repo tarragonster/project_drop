@@ -462,6 +462,7 @@ class User extends Base_Controller {
             'report_id' => array('label' => 'Report ID', 'sorting' => true),
             'full_name' => array('label' => 'Reported User', 'sorting' => true),
             'reporter_name' => array('label' => 'Reporter User', 'sorting' => true),
+            'created_at' => array('label' => 'Report Date', 'sorting' => false),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
@@ -492,6 +493,24 @@ class User extends Base_Controller {
 
         $this->load->view('admin_main_layout', $data);
 	}
+
+	public function showNote($report_id){
+	    $param['report_id'] = $report_id;
+	    $data['code'] = 200;
+	    $data['content'] = $this->load->view('admin/users/user_report_ajax',$param,true);
+
+	    $this->ajaxSuccess($data);
+	}
+
+	public function saveNote($report_id){
+        $param = [];
+        $note = $this->input->post('note');
+        $this->user_model->updateReportNote($report_id,$note);
+        $data['code'] = 200;
+        $data['confirmContent'] = $this->load->view('admin/users/report_confirm_note',$param,true);
+
+        $this->ajaxSuccess($data);
+    }
 
 	public function deleteReport($report_id) {
 		$this->db->where('report_id', $report_id);
@@ -600,4 +619,5 @@ class User extends Base_Controller {
 		$html = $this->load->view('admin/users_table', $data, true);
 		die(json_encode($html));
 	}
+
 }

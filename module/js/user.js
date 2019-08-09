@@ -143,6 +143,23 @@ var User = /** @class */ (function () {
             ToCloseUserModal();
         });
     };
+    User.prototype.showReportNote = function () {
+        this.url = '/user/showNote/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-note-content').html(data.content);
+        });
+    };
+    User.prototype.saveReportNote = function () {
+        this.url = '/user/saveNote/' + this.report_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            note: this.note
+        };
+        this.sendAjaxRequest(function (data) {
+            $('#view-note-content').html(data.confirmContent);
+        });
+    };
     User.object = new User();
     return User;
 }());
@@ -264,4 +281,14 @@ function ToCloseUserModal() {
     if ($('.msg-toDelete-user').text().trim() == '') {
         location.reload();
     }
+}
+// report modal
+function ShowReportNote(event) {
+    model.report_id = $('event').data('report_id');
+    model.showReportNote();
+    $('#view-note-popup').modal('show');
+}
+function SaveReportNote() {
+    model.note = $('.note-input').text();
+    model.saveReportNote();
 }
