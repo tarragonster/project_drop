@@ -6,12 +6,12 @@
         <div class="submenu-content">
             <div class="cover-submenu-item">
                 <a href="<?php echo base_url('user'); ?>"
-                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 21 ? ' active' : ''; ?>">View
+                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 21 ? ' active-submnu' : ''; ?>">View
                     Users</a>
             </div>
             <div class="cover-submenu-item">
                 <a href="<?php echo base_url('user/reports'); ?>"
-                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 23 ? ' active' : ''; ?>">Reported
+                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 23 ? ' active-submnu' : ''; ?>">Reported
                     Users</a>
             </div>
         </div>
@@ -107,7 +107,7 @@
                             $dropdown_size = $has_items && isset($paging['dropdown-size']) ? $paging['dropdown-size'] - 25 : '40';
                             ?>
                             <div class="row"
-                                 style="padding: 0 20px;padding-top: 10px; margin: 0; background: white; border-bottom-left-radius: 6px;border-bottom-right-radius: 6px;">
+                                 style="padding: 0 20px;padding-top: 10px; margin: 0; background: white; border-bottom-left-radius: 6px;border-bottom-right-radius: 6px;height: 70px;">
                                 <?php if (isset($paging)) : ?>
                                     <div class="col-xs-4">
                                         <?php

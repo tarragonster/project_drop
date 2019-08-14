@@ -35,7 +35,7 @@
     <div class="tab-content">
         <div id="profile" class="tab-pane fade in<?=  $active== 'profile' ? ' active' : '' ?>">
             <form action="" method='POST' id="form-update" enctype = 'multipart/form-data'>
-                <div class="row" style="margin: 0">
+                <div class="row inner-profile" style="margin: 0">
                     <div class="upper-info">
                         <div class="left-info">
                             <span class="lead text-uppercase">User Details</span>
@@ -134,7 +134,7 @@
         </div>
 
         <div id="comments" class="tab-pane fade in<?= $active == 'comments' ? ' active' : '' ?>">
-            <div class="row" style="margin: 0">
+            <div class="row outer-comment" style="margin: 0">
                     <div class="modal-content group-popup outer-table-modal">
                         <table class="table dataTable table-hover table-modal">
                             <thead>
@@ -156,8 +156,8 @@
                                             <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
                                             <?php echo $row['content']; ?>
                                         </td>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo $row['timestamp'] ?></td>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"></td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo $row['status'] ?></td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                             <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
@@ -181,7 +181,7 @@
         </div>
 
         <div id="your-picks" class="tab-pane fade in<?= $active == 'your-picks' ? ' active' : '' ?>">
-            <div class="row" style="margin: 0">
+            <div class="row outer-pick" style="margin: 0">
                 <div class="modal-content group-popup outer-table-modal">
                     <table class="table dataTable table-hover table-modal">
                         <thead>
@@ -203,7 +203,7 @@
                                         <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
                                         <?php echo $row['quote']; ?>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo $row['created_at'] ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['created_at']) ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
@@ -229,7 +229,7 @@
         </div>
 
         <div id="watch-list" class="tab-pane fade in<?= $active == 'watch-list' ? ' active' : '' ?>">
-            <div class="row" style="margin: 0">
+            <div class="row outer-watch" style="margin: 0">
                 <div class="modal-content group-popup outer-table-modal">
                     <table class="table dataTable table-hover table-modal">
                         <thead>
@@ -249,7 +249,7 @@
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
                                         <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo $row['added_at'] ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['added_at']) ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
@@ -272,7 +272,7 @@
         </div>
 
         <div id="thumb-up" class="tab-pane fade in<?= $active == 'thumb-up' ? ' active' : '' ?>">
-            <div class="row" style="margin: 0">
+            <div class="row outer-like" style="margin: 0">
 <!--                <div class="modal-content group-popup outer-table-modal">-->
 <!--                    <table class="table dataTable table-hover table-modal">-->
 <!--                        <thead>-->

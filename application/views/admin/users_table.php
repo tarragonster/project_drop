@@ -75,7 +75,7 @@
 $has_items = isset($paging) && $paging['total'] > 0;
 $dropdown_size = $has_items && isset($paging['dropdown-size']) ? $paging['dropdown-size'] - 25 : '40';
 ?>
-<div class="row" style="padding: 0 20px;padding-top: 10px; margin: 0; background: white; border-bottom-left-radius: 6px;border-bottom-right-radius: 6px;">
+<div class="row" style="padding: 0 20px;padding-top: 10px; margin: 0; background: white; border-bottom-left-radius: 6px;border-bottom-right-radius: 6px;height: 70px;">
     <?php if (isset($paging)) : ?>
         <div class="col-xs-4">
             <?php

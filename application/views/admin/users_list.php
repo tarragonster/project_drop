@@ -5,13 +5,13 @@
         </div>
         <div class="submenu-content">
             <div class="cover-submenu-item">
-                <a href="<?php echo base_url('user'); ?>"
-                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 21 ? ' active' : ''; ?>">View
+                    <a href="<?php echo base_url('user'); ?>"
+                       class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 21 ? ' active-submnu' : ''; ?>">View
                     Users</a>
             </div>
             <div class="cover-submenu-item">
                 <a href="<?php echo base_url('user/reports'); ?>"
-                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 23 ? ' active' : ''; ?>">Reported
+                   class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 23 ? ' active-submnu' : ''; ?>">Reported
                     Users</a>
             </div>
         </div>

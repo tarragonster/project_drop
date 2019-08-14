@@ -57,22 +57,27 @@
 .submenu-content{
 
     padding-top: 22px;
-    padding-left: 30px;
+    /*padding-left: 30px;*/
 }
 
 .cover-submenu-item{
 
     display: block;
-    margin-bottom: 27px;
+    margin-bottom: 13px;
 }
 
 .submenu-item{
 
+    display: flex;
     font-family:'AvenirNext-DemiBold';
     font-style: normal;
     font-weight: 900;
     font-size: 11px;
     color: #9B9B9B;
+    padding-left: 24px;
+    border-left: 6px solid transparent;
+    height: 27px;
+    align-items: center;
 }
 
 .submenu-item:hover{
@@ -85,12 +90,14 @@
     margin-left: 145px;
 }
 
-.active{
+.active-submnu{
 
     color: #403F3F;
+    border-left: 6px solid #403F3F;
+
 }
 
-.active:hover{
+.active-submnu:hover{
     color: #403F3F;
 }
 
@@ -129,7 +136,8 @@
     margin-top: 0;
     border: none;
     background: transparent;
-
+    overflow: unset!important;
+    margin-bottom: 40px;
 }
 
 .table-hover{
@@ -160,13 +168,13 @@
 
 .header_email{
 
-    width: 20%;
+    width: 18%;
 
 }
 
-.header_activity{
+.noSortHeaderActivity {
 
-    width: 14%;
+    width: 16%;
 
 }
 
@@ -470,9 +478,119 @@ table.dataTable thead .sorting_desc:after {
 
 #profile{
 
+    padding-top: 72px;
+}
+
+.outer-comment{
+    overflow-y: scroll;
+    height: 100%;
+}
+
+/* width */
+.outer-comment::-webkit-scrollbar{
+    width: 10px;
+}
+
+/* Track */
+.outer-comment::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+.outer-comment::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.outer-comment::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.outer-pick{
+    overflow-y: scroll;
+    height: 100%;
+}
+
+/* width */
+.outer-pick::-webkit-scrollbar{
+    width: 10px;
+}
+
+/* Track */
+.outer-pick::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+.outer-pick::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.outer-pick::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.outer-watch{
+    overflow-y: scroll;
+    height: 100%;
+}
+
+/* width */
+.outer-watch::-webkit-scrollbar{
+    width: 10px;
+}
+
+/* Track */
+.outer-watch::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+.outer-watch::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.outer-watch::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.outer-like{
+    overflow-y: scroll;
+    height: 100%;
+}
+
+/* width */
+.outer-like::-webkit-scrollbar{
+    width: 10px;
+}
+
+/* Track */
+.outer-like::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+.outer-like::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.outer-like::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#form-update{
+
     padding-left: 30px;
     padding-right: 30px;
-    padding-top: 72px;
+}
+
+.outer-content{
+    height: -webkit-calc(100% - 116px);
+    height: -moz-calc(100% - 116px);
+    height: calc(100% - 116px);
 }
 
 .modal .modal-dialog .modal-content{
@@ -987,4 +1105,23 @@ label[for='upload-photo']{
 
 .tab-content{
     box-shadow: none;
+    height: 100%
+}
+#comments{
+    height: 100%;
+    padding-bottom: 30px;
+}
+
+#your-picks{
+    height: 100%;
+    padding-bottom: 30px;
+}
+#watch-list{
+    height: 100%;
+    padding-bottom: 30px;
+}
+
+#thumb-up{
+    height: 100%;
+    padding-bottom: 30px;
 }
