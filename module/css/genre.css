@@ -103,9 +103,10 @@
     align-items: center;
     padding: 0 0px 0 10px;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 11px;
     color: #403F3F;
     letter-spacing: 0.73px;
+    font-family: 'AvenirNext-Medium';
 }
 
 .sortable-move {
@@ -798,6 +799,8 @@ table, th, td {
 }
 .tab-content {
     box-shadow: none;
+    font-size: 11px;
+    font-family: 'AvenirNext-Medium';
 }
 .genre-mess-box {
     border: 2px solid #c7c8cb;
@@ -928,7 +931,7 @@ table, th, td {
     border-left: 0px !important;
     border-right: 0px !important;
     border-radius: 0px !important;
-    color: #565656;
+    color: #403F3F;
     padding: 4px 12px 4px 0px;
     height: 25px;
     max-width: 100%;
@@ -937,6 +940,7 @@ table, th, td {
     font-size: 13px;
     font-weight: normal;
     letter-spacing: 0.87px;
+    font-family: 'AvenirNext-Medium';
 }
 
 .custom-modal label.form-label, .custom-modal label.form-group-label {
@@ -954,7 +958,7 @@ table, th, td {
     font-weight: 600;
 }
 .custom-header {
-    margin: 25px 20px;
+    margin: 20px 27px;
 }
 #create-genre-btn, #create-genre-btn:hover {
     float: right;
@@ -963,7 +967,16 @@ table, th, td {
 }
 .custom-tab {
     text-transform: uppercase;
-    letter-spacing: 0.72px;
+    letter-spacing: 0.73px;
+    font-family: 'AvenirNext-DemiBold';
+}
+.custom-tab h4 {
+    font-size: 14px;
+    letter-spacing: 0.73px;
+    font-family: 'AvenirNext-DemiBold';
+}
+.custom-tab label {
+    color: #9B9B9B;
 }
 #upload-img {
     margin-left: 60px; 
@@ -982,8 +995,9 @@ table, th, td {
     background-color: #36404a;
     color: white;
     padding: 2px 10px;
-    font-size: 13px;
-    letter-spacing: 0.72px;
+    font-size: 11px;
+    letter-spacing: 0.73px;
+    font-family: 'AvenirNext-Medium';
 }
 .imagePhoto {
     position: absolute;
@@ -999,6 +1013,7 @@ table, th, td {
     /*background-color: #fff;*/
     border-radius: 5px;
     margin-top: 10px; 
+    overflow-y: unset;
 }
 .edit-popup .dropdown-arrow {
     left: 315px;
@@ -1028,7 +1043,11 @@ table, th, td {
 }
 .modal-button button {
     border-radius: 20px;
-    padding: 6px 26px;
+    padding: 10px 26px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-family: 'AvenirNext-DemiBold';
+    letter-spacing: 0.73px;
 }
 .modal-button .cancel-btn {
     margin-right: 10px;
@@ -1052,7 +1071,7 @@ table, th, td {
     padding: 6px 11px;
     font-size: 11px;
     text-transform: uppercase;
-    color: #9B9B9B
+    color: #9B9B9B;
     font-weight: 500;
 }
 .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
@@ -1131,4 +1150,30 @@ table.dataTable thead .sorting_desc_disabled:before {
 th {
     color: #9B9B9B;
     font-weight: 500;
+}
+.modal-title-name {
+    font-size: 36px;
+}
+.err-format, .err-size {
+    color: #E70808; 
+    margin-bottom: 20px;
+    border: solid 1px #F19898; 
+    background: rgba(255, 116, 116, 0.15); 
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
+.modal-description h2 {
+    font-size: 31px;
+
+}
+.modal-description {
+    color: #4A4A4A;
+    font-family: 'AvenirNext-Medium';
+}
+.en-confirm, .dis-confirm {
+    background-color: #FFC17C;
+}
+.del-confirm, .del-btn {
+    background-color: #E62C30;
 }

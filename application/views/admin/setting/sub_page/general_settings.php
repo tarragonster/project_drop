@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <div class="form-group form-dispatch">
                         <label>Enter New Email</label>
                         <input type="email" required name="new_email" class="form-control form-dispatch"/>
@@ -67,7 +67,7 @@
                 }
             ?>
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-4">
                     <div class="form-group form-dispatch">
                         <label>Enter current password</label>
                         <input type="password" required name="account_password" class="form-control form-dispatch"/>

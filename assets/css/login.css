@@ -203,6 +203,7 @@ p {
     font-size: 10px;
     margin-bottom: 35px;
     letter-spacing: 0.67px;
+    font-family: 'Avenir Next';
 }
 
 .m-form .form-group {
@@ -216,8 +217,9 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     box-shadow: none;
 }
 .form-label {
-    font-size: 13px;
-    letter-spacing: 0.72px;
+    font-size: 11px;
+    letter-spacing: 0.73px;
+    font-family: 'AvenirNext-DemiBold';
 }
 .btn {
     -webkit-transition: all ease .3s;
@@ -240,6 +242,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     letter-spacing: 0.73px;
     -moz-box-shadow: none;
     background: #ffffff;
+    font-family: AvenirNext-DemiBold;
 }
 
 .login .btn.active, .login .btn.active:hover {
@@ -307,6 +310,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 .forgot-block a, .forgot-block a:hover {
     color: #ffffff;
+    font-size: 10px;
+    letter-spacing: 0.67px;
 }
 .reset-title {
     font-size: 25px;
