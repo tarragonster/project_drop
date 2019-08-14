@@ -94,6 +94,8 @@
                                     <label>Poster Image</label>
                                     <div class="row">
                                         <img id='poster_image' src="<?php echo base_url('assets/images/borders/233x346@3x.png')?>"/>
+                                        <div class='err-format' id="poster_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="poster_err2">The size must be less than 1MB</div>
                                         <div class="uploader" onclick="$('#posterImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="poster_img" id="posterImg" class="imagePhoto" required="" />
@@ -104,6 +106,8 @@
                                     <label>Story Image</label>
                                     <div class="row">
                                         <img id='series_image' src="<?php echo base_url('assets/images/borders/750x667@3x.png')?>"/>
+                                        <div class='err-format' id="series_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="series_err2">The size must be less than 1MB</div>
                                         <div class="uploader" onclick="$('#seriesImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="series_img" id="seriesImg" class="imagePhoto" required="" />
@@ -114,6 +118,8 @@
                                     <label>Preview Round Image</label>
                                     <div class="row">
                                         <img id='preview_image' src="<?php echo base_url('assets/images/borders/135x135@3x.png')?>"/>
+                                        <div class='err-format' id="pre_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="pre_err2">The size must be less than 1MB</div>
                                         <div class="uploader" onclick="$('#previewImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="preview_img" id="previewImg" class="imagePhoto"/>
@@ -126,6 +132,8 @@
                                     <label>Carousel Banner</label>
                                     <div class="row">
                                         <img id='carousel_image' src="<?php echo base_url('assets/images/borders/667x440@3x.png')?>"/>
+                                        <div class='err-format' id="car_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="car_err2">The size must be less than 1MB</div>
                                         <div class="uploader" onclick="$('#carouselImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="carousel_img" id="carouselImg" class="imagePhoto" required="" />
@@ -136,6 +144,8 @@
                                     <label>Explore Preview Image</label>
                                     <div class="row">
                                         <img id='explore_image' src="<?php echo base_url('assets/images/borders/650x688@3x.png')?>"/>
+                                        <div class='err-format' id="ex_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="ex_err2">The size must be less than 1MB</div>
                                         <div class="uploader" onclick="$('#exploreImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="explore_img" id="exploreImg" class="imagePhoto"/>

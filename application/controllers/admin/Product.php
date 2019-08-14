@@ -243,6 +243,8 @@ class Product extends Base_Controller {
 				$params['publish_year'] = $this->input->post('publish_year');
 			if ($this->input->post('creators') != '')
 				$params['creators'] = $this->input->post('creators');
+			if ($this->input->post('status') != '')
+				$params['status'] = $this->input->post('status');
 			if ($this->input->post('genre_id') != '')
 				$genres = $this->input->post('genre_id');
 				foreach ($genres as $item) {
@@ -323,7 +325,7 @@ class Product extends Base_Controller {
 				}
 			}
 			$this->product_model->update($params, $product_id);
-			$this->session->set_flashdata('msg', 'Edit success!');
+			// $this->session->set_flashdata('msg', 'Edit success!');
 			redirect(base_url('product/edit/' . $product_id));
 		}
 
