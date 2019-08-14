@@ -86,7 +86,7 @@ class User{
 
     saveUpdateProfile(myFormData){
         this.paramreq = myFormData;
-        this.url = 'user/ajaxEdit/' + this.user_id;
+        this.url = '/user/ajaxEdit/' + this.user_id;
         this.typereq = 'POST';
 
         this.sendAjaxFormData(function (data) {
@@ -97,7 +97,7 @@ class User{
 
     showEditPick(){
 
-        this.url = 'user/editPick/' + this.pick_id;
+        this.url = '/user/editPick/' + this.pick_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#edit-pick-content').html(data.content)
@@ -106,7 +106,7 @@ class User{
     }
 
     saveEditPick(){
-        this.url = 'user/editPick/' + this.pick_id;
+        this.url = '/user/editPick/' + this.pick_id;
         this.typereq = 'POST';
         this.paramreq = {
             quote: this.quote
@@ -122,7 +122,7 @@ class User{
     }
 
     deletePick(){
-        this.url = 'user/removePick/' + this.pick_id;
+        this.url = '/user/removePick/' + this.pick_id;
         this.typereq = 'POST';
         this.paramreq = {
             confirmDelete: this.confirmDelete
@@ -136,7 +136,7 @@ class User{
         })
     }
     confirmDeleteWatch(){
-        this.url = 'user/removeWatch/' + this.watch_id;
+        this.url = '/user/removeWatch/' + this.watch_id;
         this.typereq = 'POST';
         this.paramreq = {
             confirmDelete: this.confirmDelete
@@ -151,7 +151,7 @@ class User{
     }
 
     saveBlockUser(){
-        this.url = 'user/block/' + this.user_id;
+        this.url = '/user/block/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
@@ -160,21 +160,21 @@ class User{
     }
 
     saveUnblockUser(){
-        this.url = 'user/unblock/' + this.user_id;
+        this.url = '/user/unblock/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
         })
     }
     showFirstDeleteModal(){
-        this.url = 'user/firstModalDelete';
+        this.url = '/user/firstModalDelete';
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-user-content').html(data.content)
         })
     }
     showSecondDeleteModal(){
-        this.url = 'user/secondModalDelete';
+        this.url = '/user/secondModalDelete';
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-user-content').html(data.content)
@@ -182,7 +182,7 @@ class User{
     }
 
     confirmDeleteUser(){
-        this.url = 'user/delete/' + this.user_id;
+        this.url = '/user/delete/' + this.user_id;
         this.typereq = 'POST';
         this.paramreq = {
             confirmDelete: this.confirmDelete
@@ -395,3 +395,16 @@ function SaveReportNote(){
 function EditReportNote(){
     model.editReportNote()
 }
+
+$(document).ready(function () {
+
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function() {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+
+
+});

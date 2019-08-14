@@ -394,7 +394,7 @@ class User_model extends BaseModel {
 
 	public function getAllUsers($conditions = array(), $page = 0) {
         $this->makeQuery($conditions);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id', 'user_name', 'email', 'joined','status'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id','full_name', 'email', 'joined','status'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             }else {
@@ -411,6 +411,7 @@ class User_model extends BaseModel {
         if ($page >= 0){
             $this->db->limit($per_page, $page * $per_page);
         }
+
         return $this->db->get()->result_array();
 	}
 
@@ -419,7 +420,7 @@ class User_model extends BaseModel {
         $this->db->from('user u');
 
         if (!empty($conditions['key'])) {
-            $this->makeSearchQuery(['lower(u.user_name)','lower(u.user_id)','lower(u.email)'], strtolower($conditions['key']));
+            $this->makeSearchQuery(['lower(u.user_name)','lower(u.full_name)','lower(u.user_id)','lower(u.email)'], strtolower($conditions['key']));
         }
     }
 
