@@ -152,13 +152,16 @@
 }
 .modal .modal-dialog .modal-content {
     text-align: center;
-    padding: 30px 60px;
+    padding: 30px 75px;
 }
 .modal-content .modal-description h2 {
     font-weight: bold;
 }
 .modal-content .modal-description p {
-    margin: 25px 0;
+    margin-top: 0;
+    margin-bottom: 48px;
+    color: #4A4A4A;
+    font-family: 'AvenirNext-Medium';
 }
 .modal-content .modal-description input {
     font-size: large;

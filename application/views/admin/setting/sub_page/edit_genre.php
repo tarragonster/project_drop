@@ -70,8 +70,8 @@
 	function saveGenre() {
 		var genre_name = $('#genre_name').val()
 		var genre_image = $('#genreImg').val()
-		if (genre_name != '' && genre_image != '' && $('.err-format').css('display') == 'none') {
-			$('#genre-form-edit	').submit();
+		if (genre_name != '' || genre_image != '' && $('.err-format').css('display') == 'none') {
+			$('#genre-form-edit').submit();
 		}
 	}
 </script>
