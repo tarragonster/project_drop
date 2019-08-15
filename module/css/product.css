@@ -49,6 +49,11 @@
     padding-bottom: 0!important;
     word-wrap: break-word;
 }
+.table > tbody > tr > td:nth-child(9) {
+    font-size: 12px;
+    font-family: 'AvenirNext-DemiBold';
+    letter-spacing: 0.8px;
+}
 .table > thead:first-child > tr:first-child > th {
     /*padding-left: 10px;*/
     padding-right: 0;
@@ -168,18 +173,22 @@ table.dataTable thead .sorting_desc:after {
     padding: 6px 26px;
 }
 .modal-button .cancel-btn {
-    margin-right: 10px;
+    margin-right: 40px;
     color: #FFFFFF;
     background-color: #9B9B9B;
 }
 .modal-button .dis-confirm, .en-confirm {
     background-color: #FFC17C !important;
 }
-.del-btn, .del-confirm {
+.del-btn, .del-confirm, .del-btn:hover, .del-confirm:hover {
+    color: #fff;
     background-color: #E62C30  !important;
 }
 .modal-content .modal-description h2 {
     letter-spacing: 2.28px;
+    font-family: 'AvenirNext-Bold';
+    color: #4A4A4A;
+    font-size: 31px;
 }
 .btn-export button {
     float: right;
@@ -193,6 +202,10 @@ table.dataTable thead .sorting_desc:after {
     border-radius: 20px;
     background-color: #c7ae6e !important;
     color: #fff;
+}
+.btn.focus, .btn:focus, .btn:hover {
+    color: #fff; 
+    text-decoration: none;
 }
 /*STORY LIST*/
 
@@ -221,6 +234,9 @@ hr {
 .form-group select {
     color: #403F3F;
     height: 27px;
+    font-size: 13px;
+    font-family: 'AvenirNext-Medium';
+    letter-spacing: 0.87px;
 }
 .form-group #text-area-des {
     border: 1px solid #979797;
@@ -254,6 +270,8 @@ hr {
     font-weight: bold;
     font-size: 36px;
     margin-left: 12px;
+    color: #403f3f;
+    letter-spacing: 0.9px;
 }
 #upload-img label {
     font-weight: 100;
@@ -266,14 +284,16 @@ hr {
     width: 100%;
     text-align: left;
     background-color: #fff;
-    padding: 3px 20px 3px 5px;
+    padding: 3px 20px 3px 0;
     margin-top: 1px;
     font-size: 13px;
     color: #403F3F;
     outline-offset: -2px;
     white-space: nowrap;
     border: none;
+    letter-spacing: 0.87px;
     border-bottom: 1px solid #eee;
+    font-family: 'AvenirNext-Medium';
 }
 .ms-options-wrap > .ms-options > ul input[type="checkbox"] {
     top: 0;
@@ -285,6 +305,12 @@ hr {
     margin-top: 20px;
     margin-bottom: 20px;
     overflow-y: unset;
+}
+.err-format, .err-size {
+    color: #E70808; 
+    padding-top: 5px;
+    font-size: 12px;
+    display: none;
 }
 /*STORY FORM*/
 
@@ -474,12 +500,11 @@ hr {
 }
 .modal-button button {
     border-radius: 20px;
-    padding: 6px 26px;
-}
-.modal-button .cancel-btn {
-    margin-right: 10px;
-    color: #FFFFFF;
-    background-color: #9B9B9B;
+    padding: 10px 26px;
+    font-size: 11px;
+    letter-spacing: 0.73px;
+    font-family: 'AvenirNext-DemiBold';
+    text-transform: uppercase;
 }
 .modal-button .dis-confirm {
     background-color: #FFC17C !important;

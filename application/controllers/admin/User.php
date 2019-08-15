@@ -63,20 +63,21 @@ class User extends Base_Controller {
 
         $user_ids = Hash::combine($users,'{n}.user_id','{n}.user_id');
 
-        //todo Get Like by user_ids
-        $likes = ($this->user_model->getAllLike($user_ids));
-        $likes= Hash::combine($likes,'{n}.id','{n}','{n}.user_id');
+        if(!empty($users)){
+            //todo Get Like by user_ids
+            $likes = ($this->user_model->getAllLike($user_ids));
+            $likes= Hash::combine($likes,'{n}.id','{n}','{n}.user_id');
 
-        //todo Get comment by user_ids
-        $comments = $this->user_model->getAllComment($user_ids);
-        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
-        //todo Get pick by user_ids
-        $picks = $this->user_model->getAllPick($user_ids);
-        $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
-        //todo Get Version by user_ids
-        $version = $this->user_model->getVersion($user_ids);
-        $version= Hash::combine($version,'{n}.id','{n}','{n}.user_id');
-
+            //todo Get comment by user_ids
+            $comments = $this->user_model->getAllComment($user_ids);
+            $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
+            //todo Get pick by user_ids
+            $picks = $this->user_model->getAllPick($user_ids);
+            $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
+            //todo Get Version by user_ids
+            $version = $this->user_model->getVersion($user_ids);
+            $version= Hash::combine($version,'{n}.id','{n}','{n}.user_id');
+        }
 
         foreach ($users as $key=>$value){
             $users[$key]['likes'] = !empty($likes[$value['user_id']])?$likes[$value['user_id']]:[];

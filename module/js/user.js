@@ -51,21 +51,21 @@ var User = /** @class */ (function () {
     };
     User.prototype.saveUpdateProfile = function (myFormData) {
         this.paramreq = myFormData;
-        this.url = 'user/ajaxEdit/' + this.user_id;
+        this.url = '/user/ajaxEdit/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxFormData(function (data) {
             model.showUserProfile();
         });
     };
     User.prototype.showEditPick = function () {
-        this.url = 'user/editPick/' + this.pick_id;
+        this.url = '/user/editPick/' + this.pick_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#edit-pick-content').html(data.content);
         });
     };
     User.prototype.saveEditPick = function () {
-        this.url = 'user/editPick/' + this.pick_id;
+        this.url = '/user/editPick/' + this.pick_id;
         this.typereq = 'POST';
         this.paramreq = {
             quote: this.quote
@@ -77,7 +77,7 @@ var User = /** @class */ (function () {
         });
     };
     User.prototype.deletePick = function () {
-        this.url = 'user/removePick/' + this.pick_id;
+        this.url = '/user/removePick/' + this.pick_id;
         this.typereq = 'POST';
         this.paramreq = {
             confirmDelete: this.confirmDelete
@@ -91,7 +91,7 @@ var User = /** @class */ (function () {
         });
     };
     User.prototype.confirmDeleteWatch = function () {
-        this.url = 'user/removeWatch/' + this.watch_id;
+        this.url = '/user/removeWatch/' + this.watch_id;
         this.typereq = 'POST';
         this.paramreq = {
             confirmDelete: this.confirmDelete
@@ -105,35 +105,35 @@ var User = /** @class */ (function () {
         });
     };
     User.prototype.saveBlockUser = function () {
-        this.url = 'user/block/' + this.user_id;
+        this.url = '/user/block/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
         });
     };
     User.prototype.saveUnblockUser = function () {
-        this.url = 'user/unblock/' + this.user_id;
+        this.url = '/user/unblock/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
         });
     };
     User.prototype.showFirstDeleteModal = function () {
-        this.url = 'user/firstModalDelete';
+        this.url = '/user/firstModalDelete';
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-user-content').html(data.content);
         });
     };
     User.prototype.showSecondDeleteModal = function () {
-        this.url = 'user/secondModalDelete';
+        this.url = '/user/secondModalDelete';
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-user-content').html(data.content);
         });
     };
     User.prototype.confirmDeleteUser = function () {
-        this.url = 'user/delete/' + this.user_id;
+        this.url = '/user/delete/' + this.user_id;
         this.typereq = 'POST';
         this.paramreq = {
             confirmDelete: this.confirmDelete
@@ -302,3 +302,12 @@ function SaveReportNote() {
 function EditReportNote() {
     model.editReportNote();
 }
+$(document).ready(function () {
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+});
