@@ -659,4 +659,42 @@ class User extends Base_Controller {
         $this->ajaxSuccess();
 
     }
+
+    public function firstModalDeleteReported(){
+        $param =[];
+        $data = [];
+        $data['test'] = '1';
+        $data['content'] = $this->load->view('admin/users/deleteReported_firstModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function showSecondDeleteReported(){
+        $param =[];
+        $data = [];
+        $data['test'] = '1';
+        $data['content'] = $this->load->view('admin/users/deleteReported_secondModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function deleteReported($user_id = ''){
+        $this->load->model('notify_model');
+        $confirmDelete = $this->input->post('confirmDelete');
+        $user = $this->user_model->getUserForAdmin($user_id);
+        $data = [];
+        if (trim($confirmDelete, ' ') != "DELETE-USER") {
+            $data['id'] = $user_id;
+            $data['code'] = -1;
+            $data['message'] = 'Sorry, it must be confirmed by typing "DELETE-USER" into input box above';
+            $this->ajaxSuccess($data);
+
+        }
+
+        if ($user != null) {
+            $data['message'] = "";
+            $this->user_model->deleteUserStatus($user_id);
+            $this->notify_model->deleteReference('user', $user_id);
+            $this->ajaxSuccess($data);
+
+        }
+    }
 }
