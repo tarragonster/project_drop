@@ -264,6 +264,33 @@ class User{
             location.reload()
         })
     }
+    showFirstDeleteReported(){
+        this.url = '/user/firstModalDeleteReported';
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-user-content').html(data.content)
+        })
+    }
+
+    showSecondDeleteReported(){
+        this.url = '/user/showSecondDeleteReported';
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-user-content').html(data.content)
+        })
+    }
+
+    confirmDeleteReported(){
+        this.url = '/user/deleteReported/' + this.user_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            confirmDelete: this.confirmDelete
+        };
+        this.sendAjaxRequest(function (data) {
+            $('.msg-toDelete-user').text(data.message);
+            ToCloseUserModal()
+        })
+    }
 }
 
 let model = User.object;
@@ -549,6 +576,19 @@ function SaveRemoveReport(){
     model.saveRemoveReport()
 }
 
-function ShowDeleteReported(){
+function ShowFirstDeleteReported(event){
+    model.user_id = $(event).data('user_id');
+    model.showFirstDeleteReported()
+    $('#delete-user').modal('show')
+
+}
+
+function ShowSecondDeleteReported(event){
+    model.showSecondDeleteReported()
+}
+
+function ConfirmDeleteReported(){
+    model.confirmDelete = $('#user-confirm-delete').val()
+    model.confirmDeleteReported()
 
 }

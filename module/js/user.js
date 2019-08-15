@@ -208,6 +208,31 @@ var User = /** @class */ (function () {
             location.reload();
         });
     };
+    User.prototype.showFirstDeleteReported = function () {
+        this.url = '/user/firstModalDeleteReported';
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-user-content').html(data.content);
+        });
+    };
+    User.prototype.showSecondDeleteReported = function () {
+        this.url = '/user/showSecondDeleteReported';
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-user-content').html(data.content);
+        });
+    };
+    User.prototype.confirmDeleteReported = function () {
+        this.url = '/user/deleteReported/' + this.user_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            confirmDelete: this.confirmDelete
+        };
+        this.sendAjaxRequest(function (data) {
+            $('.msg-toDelete-user').text(data.message);
+            ToCloseUserModal();
+        });
+    };
     User.object = new User();
     return User;
 }());
@@ -429,5 +454,15 @@ function ShowRemoveReport(event) {
 function SaveRemoveReport() {
     model.saveRemoveReport();
 }
-function ShowDeleteReported() {
+function ShowFirstDeleteReported(event) {
+    model.user_id = $(event).data('user_id');
+    model.showFirstDeleteReported();
+    $('#delete-user').modal('show');
+}
+function ShowSecondDeleteReported(event) {
+    model.showSecondDeleteReported();
+}
+function ConfirmDeleteReported() {
+    model.confirmDelete = $('#user-confirm-delete').val();
+    model.confirmDeleteReported();
 }

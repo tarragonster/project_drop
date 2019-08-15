@@ -416,7 +416,7 @@ class User_model extends BaseModel {
 	}
 
     protected function makeQuery($conditions = array()) {
-	    $this->db->select('u.*');
+	    $this->db->select('u.*, u.status as user_status');
         $this->db->from('user u');
 
         if (!empty($conditions['key'])) {
@@ -1072,6 +1072,9 @@ class User_model extends BaseModel {
 
     public function deleteUserStatus($user_id){
         $this->db->where('user_id',$user_id);
-        $this->db->update('user',array('status'=>'0'));
-    }
+        $this->db->update('user',array('status'=>'2'));
+
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user_reports',array('status'=>'deleted'));
+	}
 }

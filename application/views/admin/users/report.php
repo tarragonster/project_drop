@@ -119,7 +119,7 @@
                                                             </span></a>
                                                         </li>
                                                         <li class="text-uppercase <?php echo $row['report_status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                            data-report_id="<?= $row['user_id'] ?>" onclick="ShowDeleteReported()"><a
+                                                            data-user_id="<?= $row['user_id'] ?>" onclick="ShowFirstDeleteReported(this)"><a
                                                                     class="drp-items"><span>
                                                                 Delete User</span></a>
                                                         </li>

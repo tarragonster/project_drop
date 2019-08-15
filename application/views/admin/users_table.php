@@ -33,11 +33,12 @@
 
 
                 <td class="header-item-content item-style"><?php echo date('m/d/Y h:iA', $row['joined']) ?></td>
-                <?php if($row['status'] == 1){ ?>
+                <?php if($row['user_status'] == 1){ ?>
                     <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span class="text-uppercase">Enable</span></td>
-                <?php }else{ ?>
+                <?php }elseif($row['user_status'] == 0){ ?>
                     <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;<span class="text-uppercase">Disable</span></td>
-
+                <?php }else{ ?>
+                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="red">&nbsp;<span class="text-uppercase">User Deleted</span></td>
                 <?php } ?>
                 <td class="header-item-content item-style">
                     <div class="dropdown">
@@ -58,7 +59,7 @@
                                 <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="ShowUnblockUser(this)"><a class="drp-items"><span>Enable</span><img
                                                 src="<?= base_url('assets/images/block.svg') ?>" alt=""></a></li>
                             <?php endif; ?>
-                            <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="ShowFirstDeleteModal(this)"><a href="#" class="drp-items"><span>Delete</span><img
+                            <li class="text-uppercase <?php echo $row['user_status'] == '2' ? "dis-btn" : ""; ?>" data-user_id="<?= $row['user_id'] ?>" onclick="ShowFirstDeleteModal(this)"><a href="#" class="drp-items"><span>Delete</span><img
                                             src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                         </ul>
                     </div>
