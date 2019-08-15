@@ -8,7 +8,7 @@
 					<ul data-url="<?= base_url('product/sortable')?>" class="sortable">
 						<input type="hidden" name="dragging" value="0"/>
 						<?php foreach ($reviews as $key => $row):?>
-						<li id="product_<?php echo $row['pick_id']; ?>" data-id="<?php echo $row['pick_id']; ?>">
+						<li id="pick_<?php echo $row['pick_id']; ?>" data-id="<?php echo $row['pick_id']; ?>">
 		                    <input type="hidden" name="positions[<?php echo $row['pick_id']?>]" value="1">
 		                    <div class="card-box card-sorting row">
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="padding: 0px">
