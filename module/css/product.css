@@ -238,6 +238,7 @@ hr {
 }
 .form-group input {
     height: 25px;
+    color: #403F3F;
 }
 .form-group select {
     color: #403F3F;
