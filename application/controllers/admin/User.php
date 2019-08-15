@@ -90,7 +90,6 @@ class User extends Base_Controller {
             $users[$key]['total_version'] = count($users[$key]['version']);
         }
 
-
 		$userData['users']=$users;
         $userData['headers'] = $headers;
         $userData['conditions'] = $conditions;
@@ -409,6 +408,7 @@ class User extends Base_Controller {
 		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
         $layoutParams['isEdit'] = $this->input->get('isEdit');
         $layoutParams['isProfile'] = $this->input->get('isProfile');
+        $layoutParams['isCreate'] = $this->input->get('isCreate');
         $layoutParams['active'] = $this->input->get('active');
 
 
@@ -632,4 +632,30 @@ class User extends Base_Controller {
 		die(json_encode($html));
 	}
 
+	public function deleteComment($id){
+        $param = [];
+        $param['comment_id'] = $id;
+        $this->user_model->removeComment($id);
+        $this->ajaxSuccess($param);
+    }
+
+    public function ShowCommentReplies($comment_id){
+        $layoutParams = [];
+        $layoutParams['comment_replies'] = $this->user_model->getCommentReplies($comment_id);
+        $content = $this->load->view('admin/users/comment_replies', $layoutParams, true);
+        $data['content'] = $content;
+        $this->ajaxSuccess($data);
+    }
+
+    public function disableUserReported($report_id){
+	    $this->user_model->disableReported($report_id);
+        $this->ajaxSuccess();
+
+    }
+
+    public function enableUserReported($report_id){
+        $this->user_model->enableReported($report_id);
+        $this->ajaxSuccess();
+
+    }
 }

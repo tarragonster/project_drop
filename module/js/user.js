@@ -3,6 +3,7 @@ var User = /** @class */ (function () {
         this.typereq = 'get';
         this.isEdit = false;
         this.isProfile = true;
+        this.isCreate = false;
         this.active = 'profile';
         this.switch = false;
         this.contentType = false;
@@ -41,6 +42,7 @@ var User = /** @class */ (function () {
             user_id: this.user_id,
             isEdit: this.isEdit,
             isProfile: this.isProfile,
+            isCreate: this.isCreate,
             active: this.active,
         };
         this.url = '/user/ajaxProfile/' + this.user_id;
@@ -165,6 +167,45 @@ var User = /** @class */ (function () {
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#view-note-content').html(data.content);
+        });
+    };
+    User.prototype.removeComment = function () {
+        this.url = '/user/deleteComment/' + this.comment_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.active = 'comments';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide');
+        });
+    };
+    User.prototype.showCommentReplies = function () {
+        this.url = '/user/ShowCommentReplies/' + this.comment_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-user-content').html('');
+            $('#view-user-content').html(data.content);
+        });
+    };
+    User.prototype.saveDisableUserReported = function () {
+        this.url = '/user/disableUserReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
+    User.prototype.saveEnableUserReported = function () {
+        this.url = '/user/enableUserReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
+    User.prototype.saveRemoveReport = function () {
+        this.url = '/user/enableUserReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
         });
     };
     User.object = new User();
@@ -311,3 +352,82 @@ $(document).ready(function () {
         }, 0);
     });
 });
+function ShowRemoveComment(event) {
+    model.comment_id = $(event).data('comment_id');
+    $('#delete-comment').modal('show');
+}
+function RemoveComment() {
+    model.removeComment();
+    model.switch = true;
+}
+function ShowCommentReplies(event) {
+    model.comment_id = $(event).data('comment_id');
+    model.showCommentReplies();
+}
+function BackComments(event) {
+    model.comment_id = $(event).data('comment_id');
+    model.active = 'comments';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowTabProfile() {
+    model.isProfile = true;
+    model.isEdit = false;
+    model.isCreate = false;
+    model.showUserProfile();
+}
+function ShowTabComment() {
+    model.isProfile = false;
+    model.isEdit = false;
+    model.isCreate = false;
+    model.active = 'comments';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowTabPick() {
+    model.isProfile = false;
+    model.isEdit = false;
+    model.isCreate = true;
+    model.active = 'your-picks';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowTabWatch() {
+    model.isProfile = false;
+    model.isEdit = false;
+    model.isCreate = true;
+    model.active = 'watch-list';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowTabThumbsup() {
+    model.isProfile = false;
+    model.isEdit = false;
+    model.isCreate = true;
+    model.active = 'thumb-up';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowDisableUserReported(event) {
+    model.report_id = $(event).data('report_id');
+    $('#disable-user-reported').modal('show');
+}
+function SaveDisableUserReported() {
+    model.saveDisableUserReported();
+}
+function ShowEnableUserReported(event) {
+    model.report_id = $(event).data('report_id');
+    $('#enable-user-reported').modal('show');
+}
+function SaveEnableUserReported() {
+    model.saveEnableUserReported();
+}
+function ShowRemoveReport(event) {
+    model.report_id = $(event).data('report_id');
+    $('#remove-reported').modal('show');
+}
+function SaveRemoveReport() {
+    model.saveRemoveReport();
+}
+function ShowDeleteReported() {
+}

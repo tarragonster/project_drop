@@ -11,22 +11,25 @@
         <?php if($isProfile == 'true'){ ?>
             <button  data-user_id = "<?php echo $user['user_id']; ?>" onclick="EditUserProfile()" class="edit-btn" style="display: block">Edit</button>
         <?php } ?>
+        <?php if($isCreate == 'true'){ ?>
+            <button  data-user_id = "<?php echo $user['user_id']; ?>" class="edit-btn" style="display: block">Create</button>
+        <?php } ?>
     </div>
 </div>
 <ul class="nav nav-tabs">
-    <li <?= $active == 'profile' ? 'class="active"' : '' ?> style="width: 97px;height: 35px">
+    <li <?= $active == 'profile' ? 'class="active"' : '' ?> style="width: 97px;height: 35px" onclick="ShowTabProfile()">
         <a data-toggle="tab" href="#profile">Profile</a>
     </li>
-    <li <?= $active == 'comments' ? 'class="active"' : '' ?> style="width: 120px;height: 35px">
+    <li <?= $active == 'comments' ? 'class="active"' : '' ?> style="width: 120px;height: 35px" onclick="ShowTabComment()">
         <a data-toggle="tab" href="#comments">Comments</a>
     </li>
-    <li <?= $active == 'your-picks' ? 'class="active"' : '' ?> style="width: 123px;height: 35px">
+    <li <?= $active == 'your-picks' ? 'class="active"' : '' ?> style="width: 123px;height: 35px" onclick ="ShowTabPick()">
         <a data-toggle="tab" href="#your-picks">Your Picks</a>
     </li>
-    <li <?= $active == 'watch-list' ? 'class="active"' : '' ?> style="width: 121px;height: 35px">
+    <li <?= $active == 'watch-list' ? 'class="active"' : '' ?> style="width: 121px;height: 35px" onclick ="ShowTabWatch()">
         <a data-toggle="tab" href="#watch-list">Watch List</a>
     </li>
-    <li <?= $active == 'thumb-up' ? 'class="active"' : '' ?> style="width: 139px;height: 35px">
+    <li <?= $active == 'thumb-up' ? 'class="active"' : '' ?> style="width: 139px;height: 35px" onclick ="ShowTabThumbsup()">
         <a data-toggle="tab" href="#thumb-up">Thumbs up</a>
     </li>
 </ul>
@@ -141,8 +144,8 @@
                             <tr>
                                 <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Comment Id</th>
                                 <th style="width: 30%;padding: 0!important; height: 24px!important;">Comment</th>
-                                <th style="width: 20%;padding: 0!important; height: 24px!important;">Date</th>
-                                <th style="width: 20%;padding: 0!important; height: 24px!important;">Status</th>
+                                <th style="width: 18%;padding: 0!important; height: 24px!important;">Date</th>
+                                <th style="width: 22%;padding: 0!important; height: 24px!important;">Status</th>
                                 <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
                             </tr>
                             </thead>
@@ -157,16 +160,24 @@
                                             <?php echo $row['content']; ?>
                                         </td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo $row['status'] ?></td>
+                                        <?php if($row['comment_status'] == 1){ ?>
+                                            <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                                <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span>Active</span>
+                                            </td>
+                                        <?php }elseif($row['comment_status'] == 0){ ?>
+                                            <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                                <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;<span>Inactive</span>
+                                            </td>
+                                        <?php } ?>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                             <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
                                                 <ul class="dropdown-menu" id="customDropdown">
-                                                    <li class="text-uppercase view-user-click" data-user_id="<?= $row['user_id'] ?>"><a href="#" class="drp-items"><span>View</span><img
+                                                    <li class="text-uppercase" data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowCommentReplies(this)"><a class="drp-items"><span>View</span><img
                                                                     src="<?= base_url('assets/images/view.svg') ?>" alt=""></a>
                                                     </li>
-                                                    <li class="text-uppercase"><a href="<?php echo base_url('user/delete/' . $row['user_id']) ?>" class="drp-items"><span>Delete</span><img
+                                                    <li class="text-uppercase" data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowRemoveComment(this)"><a  class="drp-items"><span>Delete</span><img
                                                                     src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                                                 </ul>
                                             </div>
@@ -188,8 +199,8 @@
                         <tr>
                             <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>
                             <th style="width: 30%;padding: 0!important; height: 24px!important;">Picks</th>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Date</th>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Status</th>
+                            <th style="width: 18%;padding: 0!important; height: 24px!important;">Date</th>
+                            <th style="width: 22%;padding: 0!important; height: 24px!important;">Status</th>
                             <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
                         </tr>
                         </thead>
@@ -204,7 +215,15 @@
                                         <?php echo $row['quote']; ?>
                                     </td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['created_at']) ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"></td>
+                                    <?php if($row['up_status'] == 1){ ?>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                            <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span>Active</span>
+                                        </td>
+                                    <?php }elseif($row['up_status'] == 0){ ?>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                            <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;<span>Inactive</span>
+                                        </td>
+                                    <?php } ?>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
