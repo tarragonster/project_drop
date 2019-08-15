@@ -152,3 +152,75 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="disable-user-reported" tabindex="-1" role="dialog">
+    <div class="modal-dialog outer-delete" role="document">
+        <div class="modal-content" style="padding: 0px" id="disable-reporteduser-content">
+            <div class="upper-delete-img" style="margin-bottom: 0!important;">
+                <div class="outer-img">
+                    <img src= "<?php echo base_url('assets/images/AttentionIcon.svg') ?>" alt="">
+                </div>
+            </div>
+            <div class="outer-text-dis">
+                <span>Are you sure?</span>
+                <div class="detail-dis">Are you sure you want to disable this user? The
+                    user will no longer have access to the app. You
+                    will be able to undo this in the actions section
+                </div>
+            </div>
+
+            <div class="outer-btn">
+                <button class="btn-confirm" data-dismiss="modal">Cancel</button>
+                <button class="btn-confirm" style="background: #FFC17C;" onclick="SaveDisableUserReported()">Disable</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="enable-user-reported" tabindex="-1" role="dialog">
+    <div class="modal-dialog outer-delete" role="document">
+        <div class="modal-content" style="padding: 0px" id="enable-reporteduser-content">
+            <div class="upper-delete-img" style="margin-bottom: 0!important;">
+                <div class="outer-img">
+                    <img src= "<?php echo base_url('assets/images/AttentionIcon.svg') ?>" alt="">
+                </div>
+            </div>
+            <div class="outer-text-dis">
+                <span>Are you sure?</span>
+                <div class="detail-dis">Are you sure you want to enable this user? The
+                    user will now have access to the app and the report user status will
+                    update to report removed.
+                </div>
+            </div>
+
+            <div class="outer-btn">
+                <button class="btn-confirm" data-dismiss="modal">Cancel</button>
+                <button class="btn-confirm" style="background: #FFC17C;" onclick="SaveEnableUserReported()">Enable</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="remove-reported" tabindex="-1" role="dialog">
+    <div class="modal-dialog outer-delete" role="document">
+        <div class="modal-content" style="padding: 0px" id="remove-reporteduser-content">
+            <div class="upper-delete-img" style="margin-bottom: 0!important;">
+                <div class="outer-img">
+                    <img src= "<?php echo base_url('assets/images/AttentionIcon.svg') ?>" alt="">
+                </div>
+            </div>
+            <div class="outer-text-dis">
+                <span>Are you sure?</span>
+                <div class="detail-dis">Are you sure you want to remove this report? The
+                    user will still have access to the app and the report user status will
+                    update to report removed.
+                </div>
+            </div>
+
+            <div class="outer-btn">
+                <button class="btn-confirm" data-dismiss="modal">Cancel</button>
+                <button class="btn-confirm" style="background: #FFC17C;" onclick="SaveRemoveReport()">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>

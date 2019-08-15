@@ -241,6 +241,29 @@ class User{
             $('#view-user-content').html(data.content)
         })
     }
+
+    saveDisableUserReported(){
+        this.url = '/user/disableUserReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+    saveEnableUserReported(){
+        this.url = '/user/enableUserReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    saveRemoveReport(){
+        this.url = '/user/enableUserReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
 }
 
 let model = User.object;
@@ -495,4 +518,37 @@ function ShowTabThumbsup(){
     model.active = 'thumb-up';
     model.showUserProfile();
     model.active = 'profile';
+}
+
+function ShowDisableUserReported(event){
+    model.report_id = $(event).data('report_id');
+    $('#disable-user-reported').modal('show');
+}
+
+function SaveDisableUserReported(){
+    model.saveDisableUserReported()
+}
+
+function ShowEnableUserReported(event){
+    model.report_id = $(event).data('report_id');
+    $('#enable-user-reported').modal('show');
+
+}
+
+function SaveEnableUserReported(){
+    model.saveEnableUserReported()
+}
+
+function ShowRemoveReport(event){
+    model.report_id = $(event).data('report_id');
+    $('#remove-reported').modal('show');
+
+}
+
+function SaveRemoveReport(){
+    model.saveRemoveReport()
+}
+
+function ShowDeleteReported(){
+
 }

@@ -193,7 +193,7 @@
 
 .header_status{
 
-    width: 11%;
+    width: 17%;
 
 }
 
@@ -1156,4 +1156,42 @@ label[for='upload-photo']{
     background: transparent;
 
     margin-top: -12px;
+}
+
+#disable-reporteduser-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 76px!important;
+    padding-right:76px!important;
+    padding-bottom: 28px!important;
+}
+
+#enable-reporteduser-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 75px!important;
+    padding-right:75px!important;
+    padding-bottom: 28px!important;
+}
+
+.dis-btn{
+    pointer-events:none;
+    opacity:0.7;
+}
+
+#remove-reporteduser-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 75px!important;
+    padding-right:75px!important;
+    padding-bottom: 28px!important;
 }

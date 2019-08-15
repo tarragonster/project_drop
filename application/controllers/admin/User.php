@@ -647,4 +647,15 @@ class User extends Base_Controller {
         $this->ajaxSuccess($data);
     }
 
+    public function disableUserReported($report_id){
+	    $this->user_model->disableReported($report_id);
+        $this->ajaxSuccess();
+
+    }
+
+    public function enableUserReported($report_id){
+        $this->user_model->enableReported($report_id);
+        $this->ajaxSuccess();
+
+    }
 }
