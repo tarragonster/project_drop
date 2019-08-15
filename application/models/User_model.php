@@ -1069,4 +1069,9 @@ class User_model extends BaseModel {
         $this->db->update('user_reports', array('status'=>'rejected'));
 
     }
+
+    public function deleteUserStatus($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user',array('status'=>'0'));
+    }
 }

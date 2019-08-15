@@ -319,7 +319,8 @@ class User extends Base_Controller {
 
 		if ($user != null) {
             $data['message'] = "";
-			$this->user_model->delete($user_id);
+//			$this->user_model->delete($user_id);
+            $this->user_model->deleteUserStatus($user_id);
 			$this->notify_model->deleteReference('user', $user_id);
             $this->ajaxSuccess($data);
 
