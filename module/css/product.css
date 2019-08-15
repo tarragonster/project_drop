@@ -5,11 +5,17 @@
 .width-10 {
     width: 10%;
 }
+.width-12 {
+    width: 12%;
+}
 .width-13 {
     width: 13%;
 }
 .width-15 {
     width: 15%;
+}
+.width-17 {
+    width: 17%;
 }
 .width-8 {
     width: 8%;
@@ -19,7 +25,9 @@
 }
 .width-48 {
     width: 48%;
-
+}
+.width-25 {
+    width: 25%;
 }
 /*Define width*/
 
@@ -230,6 +238,7 @@ hr {
 }
 .form-group input {
     height: 25px;
+    color: #403F3F;
 }
 .form-group select {
     color: #403F3F;
@@ -488,7 +497,7 @@ hr {
     width: 5%;
 }
 .modal-dialog {
-    width: 30%;
+    /*width: 30%;*/
     margin: 200px auto;
 }
 .modal-content-popup {

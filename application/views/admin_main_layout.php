@@ -81,7 +81,6 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-<!--									<li><a href="--><?php //echo base_url('logout'); ?><!--"><i class="ti-power-off m-r-5"></i> Logout</a></li>-->
 								</ul>
 							</li>
 							
@@ -90,6 +89,20 @@
 							<li class="btn-export">
 								<button type="button" class="btn btn-header">
 									<a href="<?php echo base_url('product/add')?>">Add Story</a>
+								</button>
+							</li>
+						<?php elseif(isset($sub_id) && $sub_id == 34): ?>
+							<li class="btn-export">
+								<button type="button" class="btn btn-header">
+									<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Add New&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></a>
+									<ul class="dropdown-menu" role="menu" style="min-width: 87px;left: unset;top: 46px;">
+										<li class="edit-season-btn" data-id="">
+											<a href="">Add season</a>
+										</li>
+										<li class="delete-genre-btn btn_action" data-id="" data-product="" data-toggle="modal" data-target="#del-modal">
+											<a href="#">Add block</a>
+										</li>
+									</ul>
 								</button>
 							</li>
 						<?php elseif(isset($sub_id) && $sub_id == 51):?>

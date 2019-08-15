@@ -148,7 +148,7 @@
 
 .modal-dialog {
     margin-top: 15em;
-    width: 35em;
+    /*width: 35em;*/
 }
 .modal .modal-dialog .modal-content {
     text-align: center;
@@ -159,7 +159,7 @@
 }
 .modal-content .modal-description p {
     margin-top: 0;
-    margin-bottom: 48px;
+    /*margin-bottom: 48px;*/
     color: #4A4A4A;
     font-family: 'AvenirNext-Medium';
 }
@@ -167,7 +167,7 @@
     font-size: large;
     border-radius: 8px;
     border: 1px solid;
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
     padding-left: 10px;
 }
 .modal-content .modal-button button a {

@@ -1031,7 +1031,7 @@ table, th, td {
     z-index: 10000;
 }
 .modal-dialog {
-    width: 30%;
+    /*width: 30%;*/
     margin: 200px auto;
 }
 .modal-content-popup {
@@ -1165,7 +1165,7 @@ th {
 }
 .modal-description h2 {
     font-size: 31px;
-
+    font-family: 'AvenirNext-DemiBold';
 }
 .modal-description {
     color: #4A4A4A;
