@@ -11,22 +11,25 @@
         <?php if($isProfile == 'true'){ ?>
             <button  data-user_id = "<?php echo $user['user_id']; ?>" onclick="EditUserProfile()" class="edit-btn" style="display: block">Edit</button>
         <?php } ?>
+        <?php if($isCreate == 'true'){ ?>
+            <button  data-user_id = "<?php echo $user['user_id']; ?>" class="edit-btn" style="display: block">Create</button>
+        <?php } ?>
     </div>
 </div>
 <ul class="nav nav-tabs">
-    <li <?= $active == 'profile' ? 'class="active"' : '' ?> style="width: 97px;height: 35px">
+    <li <?= $active == 'profile' ? 'class="active"' : '' ?> style="width: 97px;height: 35px" onclick="ShowTabProfile()">
         <a data-toggle="tab" href="#profile">Profile</a>
     </li>
-    <li <?= $active == 'comments' ? 'class="active"' : '' ?> style="width: 120px;height: 35px">
+    <li <?= $active == 'comments' ? 'class="active"' : '' ?> style="width: 120px;height: 35px" onclick="ShowTabComment()">
         <a data-toggle="tab" href="#comments">Comments</a>
     </li>
-    <li <?= $active == 'your-picks' ? 'class="active"' : '' ?> style="width: 123px;height: 35px">
+    <li <?= $active == 'your-picks' ? 'class="active"' : '' ?> style="width: 123px;height: 35px" onclick ="ShowTabPick()">
         <a data-toggle="tab" href="#your-picks">Your Picks</a>
     </li>
-    <li <?= $active == 'watch-list' ? 'class="active"' : '' ?> style="width: 121px;height: 35px">
+    <li <?= $active == 'watch-list' ? 'class="active"' : '' ?> style="width: 121px;height: 35px" onclick ="ShowTabWatch()">
         <a data-toggle="tab" href="#watch-list">Watch List</a>
     </li>
-    <li <?= $active == 'thumb-up' ? 'class="active"' : '' ?> style="width: 139px;height: 35px">
+    <li <?= $active == 'thumb-up' ? 'class="active"' : '' ?> style="width: 139px;height: 35px" onclick ="ShowTabThumbsup()">
         <a data-toggle="tab" href="#thumb-up">Thumbs up</a>
     </li>
 </ul>

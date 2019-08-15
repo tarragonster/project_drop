@@ -3,6 +3,7 @@ var User = /** @class */ (function () {
         this.typereq = 'get';
         this.isEdit = false;
         this.isProfile = true;
+        this.isCreate = false;
         this.active = 'profile';
         this.switch = false;
         this.contentType = false;
@@ -41,6 +42,7 @@ var User = /** @class */ (function () {
             user_id: this.user_id,
             isEdit: this.isEdit,
             isProfile: this.isProfile,
+            isCreate: this.isCreate,
             active: this.active,
         };
         this.url = '/user/ajaxProfile/' + this.user_id;
@@ -344,6 +346,44 @@ function ShowCommentReplies(event) {
 function BackComments(event) {
     model.comment_id = $(event).data('comment_id');
     model.active = 'comments';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowTabProfile() {
+    model.isProfile = true;
+    model.isEdit = false;
+    model.isCreate = false;
+    model.showUserProfile();
+}
+function ShowTabComment() {
+    model.isProfile = false;
+    model.isEdit = false;
+    model.isCreate = false;
+    model.active = 'comments';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowTabPick() {
+    model.isProfile = false;
+    model.isEdit = false;
+    model.isCreate = true;
+    model.active = 'your-picks';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowTabWatch() {
+    model.isProfile = false;
+    model.isEdit = false;
+    model.isCreate = true;
+    model.active = 'watch-list';
+    model.showUserProfile();
+    model.active = 'profile';
+}
+function ShowTabThumbsup() {
+    model.isProfile = false;
+    model.isEdit = false;
+    model.isCreate = true;
+    model.active = 'thumb-up';
     model.showUserProfile();
     model.active = 'profile';
 }

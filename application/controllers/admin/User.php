@@ -408,6 +408,7 @@ class User extends Base_Controller {
 		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
         $layoutParams['isEdit'] = $this->input->get('isEdit');
         $layoutParams['isProfile'] = $this->input->get('isProfile');
+        $layoutParams['isCreate'] = $this->input->get('isCreate');
         $layoutParams['active'] = $this->input->get('active');
 
 
