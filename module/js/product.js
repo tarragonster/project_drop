@@ -50,7 +50,7 @@ $(".sortable").sortable({
     },
 }).disableSelection();
 
-// Action of Reviews
+// Actions of Review
 $('body').delegate('.btn_action', 'click', function(e) {
     e.preventDefault();
 
@@ -76,6 +76,37 @@ $('body').delegate('.btn_action', 'click', function(e) {
             $.get(BASE_APP_URL + 'product/deleteReview', {pick_id:pick_id, product_id:product_id}, function(data){
                 $(this).attr('data-dismiss', 'modal');
                 location.reload();
+            });
+        }
+    });
+});
+
+// Actions of Season
+$('body').delegate('.btn_season', 'click', function(e) {
+    e.preventDefault();
+
+    var episode_id = $(this).data('id');
+    var product_id = $(this).data('product');
+    
+    $('.dis-confirm').click(function(){
+        $.get(BASE_APP_URL + 'product/disableEpisode', {episode_id:episode_id, product_id:product_id}, function(data){
+            $(this).attr('data-dismiss', 'modal');
+            // location.reload();
+        });
+    });
+
+    $('.en-confirm').click(function(){
+        $.get(BASE_APP_URL + 'product/enableBlock', {episode_id:episode_id, product_id:product_id}, function(data){
+            $(this).attr('data-dismiss', 'modal');
+            // location.reload();
+        });
+    });
+
+    $('.del-confirm').click(function(){
+        if ($('#text-confirm').val() == 'DELETE') {
+            $.get(BASE_APP_URL + 'product/deleteBlock', {episode_id:episode_id, product_id:product_id}, function(data){
+                $(this).attr('data-dismiss', 'modal');
+                // location.reload();
             });
         }
     });

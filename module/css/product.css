@@ -5,11 +5,17 @@
 .width-10 {
     width: 10%;
 }
+.width-12 {
+    width: 12%;
+}
 .width-13 {
     width: 13%;
 }
 .width-15 {
     width: 15%;
+}
+.width-17 {
+    width: 17%;
 }
 .width-8 {
     width: 8%;
@@ -19,7 +25,9 @@
 }
 .width-48 {
     width: 48%;
-
+}
+.width-25 {
+    width: 25%;
 }
 /*Define width*/
 

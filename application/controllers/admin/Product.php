@@ -8,6 +8,8 @@ class Product extends Base_Controller {
 		$this->verifyAdmin();
 
 		$this->load->model("product_model");
+		$this->load->model("season_model");
+		$this->load->model("episode_model");
 		$this->load->model("story_genres_model");
 		$this->load->model("product_genres_model");
 		$this->load->library('hash');
@@ -671,5 +673,103 @@ class Product extends Base_Controller {
 			$this->product_model->deletePick($pick_id);
 			return $this->manageReview($product_id);
 		}
+	}
+
+	public function manageSeason($product_id = 0) {
+		$conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+
+        $headers = array(
+            'icon' => array('label' => '', 'sorting' => false),
+            'episode_id' => array('label' => 'Block ID', 'sorting' => false),
+            'position' => array('label' => 'Block #', 'sorting' => false),
+            'name' => array('label' => 'Block Name', 'sorting' => false),
+            'activity' => array('label' => 'Block Activity', 'sorting' => false),
+            'created' => array('label' => 'Create Date', 'sorting' => false),
+            'status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Actions')
+        );
+
+		$product = $this->product_model->checkProduct($product_id);
+		// Get seasons by product
+        $seasons = $this->season_model->getSeasonByProduct($product_id);
+        if(empty($seasons)) {
+        	$params['page_index'] = 'create_season';
+        }else {
+	        $seasons = Hash::combine($seasons,'{n}.season_id','{n}');
+			$season_ids = Hash::combine($seasons,'{n}.season_id','{n}');
+	        $season_ids = array_keys($season_ids);
+
+	        // Get episodes by seasons
+	        $episodes = $this->episode_model->getEpisodesBySeason($season_ids, $conditions);
+	        if(empty($episodes)) {
+	        	$params = array(
+					'page_index' => 'empty_episode',
+					'page_base' => 'product/manageSeason/' . $product_id,
+					'headers' => $headers,
+					'seasons' => $seasons,	
+					'episodes' => $episodes	
+				);
+	        }else {
+		        $episode_ids = Hash::combine($episodes,'{n}.episode_id','{n}');
+		        $episode_ids = array_keys($episode_ids);
+
+		        //Get comments by episodes
+				$comments = $this->episode_model->getAllComment($episode_ids);
+		        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.episode_id');
+
+		        //Get comments by episodes
+				$likes = $this->episode_model->getAllLike($episode_ids);
+		        $likes = Hash::combine($likes,'{n}.id','{n}','{n}.episode_id');
+
+		        foreach ($episodes as $key => $value) {
+					$episodes[$key]['comments'] = !empty($comments[$value['episode_id']]) ? $comments[$value['episode_id']] : [];
+					$episodes[$key]['total_cmt'] = count($episodes[$key]['comments']);
+
+					$episodes[$key]['likes'] = !empty($likes[$value['episode_id']]) ? $likes[$value['episode_id']] : [];
+					$episodes[$key]['total_like'] = count($episodes[$key]['likes']);
+				}
+		        $seasons = Hash::combine($seasons,'{n}.season_id','{n}.name');
+				$episodes = Hash::combine($episodes,'{n}.episode_id','{n}','{n}.season_id');
+		        $params = array(
+					'page_index' => 'manage_season',
+					'page_base' => 'product/manageSeason/' . $product_id,
+					'headers' => $headers,
+					'episodes' => $episodes,
+					'seasons' => $seasons,
+					'product_id' => $product_id,
+					'conditions' => $conditions
+				);
+		    }
+		}
+		$this->customCss[] = 'module/css/submenu.css';
+		$this->customCss[] = 'module/css/product.css';
+		$this->customCss[] = 'module/css/season.css';
+		$this->customJs[] = 'module/js/coreTable.js';
+		$this->customJs[] = 'module/js/product.js';
+		$this->render('/products/product_manage', $params, 3, 34);
+	}
+
+	public function createSeason() {
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+    		$season_name = $this->input->post('season_name');
+    		$product_id = $this->session->userdata('product_id');
+    		$paramSeason = array(
+    			'name' => $season_name,
+    			'product_id' => $product_id,
+    			'created' => time(),
+    			'status' => 1
+    		);
+    		$this->season_model->insert($paramSeason);
+    		$this->manageSeason($product_id);
+    	}
+	}
+
+	public function disableEpisode() {
+		$episode_id = $this->input->get('episode_id');
+		$product_id = $this->input->get('product_id');
+
+		$episode = $this->episode_model->getEpisodeById($episode_id);
+		print_r($episode);die();
 	}
 }
