@@ -1,3 +1,4 @@
+// Action of Product
 $('body').delegate('.btnAct', 'click', function(e) {
     e.preventDefault();
 
@@ -49,6 +50,7 @@ $(".sortable").sortable({
     },
 }).disableSelection();
 
+// Action of Reviews
 $('body').delegate('.btn_action', 'click', function(e) {
     e.preventDefault();
 

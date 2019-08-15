@@ -10,6 +10,7 @@ class User{
     static object = new User();
     isEdit:boolean = false;
     isProfile:boolean = true;
+    isCreate
     user_id:any;
     active:string = 'profile';
 
