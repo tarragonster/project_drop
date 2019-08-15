@@ -1125,3 +1125,35 @@ label[for='upload-photo']{
     height: 100%;
     padding-bottom: 30px;
 }
+
+#delete-comment-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 76px!important;
+    padding-right:76px!important;
+    padding-bottom: 28px!important;
+}
+
+.film_title{
+    font-family: AvenirNext-Medium!important;
+    font-weight: 500!important;
+    font-size: 14px!important;
+    color: #403F3F!important;
+    position: absolute;
+}
+
+.btn-back-comments{
+    height: 100%;
+    padding: 0;
+    border: 0;
+
+    font-family: AvenirNext-DemiBold;
+    font-size: 12px;
+    color: #403F3F;
+    background: transparent;
+
+    margin-top: -12px;
+}

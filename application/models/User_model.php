@@ -803,7 +803,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getUserPicks($user_id, $isMe = true) {
-		$this->db->select('up.pick_id as id, up.created_at, up.pick_id, p.*, up.quote, up.is_hidden');
+		$this->db->select('up.pick_id as id, up.created_at, up.pick_id, p.*, up.quote, up.is_hidden, up.status as up_status');
 		$this->db->from('user_picks up');
 		$this->db->where('up.user_id', $user_id);
 		if (!$isMe) {
@@ -827,7 +827,7 @@ class User_model extends BaseModel {
     }
 
     public function getUserComments($user_id, $isMe = true) {
-        $this->db->select();
+        $this->db->select('c.*,e.*, c.status as comment_status');
         $this->db->from('comments c');
         $this->db->where('c.user_id', $user_id);
         $this->db->join('episode e','c.episode_id = e.episode_id');
@@ -1042,4 +1042,20 @@ class User_model extends BaseModel {
 		}
 		return false;
 	}
+
+    public function removeComment($id) {
+        $this->db->where('comment_id', $id);
+        $this->db->delete('comments');
+    }
+
+    public function getCommentReplies($comment_id){
+	    $this->db->select('c.*,e.*,p.name as film_name');
+	    $this->db->from('comments c');
+	    $this->db->where('comment_id', $comment_id);
+	    $this->db->join('episode e', 'c.episode_id = e.episode_id');
+	    $this->db->join('season s', 'e.season_id = e.season_id');
+	    $this->db->join('product p', 's.product_id = p.product_id');
+
+	    return $this->db->get()->result_array();
+    }
 }

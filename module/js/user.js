@@ -167,6 +167,24 @@ var User = /** @class */ (function () {
             $('#view-note-content').html(data.content);
         });
     };
+    User.prototype.removeComment = function () {
+        this.url = '/user/deleteComment/' + this.comment_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.active = 'comments';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide');
+        });
+    };
+    User.prototype.showCommentReplies = function () {
+        this.url = '/user/ShowCommentReplies/' + this.comment_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-user-content').html('');
+            $('#view-user-content').html(data.content);
+        });
+    };
     User.object = new User();
     return User;
 }());
@@ -311,3 +329,21 @@ $(document).ready(function () {
         }, 0);
     });
 });
+function ShowRemoveComment(event) {
+    model.comment_id = $(event).data('comment_id');
+    $('#delete-comment').modal('show');
+}
+function RemoveComment() {
+    model.removeComment();
+    model.switch = true;
+}
+function ShowCommentReplies(event) {
+    model.comment_id = $(event).data('comment_id');
+    model.showCommentReplies();
+}
+function BackComments(event) {
+    model.comment_id = $(event).data('comment_id');
+    model.active = 'comments';
+    model.showUserProfile();
+    model.active = 'profile';
+}

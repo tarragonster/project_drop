@@ -27,6 +27,7 @@ class User{
     quote:string;
     confirmDelete: string;
     watch_id:number;
+    comment_id:number;
     report_id:number;
     note:string;
 
@@ -220,6 +221,24 @@ class User{
 
         })
     }
+    removeComment(){
+        this.url = '/user/deleteComment/' + this.comment_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.active = 'comments';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide')
+        })
+    }
+    showCommentReplies(){
+        this.url = '/user/ShowCommentReplies/' + this.comment_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-user-content').html('');
+            $('#view-user-content').html(data.content)
+        })
+    }
 }
 
 let model = User.object;
@@ -408,3 +427,25 @@ $(document).ready(function () {
 
 
 });
+
+function ShowRemoveComment(event){
+    model.comment_id = $(event).data('comment_id');
+    $('#delete-comment').modal('show')
+}
+
+function RemoveComment(){
+    model.removeComment()
+    model.switch = true
+}
+
+function ShowCommentReplies(event){
+    model.comment_id = $(event).data('comment_id');
+    model.showCommentReplies()
+}
+
+function BackComments(event){
+    model.comment_id = $(event).data('comment_id')
+    model.active = 'comments';
+    model.showUserProfile();
+    model.active = 'profile';
+}

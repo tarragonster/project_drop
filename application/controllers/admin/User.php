@@ -90,7 +90,6 @@ class User extends Base_Controller {
             $users[$key]['total_version'] = count($users[$key]['version']);
         }
 
-
 		$userData['users']=$users;
         $userData['headers'] = $headers;
         $userData['conditions'] = $conditions;
@@ -631,5 +630,20 @@ class User extends Base_Controller {
 		$html = $this->load->view('admin/users_table', $data, true);
 		die(json_encode($html));
 	}
+
+	public function deleteComment($id){
+        $param = [];
+        $param['comment_id'] = $id;
+        $this->user_model->removeComment($id);
+        $this->ajaxSuccess($param);
+    }
+
+    public function ShowCommentReplies($comment_id){
+        $layoutParams = [];
+        $layoutParams['comment_replies'] = $this->user_model->getCommentReplies($comment_id);
+        $content = $this->load->view('admin/users/comment_replies', $layoutParams, true);
+        $data['content'] = $content;
+        $this->ajaxSuccess($data);
+    }
 
 }
