@@ -142,7 +142,7 @@ if($this->session->flashdata('error')){
 					<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
 				</div>
 				<div class="modal-description">
-					<h2>Are You Sure?</h2>
+					<h2>Are you sure?</h2>
 					<p>Are you sure you want to disable this film? You will be able to undo this in the actions section.</p>
 				</div>
 				<div class="modal-button">
@@ -159,7 +159,7 @@ if($this->session->flashdata('error')){
 					<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
 				</div>
 				<div class="modal-description">
-					<h2>Are You Sure?</h2>
+					<h2>Are you sure?</h2>
 					<p>Are you sure you want to enable this film? You will be able to undo this in the actions section.</p>
 				</div>
 				<div class="modal-button">
@@ -176,7 +176,7 @@ if($this->session->flashdata('error')){
 					<img src="<?php echo base_url('assets/images/quit.jpg')?>">
 				</div>
 				<div class="modal-description">
-					<h2>Are You Sure?</h2>
+					<h2>Are you sure?</h2>
 					<p>Are you sure you want to delete this film? You will not be able to undo this.</p>
 				</div>
 				<div class="modal-button">

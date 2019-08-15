@@ -1,5 +1,5 @@
 <div class="background">
-    <form id="prdadd" action='' method='POST' enctype="multipart/form-data">
+    <form id="product_edit" action='' method='POST' enctype="multipart/form-data">
         <div class="row">
             <?php if($this->session->flashdata('msg')){
                 echo '<div class="col-md-6"><div class="alert alert-success">';
@@ -189,7 +189,7 @@
             <div class="bottom">
                 <div style='margin-top: 16px' class="col-md-12">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-update" name='cmd' value='Save'>Update</button>
+                        <button type="submit" class="btn btn-update" name='cmd' value='Save' onclick="saveProduct()">Update</button>
                     </div>
                 </div>
             </div>
