@@ -145,7 +145,12 @@
 }
 .item-style{
     padding: 5px!important;
+}
 
+.outer-tag{
+    position: absolute;
+    margin-top: -50px;
+    margin-left: 38px;
 }
 
 .noSortHeader{
