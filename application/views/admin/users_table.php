@@ -11,6 +11,12 @@
                         <img style="width: 100%; height: 100%;border-radius: 29.5px;"
                              src="<?= media_thumbnail($row['avatar'], 70) ?>"/>
                     </div>
+                    <?php if($row['user_type'] == 1){ ?>
+                        <div><img src="<?= base_url('assets/imgs/Btag-orange.svg') ?>" alt=""></div>
+                    <?php } ?>
+                    <?php if($row['user_type'] == 2){ ?>
+                        <div><img src="<?= base_url('assets/imgs/Curator.svg') ?>" alt=""></div>
+                    <?php } ?>
                 </td>
                 <td class="header-item-content item-style"><?php echo $row['user_id'] ?></td>
                 <td class="header-item-content item-style" style="font-weight: 900;">

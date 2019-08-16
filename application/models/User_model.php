@@ -131,7 +131,7 @@ class User_model extends BaseModel {
 
 	public function getWatch($id) {
 		$this->db->where('id', $id);
-		$query = $this->db->get('watch_list');
+		$query = $this->db->get('user_watch');
 		return $query->first_row('array');
 	}
 
@@ -689,11 +689,32 @@ class User_model extends BaseModel {
 		return $this->db->count_all_results();
 	}
 
+	public function getAllReports($conditions = array()){
+        $this->db->from('user_reports up');
+        $this->db->join('user ut1', 'ut1.user_id = up.user_id');
+        $this->db->join('user ut2', 'ut2.user_id = up.reporter_id');
+        $this->db->select('up.report_id,up.report_note, ut1.*, ut2.full_name as reporter_name,ut2.user_name as reporter_user_name, up.created_at,up.status as report_status');
+
+        if (!empty($conditions['key'])) {
+            $this->makeSearchQuery(['lower(up.report_id)','lower(ut1.full_name)','lower(ut2.full_name)','lower(up.created_at)'], strtolower($conditions['key']));
+        }
+
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id', 'full_name', 'reporter_name','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('up.report_id', 'desc');
+        }
+    }
+
 	public function getReports($conditions = array(), $page = 0) {
 		$this->db->from('user_reports ur');
 		$this->db->join('user u1', 'u1.user_id = ur.user_id');
 		$this->db->join('user u2', 'u2.user_id = ur.reporter_id');
-		$this->db->select('ur.report_id, u1.*, u2.full_name as reporter_name,u2.user_name as reporter_user_name, ur.created_at,ur.status as report_status');
+		$this->db->select('ur.report_id,ur.report_note, u1.*, u2.full_name as reporter_name,u2.user_name as reporter_user_name, ur.created_at,ur.status as report_status');
 
         if (!empty($conditions['key'])) {
             $this->makeSearchQuery(['lower(ur.report_id)','lower(u1.full_name)','lower(u2.full_name)','lower(ur.created_at)'], strtolower($conditions['key']));
