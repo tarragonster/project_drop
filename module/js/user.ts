@@ -351,7 +351,6 @@ function SaveUpdateProfile(){
                 required:true,
             },
             avatar:{
-                required: true,
                 filesize: 1000000,
             }
         },
@@ -646,7 +645,7 @@ function FillInput(event){
 
 function FillNote(event){
     var divfield = $(event).text();
-    $("[name=note-edit]").val(divfield)
+    $("[name=note]").val(divfield)
 
 }
 
@@ -659,3 +658,9 @@ $(document).ready(function(){
         return this.optional(element) || (element.files[0].size <= param)
     }, 'File size must be less than 1MB');
 });
+
+function ShowEditNote(event){
+    model.report_id = $(event).data('report_id')
+    $('#view-note-popup').modal('show')
+    model.editReportNote()
+}
