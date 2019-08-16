@@ -259,6 +259,7 @@
 <script src="<?php echo base_url('assets/plugins/multiselect/js/jquery.multiselect.js')?>"></script>
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+
 <?php
 if (isset($customJs) && is_array($customJs)) {
 	foreach ($customJs as $script) {

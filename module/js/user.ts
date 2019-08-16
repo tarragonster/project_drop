@@ -350,6 +350,10 @@ function SaveUpdateProfile(){
             bio:{
                 required:true,
             },
+            avatar:{
+                required: true,
+                filesize: 1000000,
+            }
         },
         messages: {
             email: {
@@ -650,4 +654,8 @@ $(document).ready(function(){
     $.validator.setDefaults({
         ignore: []
     });
+
+    $.validator.addMethod('filesize', function (value, element, param) {
+        return this.optional(element) || (element.files[0].size <= param)
+    }, 'File size must be less than {0}');
 });

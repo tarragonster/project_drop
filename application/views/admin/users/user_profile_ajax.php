@@ -107,9 +107,9 @@
                                 <div class="outer-img"><img width='80' class="the-avatar" src='<?= media_thumbnail($user['avatar'], 80) ?>'/></div>
                                 <?php if($isEdit == 'true'){ ?>
                                     <div class="outer-upload-img">
-                                        <label for="upload-photo">Upload</label>
-                                        <input type="file" name='avatar' id="upload-photo" onchange="readURL(this)"/>
+                                        <label for="upload-photo" class="fileTitle">Upload</label>
                                     </div>
+                                    <input type="file" name='avatar' id="upload-photo" onchange="readURL(this)"/>
                                 <?php } ?>
                             </div>
                         </div>
