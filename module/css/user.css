@@ -783,7 +783,7 @@ table.dataTable thead .sorting_desc:after {
     cursor: pointer;
 
 }
-label[for='upload-photo']{
+.fileTitle{
 
     border-radius: 17.5px;
     background: #C7AE6E;
@@ -1221,4 +1221,15 @@ label[for='upload-photo']{
 
 #customDropdown li{
     cursor: pointer;
+}
+#bio-error{
+    margin-top: 7px;
+}
+#note-error{
+    margin-top: 7px;
+
+}
+
+#upload-photo-error{
+    position: absolute;
 }

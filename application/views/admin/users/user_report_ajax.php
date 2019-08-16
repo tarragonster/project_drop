@@ -10,7 +10,8 @@
             <div class="row" style="margin: 0">
                 <div class="modal-content group-popup outer-table-modal">
                     <span class="lead">Report Note</span>
-                    <div contenteditable class="form-control style-edit-input note-input" style="min-height: 125px!important;margin-top: 25px!important;"></div>
+                    <div contenteditable class="form-control style-edit-input note-input" style="min-height: 125px!important;margin-top: 25px!important;" onkeyup="FillNote(this)"></div>
+                    <input type="text" name="note" style="display: none">
                 </div>
             </div>
         </form>

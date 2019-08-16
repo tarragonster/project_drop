@@ -90,8 +90,8 @@
                                         <td style="padding-left: 0!important;vertical-align: text-top;padding-top: 5px!important;" class="first-column">Bio:</td>
                                         <td class="next-column">
                                             <?php if($isEdit == 'true'){ ?>
-                                                <div contenteditable class="form-control style-edit-input bio-input"><?php echo $user['bio']; ?></div>
-<!--                                                <input type="text" value="--><?php //echo $user['bio']; ?><!--" name="bio" style="display: none">-->
+                                                <div contenteditable class="form-control style-edit-input bio-input" onkeyup="FillInput(this)"><?php echo $user['bio']; ?></div>
+                                                <input type="text" value="<?php echo $user['bio']; ?>" name="bio" style="display: none">
                                             <?php }else{ ?>
                                                 <?php echo $user['bio']; ?>
                                             <?php } ?>
@@ -107,9 +107,9 @@
                                 <div class="outer-img"><img width='80' class="the-avatar" src='<?= media_thumbnail($user['avatar'], 80) ?>'/></div>
                                 <?php if($isEdit == 'true'){ ?>
                                     <div class="outer-upload-img">
-                                        <label for="upload-photo">Upload</label>
-                                        <input type="file" name='avatar' id="upload-photo" onchange="readURL(this)"/>
+                                        <label for="upload-photo" class="fileTitle">Upload</label>
                                     </div>
+                                    <input type="file" name='avatar' id="upload-photo" onchange="readURL(this)"/>
                                 <?php } ?>
                             </div>
                         </div>
@@ -275,7 +275,7 @@
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
                                         <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['added_at']) ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['update_time']) ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">

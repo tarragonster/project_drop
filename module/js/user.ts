@@ -81,7 +81,9 @@ class User{
         this.url = '/user/ajaxProfile/' + this.user_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
-
+            model.isProfile = true;
+            model.isEdit = false;
+            model.isCreate = false;
             $('#view-user-content').html(data.content);
         })
 
@@ -298,6 +300,7 @@ let model = User.object;
 function ShowUserProfile(event){
 
     model.isProfile =true
+    model.isEdit= false
     model.user_id = $(event).data('user_id') * 1;
     model.showUserProfile()
     $('#view-user-popup').modal('show');
@@ -329,20 +332,53 @@ function readURL(input){
 }
 
 function SaveUpdateProfile(){
+    //form-update
+    console.log('SaveUpdateProfile');
 
-    model.contentType = false;
-    model.processData = false;
+    $("#form-update" ).validate({
+        rules: {
+            full_name: {
+                required: true,
+            },
+            email:{
+                required:true,
+                email:true
+            },
+            user_name:{
+                required:true,
+            },
+            bio:{
+                required:true,
+            },
+            avatar:{
+                required: true,
+                filesize: 1000000,
+            }
+        },
+        messages: {
+            email: {
+                required: "Email is invalid",
+                email: "Your email address must be in the format of name@domain.com"
+            }
+        }
+    });
+    let validatedata = $("#form-update").valid();
+    if(validatedata ==true){
+        model.contentType = false;
+        model.processData = false;
 
-    var myformData = new FormData();
-    myformData.append('full_name', $('input[name=full_name]').val());
-    myformData.append('user_name', $('input[name=user_name]').val());
-    myformData.append('email', $('input[name=email]').val());
-    myformData.append('bio', $('.bio-input').text());
-    myformData.append('avatar', $('input[name=avatar]')[0].files[0]);
+        var myformData = new FormData();
+        myformData.append('full_name', $('input[name=full_name]').val());
+        myformData.append('user_name', $('input[name=user_name]').val());
+        myformData.append('email', $('input[name=email]').val());
+        myformData.append('bio', $('.bio-input').text());
+        myformData.append('avatar', $('input[name=avatar]')[0].files[0]);
 
 
-    model.saveUpdateProfile(myformData);
-    model.switch = true
+        model.saveUpdateProfile(myformData);
+        model.switch = true
+    }
+
 }
 
 $('#view-user-popup').on('hidden.bs.modal', function () {
@@ -459,8 +495,21 @@ function ShowReportNote(event){
 }
 
 function SaveReportNote(){
-    model.note = $('.note-input').text()
-    model.saveReportNote()
+    $("#form-update" ).validate({
+        rules: {
+            note: {
+                required: true,
+            },
+        },
+        messages: {
+
+        }
+    });
+    let validatedata = $("#form-update" ).valid()
+    if(validatedata ==true){
+        model.note = $('.note-input').text()
+        model.saveReportNote()
+    }
 }
 
 function EditReportNote(){
@@ -503,9 +552,6 @@ function BackComments(event){
 }
 
 function ShowTabProfile(){
-    model.isProfile = true;
-    model.isEdit = false;
-    model.isCreate = false;
     model.showUserProfile();
 
 }
@@ -592,3 +638,24 @@ function ConfirmDeleteReported(){
     model.confirmDeleteReported()
 
 }
+
+function FillInput(event){
+    var divfield = $(event).text();
+    $("[name=bio]").val(divfield)
+}
+
+function FillNote(event){
+    var divfield = $(event).text();
+    $("[name=note-edit]").val(divfield)
+
+}
+
+$(document).ready(function(){
+    $.validator.setDefaults({
+        ignore: []
+    });
+
+    $.validator.addMethod('filesize', function (value, element, param) {
+        return this.optional(element) || (element.files[0].size <= param)
+    }, 'File size must be less than {0}');
+});
