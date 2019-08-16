@@ -31,8 +31,8 @@ class User extends Base_Controller {
         }
 
 		$config['base_url'] = base_url('user');
-		$config['total_rows'] = $this->user_model->getNumOfUser();
-		$config['per_page'] = PERPAGE_ADMIN;
+		$config['total_rows'] = $this->user_model->countAllUser($conditions);
+		$config['per_page'] = $per_page;
 		$config['cur_page'] = $page;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
@@ -56,8 +56,8 @@ class User extends Base_Controller {
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
 		$pinfo = array(
-			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
-			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
+			'from' => $per_page * ($page - 1) + 1,
+			'to' => min(array($per_page * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
 		$users = $this->user_model->getAllUsers($conditions,$page - 1);
