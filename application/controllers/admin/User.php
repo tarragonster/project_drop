@@ -81,13 +81,13 @@ class User extends Base_Controller {
 
         foreach ($users as $key=>$value){
             $users[$key]['likes'] = !empty($likes[$value['user_id']])?$likes[$value['user_id']]:[];
-            $users[$key]['total_like'] = count($users[$key]['likes']);
+            $users[$key]['total_like'] = count($users[$key]['likes']) > 0 ? count($users[$key]['likes']):'0';
             $users[$key]['comments'] = !empty($comments[$value['user_id']])?$comments[$value['user_id']]:[];
-            $users[$key]['total_comment'] = count($users[$key]['comments']);
+            $users[$key]['total_comment'] = count($users[$key]['comments']) > 0 ? count($users[$key]['comments']):'0';
             $users[$key]['picks'] = !empty($picks[$value['user_id']])?$picks[$value['user_id']]:[];
-            $users[$key]['total_pick'] = count($users[$key]['picks']);
+            $users[$key]['total_pick'] = count($users[$key]['picks']) > 0 ? count($users[$key]['picks']):'0';
             $users[$key]['version'] = !empty($version[$value['user_id']])?$version[$value['user_id']]:[];
-            $users[$key]['total_version'] = count($users[$key]['version']);
+            $users[$key]['total_version'] = count($users[$key]['version']) > 0 ? count($users[$key]['version']):'0';
         }
 
 		$userData['users']=$users;

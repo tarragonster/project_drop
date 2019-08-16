@@ -160,15 +160,22 @@
                                             <?php echo $row['content']; ?>
                                         </td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
-                                        <?php if($row['comment_status'] == 1){ ?>
+                                        <?php if(!empty($row['comment_reportId'])){ ?>
                                             <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
-                                                <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span>Active</span>
+                                                <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="green">&nbsp;<span>Reported</span>
                                             </td>
-                                        <?php }elseif($row['comment_status'] == 0){ ?>
-                                            <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
-                                                <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;<span>Inactive</span>
-                                            </td>
+                                        <?php }else{ ?>
+                                            <?php if($row['comment_status'] == 1){ ?>
+                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                                    <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span>Active</span>
+                                                </td>
+                                            <?php }elseif($row['comment_status'] == 0){ ?>
+                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                                    <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;<span>Inactive</span>
+                                                </td>
+                                            <?php } ?>
                                         <?php } ?>
+
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                             <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">

@@ -1195,3 +1195,30 @@ label[for='upload-photo']{
     padding-right:75px!important;
     padding-bottom: 28px!important;
 }
+
+/*.modal.fade .modal-dialog {*/
+/*    -webkit-transition: -webkit-transform .3s ease-out !important;*/
+/*    -o-transition: -o-transform .3s ease-out !important;*/
+/*    transition: transform .3s ease-out !important;*/
+/*    -webkit-transform: translate(0, -25%) !important;*/
+/*    -ms-transform: translate(0, -25%) !important;*/
+/*    -o-transform: translate(0, -25%) !important;*/
+/*    transform: translate(0, -25%) !important;*/
+/*}*/
+
+.modal.fade .style-modal{
+    right: -600px;
+
+    -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+    transition: opacity 0.3s linear, right 0.3s ease-out;
+}
+
+.modal.fade.right.in .style-modal {
+    right: 0;
+}
+
+#customDropdown li{
+    cursor: pointer;
+}
