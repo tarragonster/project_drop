@@ -415,6 +415,20 @@ class User_model extends BaseModel {
         return $this->db->get()->result_array();
 	}
 
+	public function countAllUser($conditions = array()){
+        $this->makeQuery($conditions);
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id','full_name', 'email', 'joined','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('u.user_id', 'desc');
+        }
+        return $this->db->count_all_results();
+    }
+
     protected function makeQuery($conditions = array()) {
 	    $this->db->select('u.*, u.status as user_status');
         $this->db->where('u.is_deleted',0);
@@ -857,10 +871,9 @@ class User_model extends BaseModel {
 	}
 
 	public function getListWatching($user_id, $page = -1, $isMe = true) {
-		$this->db->select('w.id, w.user_id,w.added_at, p.*, w.is_hidden,uw.update_time');
-		$this->db->from('watch_list w');
+		$this->db->select('w.id, w.user_id, p.*, w.is_hidden,w.update_time');
+		$this->db->from('user_watch w');
 		$this->db->join('product_view p', 'p.product_id = w.product_id');
-		$this->db->join('user_watch uw','w.user_id=uw.user_id','LEFT');
 		$this->db->where('w.user_id', $user_id);
 		if (!$isMe) {
 			$this->db->where('w.is_hidden', 0);
