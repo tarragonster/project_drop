@@ -12,13 +12,16 @@
             <table class="table dataTable">
                 <?php $this->load->view('admin/base/table_header')?>
                 <tbody>
-                	<tr><td colspan="8" style="background-color: unset;">
-						<form action="" method="post" id="form-data">
-							<ul data-url="<?= base_url('product/sortable')?>" class="sortable">
-								<input type="hidden" name="dragging" value="0"/>
+                	<tr>
+                		<td colspan="8" style="background-color: unset;">
+						<form action="" method="post" id='<?php echo 'season_' . $key?>'>
+							<ul data-url="<?= base_url('product/sortableSeason/' . $key)?>" data-form-id='<?php echo 'season_' . $key?>' 
+								class="sortable" season-id="<?php echo $key?>">
+								<input type="hidden" name="dragging" id='<?php echo 'dragging-item-' . $key?>' value="0"/>
 				                <?php if(!empty($value)){ foreach ($value as $keyP=>$valueP){?>
 				                    <li id="block_<?php echo $valueP['episode_id']; ?>" data-id="<?php echo $valueP['episode_id']; ?>">
 				                    <input type="hidden" name="positions[<?php echo $valueP['episode_id']?>]" value="1">
+				                    <input type="hidden" name="season_id" value="<?php echo $valueP['season_id']?>">
 				                    <div class="card-box card-sorting row">
 				                        <div class="col-sm-1 sortable-box width-7" style="padding: 0px">
 				                            <div class="sortable-move"><i class="icon-menu"></i></div>
@@ -87,7 +90,8 @@
 				                <?php } } ?>
 				            </ul>
 				        </form>
-				    </td></tr>
+					    </td>
+					</tr>
                 </tbody>
             </table>
         </div>
