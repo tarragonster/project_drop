@@ -1,5 +1,5 @@
 // Upload Images File
-var edit_error = false;
+var err1, err2, err3, err4, err5 = true;
 
 var imageLoader = document.getElementById('posterImg');
 if (imageLoader) {
@@ -16,13 +16,11 @@ function handleImage(e) {
         $('#poster_err1').css('display', 'block');
         $('#poster_err2').css('display', 'none');
         $('#poster_image').attr('src', BASE_APP_URL + 'assets/images/borders/233x346@3x.png');
-        edit_error = true;
     } 
     else if(fileSize /(1024*1024) > 1){
         $('#poster_err2').css('display', 'block');
         $('#poster_err1').css('display', 'none');
         $('#poster_image').attr('src', BASE_APP_URL + 'assets/images/borders/233x346@3x.png');
-        edit_error = true;
     }else {
         $('#poster_err1').css('display', 'none');
         $('#poster_err2').css('display', 'none');
@@ -32,6 +30,7 @@ function handleImage(e) {
             $('#poster_image').attr('src',event.target.result);
         }
         reader.readAsDataURL(e.target.files[0]);
+        err1 = false
     }
 }
 
@@ -50,13 +49,11 @@ function handleSeriesImage(e) {
         $('#series_err1').css('display', 'block');
         $('#series_err2').css('display', 'none');
         $('#series_image').attr('src', BASE_APP_URL + 'assets/images/borders/750x667@3x.png');
-        edit_error = true;
     } 
     else if(fileSize /(1024*1024) > 1){
         $('#series_err2').css('display', 'block');
         $('#series_err1').css('display', 'none');
         $('#series_image').attr('src', BASE_APP_URL + 'assets/images/borders/750x667@3x.png');
-        edit_error = true;
     }else {
         $('#series_err1').css('display', 'none');
         $('#series_err2').css('display', 'none');
@@ -66,6 +63,7 @@ function handleSeriesImage(e) {
             $('#series_image').attr('src',event.target.result);
         }
         reader.readAsDataURL(e.target.files[0]);
+        err2 = false
     }
 }
 
@@ -84,13 +82,11 @@ function handlePreviewImage(e) {
         $('#pre_err1').css('display', 'block');
         $('#pre_err2').css('display', 'none');
         $('#preview_image').attr('src', BASE_APP_URL + 'assets/images/borders/135x135@3x.png');
-        edit_error = true;
     } 
     else if(fileSize /(1024*1024) > 1){
         $('#pre_err2').css('display', 'block');
         $('#pre_err1').css('display', 'none');
         $('#preview_image').attr('src', BASE_APP_URL + 'assets/images/borders/135x135@3x.png');
-        edit_error = true;
     }else {
         $('#pre_err1').css('display', 'none');
         $('#pre_err2').css('display', 'none');
@@ -100,6 +96,7 @@ function handlePreviewImage(e) {
             $('#preview_image').attr('src',event.target.result);
         }
         reader.readAsDataURL(e.target.files[0]);
+        err3 = false
     }
 }
 
@@ -118,13 +115,11 @@ function handleCarouselImage(e) {
         $('#car_err1').css('display', 'block');
         $('#car_err2').css('display', 'none');
         $('#carousel_image').attr('src', BASE_APP_URL + 'assets/images/borders/667x440@3x.png');
-        edit_error = true;
     } 
     else if(fileSize /(1024*1024) > 1){
         $('#car_err2').css('display', 'block');
         $('#car_err1').css('display', 'none');
         $('#carousel_image').attr('src', BASE_APP_URL + 'assets/images/borders/667x440@3x.png');
-        edit_error = true;
     }else {
         $('#car_err1').css('display', 'none');
         $('#car_err2').css('display', 'none');
@@ -134,6 +129,7 @@ function handleCarouselImage(e) {
             $('#carousel_image').attr('src',event.target.result);
         }
         reader.readAsDataURL(e.target.files[0]);
+        err4 = false
     }
 }
 
@@ -152,13 +148,11 @@ function handleExploreImage(e) {
         $('#ex_err1').css('display', 'block');
         $('#ex_err2').css('display', 'none');
         $('#explore_image').attr('src', BASE_APP_URL + 'assets/images/borders/650x688@3x.png');
-        edit_error = true;
     } 
     else if(fileSize /(1024*1024) > 1){
         $('#ex_err2').css('display', 'block');
         $('#ex_err1').css('display', 'none');
         $('#explore_image').attr('src', BASE_APP_URL + 'assets/images/borders/650x688@3x.png');
-        edit_error = true;
     }else {
         $('#ex_err1').css('display', 'none');
         $('#ex_err2').css('display', 'none');
@@ -169,18 +163,19 @@ function handleExploreImage(e) {
             $('#explore_image').attr('src',event.target.result);
         }
         reader.readAsDataURL(e.target.files[0]);
+        err5 = false
     }
 }
 
 function createProduct() {
-    if(edit_error == fasle) {
-        ('#product_add').submit();
+    if(err1 == false && err2 == false && err3 == false && err4 == false && err5 == false) {
+        $('#product_add').submit();
     }
 }
 
 function saveProduct() {
-    if(edit_error == fasle) {
-        ('#product_edit').submit();
+    if(err1 == false && err2 == false && err3 == false && err4 == false && err5 == false) {
+        $('#product_edit').submit();
     }
 }
 

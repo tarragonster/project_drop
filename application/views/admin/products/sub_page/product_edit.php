@@ -189,7 +189,7 @@
             <div class="bottom">
                 <div style='margin-top: 16px' class="col-md-12">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-update" name='cmd' value='Save' onclick="saveProduct()">Update</button>
+                        <button type="button" class="btn btn-update" value='Save' onclick="saveProduct()">Update</button>
                     </div>
                 </div>
             </div>
