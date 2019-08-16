@@ -1,5 +1,5 @@
 <div class="section-content">
-    <form action="" method="get">
+    <!-- <form action="" method="get"> -->
         <?php
         $numb = 0;
         if(!empty($episodes)){ foreach ($episodes as $key=>$value){
@@ -19,7 +19,7 @@
 								class="sortable" season-id="<?php echo $key?>">
 								<input type="hidden" name="dragging" id='<?php echo 'dragging-item-' . $key?>' value="0"/>
 				                <?php if(!empty($value)){ foreach ($value as $keyP=>$valueP){?>
-				                    <li id="block_<?php echo $valueP['episode_id']; ?>" data-id="<?php echo $valueP['episode_id']; ?>">
+			                    <li id="block_<?php echo $valueP['episode_id']; ?>" data-id="<?php echo $valueP['episode_id']; ?>">
 				                    <input type="hidden" name="positions[<?php echo $valueP['episode_id']?>]" value="1">
 				                    <input type="hidden" name="season_id" value="<?php echo $valueP['season_id']?>">
 				                    <div class="card-box card-sorting row">
@@ -96,7 +96,7 @@
             </table>
         </div>
     <?php } }?>
-    </form>
+    <!-- </form> -->
 </div>
 <div class="modal fade" id="dis-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog">

@@ -193,7 +193,7 @@ if($this->session->flashdata('error')){
 					<img src="<?php echo base_url('assets/images/quit.jpg')?>">
 				</div>
 				<div class="modal-description">
-					<h2>Are You Sure?</h2>
+					<h2>Are you sure?</h2>
 					<p>Type "DELETE" in the box below to proceed. <br> You will not be able to undo this.</p>
 					<input type="text" id="text-confirm">
 				</div>

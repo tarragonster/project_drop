@@ -38,7 +38,7 @@ $(".sortable").sortable({
             url: $(this).attr('data-url'),
             data: $('#' + $(this).attr('data-form-id')).serialize(),
             success: function (data) {
-                if (!data.success) {
+                if (data.success) {
                     location.reload();
                 }
                 console.log(JSON.stringify(data)); // show response from the php script.
