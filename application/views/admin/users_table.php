@@ -12,10 +12,10 @@
                              src="<?= media_thumbnail($row['avatar'], 70) ?>"/>
                     </div>
                     <?php if($row['user_type'] == 1){ ?>
-                        <div><img src="<?= base_url('assets/imgs/Btag-orange.svg') ?>" alt=""></div>
+                        <span class="outer-tag"><img src="<?= base_url('assets/imgs/Btag-orange.svg') ?>" alt=""></span>
                     <?php } ?>
                     <?php if($row['user_type'] == 2){ ?>
-                        <div><img src="<?= base_url('assets/imgs/Curator.svg') ?>" alt=""></div>
+                        <span class="outer-tag"><img src="<?= base_url('assets/imgs/Curator.svg') ?>" alt=""></span>
                     <?php } ?>
                 </td>
                 <td class="header-item-content item-style"><?php echo $row['user_id'] ?></td>

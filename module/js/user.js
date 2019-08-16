@@ -163,6 +163,7 @@ var User = /** @class */ (function () {
         };
         this.sendAjaxRequest(function (data) {
             $('#view-note-content').html(data.confirmContent);
+            model.switch = true;
         });
     };
     User.prototype.editReportNote = function () {
@@ -309,6 +310,12 @@ function SaveUpdateProfile() {
     }
 }
 $('#view-user-popup').on('hidden.bs.modal', function () {
+    if (model.switch == true) {
+        location.reload();
+        model.switch = false;
+    }
+});
+$('#view-note-popup').on('hidden.bs.modal', function () {
     if (model.switch == true) {
         location.reload();
         model.switch = false;

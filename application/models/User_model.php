@@ -145,7 +145,7 @@ class User_model extends BaseModel {
 
 	public function removeWatch($id) {
 		$this->db->where('id', $id);
-		$this->db->delete('watch_list');
+		$this->db->delete('user_watch');
 	}
 
 	public function checkFollower($user_id, $follower_id) {
