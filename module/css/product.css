@@ -59,6 +59,7 @@
 }
 .table > tbody > tr > td:nth-child(9) {
     font-size: 12px;
+    width: 9%;
     font-family: 'AvenirNext-DemiBold';
     letter-spacing: 0.8px;
 }
@@ -215,6 +216,12 @@ table.dataTable thead .sorting_desc:after {
     color: #fff; 
     text-decoration: none;
 }
+.text-success {
+    color: #5DE64E;
+}
+.text-danger {
+    color: #FE3824;
+}
 /*STORY LIST*/
 
 /*STORY FORM*/
@@ -239,6 +246,8 @@ hr {
 .form-group input {
     height: 25px;
     color: #403F3F;
+    letter-spacing: 0.87px;
+    font-family: 'AvenirNext-Medium';
 }
 .form-group select {
     color: #403F3F;
@@ -250,6 +259,9 @@ hr {
 .form-group #text-area-des {
     border: 1px solid #979797;
     border-radius: 10px;
+    font-family: 'AvenirNext-Medium';
+    font-size: 13px;
+    color: #403F3F;
 }
 .ms-choice>span.placeholder {
     color: #403F3F;
@@ -320,6 +332,9 @@ hr {
     padding-top: 5px;
     font-size: 12px;
     display: none;
+}
+.ms-options-wrap.ms-has-selections > button {
+    color: #403F3F;
 }
 /*STORY FORM*/
 

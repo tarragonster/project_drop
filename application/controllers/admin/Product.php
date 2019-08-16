@@ -121,8 +121,7 @@ class Product extends Base_Controller {
 	public function add() {
 		$this->load->model("collection_model");
 		$this->load->model('preview_model');
-		$cmd = $this->input->post('cmd');
-		if ($cmd != '') {
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
 			$params = array();
 			$params['name'] = $this->input->post('name');
 			$params['description'] = $this->input->post('description');
@@ -202,10 +201,7 @@ class Product extends Base_Controller {
 				$this->product_genres_model->insert($paramsGenre);
 			}
 			
-			if ($cmd == 'Save') {
-				$this->session->set_flashdata('msg', 'Add success!');
-				redirect(base_url('product'));
-			}
+			redirect(base_url('product'));
 		}
 		
 		$rates = $this->product_model->getRates();
