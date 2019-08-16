@@ -827,10 +827,13 @@ class User_model extends BaseModel {
     }
 
     public function getUserComments($user_id, $isMe = true) {
-        $this->db->select('c.*,e.*, c.status as comment_status');
+        $this->db->select('c.*,e.*, c.status as comment_status,cr.report_id as comment_reportId');
         $this->db->from('comments c');
         $this->db->where('c.user_id', $user_id);
-        $this->db->join('episode e','c.episode_id = e.episode_id');
+        $this->db->join('comment_reports cr','c.comment_id = cr.comment_id','LEFT');
+        $this->db->join('episode e','c.episode_id = e.episode_id','LEFT');
+        $this->db->group_by('c.comment_id');
+
         return $this->db->get()->result_array();
     }
 

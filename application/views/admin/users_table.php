@@ -34,9 +34,9 @@
 
                 <td class="header-item-content item-style"><?php echo date('m/d/Y h:iA', $row['joined']) ?></td>
                 <?php if($row['user_status'] == 1){ ?>
-                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span class="text-uppercase">Enable</span></td>
+                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span class="text-uppercase">Enabled</span></td>
                 <?php }elseif($row['user_status'] == 0){ ?>
-                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;<span class="text-uppercase">Disable</span></td>
+                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;<span class="text-uppercase">Disabled</span></td>
                 <?php }else{ ?>
                     <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="red">&nbsp;<span class="text-uppercase">User Deleted</span></td>
                 <?php } ?>

@@ -64,7 +64,7 @@
                                             <?php }elseif ($row['report_status'] == 'disable'){ ?>
                                                 <td class="header-item-content item-style status-tb">
                                                     <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;
-                                                    <span class="text-uppercase">User Disable</span>
+                                                    <span class="text-uppercase">User Disabled</span>
                                                 </td>
                                             <?php }elseif ($row['report_status'] == 'rejected'){ ?>
                                                 <td class="header-item-content item-style status-tb">
