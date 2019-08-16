@@ -1222,3 +1222,10 @@ label[for='upload-photo']{
 #customDropdown li{
     cursor: pointer;
 }
+#bio-error{
+    margin-top: 7px;
+}
+#note-error{
+    margin-top: 7px;
+
+}

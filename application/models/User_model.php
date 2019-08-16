@@ -417,7 +417,8 @@ class User_model extends BaseModel {
 
     protected function makeQuery($conditions = array()) {
 	    $this->db->select('u.*, u.status as user_status');
-        $this->db->from('user u');
+        $this->db->where('u.is_deleted',0);
+	    $this->db->from('user u');
 
         if (!empty($conditions['key'])) {
             $this->makeSearchQuery(['lower(u.user_name)','lower(u.full_name)','lower(u.user_id)','lower(u.email)'], strtolower($conditions['key']));
@@ -856,9 +857,10 @@ class User_model extends BaseModel {
 	}
 
 	public function getListWatching($user_id, $page = -1, $isMe = true) {
-		$this->db->select('w.id, w.user_id,w.added_at, p.*, w.is_hidden');
+		$this->db->select('w.id, w.user_id,w.added_at, p.*, w.is_hidden,uw.update_time');
 		$this->db->from('watch_list w');
 		$this->db->join('product_view p', 'p.product_id = w.product_id');
+		$this->db->join('user_watch uw','w.user_id=uw.user_id','LEFT');
 		$this->db->where('w.user_id', $user_id);
 		if (!$isMe) {
 			$this->db->where('w.is_hidden', 0);
@@ -1075,7 +1077,7 @@ class User_model extends BaseModel {
 
     public function deleteUserStatus($user_id){
         $this->db->where('user_id',$user_id);
-        $this->db->update('user',array('status'=>'2'));
+        $this->db->update('user',array('is_deleted'=>1));
 
         $this->db->where('user_id',$user_id);
         $this->db->update('user_reports',array('status'=>'deleted'));

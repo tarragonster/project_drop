@@ -2,7 +2,7 @@
     <div class="word-section">
         <span class="edit-pick-title">Edit Review</span><br>
         <span class="intro-tag">Film Name:</span>&nbsp;<span class="detail-tag"><?php echo $name ?></span><br>
-        <span class="intro-tag">Username:</span>&nbsp;<span class="detail-tag"><?php echo $full_name ?>&nbsp;@<?php echo $user_name ?></span>
+        <span class="intro-tag">Username:</span>&nbsp;<span class="detail-tag"><?php echo $full_name ?>&nbsp;-&nbsp;@<?php echo $user_name ?></span>
     </div>
     <div class="box-section" style="padding-top: 30px">
         <div contenteditable class="form-control style-edit-input quote-input"><?php echo $quote; ?></div>

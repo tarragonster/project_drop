@@ -11,6 +11,7 @@ class User extends Base_Controller {
 	}
 
 	public function index($page = 1) {
+        $this->customJs[] = '';
         $conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
 
@@ -108,7 +109,7 @@ class User extends Base_Controller {
 
 		$data = array();
 		$data['customCss'] = array('assets/css/settings.css','module/css/user.css');
-		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js');
+		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js','assets/js/jquery.validate.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
@@ -491,7 +492,7 @@ class User extends Base_Controller {
 		$data['account'] = $this->account;
 		$data['content'] = $content;
         $data['customCss'] = array('assets/css/settings.css','module/css/user.css');
-        $data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js');
+        $data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js','assets/js/jquery.validate.js');
 
         $this->load->view('admin_main_layout', $data);
 	}
