@@ -802,6 +802,9 @@ table, th, td {
     font-size: 11px;
     font-family: 'AvenirNext-Medium';
 }
+.tab-content p {
+    font-size: 14px;
+}
 .genre-mess-box {
     border: 2px solid #c7c8cb;
     border-radius: 10px;

@@ -643,7 +643,6 @@ class Product extends Base_Controller {
 		} else {
 			$this->session->set_flashdata('msg', 'Edit success!');
 			$this->product_model->updatePriority(['is_hidden' => 1], $pick_id);
-			return $this->manageReview($product_id);
 		}
 	}
 
@@ -657,7 +656,6 @@ class Product extends Base_Controller {
 		} else {
 			$this->session->set_flashdata('msg', 'Edit success!');
 			$this->product_model->updatePriority(['is_hidden' => 0], $pick_id);
-			return $this->manageReview($product_id);
 		}
 	}
 
@@ -671,7 +669,6 @@ class Product extends Base_Controller {
 		} else {
 			$this->session->set_flashdata('msg', 'Edit success!');
 			$this->product_model->deletePick($pick_id);
-			return $this->manageReview($product_id);
 		}
 	}
 
@@ -746,8 +743,25 @@ class Product extends Base_Controller {
 		$this->customCss[] = 'module/css/product.css';
 		$this->customCss[] = 'module/css/season.css';
 		$this->customJs[] = 'module/js/coreTable.js';
-		$this->customJs[] = 'module/js/product.js';
+		// $this->customJs[] = 'module/js/product.js';
+		$this->customJs[] = 'module/js/season.js';
 		$this->render('/products/product_manage', $params, 3, 34);
+	}
+
+	public function sortableSeason($season_id = 0) {
+		header('Content-Type: application/json');
+		$response = ['success' => false];
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			$dragging_id = $this->input->post('dragging');
+			$positions = $this->input->post('positions');
+			// $episodes = $this->episode_model->getEpisodesOfSeason($season_id);
+			$ids = array_keys($positions);
+			foreach ($ids as $key => $id) {
+				$this->episode_model->update(['position' => $key + 1], $id);
+			}
+			$response['success'] = true;
+		}
+		echo json_encode($response);
 	}
 
 	public function createSeason() {
@@ -770,6 +784,34 @@ class Product extends Base_Controller {
 		$product_id = $this->input->get('product_id');
 
 		$episode = $this->episode_model->getEpisodeById($episode_id);
-		print_r($episode);die();
+		if(empty($episode)) {
+			return $this->manageSeason($product_id);
+		}else {
+			$this->episode_model->update(['status' => 0], $episode_id);
+		}
+	}
+
+	public function enableEpisode() {
+		$episode_id = $this->input->get('episode_id');
+		$product_id = $this->input->get('product_id');
+
+		$episode = $this->episode_model->getEpisodeById($episode_id);
+		if(empty($episode)) {
+			return $this->manageSeason($product_id);
+		}else {
+			$this->episode_model->update(['status' => 1], $episode_id);
+		}
+	}
+
+	public function deleteEpisode() {
+		$episode_id = $this->input->get('episode_id');
+		$product_id = $this->input->get('product_id');
+
+		$episode = $this->episode_model->getEpisodeById($episode_id);
+		if(empty($episode)) {
+			return $this->manageSeason($product_id);
+		}else {
+			$this->episode_model->delete($episode_id);
+		}
 	}
 }

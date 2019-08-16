@@ -255,6 +255,7 @@ class Episode_model extends BaseModel {
                 $this->db->order_by($conditions['sort_by'], 'asc');
             }
         }
+        $this->db->order_by('position');
 		return $this->db->get($this->table)->result_array();
 	}
 
@@ -268,6 +269,11 @@ class Episode_model extends BaseModel {
 		$this->db->where_in('episode_id', $episode_ids);
 		$this->db->from('episode_like');
 		return $this->db->get()->result_array();
+	}
+
+	public function getEpisodesOfSeason($season_id) {
+		$this->db->where('season_id', $season_id);
+		return $this->db->get($this->table)->result_array();	
 	}
 
 }

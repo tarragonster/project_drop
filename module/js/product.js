@@ -36,13 +36,14 @@ $('#genre_id').multiselect({
 // Sorting
 $(".sortable").sortable({
     update: function (event, data) {
+        console.log($('#form-data').serialize())
         $.ajax({
             type: "POST",
             url: $(this).attr('data-url'),
             data: $('#form-data').serialize(),
             success: function (data) {
                 if (!data.success) {
-                    location.reload();
+                    // location.reload();
                 }
                 console.log(JSON.stringify(data)); // show response from the php script.
             }
@@ -81,33 +82,4 @@ $('body').delegate('.btn_action', 'click', function(e) {
     });
 });
 
-// Actions of Season
-$('body').delegate('.btn_season', 'click', function(e) {
-    e.preventDefault();
 
-    var episode_id = $(this).data('id');
-    var product_id = $(this).data('product');
-    
-    $('.dis-confirm').click(function(){
-        $.get(BASE_APP_URL + 'product/disableEpisode', {episode_id:episode_id, product_id:product_id}, function(data){
-            $(this).attr('data-dismiss', 'modal');
-            // location.reload();
-        });
-    });
-
-    $('.en-confirm').click(function(){
-        $.get(BASE_APP_URL + 'product/enableBlock', {episode_id:episode_id, product_id:product_id}, function(data){
-            $(this).attr('data-dismiss', 'modal');
-            // location.reload();
-        });
-    });
-
-    $('.del-confirm').click(function(){
-        if ($('#text-confirm').val() == 'DELETE') {
-            $.get(BASE_APP_URL + 'product/deleteBlock', {episode_id:episode_id, product_id:product_id}, function(data){
-                $(this).attr('data-dismiss', 'modal');
-                // location.reload();
-            });
-        }
-    });
-});
