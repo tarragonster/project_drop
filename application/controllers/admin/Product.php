@@ -810,4 +810,47 @@ class Product extends Base_Controller {
 			$this->episode_model->delete($episode_id);
 		}
 	}
+
+	public function ajaxProduct() {
+		$key = $this->input->post('key');
+		$product_id = $this->input->post('product_id');
+	
+		$data['product'] = $this->product_model->getProductById($product_id);		
+		$data['seasons'] = $this->season_model->getSeasonByProduct($product_id);
+		$data['product_id'] = $product_id;
+
+		if ($key == 'add-block') {
+			$this->load->view('admin/products/sub_page/add_episode', $data);
+		}else {
+			$this->load->view('admin/products/sub_page/edit_episode', $data);
+		}
+	}
+
+	public function addEpisode() {
+		$product_id = $this->input->post('product_id');
+        $episode_name = $this->input->post('episode_name');
+        $season_id = $this->input->post('season_id');
+        $jw_media_id = $this->input->post('jw_media_id');
+        $description = $this->input->post('description');
+
+        $image = isset($_FILES['block_img']) ? $_FILES['block_img'] : null;
+        $this->load->model('file_model');
+        if ($image != null && $image['error'] == 0) {
+            $path = $this->file_model->createFileName($image, 'media/films/', 'film');
+            $this->file_model->saveFile($image, $path);
+            $episode_image = $path;
+        }
+        $max_position = $this->episode_model->getPosition($season_id);
+        $params = array(
+            'name' => $episode_name,
+            'season_id' => $season_id,
+            'jw_media_id' => $jw_media_id,
+            'position' => $max_position + 1,
+            'image' => $episode_image,
+            'created' => time(),
+            'description' => $description
+        );
+        $this->episode_model->insert($params);
+        $this->redirect('product/manageSeason/' . $product_id);
+    }
 }
