@@ -172,4 +172,6 @@ class Episode extends Base_Controller {
         $this->episode_model->down($season_id, $episode['position'], $episode_id);
         redirect('season/episode/'.$season_id);
     }
+
+    
 }
