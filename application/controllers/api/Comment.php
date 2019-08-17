@@ -120,26 +120,28 @@ class Comment extends BR_Controller {
 			$this->notify_model->createNotifyToFollower($this->user_id, 10, $meta, 'default', true);
 		}
 		$users = $this->__checkMentioned($content, $this->user_id);
-		if (count($users) > 0) {
-			$this->load->model('notify_model');
-			// notify to user has been mentioned
-			$meta = [
-				'user_id' => $this->user_id,
-				'episode_id' => $episode_id,
-				'uid_comment' => $uid_comment,
-				'product_id' => $product_id
-			];
-			$this->notify_model->createNotifyMany($users, 52, $meta);
+		if(!empty($users)) {
+			if (count($users) > 0) {
+				$this->load->model('notify_model');
+				// notify to user has been mentioned
+				$meta = [
+					'user_id' => $this->user_id,
+					'episode_id' => $episode_id,
+					'uid_comment' => $uid_comment,
+					'product_id' => $product_id
+				];
+				$this->notify_model->createNotifyMany($users, 52, $meta);
 
-			// notify to following user mentioning
-			$meta = [
-				'user_id' => $this->user_id,
-				'episode_id' => $episode_id,
-				'product_id' => $product_id
-			];
-			foreach ($users as $user) {
-				$meta['uid_comment'] = $user['user_id'];
-				$this->notify_model->createNotifyToFollower($this->user_id, 11, $meta, 'default', true);
+				// notify to following user mentioning
+				$meta = [
+					'user_id' => $this->user_id,
+					'episode_id' => $episode_id,
+					'product_id' => $product_id
+				];
+				foreach ($users as $user) {
+					$meta['uid_comment'] = $user['user_id'];
+					$this->notify_model->createNotifyToFollower($this->user_id, 11, $meta, 'default', true);
+				}
 			}
 		}
 		$comment['num_like'] = 0;
