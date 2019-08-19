@@ -114,14 +114,14 @@ File: Responsive
     width: 1170px;
   }
 }
-@media (max-width: 419px) {
-  .topbar-left {
-    width: 70px !important;
-  }
-  .logo .icon-c-logo {
-    display: inline-block !important;
-  }
-  .logo span {
-    display: none !important;
-  }
-}
+/*@media (max-width: 419px) {*/
+/*  !*.topbar-left {*!*/
+/*  !*  width: 70px !important;*!*/
+/*  !*}*!*/
+/*  !*.logo .icon-c-logo {*!*/
+/*  !*  display: inline-block !important;*!*/
+/*  !*!*}*!*!*/
+/*  !*!*.logo span {*!*!*/
+/*  !*!*  display: none !important;*!*!*/
+/*  !*!*}*!*!*/
+/*}*/

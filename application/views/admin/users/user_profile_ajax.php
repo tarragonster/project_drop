@@ -37,7 +37,7 @@
 <div class="outer-content">
     <div class="tab-content">
         <div id="profile" class="tab-pane fade in<?=  $active== 'profile' ? ' active' : '' ?>">
-            <form action="" method='POST' id="form-update" enctype = 'multipart/form-data'>
+            <form action="" method='POST' class="outer-profile" id="form-update" enctype = 'multipart/form-data'>
                 <div class="row inner-profile" style="margin: 0">
                     <div class="upper-info">
                         <div class="left-info">
@@ -80,11 +80,37 @@
                                     </tr>
                                     <tr>
                                         <td style="padding-left: 0!important;" class="first-column">Feature:</td>
-                                        <td class="next-column"></td>
+                                        <td class="next-column">
+                                            <?php if($isEdit == 'true'){ ?>
+                                                <label class="cnt">
+                                                    <input type="checkbox" <?php echo $user['feature_id'] != ''? 'checked = "checked"': null ?>>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            <?php }else{ ?>
+                                                <?php if($user['feature_id'] != ''){ ?>
+                                                    <span>Yes</span>
+                                                <?php }else{ ?>
+                                                    <span>No</span>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="padding-left: 0!important;" class="first-column">Curator:</td>
-                                        <td class="next-column"></td>
+                                        <td class="next-column">
+                                            <?php if($isEdit == 'true'){ ?>
+                                                <label class="cnt">
+                                                    <input type="checkbox" <?php echo $user['user_type'] == 2 ? 'checked = "checked"': null ?>>
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            <?php }else{ ?>
+                                                <?php if($user['user_type'] == 2){ ?>
+                                                    <span>Yes</span>
+                                                <?php }else{ ?>
+                                                    <span>No</span>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="padding-left: 0!important;vertical-align: text-top;padding-top: 5px!important;" class="first-column">Bio:</td>
@@ -205,7 +231,7 @@
                         <thead>
                         <tr>
                             <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>
-                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Picks</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Story Name</th>
                             <th style="width: 18%;padding: 0!important; height: 24px!important;">Date</th>
                             <th style="width: 22%;padding: 0!important; height: 24px!important;">Status</th>
                             <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
