@@ -25,7 +25,7 @@
                 </td>
                 <td class="header-item-content item-style"><?php echo $row['email'] ?></td>
                 <td class="header-item-content item-style">Comments:&nbsp;<?php echo $row['total_comment'] ?> <br>
-                    Thumbs&nbsp;up:&nbsp;<?php echo $row['total_like'] ?> <br>
+                    Thumbs&nbsp;up:&nbsp;<?php echo $row['sum_like'] ?> <br>
                     Picks:&nbsp;<?php echo $row['total_pick'] ?>
                 </td>
 
