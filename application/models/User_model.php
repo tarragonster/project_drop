@@ -858,7 +858,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getUserPicks($user_id, $isMe = true) {
-		$this->db->select('up.pick_id as id, up.created_at, up.pick_id, p.*, up.quote, up.is_hidden, up.status as up_status');
+		$this->db->select('up.pick_id as id,up.product_id, up.created_at, up.pick_id, p.*, up.quote, up.is_hidden, up.status as up_status');
 		$this->db->from('user_picks up');
 		$this->db->where('up.user_id', $user_id);
 		if (!$isMe) {
@@ -1196,5 +1196,19 @@ class User_model extends BaseModel {
     public function deleteFeature($user_id){
 	    $this->db->where('user_id', $user_id);
 	    $this->db->delete('featured_profiles');
+    }
+
+    public function deleteEpisodeLike($episodeLike_id){
+	    $this->db->where('id',$episodeLike_id);
+        $this->db->delete('episode_like');
+    }
+
+    public function deleteProductLike($productLike_id){
+        $this->db->where('id',$productLike_id);
+        $this->db->delete('product_likes');
+    }
+    public function deleteCommentLike($commentLike_id){
+        $this->db->where('id',$commentLike_id);
+        $this->db->delete('comment_like');
     }
 }

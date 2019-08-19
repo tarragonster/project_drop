@@ -182,7 +182,7 @@
 
 .noSortHeaderVersion{
 
-    width: 7%;
+    width: 10%;
 
 }
 
@@ -349,8 +349,7 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .status-tb{
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
-    font-weight: 600;
+    font-weight: 900!important;
     font-size: 12px!important;
 
 }
@@ -662,7 +661,7 @@ table.dataTable thead .sorting_desc:after {
 
 .next-column{
     width: 215px!important;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: normal!important;
     font-size: 13px!important;
     color: #403F3F!important;
 }
@@ -731,6 +730,7 @@ table.dataTable thead .sorting_desc:after {
 .title-stats span{
 
     font-family: "Avenir Next";
+    font-weight: normal;
     font-size: 14px;
     color: #505458;
 }
@@ -1311,4 +1311,20 @@ table.dataTable thead .sorting_desc:after {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+#episodeLike-confirm-delete-error{
+    position: absolute;
+    top: 33px;
+    padding-left: 21px;
+    color: #E62C30;
+    width: 100%;
+}
+
+#productLike-confirm-delete-error{
+    position: absolute;
+    top: 33px;
+    padding-left: 21px;
+    color: #E62C30;
+    width: 100%;
 }

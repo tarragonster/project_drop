@@ -30,6 +30,9 @@ class User{
     watch_id:number;
     comment_id:number;
     report_id:number;
+    episodeLike_id:number;
+    productLike_id:number;
+    commentLike_id:number;
     note:string;
 
     sendAjaxRequest(_callback) {
@@ -316,6 +319,42 @@ class User{
             location.reload()
         })
     }
+
+    confirmDeleteEpisodeLike(){
+        this.url = '/user/deleteEpisodeLike/' + this.episodeLike_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.switch = true;
+            model.active = 'thumb-up';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide')
+        })
+    }
+
+    confirmDeleteProductLike(){
+        this.url = '/user/deleteProductLike/' + this.productLike_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.switch = true;
+            model.active = 'thumb-up';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide')
+        })
+    }
+    confirmDeleteCommentLike(){
+        this.url = '/user/deleteCommentLike/' + this.commentLike_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.switch = true;
+            model.active = 'thumb-up';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide')
+        })
+    }
+
 }
 
 let model = User.object;
@@ -700,6 +739,14 @@ $(document).ready(function(){
     $.validator.addMethod('filesize', function (value, element, param) {
         return this.optional(element) || (element.files[0].size <= param)
     }, 'File size must be less than 1MB');
+
+    $.validator.addMethod("confirmInput", function(value, element) {
+        if(this.optional(element) || value == "REMOVE") {
+            return true;
+        }else{
+            return false;
+        }
+    },'Sorry, it must be confirmed by typing "REMOVE" into input box above');
 });
 
 function ShowEditNote(event){
@@ -721,4 +768,65 @@ function AddCurator(event){
 function RemoveTag(event){
     model.user_id = $(event).data('user_id');
     model.removeTag()
+}
+
+function showDeleteEpisodeLike(event){
+    model.episodeLike_id = $(event).data('el_id');
+    $('#delete-episode-like').modal('show');
+}
+
+function ConfirmDeleteEpisodeLike(){
+    $('#form-episodeLike-delete').validate({
+        rules: {
+            confirmDelete: {
+                required: true,
+                confirmInput:true
+            },
+
+        },
+    });
+    let validatedata = $("#form-episodeLike-delete").valid();
+    if(validatedata ==true){
+        model.confirmDeleteEpisodeLike();
+    }
+}
+
+function ShowDeleteProductLike(event){
+    model.productLike_id = $(event).data('pl_id');
+    $('#delete-product-like').modal('show');
+}
+
+function ConfirmDeleteProductLike(){
+    $('#form-productLike-delete').validate({
+        rules: {
+            confirmDeletePL: {
+                required: true,
+                confirmInput:true
+            },
+        },
+    });
+    let validatedata = $("#form-productLike-delete").valid();
+    if(validatedata ==true){
+        model.confirmDeleteProductLike();
+    }
+}
+
+function ShowDeleteCommentLike(event){
+    model.commentLike_id = $(event).data('cl_id');
+    $('#delete-product-like').modal('show');
+}
+
+function ConfirmDeleteCommentLike(){
+    $('#form-commentLike-delete').validate({
+        rules: {
+            confirmDeleteCL: {
+                required: true,
+                confirmInput:true
+            },
+        },
+    });
+    let validatedata = $("#form-commentLike-delete").valid();
+    if(validatedata ==true){
+        model.confirmDeleteCommentLike();
+    }
 }
