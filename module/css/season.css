@@ -5,12 +5,11 @@
 .hub-faq-title span {
     border-radius: 5px;
     background-color: #505458;
-    padding: 0px 6px;
+    padding: 0px 5px;
     font-size: 11px;
     letter-spacing: 0.28px;
     color: #ffffff;
     clear: both;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
 }
 .hub-faq-title {
@@ -60,13 +59,11 @@ table.dataTable thead .sorting_desc:before {
 }
 .table > thead:first-child > tr:first-child > th {
     color: #9B9B9B;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
 }
 .status {
     font-size: 12px;
     letter-spacing: 0.8px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
 }
 .title-create-season {
@@ -408,29 +405,29 @@ table.dataTable thead .sorting_desc:before {
     float: right;
     margin: 15px 0;
     color: #ffffff;
+    font-weight: 500;
 }
 .custom-tab {
     text-transform: uppercase;
     letter-spacing: 0.73px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
 }
 .custom-tab h4 {
     font-size: 14px;
     letter-spacing: 0.73px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
 }
 .custom-tab label {
     color: #9B9B9B;
     font-size: 11px;
+    font-weight: 600;
 }
 #upload-img {
     margin-left: 60px; 
 }
 .uploader {
     width: 31%;
-    margin-top: 10px;
+    margin-top: 3px;
     background: transparent;
     border-radius: 11px;
     position: relative;
@@ -443,7 +440,6 @@ table.dataTable thead .sorting_desc:before {
     padding: 3px 10px;
     font-size: 11px;
     letter-spacing: 0.73px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
 }
 .imagePhoto {
@@ -459,15 +455,22 @@ table.dataTable thead .sorting_desc:before {
     border-radius: 10px !important;
     padding: 5px;
     width: 100%;
-    color: #9B9B9B;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #403F3F;
     font-weight: 500;
 }
 .err-format, .err-size, .mess_err {
     text-transform: initial;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     color: #E70808;
 }
-
+.modal-title-name {
+    font-weight: normal;
+    font-size: 36px;
+    color: #403F3F;
+}
+.modal-content .modal-description p {
+    margin-top: 0;
+    color: #4A4A4A;
+    font-weight: 500;
+}
 /*End Modal*/

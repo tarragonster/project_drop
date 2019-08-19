@@ -33,7 +33,7 @@
     padding: 3px 10px 2px;
     font-size: 11px;
     letter-spacing: 0.73px;
-    font-family: 'AvenirNext-Medium';
+    font-weight: 500;
 }
 #poster_image {
     width: 70px;
@@ -164,7 +164,6 @@
     margin-top: 0;
     /*margin-bottom: 48px;*/
     color: #4A4A4A;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
 }
 .modal-content .modal-description input {
@@ -211,4 +210,7 @@ element.style {
 div.per_page select {
     border-radius: 20px;
     width: 60px;
+}
+.display-flex {
+    display: flex;
 }
