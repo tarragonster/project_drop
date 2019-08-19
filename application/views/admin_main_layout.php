@@ -96,11 +96,11 @@
 								<button type="button" class="btn btn-header">
 									<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Add New&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></a>
 									<ul class="dropdown-menu" role="menu" style="min-width: 87px;left: unset;top: 46px;">
-										<li class="edit-season-btn" data-id="">
+										<li class="add-season-btn" data-product="<?php echo $this->session->userdata('product_id')?>">
 											<a href="">Add season</a>
 										</li>
 										<li class="add-block-btn" data-product="<?php echo $this->session->userdata('product_id')?>" data-toggle="modal" data-target="#add-block-popup">
-											<a href="#">Add block</a>
+											<a href="">Add block</a>
 										</li>
 									</ul>
 								</button>

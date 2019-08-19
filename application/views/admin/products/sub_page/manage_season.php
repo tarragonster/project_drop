@@ -32,17 +32,17 @@
 				                        <div class="col-sm-3 sortable-box width-12">
 			                                <?= $valueP['position'] ?>
 			                            </div>
-			                            <div class="col-sm-3 sortable-box width-25">
+			                            <div class="col-sm-3 sortable-box width-25" style="flex-grow: 5">
 			                                <?= $valueP['name'] ?>
 				                        </div>
-				                        <div class="col-sm-3 sortable-box width-13">
+				                        <div class="col-sm-3 sortable-box width-13" style="flex-grow: 2">
 			                                Comments:&nbsp;<?= $valueP['total_cmt'] ?> <br>
 			                                Thumbs&nbsp;up:&nbsp;<?= $valueP['total_like']?>
 				                        </div>
-				                        <div class="col-sm-3 sortable-box width-15">
+				                        <div class="col-sm-3 sortable-box width-15" style="flex-grow: 3">
 			                                <?= date('m/d/Y H:iA', $valueP['created']) ?>
 				                        </div>
-				                        <div class="col-sm-3 sortable-box width-5 status">
+				                        <div class="col-sm-3 sortable-box width-5 status" style="flex-grow: 1">
 				                        	<?php if($valueP['status'] == 0): ?>
 				                                <i class="fa fa-circle text-danger" style="font-size: 60%;"></i>&nbsp;&nbsp;
 				                                <span>DISABLED</span>
@@ -56,7 +56,7 @@
 												<i type="button" style="font-size: 36px; color: #c7c7c7; line-height: 25px;" class="md md-more-horiz m-r-5 dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></i>
 												<ul class="dropdown-menu" role="menu" style="min-width: 87px">
 													<div class="dropdown-arrow"></div>
-													<li class="edit-season-btn" data-id="<?php echo $valueP['episode_id']; ?>">
+													<li class="edit-block-btn" data-id="<?php echo $valueP['episode_id']; ?>" data-product="<?php echo $product_id ?>" data-toggle="modal" data-target="#edit-block-popup">
 														<a href="">Edit
 															<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/edit.svg')?>"></span>
 														</a>
