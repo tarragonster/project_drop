@@ -69,6 +69,12 @@ class User extends Base_Controller {
             $likes = ($this->user_model->getAllLike($user_ids));
             $likes= Hash::combine($likes,'{n}.id','{n}','{n}.user_id');
 
+            //todo get Product Like by user_ids
+            $product_likes = $this->user_model->getProductLike($user_ids);
+            $product_likes = Hash::combine($product_likes,'{n}.id','{n}','{n}.user_id');
+            //todo get Comment Like by user_ids
+            $comment_likes = $this->user_model->getCommentLike($user_ids);
+            $comment_likes = Hash::combine($comment_likes,'{n}.id','{n}','{n}.user_id');
             //todo Get comment by user_ids
             $comments = $this->user_model->getAllComment($user_ids);
             $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
@@ -83,13 +89,20 @@ class User extends Base_Controller {
         foreach ($users as $key=>$value){
             $users[$key]['likes'] = !empty($likes[$value['user_id']])?$likes[$value['user_id']]:[];
             $users[$key]['total_like'] = count($users[$key]['likes']) > 0 ? count($users[$key]['likes']):'0';
+            $users[$key]['product_likes'] = !empty($product_likes[$value['user_id']])?$product_likes[$value['user_id']]:[];
+            $users[$key]['total_pd_like'] = count($users[$key]['product_likes']) > 0 ? count($users[$key]['product_likes']):'0';
+            $users[$key]['comment_likes'] = !empty($comment_likes[$value['user_id']])?$comment_likes[$value['user_id']]:[];
+            $users[$key]['total_cm_like'] = count($users[$key]['comment_likes']) > 0 ? count($users[$key]['comment_likes']):'0';
             $users[$key]['comments'] = !empty($comments[$value['user_id']])?$comments[$value['user_id']]:[];
             $users[$key]['total_comment'] = count($users[$key]['comments']) > 0 ? count($users[$key]['comments']):'0';
             $users[$key]['picks'] = !empty($picks[$value['user_id']])?$picks[$value['user_id']]:[];
             $users[$key]['total_pick'] = count($users[$key]['picks']) > 0 ? count($users[$key]['picks']):'0';
             $users[$key]['version'] = !empty($version[$value['user_id']])?$version[$value['user_id']]:[];
             $users[$key]['total_version'] = count($users[$key]['version']) > 0 ? count($users[$key]['version']):'0';
+            $users[$key]['sum_like'] = $users[$key]['total_like'] + $users[$key]['total_cm_like'] + $users[$key]['total_pd_like'];
         }
+
+//        pre_print($users);
 
 		$userData['users']=$users;
         $userData['headers'] = $headers;

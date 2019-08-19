@@ -469,6 +469,22 @@ class User_model extends BaseModel {
         return $data;
     }
 
+    public function getProductLike($user_ids){
+	    $this->db->select('pl.*');
+	    $this->db->where_in('pl.user_id',$user_ids);
+	    $this->db->from('product_likes pl');
+        $data = $this->db->get()->result_array();
+        return $data;
+    }
+
+    public function getCommentLike($user_ids){
+        $this->db->select('cl.*');
+//        $this->db->where_in('cl.user_id',$user_ids);
+        $this->db->from('comment_like cl');
+        $data = $this->db->get()->result_array();
+        return $data;
+    }
+
     public function getAllComment($user_ids){
         $this->db->select('c.*');
         $this->db->where_in('c.user_id',$user_ids);
@@ -958,9 +974,18 @@ class User_model extends BaseModel {
         return $query->result_array();
     }
 
-    public function getCommentThumbUpList(){
+    public function getCommentThumbUpList($user_id, $page = -1, $isMe = true){
+        $this->db->select('c.episode_id,e.season_id,pv.name as film_name,s.product_id,e.name as episode_name,cl.added_at,cl.id as cl_id');
+        $this->db->from('comment_like cl');
+        $this->db->join('comments c', 'cl.comment_id = c.comment_id','LEFT');
+        $this->db->join('episode e','c.episode_id = e.episode_id','LEFT');
+        $this->db->join('season s','e.season_id = s.season_id','LEFT');
+        $this->db->join('product_view pv','s.product_id = pv.product_id','LEFT');
+        $this->db->where('cl.user_id',$user_id);
 
-    }
+        $query = $this->db->get();
+        return $query->result_array();
+	}
 
 	public function hiddenYourPick($pick_id, $is_hidden) {
 		$this->db->where('pick_id', $pick_id);

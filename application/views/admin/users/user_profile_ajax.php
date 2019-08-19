@@ -379,7 +379,7 @@
                                     </td>
                                     <?php if($row['status'] == 1){ ?>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Thumps Up</td>
-                                    <?php }else{ ?>
+                                    <?php }elseif($row['status'] == 0){ ?>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Thumps Down</td>
                                     <?php } ?>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
@@ -388,6 +388,33 @@
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
                                             <ul class="dropdown-menu" id="customDropdown">
                                                 <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="<?= $row['el_id'] ?>">
+                                                    <a class="drp-items"><span>Delete</span>
+                                                        <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach;
+                        } ?>
+                        <?php
+                        if ($like_comment!= null && count($like_comment) > 0) {
+                            foreach ($like_comment as $row): ?>
+                                <tr>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['product_id']; ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
+                                        <span style="font-weight: 900;!important;"><?php echo $row['film_name']; ?> - <?php echo $row['episode_name']; ?></span>
+                                    </td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Comment</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                        <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
+                                    </td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Thumps Up</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                        <div class="dropdown">
+                                                <span class="btnAction dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
+                                            <ul class="dropdown-menu" id="customDropdown">
+                                                <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="<?= $row['cl_id'] ?>">
                                                     <a class="drp-items"><span>Delete</span>
                                                         <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                                             </ul>
