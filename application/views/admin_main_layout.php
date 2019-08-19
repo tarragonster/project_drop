@@ -99,7 +99,7 @@
 										<li class="edit-season-btn" data-id="">
 											<a href="">Add season</a>
 										</li>
-										<li class="delete-genre-btn btn_action" data-id="" data-product="" data-toggle="modal" data-target="#del-modal">
+										<li class="add-block-btn" data-product="<?php echo $this->session->userdata('product_id')?>" data-toggle="modal" data-target="#add-block-popup">
 											<a href="#">Add block</a>
 										</li>
 									</ul>

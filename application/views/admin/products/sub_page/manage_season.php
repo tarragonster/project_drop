@@ -98,6 +98,26 @@
     <?php } }?>
     <!-- </form> -->
 </div>
+
+<div class="modal custom-modal below-header fade visiting right" id="add-block-popup" tabindex="-1" role="dialog">
+	<form action="<?php echo base_url('product/addEpisode')?>" method="post" id="block-form-add" enctype="multipart/form-data">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" id="add-block-form" style="padding: 0px">
+				
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal custom-modal below-header fade visiting right" id="edit-block-popup" tabindex="-1" role="dialog">
+	<form action="<?php echo base_url('product/editEpisode')?>" method="post" id="block-form-edit" enctype="multipart/form-data">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" id="edit-block-form" style="padding: 0px">
+				
+			</div>
+		</div>
+	</form>
+</div>
+
 <div class="modal fade" id="dis-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content modal-content-popup">
