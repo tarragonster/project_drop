@@ -669,7 +669,7 @@ class Product extends Base_Controller {
 	}
 
 	public function manageSeason($product_id = 0) {
-		$key = !empty($this->input->post('key')) ? $this->input->post('key') : null;
+		// $key = !empty($this->input->post('key')) ? $this->input->post('key') : null;
 		$conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
 
@@ -687,7 +687,7 @@ class Product extends Base_Controller {
 		$product = $this->product_model->checkProduct($product_id);
 		// Get seasons by product
         $seasons = $this->season_model->getSeasonByProduct($product_id);
-        if(empty($seasons) || $key == 'add-season') {
+        if(empty($seasons)) {
         	$params['page_index'] = 'create_season';
         }else {
 	        $seasons = Hash::combine($seasons,'{n}.season_id','{n}');
@@ -759,6 +759,10 @@ class Product extends Base_Controller {
 			$response['success'] = true;
 		}
 		echo json_encode($response);
+	}
+
+	public function ajaxSeason() {
+		$this->load->view('admin/products/sub_page/create_season');
 	}
 
 	public function createSeason() {

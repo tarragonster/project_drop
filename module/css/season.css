@@ -67,9 +67,9 @@ table.dataTable thead .sorting_desc:before {
     font-weight: 600;
 }
 .title-create-season {
-    font-family: 'Avenir Next';
     font-size: 36px;
     letter-spacing: 0.9px;
+    font-weight: normal;
     color: #403F3F;
     padding-bottom: 15px;
     border-bottom: 1px solid #EEEDEB;
