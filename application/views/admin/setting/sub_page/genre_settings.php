@@ -29,7 +29,7 @@
 		                        <div class="col-sm-3 col-lg-2 sortable-box width-18">
 	                                <?= date('m/d/Y h:iA', $row['created_at']) ?>
 			                    </div>
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-13" style="font-family:'AvenirNext-DemiBold';font-size: 12px;letter-spacing: 0.8px">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-13" style="font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 600;font-size: 12px;letter-spacing: 0.8px">
 		                        	<?php if($row['status'] == 0): ?>
 		                                <i class="fa fa-circle text-danger" style="font-size: 60%;"></i>&nbsp;&nbsp;
 		                                <span>DISABLED</span>

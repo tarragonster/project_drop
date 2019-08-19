@@ -182,7 +182,7 @@
                                     <tr>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['comment_id']; ?></td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
-                                            <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
+                                            <span style="font-weight: 600;!important;"><?php echo $row['name']; ?></span><br>
                                             <?php echo $row['content']; ?>
                                         </td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
@@ -244,7 +244,7 @@
                                 <tr>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['pick_id']; ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
-                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
+                                        <span style="font-weight: 600;!important;"><?php echo $row['name']; ?></span><br>
                                         <?php echo $row['quote']; ?>
                                     </td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['created_at']) ?></td>
@@ -299,7 +299,7 @@
                                 <tr>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['id']; ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
-                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
+                                        <span style="font-weight: 600;!important;"><?php echo $row['name']; ?></span><br>
                                     </td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['update_time']) ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
@@ -344,7 +344,7 @@
 <!--                                <tr>-->
 <!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;">--><?php //echo $row['pick_id']; ?><!--</td>-->
 <!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">-->
-<!--                                        <span style="font-weight: 900;!important;">--><?php //echo $row['name']; ?><!--</span><br>-->
+<!--                                        <span style="font-weight: 600;!important;">--><?php //echo $row['name']; ?><!--</span><br>-->
 <!--                                        --><?php //echo $row['quote']; ?>
 <!--                                    </td>-->
 <!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">--><?php //echo $row['created_at'] ?><!--</td>-->

@@ -47,9 +47,9 @@
     border: none;
     border-bottom: 1px solid #979797;
     background: #ffffff;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-style: normal;
-    font-weight: 500;
     font-size: 11px;
     color: #403F3F;
     height: 59px;
@@ -60,7 +60,8 @@
 .table > tbody > tr > td:nth-child(9) {
     font-size: 12px;
     width: 9%;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     letter-spacing: 0.8px;
 }
 .table > thead:first-child > tr:first-child > th {
@@ -195,7 +196,8 @@ table.dataTable thead .sorting_desc:after {
 }
 .modal-content .modal-description h2 {
     letter-spacing: 2.28px;
-    font-family: 'AvenirNext-Bold';
+    font-family: 'Avenir Next';
+    font-weight: 700;
     color: #4A4A4A;
     font-size: 31px;
 }
@@ -230,7 +232,7 @@ hr {
     border-top: 1px solid #eee;
 }
 .content-form label {
-    font-weight: 100;
+    font-weight: 400;
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 0.73px;
@@ -247,19 +249,22 @@ hr {
     height: 25px;
     color: #403F3F;
     letter-spacing: 0.87px;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
 }
 .form-group select {
     color: #403F3F;
     height: 27px;
     font-size: 13px;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     letter-spacing: 0.87px;
 }
 .form-group #text-area-des {
     border: 1px solid #979797;
     border-radius: 10px;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     font-size: 13px;
     color: #403F3F;
 }
@@ -288,14 +293,14 @@ hr {
     padding: 20px;
 }
 .title {
-    font-weight: bold;
+    font-weight: 600;
     font-size: 36px;
     margin-left: 12px;
     color: #403f3f;
     letter-spacing: 0.9px;
 }
 #upload-img label {
-    font-weight: 100;
+    font-weight: 400;
     text-transform: uppercase;
     font-size: 12px;
     margin-left: -11px; 
@@ -314,7 +319,8 @@ hr {
     border: none;
     letter-spacing: 0.87px;
     border-bottom: 1px solid #eee;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
 }
 .ms-options-wrap > .ms-options > ul input[type="checkbox"] {
     top: 0;
@@ -529,7 +535,8 @@ hr {
     padding: 10px 26px;
     font-size: 11px;
     letter-spacing: 0.73px;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     text-transform: uppercase;
 }
 .modal-button .dis-confirm {
