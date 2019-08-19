@@ -83,7 +83,7 @@
                                         <td class="next-column">
                                             <?php if($isEdit == 'true'){ ?>
                                                 <label class="cnt">
-                                                    <input type="checkbox" <?php echo $user['feature_id'] != ''? 'checked = "checked"': null ?>>
+                                                    <input class="check-feature" type="checkbox" <?php echo $user['feature_id'] != ''? 'checked = "checked"': null ?>>
                                                     <span class="checkmark"></span>
                                                 </label>
                                             <?php }else{ ?>
@@ -100,7 +100,7 @@
                                         <td class="next-column">
                                             <?php if($isEdit == 'true'){ ?>
                                                 <label class="cnt">
-                                                    <input type="checkbox" <?php echo $user['user_type'] == 2 ? 'checked = "checked"': null ?>>
+                                                    <input class="check-curator" type="checkbox" <?php echo $user['user_type'] == 2 ? 'checked = "checked"': null ?>>
                                                     <span class="checkmark"></span>
                                                 </label>
                                             <?php }else{ ?>
@@ -182,7 +182,7 @@
                                     <tr>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['comment_id']; ?></td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
-                                            <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
+                                            <span style="font-weight: 900;!important;"><?php echo $row['film_name']; ?> - <?php echo $row['name']; ?></span><br>
                                             <?php echo $row['content']; ?>
                                         </td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
@@ -325,50 +325,48 @@
 
         <div id="thumb-up" class="tab-pane fade in<?= $active == 'thumb-up' ? ' active' : '' ?>">
             <div class="row outer-like" style="margin: 0">
-<!--                <div class="modal-content group-popup outer-table-modal">-->
-<!--                    <table class="table dataTable table-hover table-modal">-->
-<!--                        <thead>-->
-<!--                        <tr>-->
-<!--                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>-->
-<!--                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Story</th>-->
-<!--                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Type</th>-->
-<!--                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Date</th>-->
-<!--                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Status</th>-->
-<!--                            <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>-->
-<!--                        </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody>-->
-<!--                        --><?php
-//                        if ($likes!= null && count($likes) > 0) {
-//                            foreach ($likes as $row): ?>
-<!--                                <tr>-->
-<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;">--><?php //echo $row['pick_id']; ?><!--</td>-->
-<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">-->
-<!--                                        <span style="font-weight: 900;!important;">--><?php //echo $row['name']; ?><!--</span><br>-->
-<!--                                        --><?php //echo $row['quote']; ?>
-<!--                                    </td>-->
-<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">--><?php //echo $row['created_at'] ?><!--</td>-->
-<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"></td>-->
-<!--                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">-->
-<!--                                        <div class="dropdown">-->
-<!--                                                <span class="btnAction dropdown-toggle" data-toggle="dropdown">-->
-<!--                                                        <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>-->
-<!--                                            <ul class="dropdown-menu" id="customDropdown">-->
-<!--                                                <li class="text-uppercase view-user-click" data-pick_id="--><?//= $row['pick_id'] ?><!--" onclick="ShowEditPick(this)"><a href="#" class="drp-items"><span>Edit</span>-->
-<!--                                                        <img src="--><?//= base_url('assets/images/edit.svg') ?><!--" alt=""></a>-->
-<!--                                                </li>-->
-<!--                                                <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="--><?//= $row['pick_id'] ?><!--">-->
-<!--                                                    <a class="drp-items"><span>Delete</span>-->
-<!--                                                        <img src="--><?//= base_url('assets/images/delete.svg') ?><!--" alt=""></a></li>-->
-<!--                                            </ul>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
-<!--                            --><?php //endforeach;
-//                        } ?>
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
+                <div class="modal-content group-popup outer-table-modal">
+                    <table class="table dataTable table-hover table-modal">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Story</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Type</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Date</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Status</th>
+                            <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        if ($like_product!= null && count($like_product) > 0) {
+                            foreach ($like_product as $row): ?>
+                                <tr>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['product_id']; ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
+                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span>
+                                    </td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Story</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                        <?php echo date('m/d/Y h:iA',$row['add_at']) ?>
+                                    </td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                        <div class="dropdown">
+                                                <span class="btnAction dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
+                                            <ul class="dropdown-menu" id="customDropdown">
+                                                <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="<?= $row['pick_id'] ?>">
+                                                    <a class="drp-items"><span>Delete</span>
+                                                        <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach;
+                        } ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 

@@ -866,11 +866,13 @@ class User_model extends BaseModel {
     }
 
     public function getUserComments($user_id, $isMe = true) {
-        $this->db->select('c.*,e.*, c.status as comment_status,cr.report_id as comment_reportId');
+        $this->db->select('c.*,e.*,s.product_id,pv.name as film_name, c.status as comment_status,cr.report_id as comment_reportId');
         $this->db->from('comments c');
         $this->db->where('c.user_id', $user_id);
         $this->db->join('comment_reports cr','c.comment_id = cr.comment_id','LEFT');
         $this->db->join('episode e','c.episode_id = e.episode_id','LEFT');
+        $this->db->join('season s','e.season_id = s.season_id','LEFT');
+        $this->db->join('product_view pv','s.product_id = pv.product_id','LEFT');
         $this->db->group_by('c.comment_id');
 
         return $this->db->get()->result_array();
@@ -929,19 +931,32 @@ class User_model extends BaseModel {
 	}
 
 	public function getProductThumbUpList($user_id, $page = -1, $isMe = true) {
-		$this->db->select('pl.id, pl.user_id, p.*, pl.is_hidden');
+		$this->db->select('pl.id,pl.add_at, pl.user_id, p.*, pl.is_hidden');
 		$this->db->from('product_likes pl');
 		$this->db->join('product_view p', 'pl.product_id = p.product_id');
 		$this->db->where('pl.user_id', $user_id);
 		if (!$isMe) {
 			$this->db->where('pl.is_hidden', 0);
 		}
-		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
-		}
+//		if ($page >= 0) {
+//			$this->db->limit(10, 10 * $page);
+//		}
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function getEpisodeThumbUpList(){
+	    $this->db->select('e.*,e.season_id, e.name as episode_name,s.product_id');
+	    $this->db->from('episode_like el');
+	    $this->db->join('episode e','el.episode_id = e.episode_id');
+	    $this->db->join('season s','e.season_id = s.season_id');
+	    $this->db->join('product_view pv','s.product_id = pv.product_id');
+
+    }
+
+    public function getCommentThumbUpList(){
+
+    }
 
 	public function hiddenYourPick($pick_id, $is_hidden) {
 		$this->db->where('pick_id', $pick_id);
@@ -1134,5 +1149,23 @@ class User_model extends BaseModel {
         $this->db->where('user_id',$user_id);
         $this->db->update('user',array('user_type'=>0));
 
+    }
+
+    public function updateFeature($user_id){
+        $this->db->select_max('priority');
+        $result = $this->db->get('featured_profiles')->row();
+        $max_value = $result->priority + 1;
+
+        $data = array(
+            'user_id' => $user_id,
+            'priority' => $max_value,
+            'status' => 1
+        );
+        $this->db->insert('featured_profiles', $data);
+    }
+
+    public function deleteFeature($user_id){
+	    $this->db->where('user_id', $user_id);
+	    $this->db->delete('featured_profiles');
     }
 }

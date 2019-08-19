@@ -357,6 +357,8 @@ class User extends Base_Controller {
 			$params['full_name'] = $this->input->post('full_name');
 //			$params['user_type'] = $this->input->post('user_type');
 			$params['bio'] = $this->input->post('bio');
+            $params['user_type'] = $this->input->post('curator');
+            $feature = $this->input->post('feature');
 
 			$userEmail = $this->user_model->getByEmail($params['email']);
 			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
@@ -383,6 +385,12 @@ class User extends Base_Controller {
 			}
 			$this->user_model->update($params, $user_id);
 
+			if($feature == '1'){
+                $this->user_model->updateFeature($user_id);
+            }else{
+                $this->user_model->deleteFeature($user_id);
+            }
+
 			$this->load->library('contact_lib');
 			if ($params['email'] != $user['email']) {
 				$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $user['email'], 0);
@@ -407,7 +415,9 @@ class User extends Base_Controller {
 		$layoutParams['user_likes'] = $this->user_model->getUserLikes($user_id, -1);
 		$layoutParams['user_comments'] = $this->user_model->getUserComments($user_id, -1);
 		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
-		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
+		$layoutParams['like_product'] = $this->user_model->getProductThumbUpList($user_id, -1);
+		$layoutParams['like_episode'] = $this->user_model->getEpisodeThumbUpList($user_id, -1);
+		$layoutParams['like_comment'] = $this->user_model->getCommentThumbUpList($user_id, -1);
         $layoutParams['isEdit'] = $this->input->get('isEdit');
         $layoutParams['isProfile'] = $this->input->get('isProfile');
         $layoutParams['isCreate'] = $this->input->get('isCreate');

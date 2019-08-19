@@ -326,6 +326,18 @@ function SaveUpdateProfile() {
         myformData.append('email', $('input[name=email]').val());
         myformData.append('bio', $('.bio-input').text());
         myformData.append('avatar', $('input[name=avatar]')[0].files[0]);
+        if ($('.check-feature').is(":checked")) {
+            myformData.append('feature', '1');
+        }
+        else {
+            myformData.append('feature', '0');
+        }
+        if ($('.check-curator').is(":checked")) {
+            myformData.append('curator', '2');
+        }
+        else {
+            myformData.append('curator', '0');
+        }
         model.saveUpdateProfile(myformData);
         model.switch = true;
     }
