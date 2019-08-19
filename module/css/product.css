@@ -59,7 +59,7 @@
 }
 .table > tbody > tr > td:nth-child(9) {
     font-size: 12px;
-    width: 9%;
+    width: 10%;
     font-family: 'AvenirNext-DemiBold';
     letter-spacing: 0.8px;
 }
@@ -87,7 +87,7 @@ table.dataTable thead .sorting:before,
 table.dataTable thead .sorting_asc:before,
 table.dataTable thead .sorting_desc:before {
     position: absolute;
-    top: 4px;
+    /*top: 4px;*/
     left: 0;
     display: block;
     font-family: 'FontAwesome';
@@ -288,7 +288,7 @@ hr {
     padding: 20px;
 }
 .title {
-    font-weight: bold;
+    /*font-weight: bold;*/
     font-size: 36px;
     margin-left: 12px;
     color: #403f3f;
@@ -297,8 +297,10 @@ hr {
 #upload-img label {
     font-weight: 100;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 11px;
     margin-left: -11px; 
+    color: #9B9B9B;
+    font-family: 'AvenirNext-DemiBold';
 }
 .ms-options-wrap > button:focus, .ms-options-wrap > button {
     position: relative;

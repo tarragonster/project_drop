@@ -21,16 +21,19 @@
 }
 .uploader {
     width: 31%;
-    margin-top: 10px;
+    margin-top: 2px;
     background: transparent;
     border-radius: 11px;
 }
 .uploader button {
-    font-size: 10px;
     text-transform: uppercase;
     border-radius: 20px;
     background-color: #36404a;
     color: white;
+    padding: 3px 10px 2px;
+    font-size: 11px;
+    letter-spacing: 0.73px;
+    font-family: 'AvenirNext-Medium';
 }
 #poster_image {
     width: 70px;
