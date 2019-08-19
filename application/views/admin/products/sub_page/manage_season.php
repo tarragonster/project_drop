@@ -44,10 +44,10 @@
 				                        </div>
 				                        <div class="col-sm-3 sortable-box width-5 status" style="flex-grow: 1">
 				                        	<?php if($valueP['status'] == 0): ?>
-				                                <i class="fa fa-circle text-danger" style="font-size: 60%;"></i>&nbsp;&nbsp;
+				                                <i class="fa fa-circle text-danger icon-size"></i>&nbsp;&nbsp;
 				                                <span>DISABLED</span>
 			                                <?php else: ?>
-			                                	<i class="fa fa-circle text-success" style="font-size: 60%;"></i>&nbsp;&nbsp;
+			                                	<i class="fa fa-circle text-success icon-size"></i>&nbsp;&nbsp;
 				                                <span>ENABLE</span>
 			                                <?php endif;?>
 			                            </div>

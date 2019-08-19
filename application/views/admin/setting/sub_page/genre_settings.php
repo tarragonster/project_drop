@@ -1,7 +1,17 @@
 <div class="table-responsive " style="width: 100%; border: 0;overflow: unset;">
 	<table class="table dataTable">
-		
-			<?php $this->load->view('admin/base/table_header') ?>
+		<thead>
+			<tr class="display-flex">
+				<th class="flex-item"></th>
+				<th class="flex-item"></th>
+				<th class="flex-item">Genre ID</th>
+				<th class="flex-item">Genre Name</th>
+				<th class="flex-item"># of Stories</th>
+				<th class="flex-item">Create</th>
+				<th class="flex-item">Status</th>
+				<th class="flex-item">Actions</th>
+			</tr>
+		</thead>
 		<tbody>
 			<tr><td colspan="8">
 				<form action="" method="post" id="form-data">
@@ -14,8 +24,8 @@
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="padding: 0px">
 		                            <div class="sortable-move"><i class="icon-menu"></i></div>
 		                        </div>
-		                        <div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px">
-		                               <img src="<?php echo media_thumbnail($row['image'], 70)?>" alt='genre-image' width='102' height='60'>
+		                        <div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px;width: 150px">
+	                               <?php echo image_mark($row['image'], 'assets/images/genre_mark.png', 102)?>
 		                        </div>
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-9" style="padding: 0px">
 	                                <?php echo $row['id']?>
@@ -29,16 +39,16 @@
 		                        <div class="col-sm-3 col-lg-2 sortable-box width-18">
 	                                <?= date('m/d/Y h:iA', $row['created_at']) ?>
 			                    </div>
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-13" style="font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: 600;font-size: 12px;letter-spacing: 0.8px">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-13 action-column">
 		                        	<?php if($row['status'] == 0): ?>
-		                                <i class="fa fa-circle text-danger" style="font-size: 60%;"></i>&nbsp;&nbsp;
+		                                <i class="fa fa-circle text-danger icon-size"></i>&nbsp;&nbsp;
 		                                <span>DISABLED</span>
 	                                <?php else: ?>
-	                                	<i class="fa fa-circle text-success" style="font-size: 60%;"></i>&nbsp;&nbsp;
+	                                	<i class="fa fa-circle text-success icon-size"></i>&nbsp;&nbsp;
 		                                <span>ENABLE</span>
 	                                <?php endif;?>
 	                            </div>
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-5">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="width: 70px">
 		                            <div class="btn-group">
 										<i type="button" style="font-size: 36px; color: #c7c7c7; line-height: 25px;" class="md md-more-horiz m-r-5 dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></i>
 										<ul class="dropdown-menu" role="menu" style="min-width: 87px">

@@ -30,7 +30,7 @@ if($this->session->flashdata('error')){
 						                <tr>
 							                <td><img style="max-width: 37px; height: 55px;border-radius: 5px;" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
 							                <td class="width-5"><?php echo $row['product_id']?></td>
-							                <td><?php echo $row['name']?></td>
+							                <td class="weight-600"><?php echo $row['name']?></td>
 							                <td><?php echo $row['total_block']?></td>
 							                <td>
 							                    <?php 

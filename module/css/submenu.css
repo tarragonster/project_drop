@@ -66,8 +66,6 @@
 	font-size: 11px;
 	font-weight: 600;
 	letter-spacing: 0.73px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 600;
 }
 
 .section-menu ul li.active a {
@@ -89,7 +87,6 @@
     margin-bottom: 20px;
     border-bottom: 1px solid #e6e6e6;
     font-size: 20px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
     letter-spacing: 0.5px;
     color: #403F3F;
@@ -100,7 +97,6 @@
 	min-height: 180px;
 	border: 0;
 	font-size: 11px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
 	box-shadow: rgba(216, 216, 216, 0.2) 0 0 10px 0;
 }
@@ -172,11 +168,14 @@
 }
 .form-dispatch.form-control, .form-dispatch.form-control:hover {
 	color: #9B9B9B;
-	font-family: 'Avenir Next';
+	/*font-family: 'Avenir Next';*/
 	padding-left: 0;
     font-size: 11px;
 }
 .alert-warning {
 	font-size: 13px;
-    font-family: 'Avenir Next';
+    /*font-family: 'Avenir Next';*/
+}
+.icon-size {
+    font-size: 60%;
 }
