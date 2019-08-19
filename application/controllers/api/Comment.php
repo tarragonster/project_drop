@@ -169,7 +169,7 @@ class Comment extends BR_Controller {
 			$episode = $this->episode_model->checkEpisode($comment['episode_id']);
 			$product_id = $this->episode_model->getProdutID($episode['season_id']);
 			if (!$hasLikeComment) {
-				$this->comment_model->insertCommentLike(['comment_id' => $comment_id, 'user_id' => $this->user_id,'add_at' =>time()]);
+				$this->comment_model->insertCommentLike(['comment_id' => $comment_id, 'user_id' => $this->user_id,'added_at' =>time()]);
 				if ($this->user_id != $comment['user_id']) {
 					$meta = [
 						'user_id' => $this->user_id,

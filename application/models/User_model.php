@@ -931,7 +931,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getProductThumbUpList($user_id, $page = -1, $isMe = true) {
-		$this->db->select('pl.id,pl.add_at, pl.user_id, p.*, pl.is_hidden');
+		$this->db->select('pl.id, pl.added_at, pl.user_id, p.*, pl.is_hidden');
 		$this->db->from('product_likes pl');
 		$this->db->join('product_view p', 'pl.product_id = p.product_id');
 		$this->db->where('pl.user_id', $user_id);
@@ -945,13 +945,17 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getEpisodeThumbUpList(){
-	    $this->db->select('e.*,e.season_id, e.name as episode_name,s.product_id');
+	public function getEpisodeThumbUpList($user_id, $page = -1, $isMe = true){
+	    $this->db->select('e.*,e.season_id,el.added_at,el.id as el_id,el.status, e.name as episode_name,pv.name as film_name,s.product_id');
 	    $this->db->from('episode_like el');
-	    $this->db->join('episode e','el.episode_id = e.episode_id');
-	    $this->db->join('season s','e.season_id = s.season_id');
-	    $this->db->join('product_view pv','s.product_id = pv.product_id');
+	    $this->db->join('episode e','el.episode_id = e.episode_id','LEFT');
+	    $this->db->join('season s','e.season_id = s.season_id','LEFT');
+	    $this->db->join('product_view pv','s.product_id = pv.product_id','LEFT');
+        $this->db->where('el.user_id', $user_id);
+        $this->db->where_in('el.status', [0,1]);
 
+        $query = $this->db->get();
+        return $query->result_array();
     }
 
     public function getCommentThumbUpList(){

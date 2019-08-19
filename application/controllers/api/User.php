@@ -581,7 +581,7 @@ class User extends BR_Controller {
 		$isCheck = $this->user_model->checkEpisodeExits($this->user_id, $episode_id);
 		$product_id = $this->episode_model->getProdutID($episode['season_id']);
 		if ($isCheck == -1) {
-			$this->user_model->addLike(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'status' => $status, 'add_at' => time()));
+			$this->user_model->addLike(array('episode_id' => $episode_id, 'user_id' => $this->user_id, 'status' => $status, 'added_at' => time()));
 			if ($status == 1) {
 				$this->notify_model->createNotifyToFollower($this->user_id, 2, array('user_id' => $this->user_id, 'episode_id' => $episode_id, 'season_id' => $episode['season_id'], 'product_id' => $product_id), 'default', true);
 			} else {
