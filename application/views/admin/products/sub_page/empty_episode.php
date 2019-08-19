@@ -17,3 +17,13 @@
 		<?php endforeach; ?>
 	</form>
 </div>
+
+<div class="modal custom-modal below-header fade visiting right" id="add-block-popup" tabindex="-1" role="dialog">
+	<form action="<?php echo base_url('product/addEpisode')?>" method="post" id="block-form-add" enctype="multipart/form-data">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" id="add-block-form" style="padding: 0px">
+				
+			</div>
+		</div>
+	</form>
+</div>
