@@ -6588,7 +6588,7 @@ a.badge:hover, a.badge:focus {
 .jumbotron p {
   margin-bottom: 15px;
   font-size: 21px;
-  font-weight: 200;
+  font-weight: 400;
 }
 /* line 24, C:/Ruby25-x64/lib/ruby/gems/2.5.0/gems/bootstrap-sass-3.3.7/assets/stylesheets/bootstrap/_jumbotron.scss */
 .jumbotron > hr {

@@ -19,7 +19,7 @@
                     <?php } ?>
                 </td>
                 <td class="header-item-content item-style"><?php echo $row['user_id'] ?></td>
-                <td class="header-item-content item-style" style="font-weight: 900;">
+                <td class="header-item-content item-style" style="font-weight: 600;">
                     <?php echo $row['full_name'] ?><br>
                     <span style="font-weight: 500!important;">@<?php echo $row['user_name'] ?></span>
                 </td>

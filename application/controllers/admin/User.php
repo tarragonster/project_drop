@@ -46,12 +46,12 @@ class User extends Base_Controller {
 
         $headers = array(
             'img' => array('label' => '', 'sorting' => false),
-            'user_id' => array('label' => 'User ID', 'sorting' => true),
+            'user_id' => array('label' => 'User&nbsp;ID', 'sorting' => true),
             'user_name' => array('label' => 'Name', 'sorting' => true),
             'email' => array('label' => 'Email', 'sorting' => true),
             'total_pick'=> array('label' => 'Activity', 'sorting' => false),
             'dt' => array('label' => 'Version'),
-            'joined' => array('label' => 'Create Date'),
+            'joined' => array('label' => 'Create&nbsp;Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
