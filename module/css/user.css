@@ -6,10 +6,10 @@
     padding-right: 0;
 }
 
-.content-page{
+/*.content-page{*/
 
-    margin-left: 250px!important;
-}
+/*    margin-left: 250px!important;*/
+/*}*/
 
 .sub-menu{
 
@@ -484,7 +484,36 @@ table.dataTable thead .sorting_desc:after {
 #profile{
 
     padding-top: 72px;
+    height: 100%;
+    padding-bottom: 30px;
 }
+
+.outer-profile{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+/** width *!*/
+.outer-profile::-webkit-scrollbar{
+    width: 8px;
+}
+
+/* Track */
+.outer-profile::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+.outer-profile::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.outer-profile::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 
 .outer-comment{
     overflow-y: scroll;
@@ -493,7 +522,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* width */
 .outer-comment::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -518,7 +547,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* width */
 .outer-pick::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -543,7 +572,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* width */
 .outer-watch::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -568,7 +597,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* width */
 .outer-like::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -589,7 +618,7 @@ table.dataTable thead .sorting_desc:after {
 #form-update{
 
     padding-left: 30px;
-    padding-right: 30px;
+    padding-right: 10px;
 }
 
 .outer-content{
@@ -1237,4 +1266,65 @@ table.dataTable thead .sorting_desc:after {
 
 #upload-photo-error{
     position: absolute;
+}
+.cnt{
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+/* Hide the browser's default radio button */
+.cnt input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 12px;
+    width: 12px;
+    border: solid 0.5px #979797;
+    border-radius: 3px;
+    background-color: #ffffff;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #C7AE6E;
+    border: none;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.cnt input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.cnt .checkmark:after {
+    left: 4px;
+    top: 2px;
+    width: 4px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }

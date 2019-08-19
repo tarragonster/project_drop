@@ -237,6 +237,27 @@ var User = /** @class */ (function () {
             ToCloseUserModal();
         });
     };
+    User.prototype.addVerify = function () {
+        this.url = '/user/addVerify/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
+    User.prototype.addCurator = function () {
+        this.url = '/user/addCurator/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
+    User.prototype.removeTag = function () {
+        this.url = '/user/removeTag/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
     User.object = new User();
     return User;
 }());
@@ -536,4 +557,16 @@ function ShowEditNote(event) {
     model.report_id = $(event).data('report_id');
     $('#view-note-popup').modal('show');
     model.editReportNote();
+}
+function AddVerify(event) {
+    model.user_id = $(event).data('user_id');
+    model.addVerify();
+}
+function AddCurator(event) {
+    model.user_id = $(event).data('user_id');
+    model.addCurator();
+}
+function RemoveTag(event) {
+    model.user_id = $(event).data('user_id');
+    model.removeTag();
 }

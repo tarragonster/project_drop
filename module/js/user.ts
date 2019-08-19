@@ -293,6 +293,29 @@ class User{
             ToCloseUserModal()
         })
     }
+
+    addVerify(){
+        this.url = '/user/addVerify/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+    addCurator(){
+        this.url = '/user/addCurator/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    removeTag(){
+        this.url = '/user/removeTag/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
 }
 
 let model = User.object;
@@ -671,4 +694,20 @@ function ShowEditNote(event){
     model.report_id = $(event).data('report_id')
     $('#view-note-popup').modal('show')
     model.editReportNote()
+}
+
+function AddVerify(event){
+    model.user_id = $(event).data('user_id');
+    model.addVerify()
+}
+
+function AddCurator(event){
+    model.user_id = $(event).data('user_id');
+    model.addCurator()
+}
+
+function RemoveTag(event){
+    model.user_id = $(event).data('user_id');
+    model.removeTag()
+
 }

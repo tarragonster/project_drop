@@ -698,4 +698,19 @@ class User extends Base_Controller {
 
         }
     }
+
+    function addVerify($user_id){
+	    $this->user_model->addVerify($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function addCurator($user_id){
+        $this->user_model->addCurator($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function removeTag($user_id){
+        $this->user_model->removeTag($user_id);
+        $this->ajaxSuccess();
+    }
 }

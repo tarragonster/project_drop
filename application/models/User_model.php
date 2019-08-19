@@ -20,8 +20,11 @@ class User_model extends BaseModel {
 	}
 
 	public function getUserForAdmin($user_id) {
-		$this->db->where($this->id_name, $user_id);
-		$query = $this->db->get('user');
+	    $this->db->select('u.*,fp.id as feature_id');
+	    $this->db->from('user u');
+		$this->db->where('u.user_id', $user_id);
+		$this->db->join('featured_profiles fp','u.user_id = fp.user_id','LEFT');
+        $query = $this->db->get();
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
@@ -1116,4 +1119,20 @@ class User_model extends BaseModel {
         $this->db->where('user_id',$user_id);
         $this->db->update('user_reports',array('status'=>'deleted'));
 	}
+
+	public function addVerify($user_id){
+	    $this->db->where('user_id',$user_id);
+	    $this->db->update('user',array('user_type'=>1));
+    }
+
+    public function addCurator($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user',array('user_type'=>2));
+    }
+
+    public function removeTag($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user',array('user_type'=>0));
+
+    }
 }
