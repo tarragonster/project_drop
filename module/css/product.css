@@ -425,6 +425,7 @@ hr {
 }
 
 .card-sorting {
+    display: flex;
     padding: 0;
     margin: 0 0 8px 0;
     border: 1px solid #D8D8D8;
@@ -454,6 +455,7 @@ hr {
     text-transform: uppercase;
 }
 .sortable-box {
+    width: 7%;
     height: 60px;
     display: -webkit-flex;
     display: flex;
