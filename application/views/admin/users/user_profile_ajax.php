@@ -41,7 +41,7 @@
                 <div class="row inner-profile" style="margin: 0">
                     <div class="upper-info">
                         <div class="left-info">
-                            <span class="lead text-uppercase">User Details</span>
+                            <span class="lead text-uppercase" style="font-weight: 900;color: #403F3F">User Details</span>
                             <div class="table-responsive" style="padding-top: 20px!important;">
                                 <table class="table table-user-detail">
                                     <tbody>
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                     <div class="under-info">
-                        <span class="lead text-uppercase">User Stats</span>
+                        <span class="lead text-uppercase" style="font-weight: 900;color: #403F3F">User Stats</span>
                         <div class="container-stats" style="margin-top: 20px">
                             <div class="stats-element">
                                 <div class="title-stats"><span># of Comments:</span></div>
@@ -168,11 +168,11 @@
                         <table class="table dataTable table-hover table-modal">
                             <thead>
                             <tr>
-                                <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Comment Id</th>
-                                <th style="width: 30%;padding: 0!important; height: 24px!important;">Comment</th>
-                                <th style="width: 18%;padding: 0!important; height: 24px!important;">Date</th>
-                                <th style="width: 22%;padding: 0!important; height: 24px!important;">Status</th>
-                                <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
+                                <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 900">Comment Id</th>
+                                <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 900">Comment</th>
+                                <th style="width: 18%;padding: 0!important; height: 24px!important;font-weight: 900">Date</th>
+                                <th style="width: 22%;padding: 0!important; height: 24px!important;font-weight: 900">Status</th>
+                                <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 900">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -180,23 +180,23 @@
                             if ($user_comments != null && count($user_comments) > 0) {
                                 foreach ($user_comments as $row): ?>
                                     <tr>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['comment_id']; ?></td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['comment_id']; ?></td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
                                             <span style="font-weight: 600;!important;"><?php echo $row['film_name']; ?> - <?php echo $row['name']; ?></span><br>
                                             <?php echo $row['content']; ?>
                                         </td>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
                                         <?php if(!empty($row['comment_reportId'])){ ?>
-                                            <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                            <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
                                                 <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="green">&nbsp;<span>Reported</span>
                                             </td>
                                         <?php }else{ ?>
                                             <?php if($row['comment_status'] == 1){ ?>
-                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
                                                     <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span>Active</span>
                                                 </td>
                                             <?php }elseif($row['comment_status'] == 0){ ?>
-                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
                                                     <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;<span>Inactive</span>
                                                 </td>
                                             <?php } ?>
@@ -230,11 +230,11 @@
                     <table class="table dataTable table-hover table-modal">
                         <thead>
                         <tr>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>
-                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Story Name</th>
-                            <th style="width: 18%;padding: 0!important; height: 24px!important;">Date</th>
-                            <th style="width: 22%;padding: 0!important; height: 24px!important;">Status</th>
-                            <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 900">Story Id</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 900">Story Name</th>
+                            <th style="width: 18%;padding: 0!important; height: 24px!important;font-weight: 900">Date</th>
+                            <th style="width: 22%;padding: 0!important; height: 24px!important;font-weight: 900">Status</th>
+                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 900">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -242,18 +242,18 @@
                         if ($your_picks!= null && count($your_picks) > 0) {
                             foreach ($your_picks as $row): ?>
                                 <tr>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['pick_id']; ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
-                                        <span style="font-weight: 600;!important;"><?php echo $row['name']; ?></span><br>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 500;">
+                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
                                         <?php echo $row['quote']; ?>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['created_at']) ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['created_at']) ?></td>
                                     <?php if($row['up_status'] == 1){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
                                             <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span>Active</span>
                                         </td>
                                     <?php }elseif($row['up_status'] == 0){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
                                             <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;<span>Inactive</span>
                                         </td>
                                     <?php } ?>
@@ -286,10 +286,10 @@
                     <table class="table dataTable table-hover table-modal">
                         <thead>
                         <tr>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>
-                            <th style="width: 40%;padding: 0!important; height: 24px!important;">Picks</th>
-                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Date</th>
-                            <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 900">Story Id</th>
+                            <th style="width: 40%;padding: 0!important; height: 24px!important;font-weight: 900">Picks</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 900">Date</th>
+                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 900">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -297,11 +297,11 @@
                         if ($watch_list!= null && count($watch_list) > 0) {
                             foreach ($watch_list as $row): ?>
                                 <tr>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['id']; ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
-                                        <span style="font-weight: 600;!important;"><?php echo $row['name']; ?></span><br>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 500;">
+                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;"><?php echo date('m/d/Y h:iA',$row['update_time']) ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['update_time']) ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
@@ -329,12 +329,12 @@
                     <table class="table dataTable table-hover table-modal">
                         <thead>
                         <tr>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;">Story Id</th>
-                            <th style="width: 30%;padding: 0!important; height: 24px!important;">Story</th>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Type</th>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Date</th>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important;">Status</th>
-                            <th style="width: 10%;padding: 0!important; height: 24px!important;">Actions</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 900">Story Id</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 900">Story</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 900">Type</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 900">Date</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 900">Status</th>
+                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 900">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -342,22 +342,22 @@
                         if ($like_product!= null && count($like_product) > 0) {
                             foreach ($like_product as $row): ?>
                                 <tr>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['product_id']; ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 900;">
                                         <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Story</td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Story</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;">
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Thumps Up</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Thumps Up</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
                                             <ul class="dropdown-menu" id="customDropdown">
-                                                <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="<?= $row['id'] ?>">
-                                                    <a class="drp-items"><span>Delete</span>
+                                                <li class="text-uppercase" onclick="ShowDeleteProductLike(this)" data-pl_id="<?= $row['id'] ?>">
+                                                    <a class="drp-items"><span>Remove</span>
                                                         <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                                             </ul>
                                         </div>
@@ -369,26 +369,26 @@
                         if ($like_episode!= null && count($like_episode) > 0) {
                             foreach ($like_episode as $row): ?>
                                 <tr>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['product_id']; ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 900;">
                                         <span style="font-weight: 900;!important;"><?php echo $row['film_name']; ?> - <?php echo $row['episode_name']; ?></span>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Block</td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Block</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;">
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
                                     <?php if($row['status'] == 1){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Thumps Up</td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Thumps Up</td>
                                     <?php }elseif($row['status'] == 0){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Thumps Down</td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Thumps Down</td>
                                     <?php } ?>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
                                             <ul class="dropdown-menu" id="customDropdown">
-                                                <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="<?= $row['el_id'] ?>">
-                                                    <a class="drp-items"><span>Delete</span>
+                                                <li class="text-uppercase" onclick="showDeleteEpisodeLike(this)" data-el_id="<?= $row['el_id'] ?>">
+                                                    <a class="drp-items"><span>Remove</span>
                                                         <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                                             </ul>
                                         </div>
@@ -400,22 +400,22 @@
                         if ($like_comment!= null && count($like_comment) > 0) {
                             foreach ($like_comment as $row): ?>
                                 <tr>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;"><?php echo $row['product_id']; ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 900;">
                                         <span style="font-weight: 900;!important;"><?php echo $row['film_name']; ?> - <?php echo $row['episode_name']; ?></span>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Comment</td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Comment</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;">
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">Thumps Up</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Thumps Up</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
                                             <ul class="dropdown-menu" id="customDropdown">
-                                                <li class="text-uppercase" onclick="DeleteShow(this)" data-pick_id="<?= $row['cl_id'] ?>">
-                                                    <a class="drp-items"><span>Delete</span>
+                                                <li class="text-uppercase" onclick="ShowDeleteCommentLike(this)" data-commentLike_id="<?= $row['cl_id'] ?>">
+                                                    <a class="drp-items"><span>Remove</span>
                                                         <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                                             </ul>
                                         </div>

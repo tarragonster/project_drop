@@ -736,4 +736,21 @@ class User extends Base_Controller {
         $this->user_model->removeTag($user_id);
         $this->ajaxSuccess();
     }
+
+    function deleteEpisodeLike($episodeLike_id){
+        $this->user_model->deleteEpisodeLike($episodeLike_id);
+        $this->ajaxSuccess();
+
+    }
+
+    function deleteProductLike($productLike_id){
+        $this->user_model->deleteProductLike($productLike_id);
+        $this->ajaxSuccess();
+
+    }
+    function deleteCommentLike($commentLike_id){
+        $this->user_model->deleteCommentLike($commentLike_id);
+        $this->ajaxSuccess();
+
+    }
 }
