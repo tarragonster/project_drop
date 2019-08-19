@@ -46,11 +46,11 @@
                                                 </div>
                                             </td>
                                             <td class="header-item-content item-style"><?php echo $row['report_id'] ?></td>
-                                            <td class="header-item-content item-style" style="font-weight: 900;">
+                                            <td class="header-item-content item-style" style="font-weight: 600;">
                                                 <?php echo $row['full_name'] ?><br>
                                                 <span style="font-weight: 500!important;">@<?php echo $row['user_name'] ?></span>
                                             </td>
-                                            <td class="header-item-content item-style" style="font-weight: 900;">
+                                            <td class="header-item-content item-style" style="font-weight: 600;">
                                                 <?php echo $row['reporter_name'] ?><br>
                                                 <span style="font-weight: 500!important;">@<?php echo $row['reporter_user_name'] ?></span>
                                             </td>
@@ -83,14 +83,23 @@
                                                       data-toggle="dropdown"> <i class="fa fa-ellipsis-h"
                                                                                  style="color: #d8d8d8"></i></span>
                                                     <ul class="dropdown-menu" id="customDropdown">
-                                                        <li class="text-uppercase view-user-click"
-                                                            data-report_id="<?= $row['report_id'] ?>" onclick="ShowReportNote(this)"><a
-                                                                    class="drp-items"><span>
+                                                        <?php if($row['report_note'] == ''){ ?>
+                                                            <li class="text-uppercase view-user-click"
+                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowReportNote(this)"><a
+                                                                        class="drp-items"><span>
                                                                 Add Notes
                                                             </span></a>
-                                                        </li>
+                                                            </li>
+                                                        <?php }else{ ?>
+                                                            <li class="text-uppercase view-user-click"
+                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowEditNote(this)"><a
+                                                                        class="drp-items"><span>
+                                                                Edit Notes
+                                                            </span></a>
+                                                            </li>
+                                                        <?php } ?>
                                                         <li class="text-uppercase"
-                                                            data-report_id="<?= $row['report_id'] ?>">
+                                                            data-user_id="<?= $row['user_id'] ?>" onclick="ShowUserProfile(this)">
                                                             <a class="drp-items"><span>
                                                                 View User
                                                             </span></a>

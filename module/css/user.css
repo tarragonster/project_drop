@@ -6,10 +6,10 @@
     padding-right: 0;
 }
 
-.content-page{
+/*.content-page{*/
 
-    margin-left: 250px!important;
-}
+/*    margin-left: 250px!important;*/
+/*}*/
 
 .sub-menu{
 
@@ -40,10 +40,8 @@
 }
 
 .submenu-title{
-
-    font-family:'AvenirNext-DemiBold';
-    font-style: normal;
-    font-weight: 900;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-size: 20px;
     display: block;
     margin-top: 30px;
@@ -51,7 +49,6 @@
     padding-bottom: 14px;
     width: 82px;
     border-bottom: 1px solid #EEEDEB;
-
 }
 
 .submenu-content{
@@ -67,11 +64,10 @@
 }
 
 .submenu-item{
-
     display: flex;
-    font-family:'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-style: normal;
-    font-weight: 900;
     font-size: 11px;
     color: #9B9B9B;
     padding-left: 24px;
@@ -145,7 +141,12 @@
 }
 .item-style{
     padding: 5px!important;
+}
 
+.outer-tag{
+    position: absolute;
+    margin-top: -50px;
+    margin-left: 38px;
 }
 
 .noSortHeader{
@@ -263,8 +264,7 @@ table.dataTable thead .sorting_desc:after {
 .table > thead:first-child > tr:first-child > th{
 
     padding-right: 0;
-    font-family: 'AvenirNext-Medium';
-    font-style: normal;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: 11px;
     color: #9B9B9B;
@@ -290,13 +290,10 @@ table.dataTable thead .sorting_desc:after {
     padding-left: 21px!important;
     border-top: 1px solid #979797;
     background: #ffffff;
-
-    font-family: 'AvenirNext-Medium';
-    font-style: normal;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: 11px;
     color: #403F3F;
-
     height: 59px;
     padding-top: 0!important;
     padding-bottom: 0!important;
@@ -352,19 +349,17 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .status-tb{
-
-    font-family: 'AvenirNext-DemiBold'!important;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
+    font-weight: 600;
     font-size: 12px!important;
 
 }
 
-.drp-items > span{
-
-    font-family: 'AvenirNext-Medium';
+.drp-items > span {
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: 11px;
     color: #9B9B9B;
-
 }
 
 .drp-items{
@@ -453,9 +448,8 @@ table.dataTable thead .sorting_desc:after {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    font-family: 'AvenirNext-DemiBold'!important;
-    font-style: normal;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-size: 14px;
     color: #403F3F!important;
 }
@@ -479,7 +473,36 @@ table.dataTable thead .sorting_desc:after {
 #profile{
 
     padding-top: 72px;
+    height: 100%;
+    padding-bottom: 30px;
 }
+
+.outer-profile{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+/** width *!*/
+.outer-profile::-webkit-scrollbar{
+    width: 8px;
+}
+
+/* Track */
+.outer-profile::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+.outer-profile::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.outer-profile::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 
 .outer-comment{
     overflow-y: scroll;
@@ -488,7 +511,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* width */
 .outer-comment::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -513,7 +536,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* width */
 .outer-pick::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -538,7 +561,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* width */
 .outer-watch::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -563,7 +586,7 @@ table.dataTable thead .sorting_desc:after {
 
 /* width */
 .outer-like::-webkit-scrollbar{
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
@@ -584,7 +607,7 @@ table.dataTable thead .sorting_desc:after {
 #form-update{
 
     padding-left: 30px;
-    padding-right: 30px;
+    padding-right: 10px;
 }
 
 .outer-content{
@@ -596,8 +619,8 @@ table.dataTable thead .sorting_desc:after {
 .modal .modal-dialog .modal-content{
 
     text-align: left!important;
-    font-family: 'AvenirNext-DemiBold'!important;
-    font-style: normal!important;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
+    font-weight: 600;
     font-size: 14px!important;
     color: #403F3F!important;
 }
@@ -628,20 +651,18 @@ table.dataTable thead .sorting_desc:after {
     width: 315px;
 }
 
-.first-column{
-
+.first-column {
     width: 93px!important;
-    font-family: 'AvenirNext-Medium'!important;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
+    font-weight: 500;
     font-size: 13px!important;
     color: #9B9B9B!important;
     text-transform: uppercase!important;
 }
 
 .next-column{
-
-   width: 215px!important;
-    font-family: 'Avenir Next'!important;
-
+    width: 215px!important;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 13px!important;
     color: #403F3F!important;
 }
@@ -661,8 +682,8 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .ava-text{
-
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-size: 11px;
     text-transform: uppercase;
     color: #9B9B9B;
@@ -714,16 +735,14 @@ table.dataTable thead .sorting_desc:after {
     color: #505458;
 }
 
-.content-stats{
+.content-stats {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-size: 18px;
-    font-weight: 900;
     color: #505458;
-
     height: calc(100% - 25px)
 }
 
@@ -772,33 +791,31 @@ table.dataTable thead .sorting_desc:after {
     border-radius: 13.5px;
     background: #C7AE6E;
     border: none;
-
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     font-size: 14px;
     color: #FFFFFF;
-
     display: flex!important;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 
 }
-.fileTitle{
-
+.fileTitle {
     border-radius: 17.5px;
     background: #C7AE6E;
     width: 70px;
     height:20px;
-
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     font-size: 11px;
     color: #FFFFFF;
-
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
+
 #upload-photo{
     opacity: 0;
     position: absolute;
@@ -837,8 +854,8 @@ table.dataTable thead .sorting_desc:after {
     padding-top: 0!important;
     padding-bottom: 0!important;
     border-top: 1px solid #EEEDEB!important;
-
-    font-family: 'AvenirNext-DemiBold'!important;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
+    font-weight: 600;
     font-size: 11px!important;
     color: #9B9B9B!important;
 }
@@ -867,14 +884,16 @@ table.dataTable thead .sorting_desc:after {
     font-size:34px;
     color: #403F3F;
 }
-.intro-tag{
-    font-family: 'AvenirNext-Medium';
+.intro-tag {
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     font-size:13px;
     text-transform: uppercase;
     color: #9B9B9B;
 }
-.detail-tag{
-    font-family: 'AvenirNext-Medium';
+.detail-tag {
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     font-size:13px;
     text-transform: uppercase;
     color: #403F3F;
@@ -885,9 +904,8 @@ table.dataTable thead .sorting_desc:after {
     width: 100%;
     border: 1px solid #979797;
     border-radius: 8px;
-
-    font-family:'AvenirNext-DemiBold';
-    font-weight: 900;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-size: 11px;
     color: #403F3F;
     padding: 5px!important;
@@ -903,8 +921,8 @@ table.dataTable thead .sorting_desc:after {
     border-radius: 17.5px;
 
     color: #ffffff;
-    font-family: "AvenirNext-DemiBold";
-    font-weight: 900;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-size: 11px;
     text-transform: uppercase;
 
@@ -952,11 +970,11 @@ table.dataTable thead .sorting_desc:after {
 .outer-text span{
     display: block;
     width: 100%;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     font-size: 14px;
     text-align: center;
     color: #403F3F;
-
     margin-bottom: 29px;
 }
 .outer-input input{
@@ -975,18 +993,18 @@ table.dataTable thead .sorting_desc:after {
     justify-content: center;
     position: relative;
 }
+
 .btn-confirm{
     width: 100px;
     height: 35px;
-
     border-radius: 17.5px;
     background: #9B9B9B;
     text-transform: uppercase;
     border: none;
-
     color: #FFFFFF;
     font-size: 11px;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 .outer-btn{
     display: flex;
@@ -1017,8 +1035,8 @@ table.dataTable thead .sorting_desc:after {
 .outer-text-dis span{
     display: block;
     width: 100%;
-    font-family: 'AvenirNext-Bold';
-    font-weight: bold;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
     font-size: 31px;
     text-align: center;
     color: #403F3F;
@@ -1027,7 +1045,8 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .detail-dis{
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     font-size: 14px;
     text-align: center;
     color: #403F3F;
@@ -1137,8 +1156,8 @@ table.dataTable thead .sorting_desc:after {
     padding-bottom: 28px!important;
 }
 
-.film_title{
-    font-family: AvenirNext-Medium!important;
+.film_title {
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
     font-weight: 500!important;
     font-size: 14px!important;
     color: #403F3F!important;
@@ -1149,12 +1168,11 @@ table.dataTable thead .sorting_desc:after {
     height: 100%;
     padding: 0;
     border: 0;
-
-    font-family: AvenirNext-DemiBold;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     font-size: 12px;
     color: #403F3F;
     background: transparent;
-
     margin-top: -12px;
 }
 
@@ -1232,4 +1250,65 @@ table.dataTable thead .sorting_desc:after {
 
 #upload-photo-error{
     position: absolute;
+}
+.cnt{
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+/* Hide the browser's default radio button */
+.cnt input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 12px;
+    width: 12px;
+    border: solid 0.5px #979797;
+    border-radius: 3px;
+    background-color: #ffffff;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #C7AE6E;
+    border: none;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.cnt input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.cnt .checkmark:after {
+    left: 4px;
+    top: 2px;
+    width: 4px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 1.5px 1.5px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }

@@ -31,8 +31,8 @@ class User extends Base_Controller {
         }
 
 		$config['base_url'] = base_url('user');
-		$config['total_rows'] = $this->user_model->getNumOfUser();
-		$config['per_page'] = PERPAGE_ADMIN;
+		$config['total_rows'] = $this->user_model->countAllUser($conditions);
+		$config['per_page'] = $per_page;
 		$config['cur_page'] = $page;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
@@ -46,18 +46,18 @@ class User extends Base_Controller {
 
         $headers = array(
             'img' => array('label' => '', 'sorting' => false),
-            'user_id' => array('label' => 'User ID', 'sorting' => true),
+            'user_id' => array('label' => 'User&nbsp;ID', 'sorting' => true),
             'user_name' => array('label' => 'Name', 'sorting' => true),
             'email' => array('label' => 'Email', 'sorting' => true),
             'total_pick'=> array('label' => 'Activity', 'sorting' => false),
             'dt' => array('label' => 'Version'),
-            'joined' => array('label' => 'Create Date'),
+            'joined' => array('label' => 'Create&nbsp;Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
 		$pinfo = array(
-			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
-			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
+			'from' => $per_page * ($page - 1) + 1,
+			'to' => min(array($per_page * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
 		$users = $this->user_model->getAllUsers($conditions,$page - 1);
@@ -357,6 +357,8 @@ class User extends Base_Controller {
 			$params['full_name'] = $this->input->post('full_name');
 //			$params['user_type'] = $this->input->post('user_type');
 			$params['bio'] = $this->input->post('bio');
+            $params['user_type'] = $this->input->post('curator');
+            $feature = $this->input->post('feature');
 
 			$userEmail = $this->user_model->getByEmail($params['email']);
 			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
@@ -383,6 +385,12 @@ class User extends Base_Controller {
 			}
 			$this->user_model->update($params, $user_id);
 
+			if($feature == '1'){
+                $this->user_model->updateFeature($user_id);
+            }else{
+                $this->user_model->deleteFeature($user_id);
+            }
+
 			$this->load->library('contact_lib');
 			if ($params['email'] != $user['email']) {
 				$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $user['email'], 0);
@@ -407,7 +415,9 @@ class User extends Base_Controller {
 		$layoutParams['user_likes'] = $this->user_model->getUserLikes($user_id, -1);
 		$layoutParams['user_comments'] = $this->user_model->getUserComments($user_id, -1);
 		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
-		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
+		$layoutParams['like_product'] = $this->user_model->getProductThumbUpList($user_id, -1);
+		$layoutParams['like_episode'] = $this->user_model->getEpisodeThumbUpList($user_id, -1);
+		$layoutParams['like_comment'] = $this->user_model->getCommentThumbUpList($user_id, -1);
         $layoutParams['isEdit'] = $this->input->get('isEdit');
         $layoutParams['isProfile'] = $this->input->get('isProfile');
         $layoutParams['isCreate'] = $this->input->get('isCreate');
@@ -447,8 +457,8 @@ class User extends Base_Controller {
         }
 
 		$config['base_url'] = base_url('user/reports');
-		$config['total_rows'] = $this->user_model->getNumReports();
-		$config['per_page'] = PERPAGE_ADMIN;
+		$config['total_rows'] = $this->user_model->getAllReports($conditions);
+		$config['per_page'] = $per_page;
 		$config['cur_page'] = $page;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
@@ -470,8 +480,8 @@ class User extends Base_Controller {
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
         $pinfo = array(
-			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
-			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
+			'from' => $per_page * ($page - 1) + 1,
+			'to' => min(array($per_page * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
 
@@ -697,5 +707,20 @@ class User extends Base_Controller {
             $this->ajaxSuccess($data);
 
         }
+    }
+
+    function addVerify($user_id){
+	    $this->user_model->addVerify($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function addCurator($user_id){
+        $this->user_model->addCurator($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function removeTag($user_id){
+        $this->user_model->removeTag($user_id);
+        $this->ajaxSuccess();
     }
 }

@@ -20,8 +20,11 @@ class User_model extends BaseModel {
 	}
 
 	public function getUserForAdmin($user_id) {
-		$this->db->where($this->id_name, $user_id);
-		$query = $this->db->get('user');
+	    $this->db->select('u.*,fp.id as feature_id');
+	    $this->db->from('user u');
+		$this->db->where('u.user_id', $user_id);
+		$this->db->join('featured_profiles fp','u.user_id = fp.user_id','LEFT');
+        $query = $this->db->get();
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
@@ -131,7 +134,7 @@ class User_model extends BaseModel {
 
 	public function getWatch($id) {
 		$this->db->where('id', $id);
-		$query = $this->db->get('watch_list');
+		$query = $this->db->get('user_watch');
 		return $query->first_row('array');
 	}
 
@@ -145,7 +148,7 @@ class User_model extends BaseModel {
 
 	public function removeWatch($id) {
 		$this->db->where('id', $id);
-		$this->db->delete('watch_list');
+		$this->db->delete('user_watch');
 	}
 
 	public function checkFollower($user_id, $follower_id) {
@@ -415,6 +418,20 @@ class User_model extends BaseModel {
         return $this->db->get()->result_array();
 	}
 
+	public function countAllUser($conditions = array()){
+        $this->makeQuery($conditions);
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id','full_name', 'email', 'joined','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('u.user_id', 'desc');
+        }
+        return $this->db->count_all_results();
+    }
+
     protected function makeQuery($conditions = array()) {
 	    $this->db->select('u.*, u.status as user_status');
         $this->db->where('u.is_deleted',0);
@@ -675,11 +692,32 @@ class User_model extends BaseModel {
 		return $this->db->count_all_results();
 	}
 
+	public function getAllReports($conditions = array()){
+        $this->db->from('user_reports up');
+        $this->db->join('user ut1', 'ut1.user_id = up.user_id');
+        $this->db->join('user ut2', 'ut2.user_id = up.reporter_id');
+        $this->db->select('up.report_id,up.report_note, ut1.*, ut2.full_name as reporter_name,ut2.user_name as reporter_user_name, up.created_at,up.status as report_status');
+
+        if (!empty($conditions['key'])) {
+            $this->makeSearchQuery(['lower(up.report_id)','lower(ut1.full_name)','lower(ut2.full_name)','lower(up.created_at)'], strtolower($conditions['key']));
+        }
+
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id', 'full_name', 'reporter_name','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('up.report_id', 'desc');
+        }
+    }
+
 	public function getReports($conditions = array(), $page = 0) {
 		$this->db->from('user_reports ur');
 		$this->db->join('user u1', 'u1.user_id = ur.user_id');
 		$this->db->join('user u2', 'u2.user_id = ur.reporter_id');
-		$this->db->select('ur.report_id, u1.*, u2.full_name as reporter_name,u2.user_name as reporter_user_name, ur.created_at,ur.status as report_status');
+		$this->db->select('ur.report_id,ur.report_note, u1.*, u2.full_name as reporter_name,u2.user_name as reporter_user_name, ur.created_at,ur.status as report_status');
 
         if (!empty($conditions['key'])) {
             $this->makeSearchQuery(['lower(ur.report_id)','lower(u1.full_name)','lower(u2.full_name)','lower(ur.created_at)'], strtolower($conditions['key']));
@@ -828,11 +866,13 @@ class User_model extends BaseModel {
     }
 
     public function getUserComments($user_id, $isMe = true) {
-        $this->db->select('c.*,e.*, c.status as comment_status,cr.report_id as comment_reportId');
+        $this->db->select('c.*,e.*,s.product_id,pv.name as film_name, c.status as comment_status,cr.report_id as comment_reportId');
         $this->db->from('comments c');
         $this->db->where('c.user_id', $user_id);
         $this->db->join('comment_reports cr','c.comment_id = cr.comment_id','LEFT');
         $this->db->join('episode e','c.episode_id = e.episode_id','LEFT');
+        $this->db->join('season s','e.season_id = s.season_id','LEFT');
+        $this->db->join('product_view pv','s.product_id = pv.product_id','LEFT');
         $this->db->group_by('c.comment_id');
 
         return $this->db->get()->result_array();
@@ -857,10 +897,9 @@ class User_model extends BaseModel {
 	}
 
 	public function getListWatching($user_id, $page = -1, $isMe = true) {
-		$this->db->select('w.id, w.user_id,w.added_at, p.*, w.is_hidden,uw.update_time');
-		$this->db->from('watch_list w');
+		$this->db->select('w.id, w.user_id, p.*, w.is_hidden,w.update_time');
+		$this->db->from('user_watch w');
 		$this->db->join('product_view p', 'p.product_id = w.product_id');
-		$this->db->join('user_watch uw','w.user_id=uw.user_id','LEFT');
 		$this->db->where('w.user_id', $user_id);
 		if (!$isMe) {
 			$this->db->where('w.is_hidden', 0);
@@ -892,19 +931,32 @@ class User_model extends BaseModel {
 	}
 
 	public function getProductThumbUpList($user_id, $page = -1, $isMe = true) {
-		$this->db->select('pl.id, pl.user_id, p.*, pl.is_hidden');
+		$this->db->select('pl.id,pl.add_at, pl.user_id, p.*, pl.is_hidden');
 		$this->db->from('product_likes pl');
 		$this->db->join('product_view p', 'pl.product_id = p.product_id');
 		$this->db->where('pl.user_id', $user_id);
 		if (!$isMe) {
 			$this->db->where('pl.is_hidden', 0);
 		}
-		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
-		}
+//		if ($page >= 0) {
+//			$this->db->limit(10, 10 * $page);
+//		}
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+
+	public function getEpisodeThumbUpList(){
+	    $this->db->select('e.*,e.season_id, e.name as episode_name,s.product_id');
+	    $this->db->from('episode_like el');
+	    $this->db->join('episode e','el.episode_id = e.episode_id');
+	    $this->db->join('season s','e.season_id = s.season_id');
+	    $this->db->join('product_view pv','s.product_id = pv.product_id');
+
+    }
+
+    public function getCommentThumbUpList(){
+
+    }
 
 	public function hiddenYourPick($pick_id, $is_hidden) {
 		$this->db->where('pick_id', $pick_id);
@@ -1082,4 +1134,38 @@ class User_model extends BaseModel {
         $this->db->where('user_id',$user_id);
         $this->db->update('user_reports',array('status'=>'deleted'));
 	}
+
+	public function addVerify($user_id){
+	    $this->db->where('user_id',$user_id);
+	    $this->db->update('user',array('user_type'=>1));
+    }
+
+    public function addCurator($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user',array('user_type'=>2));
+    }
+
+    public function removeTag($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user',array('user_type'=>0));
+
+    }
+
+    public function updateFeature($user_id){
+        $this->db->select_max('priority');
+        $result = $this->db->get('featured_profiles')->row();
+        $max_value = $result->priority + 1;
+
+        $data = array(
+            'user_id' => $user_id,
+            'priority' => $max_value,
+            'status' => 1
+        );
+        $this->db->insert('featured_profiles', $data);
+    }
+
+    public function deleteFeature($user_id){
+	    $this->db->where('user_id', $user_id);
+	    $this->db->delete('featured_profiles');
+    }
 }

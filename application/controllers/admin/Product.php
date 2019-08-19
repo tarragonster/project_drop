@@ -51,11 +51,11 @@ class Product extends Base_Controller {
             'img' => array('label' => '', 'sorting' => false),
             'product_id' => array('label' => 'ID', 'sorting' => true),
             'name' => array('label' => 'Story Name', 'sorting' => true),
-            'total_block' => array('label' => '# of Blocks', 'sorting' => false),
-            'paywall_block_name'=> array('label' => 'Paywall Block', 'sorting' => false),
+            'total_block' => array('label' => '#&nbsp;of&nbsp;Blocks', 'sorting' => false),
+            'paywall_block_name'=> array('label' => 'Paywall&nbsp;Block', 'sorting' => false),
             'genre' => array('label' => 'Genre', 'sorting' => false),
-            'activity' => array('label' => 'Story Activity', 'sorting' => false),
-            'created' => array('label' => 'Create Date', 'sorting' => true),
+            'activity' => array('label' => 'Story&nbsp;Activity', 'sorting' => false),
+            'created' => array('label' => 'Create&nbsp;Date', 'sorting' => true),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action')
         );

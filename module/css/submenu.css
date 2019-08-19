@@ -66,8 +66,8 @@
 	font-size: 11px;
 	font-weight: 600;
 	letter-spacing: 0.73px;
-	font-weight: 500;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 
 .section-menu ul li.active a {
@@ -89,7 +89,8 @@
     margin-bottom: 20px;
     border-bottom: 1px solid #e6e6e6;
     font-size: 20px;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     letter-spacing: 0.5px;
     color: #403F3F;
 }
@@ -99,7 +100,8 @@
 	min-height: 180px;
 	border: 0;
 	font-size: 11px;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 	box-shadow: rgba(216, 216, 216, 0.2) 0 0 10px 0;
 }
 

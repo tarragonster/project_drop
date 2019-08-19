@@ -11,9 +11,15 @@
                         <img style="width: 100%; height: 100%;border-radius: 29.5px;"
                              src="<?= media_thumbnail($row['avatar'], 70) ?>"/>
                     </div>
+                    <?php if($row['user_type'] == 1){ ?>
+                        <span class="outer-tag"><img src="<?= base_url('assets/imgs/Verify.svg') ?>" alt=""></span>
+                    <?php } ?>
+                    <?php if($row['user_type'] == 2){ ?>
+                        <span class="outer-tag"><img src="<?= base_url('assets/imgs/Btag-orange.svg') ?>" alt=""></span>
+                    <?php } ?>
                 </td>
                 <td class="header-item-content item-style"><?php echo $row['user_id'] ?></td>
-                <td class="header-item-content item-style" style="font-weight: 900;">
+                <td class="header-item-content item-style" style="font-weight: 600;">
                     <?php echo $row['full_name'] ?><br>
                     <span style="font-weight: 500!important;">@<?php echo $row['user_name'] ?></span>
                 </td>
@@ -46,10 +52,23 @@
                             <li class="text-uppercase view-user-click" data-user_id="<?= $row['user_id'] ?>" onclick="ShowUserProfile(this)"><a href="#" class="drp-items"><span>View</span><img
                                             src="<?= base_url('assets/images/view.svg') ?>" alt=""></a>
                             </li>
-                            <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>"><a href="" class="drp-items"><span>Add</span><img
-                                            src="<?= base_url('assets/images/addTrue.svg') ?>" alt=""></a></li>
-                            <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>"><a href="" class="drp-items"><span>Add</span><img
-                                            src="<?= base_url('assets/images/addB.svg') ?>" alt=""></a></li>
+                            <?php if($row['user_type'] == 1){ ?>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="RemoveTag(this)"><a class="drp-items"><span>Remove</span><img
+                                                src="<?= base_url('assets/images/addTrue.svg') ?>" alt=""></a></li>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="AddCurator(this)"><a class="drp-items"><span>Add</span><img
+                                                src="<?= base_url('assets/images/addB.svg') ?>" alt=""></a></li>
+                            <?php }elseif($row['user_type'] == 2){ ?>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="AddVerify(this)"><a class="drp-items"><span>Add</span><img
+                                                src="<?= base_url('assets/images/addTrue.svg') ?>" alt=""></a></li>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="RemoveTag(this)"><a class="drp-items"><span>Remove</span><img
+                                                src="<?= base_url('assets/images/addB.svg') ?>" alt=""></a></li>
+                            <?php }else{ ?>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="AddVerify(this)"><a class="drp-items"><span>Add</span><img
+                                                src="<?= base_url('assets/images/addTrue.svg') ?>" alt=""></a></li>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="AddCurator(this)"><a class="drp-items"><span>Add</span><img
+                                                src="<?= base_url('assets/images/addB.svg') ?>" alt=""></a></li>
+                            <?php } ?>
+
                             <?php if ($row['status'] == 1): ?>
                                 <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="ShowBlockUser(this)"><a class="drp-items"><span>Disable</span><img
                                                 src="<?= base_url('assets/images/block.svg') ?>" alt=""></a></li>

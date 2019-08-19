@@ -214,7 +214,7 @@ class User{
         };
         this.sendAjaxRequest(function (data) {
             $('#view-note-content').html(data.confirmContent);
-
+            model.switch =true
         })
     }
     editReportNote(){
@@ -293,6 +293,29 @@ class User{
             ToCloseUserModal()
         })
     }
+
+    addVerify(){
+        this.url = '/user/addVerify/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+    addCurator(){
+        this.url = '/user/addCurator/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    removeTag(){
+        this.url = '/user/removeTag/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
 }
 
 let model = User.object;
@@ -351,7 +374,6 @@ function SaveUpdateProfile(){
                 required:true,
             },
             avatar:{
-                required: true,
                 filesize: 1000000,
             }
         },
@@ -374,6 +396,18 @@ function SaveUpdateProfile(){
         myformData.append('bio', $('.bio-input').text());
         myformData.append('avatar', $('input[name=avatar]')[0].files[0]);
 
+        if($('.check-feature').is(":checked")){
+            myformData.append('feature', '1');
+        }else{
+            myformData.append('feature', '0');
+
+        }
+
+        if($('.check-curator').is(":checked")){
+            myformData.append('curator', '2');
+        }else{
+            myformData.append('curator', '0');
+        }
 
         model.saveUpdateProfile(myformData);
         model.switch = true
@@ -382,6 +416,14 @@ function SaveUpdateProfile(){
 }
 
 $('#view-user-popup').on('hidden.bs.modal', function () {
+
+    if(model.switch == true){
+        location.reload();
+        model.switch = false
+    }
+});
+
+$('#view-note-popup').on('hidden.bs.modal', function () {
 
     if(model.switch == true){
         location.reload();
@@ -646,7 +688,7 @@ function FillInput(event){
 
 function FillNote(event){
     var divfield = $(event).text();
-    $("[name=note-edit]").val(divfield)
+    $("[name=note]").val(divfield)
 
 }
 
@@ -657,5 +699,26 @@ $(document).ready(function(){
 
     $.validator.addMethod('filesize', function (value, element, param) {
         return this.optional(element) || (element.files[0].size <= param)
-    }, 'File size must be less than {0}');
+    }, 'File size must be less than 1MB');
 });
+
+function ShowEditNote(event){
+    model.report_id = $(event).data('report_id')
+    $('#view-note-popup').modal('show')
+    model.editReportNote()
+}
+
+function AddVerify(event){
+    model.user_id = $(event).data('user_id');
+    model.addVerify()
+}
+
+function AddCurator(event){
+    model.user_id = $(event).data('user_id');
+    model.addCurator()
+}
+
+function RemoveTag(event){
+    model.user_id = $(event).data('user_id');
+    model.removeTag()
+}

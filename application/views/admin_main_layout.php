@@ -10,7 +10,6 @@
 
 	<title>10 Block cPanel</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap" rel="stylesheet">
 	<link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/core.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/components.css'); ?>" rel="stylesheet" type="text/css"/>
@@ -59,7 +58,7 @@
 		<!-- LOGO -->
 		<div class="topbar-left">
 			<div class="text-center">
-				<a href="<?php echo base_url('') ?>" class="logo"><i class="icon-magnet icon-c-logo"></i><span>10 Block</span></a>
+				<a href="<?php echo base_url('') ?>" class="logo"><span>10 Block</span></a>
 			</div>
 		</div>
 
@@ -67,24 +66,24 @@
 		<div class="navbar navbar-default" role="navigation">
 			<div class="container">
 				<div class="">
-					<div class="pull-left">
-						<button class="button-menu-mobile open-left">
-							<i class="ion-navicon"></i>
-						</button>
-						<span class="clearfix"></span>
-					</div>
-					<ul class="pull-right" style="margin-bottom: 0">
-						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown">
-								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
-									<i class="fa fa-cog" style="font-size: 28px; line-height: 60px"></i>
-								</a>
-								<ul class="dropdown-menu">
-									<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-								</ul>
-							</li>
-							
-						</ul>
+<!--					<div class="pull-left">-->
+<!--						<button class="button-menu-mobile open-left">-->
+<!--							<i class="ion-navicon"></i>-->
+<!--						</button>-->
+<!--						<span class="clearfix"></span>-->
+<!--					</div>-->
+<!--					<ul class="pull-right" style="margin-bottom: 0">-->
+<!--						<ul class="nav navbar-nav navbar-right">-->
+<!--							<li class="dropdown">-->
+<!--								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">-->
+<!--									<i class="fa fa-cog" style="font-size: 28px; line-height: 60px"></i>-->
+<!--								</a>-->
+<!--								<ul class="dropdown-menu">-->
+<!--									<li><a href="--><?php //echo base_url('lockscreen'); ?><!--"><i class="ti-lock m-r-5"></i> Lock screen</a></li>-->
+<!--								</ul>-->
+<!--							</li>-->
+<!--							-->
+<!--						</ul>-->
 						<?php if(isset($sub_id) && $sub_id == 31):?>
 							<li class="btn-export">
 								<button type="button" class="btn btn-header">
@@ -109,6 +108,10 @@
 							<li class="btn-export">
 								<button type="button" class="btn btn-header" id="add-genre-btn">Add Genre</button>
 							</li>
+                        <?php elseif(isset($sub_id) && $sub_id == 21):?>
+                            <li class="btn-export">
+                                <button type="button" class="btn btn-header" id="view-status">View All Statuses </button>
+                            </li>
 						<?php endif;?>
 					</ul>
 				</div>
