@@ -10,7 +10,8 @@
     letter-spacing: 0.28px;
     color: #ffffff;
     clear: both;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 .hub-faq-title {
     border-top: none;
@@ -59,12 +60,14 @@ table.dataTable thead .sorting_desc:before {
 }
 .table > thead:first-child > tr:first-child > th {
     color: #9B9B9B;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
 }
 .status {
     font-size: 12px;
     letter-spacing: 0.8px;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 .title-create-season {
     font-family: 'Avenir Next';
@@ -379,9 +382,9 @@ table.dataTable thead .sorting_desc:before {
     -webkit-box-shadow: none;
     box-shadow: none;
     font-size: 13px;
-    font-weight: normal;
     letter-spacing: 0.87px;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
 }
 
 .custom-modal label.form-label, .custom-modal label.form-group-label {
@@ -409,12 +412,14 @@ table.dataTable thead .sorting_desc:before {
 .custom-tab {
     text-transform: uppercase;
     letter-spacing: 0.73px;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 .custom-tab h4 {
     font-size: 14px;
     letter-spacing: 0.73px;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 .custom-tab label {
     color: #9B9B9B;
@@ -431,7 +436,6 @@ table.dataTable thead .sorting_desc:before {
     position: relative;
 }
 .uploader button, .uploader button:hover, .uploader button:focus {
-    font-size: 10px;
     text-transform: uppercase;
     border-radius: 20px;
     background-color: #36404a;
@@ -439,7 +443,8 @@ table.dataTable thead .sorting_desc:before {
     padding: 3px 10px;
     font-size: 11px;
     letter-spacing: 0.73px;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
 }
 .imagePhoto {
     position: absolute;
@@ -455,11 +460,13 @@ table.dataTable thead .sorting_desc:before {
     padding: 5px;
     width: 100%;
     color: #9B9B9B;
-    font-family: 'AvenirNext-Medium';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
 }
 .err-format, .err-size, .mess_err {
     text-transform: initial;
-    font-family: 'Avenir Next';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     color: #E70808;
 }
 
