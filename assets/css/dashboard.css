@@ -3,6 +3,23 @@
     margin-bottom: 12px;
 }
 
+.table-card-box {
+    padding: 20px 0 0 0;
+    margin-bottom: 12px;
+}
+.table-card-box .table {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.table-card-box thead th:first-child{
+    padding-left: 20px;
+}
+
+.table-card-box tbody tr td:first-child{
+    padding-left: 20px;
+}
+
 .chart-content {
     margin: 0px 20px;
 }
@@ -105,6 +122,9 @@
     font-size: 12px;
 }
 
+.date-range-picker {
+    margin: 0 0 0 20px;
+}
 .daterange-analytic {
     border: 1px solid #E3E3E3;
     border-radius: 4px;

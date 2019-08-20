@@ -46,9 +46,12 @@ class Index extends MY_Controller {
 			$this->customJs[] = 'assets/vendor/jquery-number/jquery.number.min.js';
 			$this->customJs[] = 'assets/plugins/raphael/raphael-min.js';
 			$this->customJs[] = 'assets/plugins/morris/morris.min.js';
+			$this->customCss[] = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css';
+			$this->customJs[] = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js';
 			$this->customJs[] = 'assets/js/dashboard.js';
 
 			$dashboard['top_users'] = $this->dashboard_model->countUsers();
+			$dashboard['top_header'] = 'admin/dashboard/top';
 //			$dashboard['customJs'] = $this->customJs;
 //			$dashboard['customCss'] = $this->customCss;
 			$this->render('admin/dashboard/layout', $dashboard, 1, 10);

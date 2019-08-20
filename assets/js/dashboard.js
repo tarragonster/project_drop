@@ -157,6 +157,7 @@ function dataSetChanged(data) {
 		$('#user_label_first').html(data['user_chart']['first']['label']);
 		$('#user_value').html($.number(data['user_chart']['first']['value'], 0));
 		$('#user_percent').html(html_percent(data['user_chart']['percent']));
+
 		Morris.Line({
 			element: 'user-chart',
 			data: data['user_chart']['data'],
@@ -177,5 +178,67 @@ function dataSetChanged(data) {
 			},
 			resize: true,
 		});
+
+
+		$('#comment-chart').empty();
+		Morris.Line({
+			element: 'comment-chart',
+			data: data['user_chart']['data'],
+			hideHover: 'auto',
+			xkey: 'label',
+			ykeys: ['first', 'second'],
+			labels: [data['user_chart']['first']['label'], data['user_chart']['second']['label']],
+			lineColors: ['#996cd9', '#c3cdd4'],
+			parseTime: false,
+			yLabelFormat: function (y) {
+				if (y >= 10000) {
+					return $.number(y / 1000, 0) + 'k';
+				} else if (y >= 100) {
+					return $.number(y, 0);
+				} else {
+					return y != Math.round(y) ? '' : y;
+				}
+			},
+			resize: true,
+		});
+
+		$('#review-chart').empty();
+		Morris.Line({
+			element: 'review-chart',
+			data: data['user_chart']['data'],
+			hideHover: 'auto',
+			xkey: 'label',
+			ykeys: ['first', 'second'],
+			labels: [data['user_chart']['first']['label'], data['user_chart']['second']['label']],
+			lineColors: ['#996cd9', '#c3cdd4'],
+			parseTime: false,
+			yLabelFormat: function (y) {
+				if (y >= 10000) {
+					return $.number(y / 1000, 0) + 'k';
+				} else if (y >= 100) {
+					return $.number(y, 0);
+				} else {
+					return y != Math.round(y) ? '' : y;
+				}
+			},
+			resize: true,
+		});
+
+		searchedChartConfig.data.datasets[0].data = [
+			randomScalingFactor(),
+			randomScalingFactor(),
+			randomScalingFactor(),
+			randomScalingFactor(),
+			randomScalingFactor()
+		];
+		searchedChart.update();
+
+		ageChartConfig.data.datasets[0].data = [
+			randomScalingFactor(),
+			randomScalingFactor(),
+			randomScalingFactor(),
+			randomScalingFactor()
+		];
+		ageChart.update();
 	}
 }

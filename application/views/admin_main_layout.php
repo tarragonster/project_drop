@@ -33,7 +33,7 @@
 	<?php
 	if (isset($customCss) && is_array($customCss)) {
 		foreach ($customCss as $style) {
-			echo '<link href="' . base_url($style) . '" rel="stylesheet" type="text/css" />' . "\n";
+			echo '<link href="' . (startsWith($style, 'http') ? $style : base_url($style)) . '" rel="stylesheet" type="text/css" />' . "\n";
 		}
 	}
 	?>
@@ -263,7 +263,7 @@
 <?php
 if (isset($customJs) && is_array($customJs)) {
 	foreach ($customJs as $script) {
-		echo '<script type="text/javascript" src="' . base_url() . $script . '"></script>' . "\n";
+		echo '<script type="text/javascript" src="' . (startsWith($script, 'http') ? $script : base_url() . $script) . '"></script>' . "\n";
 	}
 }
 ?>
