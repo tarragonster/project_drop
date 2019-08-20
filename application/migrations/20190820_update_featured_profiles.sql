@@ -1,0 +1,1 @@
+ALTER TABLE `featured_profiles` ADD `added_at` INT NOT NULL AFTER `priority`;

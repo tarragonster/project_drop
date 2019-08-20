@@ -17,13 +17,11 @@ class Featured extends Base_Controller {
 		$layoutParams['other_users'] = $this->featured_model->getOtherUsers();
 		$layoutParams['max'] = $this->featured_model->getMaxProfile();
 
-//		pre_print($layoutParams);
 		$data = array();
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 24;
 		$data['account'] = $this->account;
-		$data['content'] = $this->load->view('admin/users/featured_list', $layoutParams, true);;
-		$this->load->view('admin_main_layout', $data);
+		$data['content'] = $this->load->view('admin/users/featured_list', $layoutParams, true);
 	}
 
 	public function addProfile($user_id) {

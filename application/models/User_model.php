@@ -1211,4 +1211,9 @@ class User_model extends BaseModel {
         $this->db->where('id',$commentLike_id);
         $this->db->delete('comment_like');
     }
+
+    // public function getFollowersOfUser($user_ids) {
+    // 	$this->db->where_in('user_id', $user_ids);
+    // 	return $this->db->count_all_results();
+    // }
 }

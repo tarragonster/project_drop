@@ -20,6 +20,7 @@
     <link href="<?php echo base_url('assets/app/core-table/coreTable.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url('module/css/admin_main_layout.css'); ?>" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo base_url('assets/css/jquery-ui.css'); ?>" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/multiselect/css/jquery.multiselect.css')?>">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" >
 
@@ -112,6 +113,10 @@
                             <li class="btn-export">
                                 <button type="button" class="btn btn-header" id="view-status">View All Statuses </button>
                             </li>
+                        <?php elseif(isset($sub_id) && $sub_id == 11):?>
+                        	<li class="btn-export">
+                                <button type="button" class="btn btn-header" id="add-user" data-toggle="modal" data-target="#add-user-popup">Add User</button>
+                            </li>
 						<?php endif;?>
 					</ul>
 				</div>
@@ -157,7 +162,7 @@
                             <span>Stories</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('preview'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>">
+						<a href="<?php echo base_url('explore'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>">
                             <?php if (isset($parent_id) && $parent_id == 10) { ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Explore-active.svg') ?> " alt="Explore">
                             <?php }else{ ?>
@@ -245,7 +250,9 @@
 </script>
 
 <!-- jQuery  -->
-<script src="<?php echo base_url('assets/js/jquery-2.1.4.js'); ?>"></script>
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/detect.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/fastclick.js'); ?>"></script>
@@ -253,7 +260,6 @@
 <script src="<?php echo base_url('assets/js/jquery.blockUI.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/waves.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/wow.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-ui.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.scrollTo.min.js'); ?>"></script>
 
