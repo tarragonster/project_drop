@@ -57,6 +57,9 @@
     border: 0px !important;
 }
 /*SORTING*/
+#add-user {
+    margin-right: 50px;
+}
 .table thead {
 	position: unset;
 }
@@ -433,6 +436,24 @@
 .custom-input::placeholder {
   color: #565656;
 }
+#add-user-btn {
+    float: right;
+    margin: 15px 0;
+    padding: 2px 20px !important;
+}
+#result-search {
+    list-style-type: none;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+}
+#result-search li a {
+    color: #403F3F;
+    text-transform: none;
+}
+#result-search li:hover {
+    background-color: #dfdfdf;
+}
 /*End Modal*/
 
 .table > thead > tr > th:first-child {
@@ -461,4 +482,34 @@
 }
 .table > thead > tr > th:nth-child(9) {
     width: 70px;
+}
+
+.preview_table > thead > tr > th:first-child {
+    width: 5%;
+}
+.preview_table > thead > tr > th:nth-child(2) {
+    width: 80px;
+}
+.preview_table > thead > tr > th:nth-child(3) {
+    width: 7.5%;
+}
+.preview_table > thead > tr > th:nth-child(4) {
+    width: 23%;
+}
+.preview_table > thead > tr > th:nth-child(5) {
+    width: 18%;
+}
+.preview_table > thead > tr > th:nth-child(6) {
+    width: 20%;
+}
+.preview_table > thead > tr > th:nth-child(7) {
+    width: 13%;
+}
+.preview_table > thead > tr > th:nth-child(8) {
+    width: 60px;
+}
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
 }
