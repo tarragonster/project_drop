@@ -65,61 +65,49 @@
 		<!-- Button mobile view to collapse sidebar menu -->
 		<div class="navbar navbar-default" role="navigation">
 			<div class="container">
-				<div class="">
-<!--					<div class="pull-left">-->
-<!--						<button class="button-menu-mobile open-left">-->
-<!--							<i class="ion-navicon"></i>-->
-<!--						</button>-->
-<!--						<span class="clearfix"></span>-->
-<!--					</div>-->
-<!--					<ul class="pull-right" style="margin-bottom: 0">-->
-<!--						<ul class="nav navbar-nav navbar-right">-->
-<!--							<li class="dropdown">-->
-<!--								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">-->
-<!--									<i class="fa fa-cog" style="font-size: 28px; line-height: 60px"></i>-->
-<!--								</a>-->
-<!--								<ul class="dropdown-menu">-->
-<!--									<li><a href="--><?php //echo base_url('lockscreen'); ?><!--"><i class="ti-lock m-r-5"></i> Lock screen</a></li>-->
-<!--								</ul>-->
-<!--							</li>-->
-<!--							-->
-<!--						</ul>-->
-						<?php if(isset($sub_id) && $sub_id == 31):?>
-							<li class="btn-export">
-								<button type="button" class="btn btn-header">
-									<a href="<?php echo base_url('product/add')?>">Add Story</a>
-								</button>
-							</li>
-						<?php elseif(isset($sub_id) && $sub_id == 34): ?>
-							<li class="btn-export">
-								<button type="button" class="btn btn-header">
-									<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Add New&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></a>
-									<ul class="dropdown-menu" role="menu" style="min-width: 87px;left: unset;top: 46px;">
-										<li class="add-season-btn" data-product="<?php echo $this->session->userdata('product_id')?>">
-											<a href="">Add season</a>
-										</li>
-										<li class="add-block-btn" data-product="<?php echo $this->session->userdata('product_id')?>" data-toggle="modal" data-target="#add-block-popup">
-											<a href="">Add block</a>
-										</li>
-									</ul>
-								</button>
-							</li>
-						<?php elseif(isset($sub_id) && $sub_id == 51):?>
-							<li class="btn-export">
-								<button type="button" class="btn btn-header" id="add-genre-btn">Add Genre</button>
-							</li>
-                        <?php elseif(isset($sub_id) && $sub_id == 21):?>
-                            <li class="btn-export">
-                                <button type="button" class="btn btn-header" id="view-status">View All Statuses </button>
-                            </li>
-                        <?php elseif(isset($sub_id) && $sub_id == 11):?>
-                        	<li class="btn-export">
-                                <button type="button" class="btn btn-header" id="add-user" data-toggle="modal" data-target="#add-user-popup">Add User</button>
-                            </li>
-						<?php endif;?>
-					</ul>
-				</div>
-				<!--/.nav-collapse -->
+				<?php if(isset($sub_id) && $sub_id == 10):?>
+					<div class="date-range-picker">
+						<div id="reportrange" class="pull-left daterange-analytic">
+							<i class="fa fa-filter"></i>
+							<span></span>
+						</div>
+						<div class="compared-box">
+							&nbsp;&nbsp;compared to <span id="compared_range"></span><img class="m-l-5" src="<?= base_url("assets/imgs/spinner-v2.svg") ?>" width="27px" style="display: none" id="dashboard-loading">
+						</div>
+					</div>
+				<?php elseif(isset($sub_id) && $sub_id == 31):?>
+					<li class="btn-export">
+						<button type="button" class="btn btn-header">
+							<a href="<?php echo base_url('product/add')?>">Add Story</a>
+						</button>
+					</li>
+				<?php elseif(isset($sub_id) && $sub_id == 34): ?>
+					<li class="btn-export">
+						<button type="button" class="btn btn-header">
+							<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Add New&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></a>
+							<ul class="dropdown-menu" role="menu" style="min-width: 87px;left: unset;top: 46px;">
+								<li class="add-season-btn" data-product="<?php echo $this->session->userdata('product_id')?>">
+									<a href="">Add season</a>
+								</li>
+								<li class="add-block-btn" data-product="<?php echo $this->session->userdata('product_id')?>" data-toggle="modal" data-target="#add-block-popup">
+									<a href="">Add block</a>
+								</li>
+							</ul>
+						</button>
+					</li>
+				<?php elseif(isset($sub_id) && $sub_id == 51):?>
+					<li class="btn-export">
+						<button type="button" class="btn btn-header" id="add-genre-btn">Add Genre</button>
+					</li>
+                <?php elseif(isset($sub_id) && $sub_id == 21):?>
+                    <li class="btn-export">
+                        <button type="button" class="btn btn-header" id="view-status">View All Statuses </button>
+                    </li>
+                <?php elseif(isset($sub_id) && $sub_id == 11):?>
+                    <li class="btn-export">
+                        <button type="button" class="btn btn-header" id="add-user" data-toggle="modal" data-target="#add-user-popup">Add User</button>
+                    </li>
+				<?php endif;?>
 			</div>
 		</div>
 	</div>

@@ -123,15 +123,41 @@
 }
 
 .date-range-picker {
-    margin: 0 0 0 20px;
+    margin: 0 0 0 250px;
+    padding-top: 16px;
 }
+.date-range-picker .compared-box {
+    line-height: 27px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
 .daterange-analytic {
-    border: 1px solid #E3E3E3;
-    border-radius: 4px;
-    color: #30383f;
-    padding: 7px 12px;
+    border: 1px solid #C7AE6E;
+    border-radius: 50px;
+    background-color: #C7AE6E;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 4px 16px;
+    letter-spacing: 0.83px;
     font-size: 12px;
-    max-width: 100%;
-    -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
+}
+
+.daterangepicker .ranges {
+    width: 300px;
+}
+
+.daterangepicker .ranges ul {
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.daterangepicker .ranges ul li {
+    flex-basis: calc(50% - 4px);
+}
+
+.daterangepicker .range_inputs button {
+    font-weight: 500;
 }
