@@ -15,7 +15,7 @@
 		<h4>Featured user search</h4>
 		<div class="form-group ui-widget" style="margin-top: 20px">
 	        <label>Search user</label>
-	        <input type="text" name="user" id="user" required class="form-control custom-input" onkeyup="test(this)" autocomplete="on" placeholder="Search name, username or email"/>
+	        <input type="text" name="user" id="user" required class="form-control custom-input" onkeyup="test()" autocomplete="on" placeholder="Search name, username or email"/>
 	    </div>
 	</div>
 </div>

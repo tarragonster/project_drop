@@ -20,7 +20,6 @@
     <link href="<?php echo base_url('assets/app/core-table/coreTable.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url('module/css/admin_main_layout.css'); ?>" rel="stylesheet" type="text/css"/>
-    <link href="<?php echo base_url('assets/css/jquery-ui.css'); ?>" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/multiselect/css/jquery.multiselect.css')?>">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" >
 
@@ -250,9 +249,7 @@
 </script>
 
 <!-- jQuery  -->
- <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+<script src="<?php echo base_url('assets/js/jquery-2.1.4.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/detect.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/fastclick.js'); ?>"></script>
@@ -266,6 +263,7 @@
 <script src="<?php echo base_url('assets/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/plugins/multiselect/js/jquery.multiselect.js')?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-ui.js')?>"></script>
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 

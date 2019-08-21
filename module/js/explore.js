@@ -57,3 +57,11 @@ $('body').delegate('.btnAct', 'click', function(e) {
         });
     });
 });
+
+function test() {
+	var arr = ['a', 'asdf', 'atryrty', 'body', 'bssfsd']
+	// console.log(arr)
+	$( "#user" ).autocomplete({
+	    source: arr
+    });
+}
