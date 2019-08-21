@@ -10,6 +10,7 @@ class Explore extends Base_Controller {
 
 		$this->load->model("featured_model");
 		$this->load->model("preview_model");
+		$this->load->model("product_model");
 		$this->load->library('hash');
 	}
 
@@ -59,9 +60,29 @@ class Explore extends Base_Controller {
 	public function ajaxExplore() {
 		$key = $this->input->post('key');
 		if ($key == 'add-user') {
-			$data['other_users'] = $this->featured_model->getOtherUsers();
-			$this->load->view('admin/explore/sub_page/add_featured_user', $data);
+			$this->load->view('admin/explore/sub_page/add_featured_user');
 		}
+	}
+
+	public function searchOtherUser() {
+		$key = $this->input->post('key');
+		$featured_users = $this->featured_model->getUsers();
+		$user_ids = Hash::combine($featured_users,'{n}.user_id','{n}.user_id');
+		$other_users = $this->featured_model->searchOtherUsers($key, $user_ids);
+		echo json_encode($other_users);
+	}
+
+	public function addFeaturedUser() {
+		$user_id = $this->input->post('user_id');
+		$max_priority = $this->featured_model->getMaxProfile();
+		$params = array(
+			'user_id' => $user_id,
+			'priority' => $max_priority + 1,
+			'added_at' => time(),
+			'status' => 1
+		);
+		$this->featured_model->insert($params);
+		$this->redirect('explore');
 	}
 
 	public function sortFeaturedUser() {
@@ -87,7 +108,6 @@ class Explore extends Base_Controller {
 			$this->redirect('explore');
 		} else {
 			$this->featured_model->update(array('status' => 0), $user['id']);
-			return $this->redirect('explore');
 		}
 	}
 
@@ -98,7 +118,6 @@ class Explore extends Base_Controller {
 			$this->redirect('explore');
 		} else {
 			$this->featured_model->update(array('status' => 1), $user['id']);
-			return $this->redirect('explore');
 		}
 	}
 
@@ -109,18 +128,39 @@ class Explore extends Base_Controller {
 			$this->redirect('explore');
 		} else {
 			$this->featured_model->delete($user['id']);
-			return $this->redirect('explore');
 		}
 	}
 
 	public function managePreviews() {
 		$previews = $this->preview_model->getPreviews();
-		if($previews != null) {
+		if($previews == null) {
 			$params['page_index'] = 'empty_preview';
 		}else {
+			$preview_ids = Hash::combine($previews,'{n}.product_id','{n}.product_id');
+
+			$comments = $this->product_model->getAllComment($preview_ids);
+	        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.product_id');
+
+			$likes = $this->product_model->getAllLike($preview_ids);
+	        $likes = Hash::combine($likes,'{n}.id','{n}','{n}.product_id');
+
+			$picks = $this->product_model->getAllPick($preview_ids);
+	        $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.product_id');
+
+	        foreach ($previews as $key => $value) {
+				$previews[$key]['comments'] = !empty($comments[$value['product_id']]) ? $comments[$value['product_id']] : [];
+				$previews[$key]['total_cmt'] = count($previews[$key]['comments']);
+
+				$previews[$key]['likes'] = !empty($likes[$value['product_id']]) ? $likes[$value['product_id']] : [];
+				$previews[$key]['total_like'] = count($previews[$key]['likes']);
+
+				$previews[$key]['picks'] = !empty($picks[$value['product_id']]) ? $picks[$value['product_id']] : [];
+				$previews[$key]['total_pick'] = count($previews[$key]['picks']);
+			}
 			$params = [
 				'page_index' => 'preview_list',
 				'page_base' => 'explore',
+				'previews' => $previews
 			];
 		}
 		$this->customCss[] = 'module/css/submenu.css';
@@ -130,4 +170,52 @@ class Explore extends Base_Controller {
 		$this->customJs[] = 'module/js/explore.js';
 		$this->render('/explore/explore_page', $params, 10, 12);
 	}
+
+	public function sortPreviewStory() {
+		header('Content-Type: application/json');
+		$response = ['success' => false];
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			$dragging_id = $this->input->post('dragging');
+			$positions = $this->input->post('positions');
+
+			$ids = array_keys($positions);
+			foreach ($ids as $key => $id) {
+				$this->preview_model->updatePriority(['priority' => $key + 1], $id);
+			}
+			$response['success'] = true;
+		}
+		echo json_encode($response);
+	}
+
+	public function disablePreview() {
+		$product_id = $this->input->get('product_id');
+		$product = $this->preview_model->getFilm($product_id);
+		if ($product == null) {
+			$this->redirect('explore');
+		} else {
+			$this->preview_model->update(array('status' => 0), $product['id']);
+		}
+	}
+
+	public function enablePreview() {
+		$product_id = $this->input->get('product_id');
+		$product = $this->preview_model->getFilm($product_id);
+		if ($product == null) {
+			$this->redirect('explore');
+		} else {
+			$this->preview_model->update(array('status' => 1), $product['id']);
+		}
+	}
+
+	public function removePreview() {
+		$product_id = $this->input->get('product_id');
+		$product = $this->preview_model->getFilm($product_id);
+		if ($product == null) {
+			$this->redirect('explore');
+		} else {
+			$this->preview_model->delete($product['id']);
+		}
+	}
+
+
 }

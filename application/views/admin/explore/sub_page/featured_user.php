@@ -60,7 +60,7 @@
 										<i type="button" style="font-size: 36px; color: #c7c7c7; line-height: 25px;" class="md md-more-horiz m-r-5 dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></i>
 										<ul class="dropdown-menu" role="menu" style="min-width: 90px">
 											<div class="dropdown-arrow"></div>
-											<li class="edit-genre-btn" data-id="<?php echo $row['user_id']; ?>">
+											<li class="view-user-btn" data-id="<?php echo $row['user_id']; ?>">
 												<a href="#">
 													View
 													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/edit.svg')?>"></span>

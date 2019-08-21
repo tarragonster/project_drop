@@ -113,4 +113,13 @@ class Featured_model extends BaseModel {
 		$this->db->update($this->table, $params);
 	}
 
+	public function searchOtherUsers($key, $user_ids) {
+		$this->db->select('u.user_id, u.user_name, u.full_name, u.email');
+		$this->db->from('user u');
+		$this->db->where_not_in('u.user_id', $user_ids);
+		if (!empty($key)) {
+			$this->db->where('u.user_name like "%' . $key . '%" or u.full_name like "%' . $key . '%" or u.email like "%' . $key . '%"');
+		}
+		return $this->db->get()->result_array();
+	}
 }

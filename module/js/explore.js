@@ -58,10 +58,73 @@ $('body').delegate('.btnAct', 'click', function(e) {
     });
 });
 
-function test() {
-	var arr = ['a', 'asdf', 'atryrty', 'body', 'bssfsd']
-	// console.log(arr)
-	$( "#user" ).autocomplete({
-	    source: arr
+//Action update status of preview list
+$('body').delegate('.preview-btn', 'click', function(e) {
+    e.preventDefault();
+
+    var product_id = $(this).data('id');
+
+    $('.dis-confirm').click(function(){
+        $.get('disablePreview', {product_id:product_id}, function(data){
+	        $(this).attr('data-dismiss', 'modal');
+	        location.reload();
+        });
     });
+
+    $('.en-confirm').click(function(){
+        $.get('enablePreview', {product_id:product_id}, function(data){
+	        $(this).attr('data-dismiss', 'modal');
+	        location.reload();
+        });
+    });
+
+    $('.remove-confirm').click(function(){
+        $.get('removePreview', {product_id:product_id}, function(data){
+            $(this).attr('data-dismiss', 'modal');
+	        location.reload();
+        });
+    });
+});
+
+
+
+function searchUser() {
+	var key = $('#user_key').val()
+	var html = ''
+	
+	$.ajax({
+		type: "POST",
+		dataType: "html",
+		data: {key:key},
+		url: BASE_APP_URL + 'explore/searchOtherUser',
+		success: function (data) {
+			console.log(data)
+			var obj = JSON.parse(data);
+			html += "<ul id='result-search'>"
+			obj.forEach(function(item){
+				html += "<li class='result-item' data-id='" + item.user_id + "' data-value='" + item.full_name + ", @" + item.user_name + ", " + item.email + "'>"
+				html += "<a href='#' class='result-value'>" + item.full_name + ", @" + item.user_name + ", " + item.email + "</a></li>"
+			})
+			html += "</ul>"
+			$('#other_user').append(html)
+		}
+	});
+	$('#other_user').html('')
+}
+
+$(document).on('click','.result-item',function(){
+	var user_id = $(this).data('id')
+	var user_value = $(this).data('value')
+	$('#user_key').val(user_value)
+	$('#user_key').attr('data-id', user_id)
+	$('#other_user').html('')
+});
+
+function addUser() {
+	var user_value = $('#user_key').val()
+	if(user_value != '') {
+		var user_id = $('#user_key').data('id')
+		$('#user_key').val(user_id)
+		$('#user-form-add').submit()
+	}
 }
