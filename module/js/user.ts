@@ -30,6 +30,9 @@ class User{
     watch_id:number;
     comment_id:number;
     report_id:number;
+    episodeLike_id:number;
+    productLike_id:number;
+    commentLike_id:number;
     note:string;
 
     sendAjaxRequest(_callback) {
@@ -293,6 +296,65 @@ class User{
             ToCloseUserModal()
         })
     }
+
+    addVerify(){
+        this.url = '/user/addVerify/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+    addCurator(){
+        this.url = '/user/addCurator/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    removeTag(){
+        this.url = '/user/removeTag/' + this.user_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    confirmDeleteEpisodeLike(){
+        this.url = '/user/deleteEpisodeLike/' + this.episodeLike_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.switch = true;
+            model.active = 'thumb-up';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide')
+        })
+    }
+
+    confirmDeleteProductLike(){
+        this.url = '/user/deleteProductLike/' + this.productLike_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.switch = true;
+            model.active = 'thumb-up';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide')
+        })
+    }
+    confirmDeleteCommentLike(){
+        this.url = '/user/deleteCommentLike/' + this.commentLike_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            model.switch = true;
+            model.active = 'thumb-up';
+            model.showUserProfile();
+            model.active = 'profile';
+            $('#delete-comment').modal('hide')
+        })
+    }
+
 }
 
 let model = User.object;
@@ -373,6 +435,18 @@ function SaveUpdateProfile(){
         myformData.append('bio', $('.bio-input').text());
         myformData.append('avatar', $('input[name=avatar]')[0].files[0]);
 
+        if($('.check-feature').is(":checked")){
+            myformData.append('feature', '1');
+        }else{
+            myformData.append('feature', '0');
+
+        }
+
+        if($('.check-curator').is(":checked")){
+            myformData.append('curator', '2');
+        }else{
+            myformData.append('curator', '0');
+        }
 
         model.saveUpdateProfile(myformData);
         model.switch = true
@@ -665,10 +739,94 @@ $(document).ready(function(){
     $.validator.addMethod('filesize', function (value, element, param) {
         return this.optional(element) || (element.files[0].size <= param)
     }, 'File size must be less than 1MB');
+
+    $.validator.addMethod("confirmInput", function(value, element) {
+        if(this.optional(element) || value == "REMOVE") {
+            return true;
+        }else{
+            return false;
+        }
+    },'Sorry, it must be confirmed by typing "REMOVE" into input box above');
 });
 
 function ShowEditNote(event){
     model.report_id = $(event).data('report_id')
     $('#view-note-popup').modal('show')
     model.editReportNote()
+}
+
+function AddVerify(event){
+    model.user_id = $(event).data('user_id');
+    model.addVerify()
+}
+
+function AddCurator(event){
+    model.user_id = $(event).data('user_id');
+    model.addCurator()
+}
+
+function RemoveTag(event){
+    model.user_id = $(event).data('user_id');
+    model.removeTag()
+}
+
+function showDeleteEpisodeLike(event){
+    model.episodeLike_id = $(event).data('el_id');
+    $('#delete-episode-like').modal('show');
+}
+
+function ConfirmDeleteEpisodeLike(){
+    $('#form-episodeLike-delete').validate({
+        rules: {
+            confirmDelete: {
+                required: true,
+                confirmInput:true
+            },
+
+        },
+    });
+    let validatedata = $("#form-episodeLike-delete").valid();
+    if(validatedata ==true){
+        model.confirmDeleteEpisodeLike();
+    }
+}
+
+function ShowDeleteProductLike(event){
+    model.productLike_id = $(event).data('pl_id');
+    $('#delete-product-like').modal('show');
+}
+
+function ConfirmDeleteProductLike(){
+    $('#form-productLike-delete').validate({
+        rules: {
+            confirmDeletePL: {
+                required: true,
+                confirmInput:true
+            },
+        },
+    });
+    let validatedata = $("#form-productLike-delete").valid();
+    if(validatedata ==true){
+        model.confirmDeleteProductLike();
+    }
+}
+
+function ShowDeleteCommentLike(event){
+    model.commentLike_id = $(event).data('cl_id');
+    $('#delete-product-like').modal('show');
+}
+
+function ConfirmDeleteCommentLike(){
+    $('#form-commentLike-delete').validate({
+        rules: {
+            confirmDeleteCL: {
+                required: true,
+                confirmInput:true
+            },
+        },
+    });
+    let validatedata = $("#form-commentLike-delete").valid();
+    if(validatedata ==true){
+        model.confirmDeleteCommentLike();
+    }
 }

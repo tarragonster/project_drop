@@ -51,11 +51,11 @@ class Product extends Base_Controller {
             'img' => array('label' => '', 'sorting' => false),
             'product_id' => array('label' => 'ID', 'sorting' => true),
             'name' => array('label' => 'Story Name', 'sorting' => true),
-            'total_block' => array('label' => '# of Blocks', 'sorting' => false),
-            'paywall_block_name'=> array('label' => 'Paywall Block', 'sorting' => false),
+            'total_block' => array('label' => '#&nbsp;of&nbsp;Blocks', 'sorting' => false),
+            'paywall_block_name'=> array('label' => 'Paywall&nbsp;Block', 'sorting' => false),
             'genre' => array('label' => 'Genre', 'sorting' => false),
-            'activity' => array('label' => 'Story Activity', 'sorting' => false),
-            'created' => array('label' => 'Create Date', 'sorting' => true),
+            'activity' => array('label' => 'Story&nbsp;Activity', 'sorting' => false),
+            'created' => array('label' => 'Create&nbsp;Date', 'sorting' => true),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action')
         );
@@ -669,6 +669,7 @@ class Product extends Base_Controller {
 	}
 
 	public function manageSeason($product_id = 0) {
+		// $key = !empty($this->input->post('key')) ? $this->input->post('key') : null;
 		$conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
 
@@ -760,6 +761,10 @@ class Product extends Base_Controller {
 		echo json_encode($response);
 	}
 
+	public function ajaxSeason() {
+		$this->load->view('admin/products/sub_page/create_season');
+	}
+
 	public function createSeason() {
 		if ($this->input->server('REQUEST_METHOD') == 'POST') {
     		$season_name = $this->input->post('season_name');
@@ -771,7 +776,7 @@ class Product extends Base_Controller {
     			'status' => 1
     		);
     		$this->season_model->insert($paramSeason);
-    		$this->manageSeason($product_id);
+    		$this->redirect('product/manageSeason/' . $product_id);
     	}
 	}
 
@@ -814,9 +819,11 @@ class Product extends Base_Controller {
 	public function ajaxProduct() {
 		$key = $this->input->post('key');
 		$product_id = $this->input->post('product_id');
+		$episode_id = !empty($this->input->post('episode_id')) ? $this->input->post('episode_id') : null;
 	
 		$data['product'] = $this->product_model->getProductById($product_id);		
 		$data['seasons'] = $this->season_model->getSeasonByProduct($product_id);
+		$data['episode'] = $this->episode_model->getEpisodeDetail($episode_id);
 		$data['product_id'] = $product_id;
 
 		if ($key == 'add-block') {
@@ -852,5 +859,33 @@ class Product extends Base_Controller {
         );
         $this->episode_model->insert($params);
         $this->redirect('product/manageSeason/' . $product_id);
+    }
+
+    public function editEpisode() {
+    	$product_id = $this->input->post('product_id');
+    	$episode_id = $this->input->post('episode_id');
+    	$episode = $this->episode_model->getEpisodeDetail($episode_id);
+        if ($episode == null) {
+            redirect('product');
+        }
+        if ($this->input->server('REQUEST_METHOD') == 'POST') 
+        {
+            $params['name'] = !empty($this->input->post('episode_name')) ? $this->input->post('episode_name') : null;
+            $params['season_id'] = !empty($this->input->post('season_id')) ? $this->input->post('season_id') : null;
+            $params['jw_media_id'] = !empty($this->input->post('jw_media_id')) ? $this->input->post('jw_media_id') : null;
+            $params['description'] = !empty($this->input->post('description')) ? trim($this->input->post('description')) : null;  
+
+            if(!empty($_FILES['block_img'])) {
+	            $image = isset($_FILES['block_img']) ? $_FILES['block_img'] : null;
+		        $this->load->model('file_model');
+		        if ($image != null && $image['error'] == 0) {
+		            $path = $this->file_model->createFileName($image, 'media/films/', 'film');
+		            $this->file_model->saveFile($image, $path);
+		            $params['image'] = $path;
+		        }
+		    }
+            $this->episode_model->update($params, $episode_id);
+            $this->redirect('product/manageSeason/' . $product_id);
+        }
     }
 }

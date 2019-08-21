@@ -35,7 +35,7 @@
 
 .chart-number-box {
     font-size: 22px;
-    font-weight: 200;
+    font-weight: 400;
     line-height: 32px;
     letter-spacing: 1.5px;
     color: #1f282d;
@@ -81,7 +81,7 @@
     line-height: 1.1;
     letter-spacing: 0.1em;
     margin-top: 0;
-    font-weight: 100;
+    font-weight: 400;
     text-align: center;
 }
 

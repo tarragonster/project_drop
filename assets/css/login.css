@@ -18,7 +18,7 @@ input:-webkit-autofill {
 }
 
 body {
-    font-family: "AvenirNext-Medium", "Avenir Next", Helvetica Neue, Helvetica, Arial;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #ffffff;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
@@ -160,7 +160,8 @@ p {
 .login h1 {
     font-size: 28px;
     color: #ffffff;
-    font-family: 'AvenirNext-DemiBold', "Avenir Next", Helvetica Neue, Helvetica, Arial;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
     padding: 40px 0 0;
     letter-spacing: 2px;
 }
@@ -173,7 +174,8 @@ p {
     font-size: 13px;
     color: #ffffff !important;
     background: #c7ae6e !important;
-    font-family: 'AvenirNext-Medium', "Avenir Next", Helvetica Neue, Helvetica, Arial;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
     -webkit-box-shadow: none;
     box-shadow: none;
     border: none;
@@ -219,7 +221,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 .form-label {
     font-size: 11px;
     letter-spacing: 0.73px;
-    font-family: 'AvenirNext-DemiBold';
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 .btn {
     -webkit-transition: all ease .3s;
@@ -242,7 +245,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     letter-spacing: 0.73px;
     -moz-box-shadow: none;
     background: #ffffff;
-    font-family: AvenirNext-DemiBold;
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 600;
 }
 
 .login .btn.active, .login .btn.active:hover {

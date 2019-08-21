@@ -50,7 +50,7 @@ $(".sortable").sortable({
     }
 }).disableSelection();
 
-// 
+// Add block
 $('.add-block-btn').on('click', function (e) {
     e.preventDefault();
 
@@ -69,10 +69,8 @@ $('.add-block-btn').on('click', function (e) {
     });
 });
 
-function saveEpisode() {
+function saveEpisode(key) {
     var episode_name = $('#episode_name').val()
-    var story_name = $('#story_name').val()
-    var season_id = $('#season_id').val()
     var jw_media_id = $('#jw_media_id').val()
     var description = $('#description').val()
 
@@ -96,6 +94,46 @@ function saveEpisode() {
         $('#des_err').text() == '' && 
         $('#block_image').attr('src') != BASE_APP_URL + 'assets/images/borders/516x295.svg') 
     {
-        $('#block-form-add').submit();
+        if(key == 'edit') {
+            $('#block-form-edit').submit();
+        }else {
+            $('#block-form-add').submit();
+        }
     }
 }
+
+// Edit block
+$('.edit-block-btn').on('click', function (e) {
+    e.preventDefault();
+
+    episode_id = $(this).data('id');
+    product_id = $(this).data('product');
+
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        data: {key:'edit-block', episode_id:episode_id, product_id:product_id},
+        url: BASE_APP_URL + 'product/ajaxProduct',
+        success: function (data) {
+            $('#edit-block-form').html(data);
+            $('#edit-block-popup').modal('show');
+        }    
+    });
+});
+
+// Add season
+$('.add-season-btn').on('click', function (e) {
+    e.preventDefault();
+
+    product_id = $(this).data('product');
+
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        data: {product_id:product_id},
+        url: BASE_APP_URL + 'product/ajaxSeason',
+        success: function (data) {
+            $('.section-content').html(data)
+        }    
+    });
+});

@@ -1,0 +1,1 @@
+ALTER TABLE `explore_previews` ADD `added_at` INT NOT NULL AFTER `priority`;

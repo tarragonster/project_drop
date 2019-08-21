@@ -100,4 +100,17 @@ class Featured_model extends BaseModel {
 		}
 	}
 
+	public function getUsers() {
+		$this->db->select('fp.*, u.user_name, u.full_name, u.avatar');
+		$this->db->from('featured_profiles fp');
+		$this->db->join('user u', 'fp.user_id = u.user_id');
+		$this->db->order_by('fp.priority');
+		return $this->db->get()->result_array();
+	}
+
+	public function updatePriority($params, $id) {
+		$this->db->where('user_id', $id);
+		$this->db->update($this->table, $params);
+	}
+
 }

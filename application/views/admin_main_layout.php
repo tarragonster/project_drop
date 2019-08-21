@@ -10,7 +10,6 @@
 
 	<title>10 Block cPanel</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap" rel="stylesheet">
 	<link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/core.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/components.css'); ?>" rel="stylesheet" type="text/css"/>
@@ -59,7 +58,7 @@
 		<!-- LOGO -->
 		<div class="topbar-left">
 			<div class="text-center">
-				<a href="<?php echo base_url('') ?>" class="logo"><i class="icon-magnet icon-c-logo"></i><span>10 Block</span></a>
+				<a href="<?php echo base_url('') ?>" class="logo"><span>10 Block</span></a>
 			</div>
 		</div>
 
@@ -67,24 +66,24 @@
 		<div class="navbar navbar-default" role="navigation">
 			<div class="container">
 				<div class="">
-					<div class="pull-left">
-						<button class="button-menu-mobile open-left">
-							<i class="ion-navicon"></i>
-						</button>
-						<span class="clearfix"></span>
-					</div>
-					<ul class="pull-right" style="margin-bottom: 0">
-						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown">
-								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
-									<i class="fa fa-cog" style="font-size: 28px; line-height: 60px"></i>
-								</a>
-								<ul class="dropdown-menu">
-									<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-								</ul>
-							</li>
-							
-						</ul>
+<!--					<div class="pull-left">-->
+<!--						<button class="button-menu-mobile open-left">-->
+<!--							<i class="ion-navicon"></i>-->
+<!--						</button>-->
+<!--						<span class="clearfix"></span>-->
+<!--					</div>-->
+<!--					<ul class="pull-right" style="margin-bottom: 0">-->
+<!--						<ul class="nav navbar-nav navbar-right">-->
+<!--							<li class="dropdown">-->
+<!--								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">-->
+<!--									<i class="fa fa-cog" style="font-size: 28px; line-height: 60px"></i>-->
+<!--								</a>-->
+<!--								<ul class="dropdown-menu">-->
+<!--									<li><a href="--><?php //echo base_url('lockscreen'); ?><!--"><i class="ti-lock m-r-5"></i> Lock screen</a></li>-->
+<!--								</ul>-->
+<!--							</li>-->
+<!--							-->
+<!--						</ul>-->
 						<?php if(isset($sub_id) && $sub_id == 31):?>
 							<li class="btn-export">
 								<button type="button" class="btn btn-header">
@@ -96,11 +95,11 @@
 								<button type="button" class="btn btn-header">
 									<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Add New&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></a>
 									<ul class="dropdown-menu" role="menu" style="min-width: 87px;left: unset;top: 46px;">
-										<li class="edit-season-btn" data-id="">
+										<li class="add-season-btn" data-product="<?php echo $this->session->userdata('product_id')?>">
 											<a href="">Add season</a>
 										</li>
 										<li class="add-block-btn" data-product="<?php echo $this->session->userdata('product_id')?>" data-toggle="modal" data-target="#add-block-popup">
-											<a href="#">Add block</a>
+											<a href="">Add block</a>
 										</li>
 									</ul>
 								</button>
@@ -109,6 +108,14 @@
 							<li class="btn-export">
 								<button type="button" class="btn btn-header" id="add-genre-btn">Add Genre</button>
 							</li>
+                        <?php elseif(isset($sub_id) && $sub_id == 21):?>
+                            <li class="btn-export">
+                                <button type="button" class="btn btn-header" id="view-status">View All Statuses </button>
+                            </li>
+                        <?php elseif(isset($sub_id) && $sub_id == 11):?>
+                        	<li class="btn-export">
+                                <button type="button" class="btn btn-header" id="add-user" data-toggle="modal" data-target="#add-user-popup">Add User</button>
+                            </li>
 						<?php endif;?>
 					</ul>
 				</div>
@@ -154,7 +161,7 @@
                             <span>Stories</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('preview'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>">
+						<a href="<?php echo base_url('explore'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>">
                             <?php if (isset($parent_id) && $parent_id == 10) { ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Explore-active.svg') ?> " alt="Explore">
                             <?php }else{ ?>
@@ -250,13 +257,13 @@
 <script src="<?php echo base_url('assets/js/jquery.blockUI.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/waves.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/wow.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-ui.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.scrollTo.min.js'); ?>"></script>
 
 <script src="<?php echo base_url('assets/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/plugins/multiselect/js/jquery.multiselect.js')?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-ui.js')?>"></script>
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 

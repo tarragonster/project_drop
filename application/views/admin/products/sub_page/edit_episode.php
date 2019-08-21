@@ -2,10 +2,10 @@
 	<div class="custom-header">
 		<div class="row">
 			<div class="col-md-8 col-lg-8">
-				<h1 class="modal-title-name">Add Block</h1>
+				<h1 class="modal-title-name">Edit Block</h1>
 			</div>
 			<div class="col-md-4 col-lg-4">
-	            <button type="button" class="btn btn-header" id="create-genre-btn" onclick="saveEpisode(key='add')">Create</button>
+	            <button type="button" class="btn btn-header" id="create-genre-btn" onclick="saveEpisode(key='edit')">Create</button>
 	        </div>
 		</div>
 	</div>
@@ -16,9 +16,10 @@
 			<div class='err-format'>Image format is not suppported</div>
 			<div class='err-size'>The size of the image more than 1MB</div>
 			<input type="hidden" name="product_id" value="<?php echo $product_id?>">
+			<input type="hidden" name="episode_id" value="<?php echo $episode['episode_id']?>">
 			<div class="form-group" style="margin-top: 20px">
                 <label>Block name</label>
-                <input type="text" name="episode_name" id="episode_name" required class="form-control custom-input" placeholder="Enter Name" autocomplete="off"/>
+                <input type="text" name="episode_name" id="episode_name" required class="form-control custom-input" placeholder="Enter Name" autocomplete="off" value="<?php echo $episode['name']?>" />
                 <span class="mess_err" id="block_err"></span>
             </div>
             <div class="row">
@@ -33,6 +34,7 @@
             		<div class="form-group">
 		                <label>Season name</label>
 		                <select id='season_id' class="form-control" required name='season_id'>
+		                	<option value="<?php echo $episode['season_id']?>"><?php echo $episode['season_name']?></option>
                             <?php
                             foreach ($seasons as $item) {
                                 echo "<option value='{$item['season_id']}'>{$item['name']}</option>";
@@ -44,18 +46,18 @@
             </div>
             <div class="form-group" style="margin-top: 20px">
                 <label>JW Media ID</label>
-                <input type="text" name="jw_media_id" id="jw_media_id" required class="form-control custom-input" placeholder="Enter ID" autocomplete="off"/>
+                <input type="text" name="jw_media_id" id="jw_media_id" required class="form-control custom-input" placeholder="Enter ID" value="<?php echo $episode['jw_media_id']?>" autocomplete="off"/>
                 <span class="mess_err" id="jw_err"></span>
             </div>
              <div class="form-group">
                 <label>Block Description</label>
-                <textarea name="description" id="description" class='text-area-des' maxlength='475' class="form-control textarea" required="" rows="4" placeholder="Type Description"></textarea>
+                <textarea name="description" id="description" class='text-area-des' maxlength='475' class="form-control textarea" required="" rows="4" placeholder="Type Description"><?php echo $episode['description']?></textarea>
                 <span class="mess_err" id="des_err"></span>
             </div>
             <div class="input-file">
                 <label>Block image</label>
                 <div class="row" style="margin-left: 0;">
-                    <img id='block_image' src="<?php echo base_url('assets/images/borders/516x295.svg')?>" width='185' height='106' sty />
+                    <img id='block_image' src="<?php echo !empty($episode['image']) ? base_url($episode['image']) : base_url('assets/images/borders/516x295.svg')?>" width='185' height='106' sty />
                     <div class='err-format' id="block_err1">Image format is not suppported</div>
                     <div class='err-size' id="block_err2">The size must be less than 1MB</div>
                     <div class="uploader" onclick="$('#blockImg').click()">

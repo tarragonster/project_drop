@@ -2,28 +2,30 @@
     font-family: "Avenir Next";
     font-weight: normal;
     font-style: normal;
-    src: url('AvenirNext-Regular.woff') format('woff'),
+    src: local('Avenir Next'), local('AvenirNext'), local('AvenirNext-Regular'), url('AvenirNext-Regular.woff') format('woff'),
     url('AvenirNext-Regular.ttf')  format('truetype');
 }
 
 @font-face {
-    font-family: "AvenirNext-Medium";
+    font-family: "Avenir Next";
     font-weight: 500;
     font-style: normal;
-    src: url('AvenirNext-Medium.woff') format('woff'),
+    src: local('Avenir Next Medium'), local('AvenirNext-Medium'), url('AvenirNext-Medium.woff') format('woff'),
     url('AvenirNext-Medium.ttf')  format('truetype');
 }
 
 @font-face {
-    font-family: "AvenirNext-DemiBold";
+    font-family: "Avenir Next";
     font-weight: 600;
-    src: url('AvenirNext-DemiBold.woff') format('woff'),
+    font-style: normal;
+    src: local('Avenir Next DemiBold'), local('AvenirNext-DemiBold'), url('AvenirNext-DemiBold.woff') format('woff'),
     url('AvenirNext-DemiBold.ttf')  format('truetype');
 }
 
 @font-face {
-    font-family: "AvenirNext-Bold";
-    font-weight: 700; /* = bold */
-    src: url('AvenirNext-DemiBold.woff') format('woff'),
+    font-family: "Avenir Next";
+    font-weight: 700;
+    font-style: normal;
+    src: local('Avenir Next Bold'), local('AvenirNext-Bold'), url('AvenirNext-DemiBold.woff') format('woff'),
     url('AvenirNext-DemiBold.ttf')  format('truetype');
 }

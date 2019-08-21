@@ -224,3 +224,78 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="delete-episode-like" tabindex="-1" role="dialog">
+    <div class="modal-dialog outer-delete" role="document">
+        <div class="modal-content" style="padding: 0px" id="delete-content">
+            <div class="upper-delete-img">
+                <div class="outer-img">
+                    <img src= "<?php echo base_url('assets/images/Delete-modal.svg') ?>" alt="">
+                </div>
+            </div>
+            <div class="outer-text">
+                <span>Type "REMOVE" in the box below to proceed. You
+                will not be able to undo this.</span>
+            </div>
+            <form action="" id="form-episodeLike-delete">
+                <div class="outer-input">
+                    <input type="text" name="confirmDelete" id="episodeLike-confirm-delete">
+                </div>
+            </form>
+            <div class="outer-btn">
+                <button class="btn-confirm" data-dismiss="modal">Cancel</button>
+                <button class="btn-confirm" style="background: #E62C30;" onclick="ConfirmDeleteEpisodeLike()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-product-like" tabindex="-1" role="dialog">
+    <div class="modal-dialog outer-delete" role="document">
+        <div class="modal-content" style="padding: 0px" id="delete-content">
+            <div class="upper-delete-img">
+                <div class="outer-img">
+                    <img src= "<?php echo base_url('assets/images/Delete-modal.svg') ?>" alt="">
+                </div>
+            </div>
+            <div class="outer-text">
+                <span>Type "REMOVE" in the box below to proceed. You
+                will not be able to undo this.</span>
+            </div>
+            <form action="" id="form-productLike-delete">
+                <div class="outer-input">
+                    <input type="text" name="confirmDeletePL" id="productLike-confirm-delete">
+                </div>
+            </form>
+            <div class="outer-btn">
+                <button class="btn-confirm" data-dismiss="modal">Cancel</button>
+                <button class="btn-confirm" style="background: #E62C30;" onclick="ConfirmDeleteProductLike()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-comment-like" tabindex="-1" role="dialog">
+    <div class="modal-dialog outer-delete" role="document">
+        <div class="modal-content" style="padding: 0px" id="delete-content">
+            <div class="upper-delete-img">
+                <div class="outer-img">
+                    <img src= "<?php echo base_url('assets/images/Delete-modal.svg') ?>" alt="">
+                </div>
+            </div>
+            <div class="outer-text">
+                <span>Type "REMOVE" in the box below to proceed. You
+                will not be able to undo this.</span>
+            </div>
+            <form action="" id="form-commentLike-delete">
+                <div class="outer-input">
+                    <input type="text" name="confirmDeleteCL" id="productLike-confirm-delete">
+                </div>
+            </form>
+            <div class="outer-btn">
+                <button class="btn-confirm" data-dismiss="modal">Cancel</button>
+                <button class="btn-confirm" style="background: #E62C30;" onclick="ConfirmDeleteCommentLike()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>

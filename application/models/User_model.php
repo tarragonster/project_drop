@@ -20,8 +20,11 @@ class User_model extends BaseModel {
 	}
 
 	public function getUserForAdmin($user_id) {
-		$this->db->where($this->id_name, $user_id);
-		$query = $this->db->get('user');
+	    $this->db->select('u.*,fp.id as feature_id');
+	    $this->db->from('user u');
+		$this->db->where('u.user_id', $user_id);
+		$this->db->join('featured_profiles fp','u.user_id = fp.user_id','LEFT');
+        $query = $this->db->get();
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
 	}
 
@@ -466,6 +469,22 @@ class User_model extends BaseModel {
         return $data;
     }
 
+    public function getProductLike($user_ids){
+	    $this->db->select('pl.*');
+	    $this->db->where_in('pl.user_id',$user_ids);
+	    $this->db->from('product_likes pl');
+        $data = $this->db->get()->result_array();
+        return $data;
+    }
+
+    public function getCommentLike($user_ids){
+        $this->db->select('cl.*');
+//        $this->db->where_in('cl.user_id',$user_ids);
+        $this->db->from('comment_like cl');
+        $data = $this->db->get()->result_array();
+        return $data;
+    }
+
     public function getAllComment($user_ids){
         $this->db->select('c.*');
         $this->db->where_in('c.user_id',$user_ids);
@@ -839,7 +858,7 @@ class User_model extends BaseModel {
 	}
 
 	public function getUserPicks($user_id, $isMe = true) {
-		$this->db->select('up.pick_id as id, up.created_at, up.pick_id, p.*, up.quote, up.is_hidden, up.status as up_status');
+		$this->db->select('up.pick_id as id,up.product_id, up.created_at, up.pick_id, p.*, up.quote, up.is_hidden, up.status as up_status');
 		$this->db->from('user_picks up');
 		$this->db->where('up.user_id', $user_id);
 		if (!$isMe) {
@@ -863,11 +882,13 @@ class User_model extends BaseModel {
     }
 
     public function getUserComments($user_id, $isMe = true) {
-        $this->db->select('c.*,e.*, c.status as comment_status,cr.report_id as comment_reportId');
+        $this->db->select('c.*,e.*,s.product_id,pv.name as film_name, c.status as comment_status,cr.report_id as comment_reportId');
         $this->db->from('comments c');
         $this->db->where('c.user_id', $user_id);
         $this->db->join('comment_reports cr','c.comment_id = cr.comment_id','LEFT');
         $this->db->join('episode e','c.episode_id = e.episode_id','LEFT');
+        $this->db->join('season s','e.season_id = s.season_id','LEFT');
+        $this->db->join('product_view pv','s.product_id = pv.product_id','LEFT');
         $this->db->group_by('c.comment_id');
 
         return $this->db->get()->result_array();
@@ -926,18 +947,44 @@ class User_model extends BaseModel {
 	}
 
 	public function getProductThumbUpList($user_id, $page = -1, $isMe = true) {
-		$this->db->select('pl.id, pl.user_id, p.*, pl.is_hidden');
+		$this->db->select('pl.id, pl.added_at, pl.user_id, p.*, pl.is_hidden');
 		$this->db->from('product_likes pl');
 		$this->db->join('product_view p', 'pl.product_id = p.product_id');
 		$this->db->where('pl.user_id', $user_id);
 		if (!$isMe) {
 			$this->db->where('pl.is_hidden', 0);
 		}
-		if ($page >= 0) {
-			$this->db->limit(10, 10 * $page);
-		}
+//		if ($page >= 0) {
+//			$this->db->limit(10, 10 * $page);
+//		}
 		$query = $this->db->get();
 		return $query->result_array();
+	}
+
+	public function getEpisodeThumbUpList($user_id, $page = -1, $isMe = true){
+	    $this->db->select('e.*,e.season_id,el.added_at,el.id as el_id,el.status, e.name as episode_name,pv.name as film_name,s.product_id');
+	    $this->db->from('episode_like el');
+	    $this->db->join('episode e','el.episode_id = e.episode_id','LEFT');
+	    $this->db->join('season s','e.season_id = s.season_id','LEFT');
+	    $this->db->join('product_view pv','s.product_id = pv.product_id','LEFT');
+        $this->db->where('el.user_id', $user_id);
+        $this->db->where_in('el.status', [0,1]);
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function getCommentThumbUpList($user_id, $page = -1, $isMe = true){
+        $this->db->select('c.episode_id,e.season_id,pv.name as film_name,s.product_id,e.name as episode_name,cl.added_at,cl.id as cl_id');
+        $this->db->from('comment_like cl');
+        $this->db->join('comments c', 'cl.comment_id = c.comment_id','LEFT');
+        $this->db->join('episode e','c.episode_id = e.episode_id','LEFT');
+        $this->db->join('season s','e.season_id = s.season_id','LEFT');
+        $this->db->join('product_view pv','s.product_id = pv.product_id','LEFT');
+        $this->db->where('cl.user_id',$user_id);
+
+        $query = $this->db->get();
+        return $query->result_array();
 	}
 
 	public function hiddenYourPick($pick_id, $is_hidden) {
@@ -1116,4 +1163,57 @@ class User_model extends BaseModel {
         $this->db->where('user_id',$user_id);
         $this->db->update('user_reports',array('status'=>'deleted'));
 	}
+
+	public function addVerify($user_id){
+	    $this->db->where('user_id',$user_id);
+	    $this->db->update('user',array('user_type'=>1));
+    }
+
+    public function addCurator($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user',array('user_type'=>2));
+    }
+
+    public function removeTag($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user',array('user_type'=>0));
+
+    }
+
+    public function updateFeature($user_id){
+        $this->db->select_max('priority');
+        $result = $this->db->get('featured_profiles')->row();
+        $max_value = $result->priority + 1;
+
+        $data = array(
+            'user_id' => $user_id,
+            'priority' => $max_value,
+            'status' => 1
+        );
+        $this->db->insert('featured_profiles', $data);
+    }
+
+    public function deleteFeature($user_id){
+	    $this->db->where('user_id', $user_id);
+	    $this->db->delete('featured_profiles');
+    }
+
+    public function deleteEpisodeLike($episodeLike_id){
+	    $this->db->where('id',$episodeLike_id);
+        $this->db->delete('episode_like');
+    }
+
+    public function deleteProductLike($productLike_id){
+        $this->db->where('id',$productLike_id);
+        $this->db->delete('product_likes');
+    }
+    public function deleteCommentLike($commentLike_id){
+        $this->db->where('id',$commentLike_id);
+        $this->db->delete('comment_like');
+    }
+
+    // public function getFollowersOfUser($user_ids) {
+    // 	$this->db->where_in('user_id', $user_ids);
+    // 	return $this->db->count_all_results();
+    // }
 }

@@ -46,12 +46,12 @@ class User extends Base_Controller {
 
         $headers = array(
             'img' => array('label' => '', 'sorting' => false),
-            'user_id' => array('label' => 'User ID', 'sorting' => true),
+            'user_id' => array('label' => 'User&nbsp;ID', 'sorting' => true),
             'user_name' => array('label' => 'Name', 'sorting' => true),
             'email' => array('label' => 'Email', 'sorting' => true),
             'total_pick'=> array('label' => 'Activity', 'sorting' => false),
             'dt' => array('label' => 'Version'),
-            'joined' => array('label' => 'Create Date'),
+            'joined' => array('label' => 'Create&nbsp;Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
@@ -69,6 +69,12 @@ class User extends Base_Controller {
             $likes = ($this->user_model->getAllLike($user_ids));
             $likes= Hash::combine($likes,'{n}.id','{n}','{n}.user_id');
 
+            //todo get Product Like by user_ids
+            $product_likes = $this->user_model->getProductLike($user_ids);
+            $product_likes = Hash::combine($product_likes,'{n}.id','{n}','{n}.user_id');
+            //todo get Comment Like by user_ids
+            $comment_likes = $this->user_model->getCommentLike($user_ids);
+            $comment_likes = Hash::combine($comment_likes,'{n}.id','{n}','{n}.user_id');
             //todo Get comment by user_ids
             $comments = $this->user_model->getAllComment($user_ids);
             $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
@@ -83,13 +89,20 @@ class User extends Base_Controller {
         foreach ($users as $key=>$value){
             $users[$key]['likes'] = !empty($likes[$value['user_id']])?$likes[$value['user_id']]:[];
             $users[$key]['total_like'] = count($users[$key]['likes']) > 0 ? count($users[$key]['likes']):'0';
+            $users[$key]['product_likes'] = !empty($product_likes[$value['user_id']])?$product_likes[$value['user_id']]:[];
+            $users[$key]['total_pd_like'] = count($users[$key]['product_likes']) > 0 ? count($users[$key]['product_likes']):'0';
+            $users[$key]['comment_likes'] = !empty($comment_likes[$value['user_id']])?$comment_likes[$value['user_id']]:[];
+            $users[$key]['total_cm_like'] = count($users[$key]['comment_likes']) > 0 ? count($users[$key]['comment_likes']):'0';
             $users[$key]['comments'] = !empty($comments[$value['user_id']])?$comments[$value['user_id']]:[];
             $users[$key]['total_comment'] = count($users[$key]['comments']) > 0 ? count($users[$key]['comments']):'0';
             $users[$key]['picks'] = !empty($picks[$value['user_id']])?$picks[$value['user_id']]:[];
             $users[$key]['total_pick'] = count($users[$key]['picks']) > 0 ? count($users[$key]['picks']):'0';
             $users[$key]['version'] = !empty($version[$value['user_id']])?$version[$value['user_id']]:[];
             $users[$key]['total_version'] = count($users[$key]['version']) > 0 ? count($users[$key]['version']):'0';
+            $users[$key]['sum_like'] = $users[$key]['total_like'] + $users[$key]['total_cm_like'] + $users[$key]['total_pd_like'];
         }
+
+//        pre_print($users);
 
 		$userData['users']=$users;
         $userData['headers'] = $headers;
@@ -357,6 +370,8 @@ class User extends Base_Controller {
 			$params['full_name'] = $this->input->post('full_name');
 //			$params['user_type'] = $this->input->post('user_type');
 			$params['bio'] = $this->input->post('bio');
+            $params['user_type'] = $this->input->post('curator');
+            $feature = $this->input->post('feature');
 
 			$userEmail = $this->user_model->getByEmail($params['email']);
 			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
@@ -383,6 +398,12 @@ class User extends Base_Controller {
 			}
 			$this->user_model->update($params, $user_id);
 
+			if($feature == '1'){
+                $this->user_model->updateFeature($user_id);
+            }else{
+                $this->user_model->deleteFeature($user_id);
+            }
+
 			$this->load->library('contact_lib');
 			if ($params['email'] != $user['email']) {
 				$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $user['email'], 0);
@@ -407,7 +428,9 @@ class User extends Base_Controller {
 		$layoutParams['user_likes'] = $this->user_model->getUserLikes($user_id, -1);
 		$layoutParams['user_comments'] = $this->user_model->getUserComments($user_id, -1);
 		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
-		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
+		$layoutParams['like_product'] = $this->user_model->getProductThumbUpList($user_id, -1);
+		$layoutParams['like_episode'] = $this->user_model->getEpisodeThumbUpList($user_id, -1);
+		$layoutParams['like_comment'] = $this->user_model->getCommentThumbUpList($user_id, -1);
         $layoutParams['isEdit'] = $this->input->get('isEdit');
         $layoutParams['isProfile'] = $this->input->get('isProfile');
         $layoutParams['isCreate'] = $this->input->get('isCreate');
@@ -697,5 +720,37 @@ class User extends Base_Controller {
             $this->ajaxSuccess($data);
 
         }
+    }
+
+    function addVerify($user_id){
+	    $this->user_model->addVerify($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function addCurator($user_id){
+        $this->user_model->addCurator($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function removeTag($user_id){
+        $this->user_model->removeTag($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function deleteEpisodeLike($episodeLike_id){
+        $this->user_model->deleteEpisodeLike($episodeLike_id);
+        $this->ajaxSuccess();
+
+    }
+
+    function deleteProductLike($productLike_id){
+        $this->user_model->deleteProductLike($productLike_id);
+        $this->ajaxSuccess();
+
+    }
+    function deleteCommentLike($commentLike_id){
+        $this->user_model->deleteCommentLike($commentLike_id);
+        $this->ajaxSuccess();
+
     }
 }
