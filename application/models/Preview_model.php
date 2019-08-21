@@ -113,4 +113,12 @@ class Preview_model extends BaseModel {
 		$this->db->set('promo_image', $promo_image);
 		$this->db->update('explore_previews');
 	}
+
+	public function getPreviews() {
+		$this->db->select('*');
+		$this->db->from('explore_previews ep');
+		$this->db->join('product p', 'ep.product_id = p.product_id');
+		$this->db->order_by('ep.priority');
+		return $this->db->get()->result_array();
+	}
 }

@@ -9,6 +9,7 @@ class Explore extends Base_Controller {
 		$this->verifyAdmin();
 
 		$this->load->model("featured_model");
+		$this->load->model("preview_model");
 		$this->load->library('hash');
 	}
 
@@ -110,5 +111,23 @@ class Explore extends Base_Controller {
 			$this->featured_model->delete($user['id']);
 			return $this->redirect('explore');
 		}
+	}
+
+	public function managePreviews() {
+		$previews = $this->preview_model->getPreviews();
+		if($previews != null) {
+			$params['page_index'] = 'empty_preview';
+		}else {
+			$params = [
+				'page_index' => 'preview_list',
+				'page_base' => 'explore',
+			];
+		}
+		$this->customCss[] = 'module/css/submenu.css';
+		$this->customCss[] = 'module/css/genre.css';
+		$this->customCss[] = 'module/css/explore.css';
+		$this->customJs[] = 'module/js/coreTable.js';
+		$this->customJs[] = 'module/js/explore.js';
+		$this->render('/explore/explore_page', $params, 10, 12);
 	}
 }
