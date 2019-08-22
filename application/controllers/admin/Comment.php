@@ -510,4 +510,33 @@ class Comment extends Base_Controller {
         $this->comment_model->confirmDeleteReply($replies_id);
         $this->ajaxSuccess();
     }
+
+    public function showNote($report_id){
+        $param['report_id'] = $report_id;
+        $data['code'] = 200;
+        $data['content'] = $this->load->view('admin/comments/comment_report_ajax',$param,true);
+
+        $this->ajaxSuccess($data);
+    }
+
+    public function saveNote($report_id){
+        $param = [];
+        $note = $this->input->post('note');
+        $this->comment_model->updateCommentReportNote($report_id,$note);
+        $data['code'] = 200;
+        $data['confirmContent'] = $this->load->view('admin/comments/report_confirm_note',$param,true);
+
+        $this->ajaxSuccess($data);
+    }
+
+    public function editNote($report_id){
+        $param = [];
+        $report = $this->comment_model->getCommentReportNote($report_id);
+        $param['report_id'] = $report_id;
+        $param['report'] = $report;
+        $data['code'] = 200;
+        $data['content'] = $this->load->view('admin/comments/edit_report_ajax',$param,true);
+
+        $this->ajaxSuccess($data);
+    }
 }

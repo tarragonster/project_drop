@@ -594,7 +594,7 @@ function ShowReportNote(event){
 }
 
 function SaveReportNote(){
-    $("#form-update" ).validate({
+    $("#form-user-update" ).validate({
         rules: {
             note: {
                 required: true,
@@ -604,7 +604,7 @@ function SaveReportNote(){
 
         }
     });
-    let validatedata = $("#form-update" ).valid()
+    let validatedata = $("#form-user-update" ).valid()
     if(validatedata ==true){
         model.note = $('.note-input').text()
         model.saveReportNote()
@@ -855,4 +855,4 @@ function ShowCommentUser(event){
     model.user_id = $(event).data('user_id');
     model.showCommentUser()
     $('#view-replies-popup').modal('show');
- }
+}

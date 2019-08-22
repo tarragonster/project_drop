@@ -70,14 +70,14 @@
                                                         <ul class="dropdown-menu" id="customDropdown">
                                                             <?php if($row['content'] == ''){ ?>
                                                                 <li class="text-uppercase view-user-click"
-                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowReportNote(this)"><a
+                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowNoteReportComment(this)"><a
                                                                             class="drp-items"><span>
                                                                 Add Notes
                                                             </span></a>
                                                                 </li>
                                                             <?php }else{ ?>
                                                                 <li class="text-uppercase view-user-click"
-                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowEditNote(this)"><a
+                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowEditReportComment(this)"><a
                                                                             class="drp-items"><span>
                                                                 Edit Notes
                                                             </span></a>
