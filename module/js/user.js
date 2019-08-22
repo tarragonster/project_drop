@@ -54,6 +54,24 @@ var User = /** @class */ (function () {
             $('#view-user-content').html(data.content);
         });
     };
+    User.prototype.showCommentUser = function () {
+        $('#view-replies-content').html("");
+        this.paramreq = {
+            user_id: this.user_id,
+            isEdit: this.isEdit,
+            isProfile: this.isProfile,
+            isCreate: this.isCreate,
+            active: this.active,
+        };
+        this.url = '/user/ajaxProfile/' + this.user_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            model.isProfile = true;
+            model.isEdit = false;
+            model.isCreate = false;
+            $('#view-replies-content').html(data.content);
+        });
+    };
     User.prototype.saveUpdateProfile = function (myFormData) {
         this.paramreq = myFormData;
         this.url = '/user/ajaxEdit/' + this.user_id;
@@ -676,4 +694,11 @@ function ConfirmDeleteCommentLike() {
     if (validatedata == true) {
         model.confirmDeleteCommentLike();
     }
+}
+function ShowCommentUser(event) {
+    model.isProfile = true;
+    model.isEdit = false;
+    model.user_id = $(event).data('user_id');
+    model.showCommentUser();
+    $('#view-replies-popup').modal('show');
 }

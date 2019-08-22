@@ -1,1 +1,1 @@
-ALTER TABLE episode_like ADD add_at int NOT NULL DEFAULT '0'
+ALTER TABLE episode_like ADD added_at int NOT NULL DEFAULT '0'

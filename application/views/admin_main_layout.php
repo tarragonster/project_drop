@@ -178,22 +178,22 @@
                             <?php } ?>
                             <span>Collections</span></a>
 					</li>
-					<li class="has_sub">
-						<a href="#" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>">
+					<li>
+						<a href="<?php echo base_url('comment'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>">
                             <?php if (isset($parent_id) && $parent_id == 9) { ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Comments-active.svg') ?>" alt="Comments">
                             <?php }else{ ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Comments.svg') ?>" alt="Comments">
                             <?php } ?>
                             <span>Comments</span> </a>
-						<ul class="list-unstyled">
-							<li <?php echo($sub_id == 91 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('comment'); ?>"><span>Comments</span></a>
-							</li>
-							<li <?php echo($sub_id == 92 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('comment/reports'); ?>">Reported Comments</a>
-							</li>
-						</ul>
+<!--						<ul class="list-unstyled">-->
+<!--							<li --><?php //echo($sub_id == 91 ? 'class="active"' : ''); ?><!-- >-->
+<!--								<a href="--><?php //echo base_url('comment'); ?><!--"><span>Comments</span></a>-->
+<!--							</li>-->
+<!--							<li --><?php //echo($sub_id == 92 ? 'class="active"' : ''); ?><!-- >-->
+<!--								<a href="--><?php //echo base_url('comment/reports'); ?><!--">Reported Comments</a>-->
+<!--							</li>-->
+<!--						</ul>-->
 					</li>
                     <li>
                         <a href="<?php echo base_url('setting'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 5 ? ' active' : ''; ?>">
