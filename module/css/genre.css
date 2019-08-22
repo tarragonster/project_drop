@@ -2,6 +2,9 @@
 .width-5 {
     width: 5%;
 }
+.width-7 {
+    width: 7%;
+}
 .width-13 {
     width: 13%;
 }
@@ -13,6 +16,12 @@
 }
 .width-18 {
     width: 18%;
+}
+.width-20 {
+    width: 20%;
+}
+.width-23 {
+    width: 23%;
 }
 /*Define width*/
 
@@ -1196,11 +1205,11 @@ th {
     color: #4A4A4A;
     font-weight: 600;
 }
-.en-confirm, .dis-confirm {
-    background-color: #FFC17C;
+.en-confirm, .dis-confirm, .en-confirm:hover, .dis-confirm:hover {
+    background-color: #FFC17C !important;
 }
 .del-confirm, .del-btn {
-    background-color: #E62C30;
+    background-color: #E62C30 !important;
 }
 
 .action-column {

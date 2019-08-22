@@ -5,7 +5,7 @@
 				<h1 class="modal-title-name">Add Featured User</h1>
 			</div>
 			<div class="col-md-4 col-lg-4">
-	            <button type="button" class="btn btn-header" id="create-genre-btn" onclick="saveGenre()">Add</button>
+	            <button type="button" class="btn btn-header" id="add-user-btn" onclick="addUser()">Add</button>
 	        </div>
 		</div>
 	</div>
@@ -13,10 +13,10 @@
 <div class="modal-body">
 	<div class="tab-content custom-tab">
 		<h4>Featured user search</h4>
-		<div class="form-group ui-widget" style="margin-top: 20px">
+		<div class="form-group" style="margin-top: 20px;width: 100%">
 	        <label>Search user</label>
-	        <input type="text" name="user" id="user" required class="form-control custom-input" onkeyup="test()" autocomplete="on" placeholder="Search name, username or email"/>
+	        <input type="text" name="user_id" id="user_key" required class="form-control custom-input" onkeyup='searchUser()' placeholder="Search name, username or email"/>
+	        <div id="other_user"></div>
 	    </div>
 	</div>
 </div>
-

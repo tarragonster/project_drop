@@ -5,7 +5,7 @@ require APPPATH . '/core/BR_Controller.php';
 
 class Collection extends BR_Controller {
 	const SUPPORTED_IOS_VERSION = '1.0.7';
-	const SUPPORTED_AND_VERSION = '1.0.4';
+	const SUPPORTED_ANDROID_VERSION = '1.0.4';
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('collection_model');
@@ -52,8 +52,8 @@ class Collection extends BR_Controller {
 					$collection['products'] = $top_picks;
 					$selected_collections[] = $collection;
 				} else if ($collection['collection_type'] == COLLECTION_TYPE_SUGGESTED_USERS) {
-					if (($this->device_type == DEVICE_TYPE_ANDROID && version_compare($this->app_version, '1.0.4') >= 0)
-						|| ($this->device_type == DEVICE_TYPE_IOS && version_compare($this->app_version, '1.0.8') >= 0)) {
+					if (($this->device_type == DEVICE_TYPE_ANDROID && version_compare($this->app_version, Collection::SUPPORTED_ANDROID_VERSION) >= 0)
+						|| ($this->device_type == DEVICE_TYPE_IOS && version_compare($this->app_version, Collection::SUPPORTED_IOS_VERSION) >= 0)) {
 
 						if ($this->user_model->countFollowing($this->user_id) == 0) {
 							$featured_profiles = $this->user_model->getFeaturedProfiles(0, 20);
@@ -68,7 +68,7 @@ class Collection extends BR_Controller {
 						$selected_collections[] = $collection;
 					}
 				} else if ($collection['collection_type'] == COLLECTION_TYPE_FRIEND_WATCHING) {
-					if (($this->device_type == DEVICE_TYPE_ANDROID && version_compare($this->app_version, Collection::SUPPORTED_AND_VERSION) >= 0)
+					if (($this->device_type == DEVICE_TYPE_ANDROID && version_compare($this->app_version, Collection::SUPPORTED_ANDROID_VERSION) >= 0)
 						|| ($this->device_type == DEVICE_TYPE_IOS && version_compare($this->app_version, Collection::SUPPORTED_IOS_VERSION) >= 0)) {
 						$friends_watching = $this->product_model->getFriendsWatching($this->user_id, 0);
 						foreach ($friends_watching as $key => $product) {
