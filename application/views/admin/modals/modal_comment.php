@@ -106,8 +106,6 @@
     </div>
 </div>
 
-//replies
-
 <div class="modal fade" id="disable-reply-box" tabindex="-1" role="dialog">
     <div class="modal-dialog outer-delete" role="document">
         <div class="modal-content" style="padding: 0px" id="disable-content">
@@ -153,8 +151,6 @@
         </div>
     </div>
 </div>
-
-//delete replies
 
 <div class="modal fade" id="delete-reply" tabindex="-1" role="dialog">
     <div class="modal-dialog outer-delete" role="document">
