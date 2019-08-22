@@ -120,6 +120,7 @@ class Featured_model extends BaseModel {
 		if (!empty($key)) {
 			$this->db->where('u.user_name like "%' . $key . '%" or u.full_name like "%' . $key . '%" or u.email like "%' . $key . '%"');
 		}
+		$this->db->limit(10);
 		return $this->db->get()->result_array();
 	}
 }
