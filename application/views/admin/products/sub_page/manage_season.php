@@ -9,26 +9,26 @@
 		    	</div>
 	    		<div class="table-responsive">
 		            <table class="table dataTable">
-						<div class="col-sm-1 col-lg-1" style="padding: 0px"></div>
-						<div class="col-sm-2 col-lg-1" style="padding: 0px">
+						<div class="col-sm-1 col-lg-1" style="padding: 0px;width: 7%"></div>
+						<div class="col-sm-2 col-lg-1" style="padding: 0px;width: 7%">
 							<div class="title-header">Block ID</div>
 						</div>
-						<div class="col-sm-3 col-lg-1">
+						<div class="col-sm-3 col-lg-1" style="width: 7%">
 							<div class="title-header">Block #</div>
 						</div>
-						<div class="col-sm-2 col-lg-3">
+						<div class="col-sm-2 col-lg-3" style="width: 27%">
 							<div class="title-header">Block Name</div>
 						</div>
-						<div class="col-sm-2 col-lg-2">
+						<div class="col-sm-2 col-lg-2" style="width: 14%">
 							<div class="title-header">Block Activity</div>
 						</div>
-						<div class="col-sm-2 col-lg-2">
+						<div class="col-sm-2 col-lg-2" style="width: 20%">
 							<div class="title-header">Create Date</div>
 						</div>
-						<div class="col-sm-1 col-lg-1">
+						<div class="col-sm-1 col-lg-1" style="width: 11%">
 							<div class="title-header">Status</div>
 						</div>
-						<div class="col-sm-1 col-lg-1">
+						<div class="col-sm-1 col-lg-1" style="width: 40px">
 							<div class="title-header">Actions</div>
 						</div>
 		                <tbody>
