@@ -16,6 +16,9 @@
     border-top: none;
     margin: 20px 0 0;
 }
+.tab-content>.tab-pane {
+    display: block;
+}
 .sortable-move {
     margin-left: 5px;
 }

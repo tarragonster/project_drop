@@ -1,10 +1,10 @@
 <div class="modal-header" style="background: #EFEFEF; z-index: 1056; padding-bottom: 0; height: 110px">
 	<div class="custom-header">
 		<div class="row">
-			<div class="col-md-8 col-lg-8">
+			<div class="col-md-8 col-lg-10">
 				<h1 class="modal-title-name">Add Story to Preview List</h1>
 			</div>
-			<div class="col-md-4 col-lg-4">
+			<div class="col-md-4 col-lg-2">
 	            <button type="button" class="btn btn-header" id="add-story-btn" onclick="addStory()">Add</button>
 	        </div>
 		</div>

@@ -1,5 +1,17 @@
 <div class="section-content">
     <!-- <form action="" method="get"> -->
+    	<?php if(!empty($new_seasons)): 
+    			foreach ($new_seasons as $key => $value): 
+    	?>
+	    	<div class="hub-faq-title" style="margin-bottom:10px;">
+	    		<span><?=$value['name']?></span>
+	    	</div>
+    		<div class="card-box explore-mess-box" style="text-align: center;">
+				<span>Click <b>Add New</b> to add blocks to this story</span>
+			</div>
+    	<?php 	endforeach; 
+    		  endif;
+    	?>
         <?php
         $numb = 0;
         if(!empty($episodes)){ foreach ($episodes as $key=>$value){
@@ -48,7 +60,7 @@
 				                                <span>DISABLED</span>
 			                                <?php else: ?>
 			                                	<i class="fa fa-circle text-success icon-size"></i>&nbsp;&nbsp;
-				                                <span>ENABLE</span>
+				                                <span>ENABLED</span>
 			                                <?php endif;?>
 			                            </div>
 				                        <div class="col-sm-3 sortable-box width-5" style="float: right;">

@@ -241,6 +241,10 @@ table.dataTable thead .sorting_desc:after {
 /*STORY LIST*/
 
 /*STORY FORM*/
+.mess_err {
+    color: #E70808;
+    font-size: 12px;
+}
 hr {
     margin: 10px 20px 30px 12px;
     border-top: 1px solid #eee;
@@ -547,8 +551,12 @@ hr {
 .table_review > thead > tr > th:nth-child(7) {
     width: 80px;
 }
-
-
+.review-mess-box {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    letter-spacing: 0.73px;
+}
 .modal-dialog {
     /*width: 30%;*/
     margin: 200px auto;

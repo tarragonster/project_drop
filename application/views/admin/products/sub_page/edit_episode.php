@@ -13,8 +13,6 @@
 <div class="modal-body">
 	<div class="tab-content custom-tab">
 		<h4>Block Details</h4>
-			<div class='err-format'>Image format is not suppported</div>
-			<div class='err-size'>The size of the image more than 1MB</div>
 			<input type="hidden" name="product_id" value="<?php echo $product_id?>">
 			<input type="hidden" name="episode_id" value="<?php echo $episode['episode_id']?>">
 			<div class="form-group" style="margin-top: 20px">
@@ -58,7 +56,7 @@
                 <label>Block image</label>
                 <div class="row" style="margin-left: 0;">
                     <img id='block_image' src="<?php echo !empty($episode['image']) ? base_url($episode['image']) : base_url('assets/images/borders/516x295.svg')?>" width='185' height='106' sty />
-                    <div class='err-format' id="block_err1">Image format is not suppported</div>
+                    <div class='err-format' id="block_err1">Image format is not supported</div>
                     <div class='err-size' id="block_err2">The size must be less than 1MB</div>
                     <div class="uploader" onclick="$('#blockImg').click()">
                         <button type="button" class="btn ">Upload</button>
