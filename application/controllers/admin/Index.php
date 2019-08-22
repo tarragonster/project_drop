@@ -35,13 +35,15 @@ class Index extends MY_Controller {
 			echo json_encode($dashboard);
 		} else {
 			$this->customCss[] = 'assets/plugins/morris/morris.css';
-			$this->customCss[] = 'assets/plugins/bootstrap-daterangepicker/daterangepicker.css';
 			$this->customCss[] = 'assets/css/dashboard.css';
 			$this->customJs[] = 'assets/vendor/peity/jquery.peity.min.js';
 			$this->customJs[] = 'assets/vendor/jquery-sparkline/jquery.sparkline.min.js';
 			$this->customJs[] = 'assets/plugins/moment/moment.js';
 			$this->customJs[] = 'assets/vendor/moment/moment-timezone.js';
-			$this->customJs[] = 'assets/plugins/bootstrap-daterangepicker/daterangepicker.js';
+
+			$this->customCss[] = 'assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+			$this->customJs[] = 'assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+
 			$this->customJs[] = 'assets/vendor/jquery-number/jquery.number.min.js';
 			$this->customJs[] = 'assets/plugins/raphael/raphael-min.js';
 			$this->customJs[] = 'assets/plugins/morris/morris.min.js';

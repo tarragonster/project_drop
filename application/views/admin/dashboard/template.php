@@ -15,13 +15,13 @@
 				<div id="user-chart" style="height:200px;width:100%;"></div>
 			</div>
 			<div class="chart-content text-center">
-				<div class="chart-label">
-					<div class="chart-mini-box" style="background-color: #996cd9"></div>
-					<span class="chart-mini-label chart-label-first"></span>
-				</div>
 				<div class="chart-label m-l-15">
 					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
 					<span class="chart-mini-label chart-label-second"></span>
+				</div>
+				<div class="chart-label">
+					<div class="chart-mini-box" style="background-color: #996cd9"></div>
+					<span class="chart-mini-label chart-label-first"></span>
 				</div>
 			</div>
 		</div>
@@ -42,13 +42,13 @@
 				<div id="comment-chart" style="height:200px;width:100%;"></div>
 			</div>
 			<div class="chart-content text-center">
-				<div class="chart-label">
-					<div class="chart-mini-box" style="background-color: #996cd9"></div>
-					<span class="chart-mini-label chart-label-first"></span>
-				</div>
 				<div class="chart-label m-l-15">
 					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
 					<span class="chart-mini-label chart-label-second"></span>
+				</div>
+				<div class="chart-label">
+					<div class="chart-mini-box" style="background-color: #996cd9"></div>
+					<span class="chart-mini-label chart-label-first"></span>
 				</div>
 			</div>
 		</div>
@@ -69,13 +69,13 @@
 				<div id="review-chart" style="height:200px;width:100%;"></div>
 			</div>
 			<div class="chart-content text-center">
-				<div class="chart-label">
-					<div class="chart-mini-box" style="background-color: #996cd9"></div>
-					<span class="chart-mini-label chart-label-first"></span>
-				</div>
 				<div class="chart-label m-l-15">
 					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
 					<span class="chart-mini-label chart-label-second"></span>
+				</div>
+				<div class="chart-label">
+					<div class="chart-mini-box" style="background-color: #996cd9"></div>
+					<span class="chart-mini-label chart-label-first"></span>
 				</div>
 			</div>
 		</div>
