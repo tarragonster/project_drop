@@ -145,17 +145,6 @@ class Comment_model extends BaseModel {
 		return $this->db->count_all_results();
 	}
 
-	public function getReports($page = 0) {
-		$this->db->from('comment_reports cr');
-		$this->db->join('comments c', 'c.comment_id = cr.comment_id');
-		$this->db->join('user u2', 'u2.user_id = cr.reporter_id');
-		$this->db->select('cr.report_id, c.content, u2.full_name as reporter_name, cr.created_at');
-		$this->db->order_by('report_id', 'desc');
-		$this->db->limit(PERPAGE_ADMIN, $page * PERPAGE_ADMIN);
-		$query = $this->db->get();
-		return $query->result_array();
-	}
-
 	public function hasLikeComment($comment_id, $user_id) {
 		$this->db->where('comment_id', $comment_id);
 		$this->db->where('user_id', $user_id);
@@ -255,6 +244,7 @@ class Comment_model extends BaseModel {
         $this->db->from('season s');
         $this->db->join('episode e','e.season_id = s.season_id');
         $this->db->join('comments c', 'c.episode_id = e.episode_id');
+        $this->db->where('c.status = 0');
         $data = $this->db->get()->result_array();
         return $data;
     }
@@ -480,5 +470,56 @@ class Comment_model extends BaseModel {
     public function confirmDeleteReply($replies_id){
 	    $this->db->where('replies_id',$replies_id);
 	    $this->db->delete('comment_replies');
+    }
+
+    public function countAllCommentReports($conditions){
+        $this->makeQueryReportComment($conditions);
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id','reported_name', 'content','reporter_name','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('c.report_id', 'desc');
+        }
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+        } else {
+            $per_page = 25;
+        }
+        return $this->db->count_all_results();
+    }
+
+    public function getReports($conditions = array(),$page = 0) {
+        $this->makeQueryReportComment($conditions);
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id','reported_name', 'content','reporter_name','status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }else{
+            $this->db->order_by('crp.report_id', 'desc');
+        }
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+        } else {
+            $per_page = 25;
+        }
+        if ($page >= 0){
+            $this->db->limit($per_page, $page * $per_page);
+        }
+
+        return $this->db->get()->result_array();
+    }
+
+    public function makeQueryReportComment($conditions = array()){
+        $this->db->select('crp.report_id,crp.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
+        $this->db->from('comment_reports crp');
+        $this->db->join('comments c','crp.comment_id=c.comment_id');
+        $this->db->join('user u1','c.user_id=u1.user_id');
+        $this->db->join('user u2','crp.reporter_id=u2.user_id');
+
     }
 }

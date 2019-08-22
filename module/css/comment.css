@@ -647,3 +647,11 @@ table.dataTable thead .sorting_desc:after {
     color: #E62C30;
     width: 100%;
 }
+
+#noSortHeader-crpAction {
+    width: 6%;
+}
+
+#header_statusheader-crp{
+    width: 19%;
+}

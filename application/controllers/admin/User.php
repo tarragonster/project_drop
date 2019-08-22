@@ -51,7 +51,7 @@ class User extends Base_Controller {
             'email' => array('label' => 'Email', 'sorting' => true),
             'total_pick'=> array('label' => 'Activity', 'sorting' => false),
             'dt' => array('label' => 'Version'),
-            'joined' => array('label' => 'Create&nbsp;Date'),
+            'joined' => array('label' => 'Create Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
