@@ -284,7 +284,7 @@ var User = /** @class */ (function () {
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide');
+            $('#delete-episode-like').modal('hide');
         });
     };
     User.prototype.confirmDeleteProductLike = function () {
@@ -295,7 +295,7 @@ var User = /** @class */ (function () {
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide');
+            $('#delete-product-like').modal('hide');
         });
     };
     User.prototype.confirmDeleteCommentLike = function () {
@@ -306,7 +306,7 @@ var User = /** @class */ (function () {
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide');
+            $('#delete-comment-like').modal('hide');
         });
     };
     User.object = new User();
@@ -679,7 +679,7 @@ function ConfirmDeleteProductLike() {
 }
 function ShowDeleteCommentLike(event) {
     model.commentLike_id = $(event).data('cl_id');
-    $('#delete-product-like').modal('show');
+    $('#delete-comment-like').modal('show');
 }
 function ConfirmDeleteCommentLike() {
     $('#form-commentLike-delete').validate({
