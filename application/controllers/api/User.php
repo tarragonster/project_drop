@@ -653,7 +653,7 @@ class User extends BR_Controller {
 
 		$user = $this->user_model->getByEmail($email);
 		if ($user != null && $user['user_id'] != $this->user_id) {
-			$this->create_error(-78);
+			$this->create_error(-5);
 		}
 
 		$user = $this->user_model->getByUsername($user_name);
