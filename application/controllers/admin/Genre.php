@@ -40,6 +40,7 @@ class Genre extends My_Controller {
 				'conditions' => $conditions,
 			];
 		}
+		// $this->customCss[] = 'assets/css/settings.css';
 		$this->customCss[] = 'module/css/submenu.css';
 		$this->customCss[] = 'module/css/genre.css';
 		$this->customCss[] = 'module/css/genre-sorting.css';

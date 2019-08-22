@@ -120,3 +120,20 @@ $('.edit-block-btn').on('click', function (e) {
         }    
     });
 });
+
+// Add season
+$('.add-season-btn').on('click', function (e) {
+    e.preventDefault();
+
+    product_id = $(this).data('product');
+
+    $.ajax({
+        type: "POST",
+        dataType: "html",
+        data: {product_id:product_id},
+        url: BASE_APP_URL + 'product/ajaxSeason',
+        success: function (data) {
+            $('.section-content').html(data)
+        }    
+    });
+});

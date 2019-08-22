@@ -17,8 +17,8 @@
 .width-17 {
     width: 17%;
 }
-.width-8 {
-    width: 8%;
+.width-9 {
+    width: 9%;
 }
 .width-18 {
     width: 18%;
@@ -43,24 +43,34 @@
     letter-spacing: 0.81px;
     overflow: inherit;
 }
+
+.table > thead > tr > th {
+    color: #9B9B9B;
+    letter-spacing: 0;
+    font-weight: 500;
+}
+
 .table > tbody > tr > td {
     border: none;
     border-bottom: 1px solid #979797;
     background: #ffffff;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 600;
+    font-weight: 500;
     font-style: normal;
-    font-size: 11px;
     color: #403F3F;
     height: 59px;
     padding-top: 0!important;
     padding-bottom: 0!important;
     word-wrap: break-word;
 }
+.table > tbody > tr > td:nth-child(7) {
+    width: 12%;
+}
+.table > tbody > tr > td:nth-child(8) {
+    width: 15%;
+}
 .table > tbody > tr > td:nth-child(9) {
     font-size: 12px;
-    width: 9%;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    width: 12%;
     font-weight: 600;
     letter-spacing: 0.8px;
 }
@@ -88,7 +98,7 @@ table.dataTable thead .sorting:before,
 table.dataTable thead .sorting_asc:before,
 table.dataTable thead .sorting_desc:before {
     position: absolute;
-    top: 4px;
+    /*top: 4px;*/
     left: 0;
     display: block;
     font-family: 'FontAwesome';
@@ -168,6 +178,8 @@ table.dataTable thead .sorting_desc:after {
     color: #9B9B9B;
     font-size: 11px;
     padding: 5px 7px;
+    font-weight: 500;
+    letter-spacing: 0.73px;
 }
 .dropdown-menu > li > a:focus, .dropdown-menu > li >a:hover {
     color: #9B9B9B;
@@ -196,7 +208,6 @@ table.dataTable thead .sorting_desc:after {
 }
 .modal-content .modal-description h2 {
     letter-spacing: 2.28px;
-    font-family: 'Avenir Next';
     font-weight: 700;
     color: #4A4A4A;
     font-size: 31px;
@@ -224,6 +235,9 @@ table.dataTable thead .sorting_desc:after {
 .text-danger {
     color: #FE3824;
 }
+.weight-600 {
+    font-weight: 600 !important;
+}
 /*STORY LIST*/
 
 /*STORY FORM*/
@@ -232,10 +246,11 @@ hr {
     border-top: 1px solid #eee;
 }
 .content-form label {
-    font-weight: 400;
+    font-weight: 600;
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 0.73px;
+    color: #9B9B9B;
 }
 .form-group input, .form-group select, .form-group input:focus, .form-group select:focus {
     border: none;
@@ -249,21 +264,18 @@ hr {
     height: 25px;
     color: #403F3F;
     letter-spacing: 0.87px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
 }
 .form-group select {
     color: #403F3F;
     height: 27px;
     font-size: 13px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     letter-spacing: 0.87px;
 }
 .form-group #text-area-des {
     border: 1px solid #979797;
     border-radius: 10px;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: 13px;
     color: #403F3F;
@@ -282,10 +294,12 @@ hr {
 .btn-update, .btn-update:hover {
     background-color: #C7AE6E;
     color: white;
-    padding: 5px 40px;
-    border-radius: 15px;
+    padding: 10px 40px;
+    border-radius: 20px;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.73px;
 }
 .background {
     background-color: #ffffff;
@@ -293,17 +307,17 @@ hr {
     padding: 20px;
 }
 .title {
-    font-weight: 600;
     font-size: 36px;
     margin-left: 12px;
     color: #403f3f;
     letter-spacing: 0.9px;
 }
 #upload-img label {
-    font-weight: 400;
+    font-weight: 600;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 11px;
     margin-left: -11px; 
+    color: #9B9B9B;
 }
 .ms-options-wrap > button:focus, .ms-options-wrap > button {
     position: relative;
@@ -468,7 +482,7 @@ hr {
     -webkit-align-items: center;
     align-items: center;
     padding: 0 0px 0 10px;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 11px;
     color: #403F3F;
     letter-spacing: 0.73px;
@@ -498,33 +512,49 @@ hr {
     width: 100%;
     border-radius: 29.5px;
 }
+.table thead {
+    /*position: absolute;*/
+    /*top: 0;*/
+    width: 100%;
+}
+.display-flex {
+    display: flex;
+    margin-left: 5px;
+}
+.flex-item {
+    width: 10%;
+    padding-left: 0 !important; 
+    padding-right: 0 !important; 
+}
 .table_review > thead > tr > th:first-child {
-    width: 5%;
+    width: 40px;
 }
 .table_review > thead > tr > th:nth-child(2) {
-    width: 5%;
+    width: 80px;
 }
 .table_review > thead > tr > th:nth-child(3) {
-    width: 13%;
+    width: 18%;
 }
 .table_review > thead > tr > th:nth-child(4) {
-    width: 8%;
+    width: 9%;
 }
 .table_review > thead > tr > th:nth-child(5) {
-    width: 42%;
+    width: 47%;
 }
 .table_review > thead > tr > th:nth-child(6) {
-    width: 8%;
+    width: 9%
 }
 .table_review > thead > tr > th:nth-child(7) {
-    width: 5%;
+    width: 80px;
 }
+
+
 .modal-dialog {
     /*width: 30%;*/
     margin: 200px auto;
 }
 .modal-content-popup {
-    padding: 30px 60px !important;
+    padding: 30px 70px !important;
     text-align: center;
 }
 .modal-button {

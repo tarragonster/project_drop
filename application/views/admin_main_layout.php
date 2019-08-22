@@ -112,6 +112,10 @@
                             <li class="btn-export">
                                 <button type="button" class="btn btn-header" id="view-status">View All Statuses </button>
                             </li>
+                        <?php elseif(isset($sub_id) && $sub_id == 11):?>
+                        	<li class="btn-export">
+                                <button type="button" class="btn btn-header" id="add-user" data-toggle="modal" data-target="#add-user-popup">Add User</button>
+                            </li>
 						<?php endif;?>
 					</ul>
 				</div>
@@ -157,7 +161,7 @@
                             <span>Stories</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('preview'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>">
+						<a href="<?php echo base_url('explore'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>">
                             <?php if (isset($parent_id) && $parent_id == 10) { ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Explore-active.svg') ?> " alt="Explore">
                             <?php }else{ ?>
@@ -253,13 +257,13 @@
 <script src="<?php echo base_url('assets/js/jquery.blockUI.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/waves.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/wow.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-ui.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.scrollTo.min.js'); ?>"></script>
 
 <script src="<?php echo base_url('assets/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/plugins/multiselect/js/jquery.multiselect.js')?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-ui.js')?>"></script>
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 

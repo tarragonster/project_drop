@@ -167,7 +167,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-12 portlets m-b-30">
+                                <div class="col-md-12 portlets m-b-30" style="padding-right: 0;">
                                     <label>Explore Preview Image</label>
                                     <div class="row">
                                         <img id='explore_image' src="<?php echo (!empty($product['explore_img'])) ? base_url($product['explore_img']) : base_url('assets/images/borders/650x688@3x.png')?>"/>
