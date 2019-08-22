@@ -7,22 +7,179 @@ class Comment extends Base_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->verifyAdmin();
+        $this->load->library('hash');
 
-		$this->load->model("comment_model");
+        $this->load->model("comment_model");
 	}
 
-	public function index() {
-		$content = $this->load->view('admin/comment_list', array(), true);
+	public function index($page = 1) {
+        $conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+
+        $this->load->library('pagination');
+
+        $page = ($page <= 0) ? 1 : $page;
+
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+            if ($per_page < 50)
+                $per_page = 25;
+            if ($per_page > 100)
+                $per_page = 100;
+            $conditions['per_page'] = $per_page;
+        } else {
+            $per_page = 25;
+        }
+        $config['base_url'] = base_url('comment');
+        $config['total_rows'] = $this->comment_model->countAllProduct($conditions);
+        $config['per_page'] = $per_page;
+        $config['cur_page'] = $page;
+        $config['add_query_string'] = TRUE;
+        $this->pagination->initialize($config);
+
+        $paging = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+            'dropdown-size' => 125,
+        );
+
+        $headers = array(
+            'img' => array('label' => '', 'sorting' => false),
+            'product_id' => array('label' => 'Story ID', 'sorting' => true),
+            'name' => array('label' => 'Story Name', 'sorting' => true),
+            'num_episode' => array('label' => '# of Blocks', 'sorting' => true),
+            'num_comment'=> array('label' => '# of Comments', 'sorting' => true),
+            'pv_status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action', 'sorting' => false));
+
+        $pinfo = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+        );
+
+        $products = $this->comment_model->getAllProducts($conditions,$page - 1);
+        $product_ids = Hash::combine($products, '{n}.product_id','{n}.product_id');
+
+        $episodes = $this->comment_model->getAllEpisode($product_ids);
+        $episodes = Hash::combine($episodes,'{n}.episode_id','{n}','{n}.product_id');
+
+        $comments = $this->comment_model->getAllComment($product_ids);
+        $comments = Hash::combine($comments,'{n}.comment_id','{n}','{n}.product_id');
+
+
+        foreach ($products as $key=>$value) {
+            $products[$key]['episodes'] = !empty($episodes[$value['product_id']])?$episodes[$value['product_id']]:[];
+            $products[$key]['total_episodes'] = count($products[$key]['episodes']) > 0 ? count($products[$key]['episodes']):'0';
+            $products[$key]['comments'] = !empty($comments[$value['product_id']])?$comments[$value['product_id']]:[];
+            $products[$key]['total_comments'] = count($products[$key]['comments']) > 0 ? count($products[$key]['comments']):'0';
+        }
+
+//        pre_print($products);
+
+        $params['sub_id'] = 91;
+        $params['headers'] = $headers;
+        $params['conditions'] = $conditions;
+        $params['paging'] = $paging;
+        $params['pinfo'] = $pinfo;
+        $params['products'] = $products;
+
+		$content = $this->load->view('admin/product_list', $params, true);
+
 		$data = array();
 		$data['parent_id'] = 9;
 		$data['sub_id'] = 91;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
-		$data['customCss'] = array('assets/css/jquery-ui.css', 'assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css', 'assets/plugins/sweetalert/dist/sweetalert.css');
+		$data['customCss'] = array('assets/css/jquery-ui.css', 'assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css', 'assets/plugins/sweetalert/dist/sweetalert.css','module/css/comment.css');
 
-		$data['customJs'] = array('assets/js/jquery-ui.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/comment_autocomplete.js', 'assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-comment.js');
+		$data['customJs'] = array('assets/js/jquery-ui.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
+            'assets/app/length.js', 'assets/app/comment_autocomplete.js', 'assets/plugins/sweetalert/dist/sweetalert.min.js',
+            'assets/app/delete-comment.js','assets/app/core-table/coreTable.js');
 		$this->load->view('admin_main_layout', $data);
 	}
+
+	public function blocks($product_id,$page = 1){
+        $conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+
+        $this->load->library('pagination');
+
+        $page = ($page <= 0) ? 1 : $page;
+
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+            if ($per_page < 50)
+                $per_page = 25;
+            if ($per_page > 100)
+                $per_page = 100;
+            $conditions['per_page'] = $per_page;
+        } else {
+            $per_page = 25;
+        }
+
+        $config['base_url'] = base_url('comment/block/'.$product_id);
+        $config['total_rows'] = $this->comment_model->countAllBlock($product_id,$conditions);
+        $config['per_page'] = $per_page;
+        $config['cur_page'] = $page;
+        $config['add_query_string'] = TRUE;
+        $this->pagination->initialize($config);
+
+        $paging = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+            'dropdown-size' => 125,
+        );
+
+        $headers = array(
+            'episode_id' => array('label' => 'Block ID', 'sorting' => true),
+            'position' => array('label' => 'Block #', 'sorting' => true),
+            'ep_name' => array('label' => 'Block Name', 'sorting' => true),
+            'num_comments'=> array('label' => '# of Comments', 'sorting' => true),
+            'e_status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action', 'sorting' => false));
+
+        $pinfo = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+        );
+
+        $blocks = $this->comment_model->getAllBlocks($product_id,$conditions,$page - 1);
+        $block_ids = Hash::combine($blocks,'{n}.episode_id','{n}.episode_id');
+
+        if(!empty($blocks)) {
+            $comments = $this->comment_model->getBlockComments($block_ids);
+            $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.episode_id');
+        }
+
+        foreach ($blocks as $key=>$value) {
+            $blocks[$key]['comments'] = !empty($comments[$value['episode_id']])?$comments[$value['episode_id']]:[];
+            $blocks[$key]['total_comment'] = count($blocks[$key]['comments']) > 0 ? count($blocks[$key]['comments']):'0';
+        }
+
+        $params['headers'] = $headers;
+        $params['conditions'] = $conditions;
+        $params['paging'] = $paging;
+        $params['pinfo'] = $pinfo;
+        $params['title'] = $this->comment_model->getStory($product_id);
+        $params['sub_id'] = 91;
+        $params['blocks'] = $blocks;
+
+        $content = $this->load->view('admin/comments/block_list', $params, true);
+
+        $data = array();
+        $data['parent_id'] = 9;
+        $data['sub_id'] = 91;
+        $data['account'] = $this->account;
+        $data['content'] = $content;
+        $data['customCss'] = array('assets/css/jquery-ui.css', 'assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css', 'assets/plugins/sweetalert/dist/sweetalert.css','module/css/comment.css');
+
+        $data['customJs'] = array('assets/js/jquery-ui.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js', 'assets/app/length.js', 'assets/app/comment_autocomplete.js', 'assets/plugins/sweetalert/dist/sweetalert.min.js', 'assets/app/delete-comment.js','assets/app/core-table/coreTable.js');
+        $this->load->view('admin_main_layout', $data);
+    }
 
 	public function ajaxComment() {
 		$episode_id = isset($_GET["episode_id"]) ? $_GET["episode_id"] * 1 : '';
@@ -118,4 +275,195 @@ class Comment extends Base_Controller {
 
 		$this->redirect('comment/reports');
 	}
+
+	public function comments($episode_id,$page = 1){
+        $conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+        $this->load->library('pagination');
+
+        $page = ($page <= 0) ? 1 : $page;
+
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+            if ($per_page < 50)
+                $per_page = 25;
+            if ($per_page > 100)
+                $per_page = 100;
+            $conditions['per_page'] = $per_page;
+        } else {
+            $per_page = 25;
+        }
+
+        $config['base_url'] = base_url('comment/comments/'.$episode_id);
+        $config['total_rows'] = $this->comment_model->countAllComments($episode_id,$conditions);
+        $config['per_page'] = $per_page;
+        $config['cur_page'] = $page;
+        $config['add_query_string'] = TRUE;
+        $this->pagination->initialize($config);
+
+        $paging = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+            'dropdown-size' => 125,
+        );
+
+        $headers = array(
+            'comment_id' => array('label' => 'Comment ID', 'sorting' => true),
+            'full_name' => array('label' => 'Username', 'sorting' => true),
+            'content'=> array('label' => 'Content', 'sorting' => true),
+            'num_likes'=> array('label' => 'Likes', 'sorting' => true),
+            'num_replies'=> array('label' => 'Replies', 'sorting' => true),
+            'timestamp'=> array('label' => 'Create Date', 'sorting' => true),
+            'status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action', 'sorting' => false));
+
+        $pinfo = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+        );
+
+        $title_product = $this->comment_model->getStoryName($episode_id);
+        $title_episode = $this->comment_model->getEpisodeName($episode_id);
+
+        $comments = $this->comment_model->getCommentComments($episode_id,$conditions,$page - 1);
+        $comment_ids = Hash::combine($comments,'{n}.comment_id','{n}.comment_id');
+
+        if(!empty($comments)){
+            $comment_likes = $this->comment_model->getCommentLikes($comment_ids);
+            $comment_likes = Hash::combine($comment_likes,'{n}.id','{n}','{n}.comment_id');
+
+            $comment_replies = $this->comment_model->getCommentReplies($comment_ids);
+            $comment_replies = Hash::combine($comment_replies,'{n}.replies_id','{n}','{n}.comment_id');
+        }
+        foreach($comments as $key=>$value){
+            $comments[$key]['comment_likes'] = !empty($comment_likes[$value['comment_id']])?$comment_likes[$value['comment_id']]:[];
+            $comments[$key]['total_like'] = count($comments[$key]['comment_likes']) > 0 ? count($comments[$key]['comment_likes']):'0';
+
+            $comments[$key]['comment_replies'] = !empty($comment_replies[$value['comment_id']])?$comment_replies[$value['comment_id']]:[];
+            $comments[$key]['total_reply'] = count($comments[$key]['comment_replies']) > 0 ? count($comments[$key]['comment_replies']):'0';
+
+        }
+
+//        pre_print($comments);
+
+        $params['headers'] = $headers;
+        $params['conditions'] = $conditions;
+        $params['sub_id'] = 91;
+        $params['paging'] = $paging;
+        $params['pinfo'] = $pinfo;
+        $params['title_product'] = $title_product;
+        $params['title_episode'] = $title_episode;
+        $params['comments'] = $comments;
+
+        $content = $this->load->view('admin/comments/comment_list', $params, true);
+
+        $data = array();
+        $data['parent_id'] = 9;
+        $data['sub_id'] = 91;
+        $data['account'] = $this->account;
+        $data['content'] = $content;
+        $data['customCss'] = array('assets/css/jquery-ui.css', 'assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css', 'assets/plugins/sweetalert/dist/sweetalert.css','module/css/comment.css','module/css/user.css');
+
+        $data['customJs'] = array('assets/js/jquery-ui.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
+            'assets/app/length.js', 'assets/app/comment_autocomplete.js', 'assets/plugins/sweetalert/dist/sweetalert.min.js',
+            'assets/app/delete-comment.js','assets/app/core-table/coreTable.js','module/js/comment.js','module/js/user.js','assets/js/jquery.validate.js');
+        $this->load->view('admin_main_layout', $data);
+    }
+
+    public function disableComment($comment_id){
+	    $params['test'] = 1;
+	    $this->comment_model->disableComment($comment_id);
+        $this->ajaxSuccess($params);
+    }
+
+    public function enableComment($comment_id){
+        $params['test'] = 1;
+        $this->comment_model->enableComment($comment_id);
+        $this->ajaxSuccess($params);
+    }
+
+    public function firstModalDelete(){
+        $param =[];
+        $data = [];
+        $data['success'] = '1';
+        $data['content'] = $this->load->view('admin/comments/deleteComment_firstModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function secondModalDelete(){
+        $param =[];
+        $data = [];
+        $data['success'] = '1';
+        $data['content'] = $this->load->view('admin/comments/deleteComment_secondModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function deleteComment($comment_id){
+	    $this->comment_model->deleteComment($comment_id);
+	    $this->ajaxSuccess();
+    }
+
+    public function showCommentReplies($comment_id){
+	    $title = $this->comment_model->getTitleReplies($comment_id);
+        $mainComment = $this->comment_model->getMainComment($comment_id);
+        $commentLike = $this->comment_model->getLikeMainComment($comment_id);
+        $total_commentLike = count($commentLike) > 0 ? count($commentLike):'0';
+
+        $replies = $this->comment_model->getReplies($comment_id);
+        $reply_ids = Hash::combine($replies,'{n}.replies_id','{n}.replies_id');
+
+        if(!empty($replies)) {
+            $reply_likes = $this->comment_model->getReplyLikes($reply_ids);
+            $reply_likes = Hash::combine($reply_likes,'{n}.id','{n}','{n}.replies_id');
+        }
+
+        foreach($replies as $key=>$value){
+            $replies[$key]['reply_likes'] = !empty($reply_likes[$value['replies_id']])?$reply_likes[$value['replies_id']]:[];
+            $replies[$key]['total_replyLike'] = count($replies[$key]['reply_likes']) > 0 ? count($replies[$key]['reply_likes']):'0';
+
+        }
+
+        $params['mainComment'] = $mainComment;
+	    $params['replies'] = $replies;
+	    $params['total_commentLike'] = $total_commentLike;
+	    $params['replies'] = $replies;
+	    $params['title'] = $title;
+
+        $data['content'] = $this->load->view('admin/comments/comment_replies_ajax',$params,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function disableReply($replies_id){
+        $params['test'] = 1;
+        $this->comment_model->disableReply($replies_id);
+        $this->ajaxSuccess($params);
+    }
+    public function enableReply($replies_id){
+        $params['test'] = 1;
+        $this->comment_model->enableReply($replies_id);
+        $this->ajaxSuccess($params);
+    }
+
+    public function showFirstDeleteReply(){
+        $param =[];
+        $data = [];
+        $data['success'] = '1';
+        $data['content'] = $this->load->view('admin/comments/deleteReply_firstModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function showSecondDeleteReply(){
+        $param =[];
+        $data = [];
+        $data['success'] = '1';
+        $data['content'] = $this->load->view('admin/comments/deleteReply_secondModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function confirmDeleteReply($replies_id){
+        $this->comment_model->confirmDeleteReply($replies_id);
+        $this->ajaxSuccess();
+    }
 }
