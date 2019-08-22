@@ -276,4 +276,9 @@ class Episode_model extends BaseModel {
 		return $this->db->get($this->table)->result_array();	
 	}
 
+	public function getSeasonHavingBlock() {
+		$this->db->select('season_id');
+		return $this->db->get($this->table)->result_array();
+	}
+
 }

@@ -41,7 +41,7 @@
 		                                <span>DISABLED</span>
 	                                <?php else: ?>
 	                                	<i class="fa fa-circle text-success" style="font-size: 60%;"></i>&nbsp;&nbsp;
-		                                <span>ENABLE</span>
+		                                <span>ENABLED</span>
 	                                <?php endif;?>
 	                            </div>
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="float: right;width: 80px;">

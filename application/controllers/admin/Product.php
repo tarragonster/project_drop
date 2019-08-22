@@ -125,8 +125,6 @@ class Product extends Base_Controller {
 			$params = array();
 			$params['name'] = $this->input->post('name');
 			$params['description'] = $this->input->post('description');
-			$params['publish_year'] = $this->input->post('publish_year');
-			$params['rate_id'] = $this->input->post('rate_id');
 			$params['creators'] = $this->input->post('creators');
 			$params['status'] = $this->input->post('status');
 			$params['jw_media_id'] = trim($this->input->post('jw_media_id'));
@@ -192,15 +190,16 @@ class Product extends Base_Controller {
 				$this->file_model->saveFile($explore_img, $path);
 				$this->preview_model->addFilm($product_id, $path);
 			}
-			foreach ($genres as $item) {
-				$paramsGenre = array(
-					'product_id' => $product_id,
-					'genre_id' => $item,
-					'added_at' => time()
-				);
-				$this->product_genres_model->insert($paramsGenre);
+			if(!empty($genres)) {
+				foreach ($genres as $item) {
+					$paramsGenre = array(
+						'product_id' => $product_id,
+						'genre_id' => $item,
+						'added_at' => time()
+					);
+					$this->product_genres_model->insert($paramsGenre);
+				}
 			}
-			
 			redirect(base_url('product'));
 		}
 		
@@ -245,15 +244,17 @@ class Product extends Base_Controller {
 				$params['status'] = $this->input->post('status');
 			if ($this->input->post('genre_id') != '')
 				$genres = $this->input->post('genre_id');
-				foreach ($genres as $item) {
-					$check = $this->product_genres_model->checkIfExist($product_id, $item);
-					if($check == 0) {
-						$paramsGenre = array(
-							'product_id' => $product_id,
-							'genre_id' => $item,
-							'added_at' => time()
-						);
-						$this->product_genres_model->insert($paramsGenre);
+				if(!empty($genres)) {
+					foreach ($genres as $item) {
+						$check = $this->product_genres_model->checkIfExist($product_id, $item);
+						if($check == 0) {
+							$paramsGenre = array(
+								'product_id' => $product_id,
+								'genre_id' => $item,
+								'added_at' => time()
+							);
+							$this->product_genres_model->insert($paramsGenre);
+						}
 					}
 				}
 			$jw_media_id = trim($this->input->post('jw_media_id'));
@@ -587,25 +588,28 @@ class Product extends Base_Controller {
 		$conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
         $reviews = $this->product_model->getProductReviewsForAdmin($product_id, $conditions);
+        if(empty($reviews)) {
+        	$params['page_index'] = 'empty_review';
+        }else {
+	        $headers = array(
+	            'icon' => array('label' => '', 'sorting' => false),
+	            'avatar' => array('label' => '', 'sorting' => false),
+	            'full_name' => array('label' => 'Username', 'sorting' => true),
+	            'name' => array('label' => 'Story Name', 'sorting' => true),
+	            'quote' => array('label' => 'Reviews', 'sorting' => false),
+	            'status' => array('label' => 'Status', 'sorting' => true),
+	            'Actions' => array('label' => 'Actions')
+	        );
 
-        $headers = array(
-            'icon' => array('label' => '', 'sorting' => false),
-            'avatar' => array('label' => '', 'sorting' => false),
-            'full_name' => array('label' => 'Username', 'sorting' => true),
-            'name' => array('label' => 'Story Name', 'sorting' => true),
-            'quote' => array('label' => 'Reviews', 'sorting' => false),
-            'status' => array('label' => 'Status', 'sorting' => true),
-            'Actions' => array('label' => 'Actions')
-        );
-
-        $params = array(
-			'page_index' => 'manage_review',
-			'page_base' => 'product/manageReview/' . $product_id,
-			'headers' => $headers,
-			'product' => $product,
-			'reviews' => $reviews,
-			'conditions' => $conditions
-		);
+	        $params = array(
+				'page_index' => 'manage_review',
+				'page_base' => 'product/manageReview/' . $product_id,
+				'headers' => $headers,
+				'product' => $product,
+				'reviews' => $reviews,
+				'conditions' => $conditions
+			);
+	    }
 		$this->customCss[] = 'module/css/submenu.css';
 		$this->customCss[] = 'module/css/product.css';
 		$this->customJs[] = 'module/js/coreTable.js';
@@ -669,7 +673,6 @@ class Product extends Base_Controller {
 	}
 
 	public function manageSeason($product_id = 0) {
-		// $key = !empty($this->input->post('key')) ? $this->input->post('key') : null;
 		$conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
 
@@ -725,12 +728,19 @@ class Product extends Base_Controller {
 				}
 		        $seasons = Hash::combine($seasons,'{n}.season_id','{n}.name');
 				$episodes = Hash::combine($episodes,'{n}.episode_id','{n}','{n}.season_id');
+
+				$season_have_block = $this->episode_model->getSeasonHavingBlock();
+				$season_ids = Hash::combine($season_have_block,'{n}.season_id','{n}');
+				$season_ids = array_keys($season_ids);
+				$new_seasons = $this->season_model->getSeasonWithoutBlock($product_id, $season_ids);
+
 		        $params = array(
 					'page_index' => 'manage_season',
 					'page_base' => 'product/manageSeason/' . $product_id,
 					'headers' => $headers,
 					'episodes' => $episodes,
 					'seasons' => $seasons,
+					'new_seasons' => $new_seasons,
 					'product_id' => $product_id,
 					'conditions' => $conditions
 				);
