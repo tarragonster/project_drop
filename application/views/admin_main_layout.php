@@ -110,7 +110,17 @@
 							</li>
                         <?php elseif(isset($sub_id) && $sub_id == 21):?>
                             <li class="btn-export">
-                                <button type="button" class="btn btn-header" id="view-status">View All Statuses </button>
+                                <div class="dropdown view-status-outer">
+                                    <button type="button" class="btn btn-header dropdown-toggle" id="view-status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="status-text">View All Statuses</span>
+                                        <i class="fal fa-chevron-down" style="position: absolute;right: 6px;top: 6px;"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="view-status">
+                                        <li class="dropdown-item" onclick="getStatus()">All Statuses</li>
+                                        <li class="dropdown-item" onclick="getEnabled()">Enabled</li>
+                                        <li class="dropdown-item" onclick="getDisabled()">Disabled</li>
+                                    </ul>
+                                </div>
                             </li>
                         <?php elseif(isset($sub_id) && $sub_id == 11):?>
                         	<li class="btn-export">
@@ -279,3 +289,14 @@ if (isset($customJs) && is_array($customJs)) {
 <?= isset($bottom_html) ? $bottom_html : ''; ?>
 </body>
 </html>
+<script>
+    function getStatus(){
+        $('.status-text').text('View All Statuses')
+    }
+    function getEnabled(){
+        $('.status-text').text('View Enabled')
+    }
+    function getDisabled(){
+        $('.status-text').text('View Disabled')
+    }
+</script>
