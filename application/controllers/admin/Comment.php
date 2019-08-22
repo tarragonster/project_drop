@@ -241,32 +241,76 @@ class Comment extends Base_Controller {
 	}
 
 	public function reports($page = 1) {
-		$this->load->library('pagination');
+        $conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+        $this->load->library('pagination');
 
-		$page = ($page <= 0) ? 1 : $page;
+        $page = ($page <= 0) ? 1 : $page;
 
-		$config['base_url'] = base_url('comment/reports');
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+            if ($per_page < 50)
+                $per_page = 25;
+            if ($per_page > 100)
+                $per_page = 100;
+            $conditions['per_page'] = $per_page;
+        } else {
+            $per_page = 25;
+        }
 
-		$config['total_rows'] = $this->comment_model->getNumReports();
-		$config['per_page'] = PERPAGE_ADMIN;
-		$config['cur_page'] = $page;
-		$config['add_query_string'] = TRUE;
-		$this->pagination->initialize($config);
-		$pinfo = array(
-			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
-			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
-			'total' => $config['total_rows'],
-		);
-		$reports = $this->comment_model->getReports($page - 1);
+        $config['base_url'] = base_url('comment/reports');
+        $config['total_rows'] = $this->comment_model->countAllCommentReports($conditions);
+        $config['per_page'] = $per_page;
+        $config['cur_page'] = $page;
+        $config['add_query_string'] = TRUE;
+        $this->pagination->initialize($config);
 
-		$content = $this->load->view('admin/comments/report', array('reports' => $reports, 'pinfo' => $pinfo), true);
+        $paging = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+            'dropdown-size' => 125,
+        );
+
+        $headers = array(
+            'report_id' => array('label' => 'Comment Report ID', 'sorting' => true),
+            'reported_name' => array('label' => 'Username', 'sorting' => true),
+            'content'=> array('label' => 'Content', 'sorting' => true),
+            'reporter_name'=> array('label' => 'Reporter Name', 'sorting' => true),
+            'created_at'=> array('label' => 'Report Date', 'sorting' => true),
+            'status'=> array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action', 'sorting' => false));
+
+        $pinfo = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+        );
+
+        $reports = $this->comment_model->getReports($page - 1);
+
+        $params['headers'] = $headers;
+        $params['conditions'] = $conditions;
+        $params['sub_id'] = 92;
+        $params['paging'] = $paging;
+        $params['pinfo'] = $pinfo;
+        $params['reports'] = $reports;
+
+
+        $content = $this->load->view('admin/comments/report', $params, true);
 
 		$data = array();
 		$data['parent_id'] = 9;
 		$data['sub_id'] = 92;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
-		$this->load->view('admin_main_layout', $data);
+
+        $data['customCss'] = array('assets/css/jquery-ui.css', 'assets/css/settings.css', 'assets/css/smoothness.jquery-ui.css', 'assets/plugins/sweetalert/dist/sweetalert.css','module/css/comment.css','module/css/user.css');
+        $data['customJs'] = array('assets/js/jquery-ui.js', 'assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js',
+            'assets/app/length.js', 'assets/app/comment_autocomplete.js', 'assets/plugins/sweetalert/dist/sweetalert.min.js',
+            'assets/app/delete-comment.js','assets/app/core-table/coreTable.js','module/js/comment.js','module/js/user.js','assets/js/jquery.validate.js');
+
+        $this->load->view('admin_main_layout', $data);
 	}
 
 	public function deleteReport($report_id) {

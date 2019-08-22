@@ -1,0 +1,1 @@
+ALTER TABLE comments ADD is_deleted int NOT NULL DEFAULT '0'

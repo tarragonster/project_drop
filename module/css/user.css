@@ -174,7 +174,7 @@
 
 .noSortHeaderActivity {
 
-    width: 11%;
+    width: 12%;
 
 }
 
@@ -187,13 +187,13 @@
 
 .noSortHeaderCreate{
 
-    width: 17%
+    width: 15%
 
 }
 
 .header_status{
 
-    width: 17%;
+    width: 12%;
 
 }
 
@@ -1335,4 +1335,11 @@ table.dataTable thead .sorting_desc:after {
     font-family: 'FontAwesome';
     content: "\f078";
     font-weight: 500;
+}
+.noSortHeader-rpAction {
+    width: 5%;
+}
+.header_statusheader-rp{
+    width: 20%;
+
 }
