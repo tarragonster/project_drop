@@ -275,8 +275,8 @@ function dataSetChanged(data) {
 		});
 
 		$('#review-chart').empty();
-		$('#review_value').html($.number(data['comment_chart']['first'], 0));
-		$('#review_percent').html(html_percent(data['comment_chart']['percent']));
+		$('#review_value').html($.number(data['review_chart']['first'], 0));
+		$('#review_percent').html(html_percent(data['review_chart']['percent']));
 
 		Morris.Line({
 			element: 'review-chart',
