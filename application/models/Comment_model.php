@@ -467,6 +467,9 @@ class Comment_model extends BaseModel {
         $this->db->update('comment_replies',['status'=>1]);
     }
 
+    /**
+     * @param $replies_id
+     */
     public function confirmDeleteReply($replies_id){
 	    $this->db->where('replies_id',$replies_id);
 	    $this->db->delete('comment_replies');
