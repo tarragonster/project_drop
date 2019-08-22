@@ -5,6 +5,8 @@ class Index extends MY_Controller {
 		parent::__construct();
 		$this->load->model("admin_model");		
 		$this->load->model("dashboard_model");
+		$this->load->model("email_model");
+		$this->load->model('passcode_model');
 	}
 
 	public function index() {
@@ -72,7 +74,7 @@ class Index extends MY_Controller {
 					$this->session->set_userdata('admin', array('email'=>$account['email'], 'group'=>$account['group']));
 					$this->redirect('dashboard');
 				} else {
-					$this->load->view('admin/login', array('error'=>'Sai thông tin đăng nhập'));
+					$this->load->view('admin/login', array('error'=>'Email or Password is incorrect. Please try again'));
 				}
 			}
 		} else {
@@ -115,6 +117,65 @@ class Index extends MY_Controller {
 				}
 			}
 			$this->load->view('admin/lockscreen', array('account'=>$account, 'error' => $error, 'other_account'=>base_url('logout')));
+		}
+	}
+
+	public function forgotPassword() {
+		$cmd = $this->input->post("cmd");
+		if ($cmd != '') {
+			$email = $this->input->post('email');
+			if ($email == '') {
+				$error = 'Please type your valid email';
+			}else {
+				$admin = $this->admin_model->getAdminAccountByEmail($email);
+				if ($admin != null) {
+					$adminCode = $this->passcode_model->addRequestPassword($admin['id'], $group = 1);
+					$params['url_code'] = base_url('reset-password/' . $adminCode);
+					$params['base_url'] = base_url();
+					$html = $this->email_model->emailForgotPassword($email, $params);
+					$this->session->set_flashdata('mess', 'Check your email for reset password');
+					$this->redirect('login');
+				}else {
+					$data['error'] = 'The email not linked to any existing admin account';
+					$this->load->view('admin/forgot_password', $data);
+				}
+			}
+		}else {
+			$this->load->view('admin/forgot_password');
+		}
+	}
+
+	public function resetPassword($code) {
+		$verify = $this->passcode_model->verifyPasswordCode($code);
+		if ($verify != null) {
+			$data = array();
+			if ($this->input->server('REQUEST_METHOD') == 'POST') {
+				$password = $this->input->post('password');
+				$re_password = $this->input->post('re_password');
+
+				if (strlen($password) < 6 || strlen($password) > 32) {
+					$data['error'] = 'Password length must be from 6 to 32 characters';
+				} else if ($password != $re_password) {
+					$data['error'] = 'Password does not match';
+				} 
+				if(!empty($data)) {
+					$this->load->view('admin/reset_password', $data);
+				}else {
+					$this->admin_model->update(['password' => md5($password)], $verify['user_id']);
+					$this->passcode_model->clearPasswordCode($verify['user_id']);
+					$account = $this->admin_model->getObjectById($verify['user_id']);
+					if ($account != null) {
+						$this->session->set_userdata('admin', array('email'=>$account['email'], 'group'=>$account['group']));
+						$this->load->view('admin/reset_success');
+					}
+				}
+			}else {
+				$this->load->view('admin/reset_password');
+			}
+		} else {
+			$data['error'] = 'Your verify code is invalid';
+			$this->load->view('admin/forgot_password', $data);
+
 		}
 	}
 }

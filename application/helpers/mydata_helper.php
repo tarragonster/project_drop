@@ -271,6 +271,23 @@ function media_url($mediaUri, $default = 'assets/images/placeholder.png') {
 	return base_url($mediaUri);
 }
 
+
+function image_mark($imageUri, $mark = 'assets/images/mask.png', $width = '100%', $moreStyle = null, $class = '') {
+	$style = 'background:url(' . media_url($imageUri) . ') no-repeat center center / cover;';
+	if (!empty($moreStyle)) {
+		$style .= $moreStyle;
+	}
+	echo '<img src="' . base_url($mark) . '" class="' . $class . '" style="' . $style . '" width="' . $width . '"/>';
+}
+
+function image_mask($imageUri, $mark = 'assets/images/mask.png', $width = '100%', $moreStyle = null, $class = 'img-responsive', $title = '') {
+	$style = 'background:url(' . media_url($imageUri) . ') no-repeat center center / cover;';
+	if (!empty($moreStyle)) {
+		$style .= $moreStyle;
+	}
+	return '<img src="' . base_url($mark) . '" class="' . $class . '" style="' . $style . '" width="' . $width . '" title="' . $title . '"/>';
+}
+
 function media_thumbnail($mediaUri, $size = 100, $default = 'assets/images/placeholder.png') {
 	if (startsWith($mediaUri, 'http')) {
 		return $mediaUri;
@@ -327,4 +344,11 @@ function html_percent($percent, $arrow = true) {
 	else:
 		return '<span class="text-danger">' . ($arrow ? '<i class="fa fa-arrow-down"></i> ' : '') . number_format(abs($percent)) . '%</span>';
 	endif;
+}
+
+function ShowHeaderFAQ($str){
+    $new_str = str_replace("&nbsp;", '', $str);
+    $new_str = 'header_'.$new_str;
+    $new_str = strtolower($new_str);
+    return $new_str;
 }

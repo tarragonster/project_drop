@@ -113,4 +113,17 @@ class Preview_model extends BaseModel {
 		$this->db->set('promo_image', $promo_image);
 		$this->db->update('explore_previews');
 	}
+
+	public function getPreviews() {
+		$this->db->select('ep.*, p.name, p.image');
+		$this->db->from('explore_previews ep');
+		$this->db->join('product p', 'ep.product_id = p.product_id');
+		$this->db->order_by('ep.priority');
+		return $this->db->get()->result_array();
+	}
+
+	public function updatePriority($params, $id) {
+		$this->db->where('product_id', $id);
+		$this->db->update($this->table, $params);
+	}
 }

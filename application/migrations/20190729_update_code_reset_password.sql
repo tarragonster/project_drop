@@ -1,0 +1,1 @@
+ALTER TABLE `code_reset_password` ADD `group` INT NOT NULL AFTER `has_reset`;

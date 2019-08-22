@@ -1,0 +1,1 @@
+ALTER TABLE user_reports ADD report_note TEXT AFTER reporter_id

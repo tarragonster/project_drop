@@ -246,4 +246,34 @@ class Episode_model extends BaseModel {
 		return true;
 	}
 
+	public function getEpisodesBySeason($season_ids, $conditions) {
+		$this->db->where_in('season_id', $season_ids);
+		if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }
+        $this->db->order_by('position');
+		return $this->db->get($this->table)->result_array();
+	}
+
+	public function getAllComment($episode_ids) {
+		$this->db->where_in('episode_id', $episode_ids);
+		$this->db->from('comments');
+		return $this->db->get()->result_array();
+	}
+
+	public function getAllLike($episode_ids) {
+		$this->db->where_in('episode_id', $episode_ids);
+		$this->db->from('episode_like');
+		return $this->db->get()->result_array();
+	}
+
+	public function getEpisodesOfSeason($season_id) {
+		$this->db->where('season_id', $season_id);
+		return $this->db->get($this->table)->result_array();	
+	}
+
 }

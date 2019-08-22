@@ -78,16 +78,29 @@ class Product_model extends BaseModel {
 		$this->db->trans_complete();
 	}
 
-	public function getProductListForAdmin($page = -1) {
-		$this->db->select('p.*');
-		$this->db->from('product_view p');
-		$this->db->where('p.status', 1);
-		if ($page >= 0) {
-			$this->db->limit(PERPAGE_ADMIN, PERPAGE_ADMIN * $page);
+	public function getProductListForAdmin($page = -1, $conditions) {
+		$this->db->select('p.*, e.episode_id, e.name as paywall_block_name, e.position');
+		$this->db->from('product p');
+		$this->db->join('episode e', 'p.paywall_episode = e.episode_id', 'left');
+		if(!empty($conditions['key'])) {
+			$this->db->where('p.name like "%' . $conditions['key'] . '%"');
 		}
-		$this->db->order_by('product_id', 'desc');
-		$query = $this->db->get();
-		return $query->result_array();
+		if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('product_id', 'name', 'created', 'status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+        } else {
+            $per_page = 25;
+        }
+        if ($page >= 0){
+            $this->db->limit($per_page, $page * $per_page);
+        }
+		return $this->db->get()->result_array();
 	}
 
 	public function getProductForAdmin($product_id) {
@@ -339,37 +352,8 @@ class Product_model extends BaseModel {
 		return $this->db->count_all_results();
 	}
 
-	public function getProductListByStatus($status) {
-		$sql = "select * from 
-				    (select s1.*, count(up.pick_id) as total_pick
-				    from (select p.*,e.position,fr.name as rate_name,count(pl.user_id) as total_like, e.episode_id as paywall_episode_id, e.name as paywall_episode_name
-				         from ((product as p 
-				                left join product_likes as pl on p.product_id = pl.product_id)
-				                join film_rate as fr on p.rate_id = fr.rate_id)
-				          		left join episode as e on p.paywall_episode = e.episode_id
-				          	where p.status = '$status'
-				            group by product_id) s1
-				    left join user_picks as up on s1.product_id = up.product_id 
-				    group by s1.product_id) s2
-				join 
-				    (select s3.product_id, s3.total_epi, s4.total_cmt from 
-				        (select p.product_id, count(e.episode_id) as total_epi
-				        from ((product as p 
-				            left join season as s on p.product_id = s.product_id)
-				            left join episode as e on s.season_id = e.season_id)
-				        group by p.product_id) s3
-				    join 
-				        (select p.product_id, count(c.comment_id) as total_cmt
-				        from ((product as p 
-				            left join season as s on p.product_id = s.product_id)
-				            left join episode as e on s.season_id = e.season_id)
-				            left join comments as c on e.episode_id = c.episode_id
-				        group by p.product_id) s4
-				    on s3.product_id = s4.product_id) s5
-				on s2.product_id = s5.product_id
-				order by s2.product_id desc";
-		$query = $this->db->query($sql);
-		return $query->result_array();
+	public function countAll() {
+		return $this->db->count_all($this->table);
 	}
 
 	public function getAllProducts($query = '') {
@@ -404,6 +388,43 @@ class Product_model extends BaseModel {
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function getAllComment($product_ids){
+		$this->db->select('p.product_id, c.comment_id');
+        $this->db->where_in('p.product_id', $product_ids);
+        $this->db->from('product p');
+        $this->db->join('season s', 'p.product_id = s.product_id');
+        $this->db->join('episode e', 's.season_id = e.season_id');
+        $this->db->join('comments c', 'e.episode_id = c.episode_id');
+        return $this->db->get()->result_array();
+    }
+
+    public function getAllLike($product_ids){
+		$this->db->select('p.product_id, el.id');
+        $this->db->where_in('p.product_id', $product_ids);
+        $this->db->from('product p');
+        $this->db->join('season s', 'p.product_id = s.product_id');
+        $this->db->join('episode e', 's.season_id = e.season_id');
+        $this->db->join('episode_like el', 'e.episode_id = el.episode_id');
+        return $this->db->get()->result_array();
+    }
+
+    public function getAllPick($product_ids){
+		$this->db->select('p.product_id, up.pick_id');
+        $this->db->where_in('p.product_id', $product_ids);
+        $this->db->from('product p');
+        $this->db->join('user_picks up', 'p.product_id = up.product_id');
+        return $this->db->get()->result_array();
+    }
+
+    public function getAllBlock($product_ids){
+		$this->db->select('p.product_id, e.episode_id');
+        $this->db->where_in('p.product_id', $product_ids);
+        $this->db->from('product p');
+        $this->db->join('season s', 'p.product_id = s.product_id');
+        $this->db->join('episode e', 's.season_id = e.season_id');
+        return $this->db->get()->result_array();
+    }
 
 	public function getProductUserReview($user_id, $product_id) {
 		$this->db->where('user_id', $user_id);
@@ -458,5 +479,37 @@ class Product_model extends BaseModel {
 		}
 		$query = $this->db->get();
 		return $query->result_array();
+	}
+
+	public function getProductReviewsForAdmin($product_id, $conditions = '') {
+		$this->db->where('p.product_id', $product_id);
+		$this->db->select('up.*, p.name, u.user_id, u.user_name, u.full_name, u.avatar');
+		$this->db->from('product p');
+		$this->db->join('user_picks up', 'p.product_id = up.product_id');
+		$this->db->join('user u', 'up.user_id = u.user_id');
+        $this->db->order_by('up.priority');
+		if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('full_name', 'name', 'up.status'))) {
+            if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
+                $this->db->order_by($conditions['sort_by'], 'desc');
+            }else {
+                $this->db->order_by($conditions['sort_by'], 'asc');
+            }
+        }
+		return $this->db->get()->result_array();
+	}
+
+	public function updatePriority($params, $id) {
+		$this->db->where('pick_id', $id);
+		$this->db->update('user_picks', $params);
+	}
+
+	public function getPick($pick_id) {
+		$this->db->where('pick_id', $pick_id);
+		return $this->db->get('user_picks')->result_array();
+	}
+
+	public function deletePick($pick_id) {
+		$this->db->where('pick_id', $pick_id);
+		$this->db->delete('user_picks');
 	}
 }
