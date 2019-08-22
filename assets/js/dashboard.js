@@ -152,12 +152,12 @@ function dataSetChanged(data) {
 		$('#unix_timestamp').val(data['unix_timestamp']);
 	}
 	if (data['user_chart'] != null) {
+		$('.chart-label-second').html(data['user_chart']['second']['label']);
+		$('.chart-label-first').html(data['user_chart']['first']['label']);
+
 		$('#user-chart').empty();
-		$('#user_label_second').html(data['user_chart']['second']['label']);
-		$('#user_label_first').html(data['user_chart']['first']['label']);
 		$('#user_value').html($.number(data['user_chart']['first']['value'], 0));
 		$('#user_percent').html(html_percent(data['user_chart']['percent']));
-
 		Morris.Line({
 			element: 'user-chart',
 			data: data['user_chart']['data'],
@@ -181,13 +181,15 @@ function dataSetChanged(data) {
 
 
 		$('#comment-chart').empty();
+		$('#comment_value').html($.number(data['comment_chart']['first']['value'], 0));
+		$('#comment_percent').html(html_percent(data['comment_chart']['percent']));
 		Morris.Line({
 			element: 'comment-chart',
-			data: data['user_chart']['data'],
+			data: data['comment_chart']['data'],
 			hideHover: 'auto',
 			xkey: 'label',
 			ykeys: ['first', 'second'],
-			labels: [data['user_chart']['first']['label'], data['user_chart']['second']['label']],
+			labels: [data['comment_chart']['first']['label'], data['comment_chart']['second']['label']],
 			lineColors: ['#996cd9', '#c3cdd4'],
 			parseTime: false,
 			yLabelFormat: function (y) {
@@ -203,13 +205,15 @@ function dataSetChanged(data) {
 		});
 
 		$('#review-chart').empty();
+		$('#review_value').html($.number(data['comment_chart']['first']['value'], 0));
+		$('#review_percent').html(html_percent(data['comment_chart']['percent']));
 		Morris.Line({
 			element: 'review-chart',
-			data: data['user_chart']['data'],
+			data: data['review_chart']['data'],
 			hideHover: 'auto',
 			xkey: 'label',
 			ykeys: ['first', 'second'],
-			labels: [data['user_chart']['first']['label'], data['user_chart']['second']['label']],
+			labels: [data['review_chart']['first']['label'], data['review_chart']['second']['label']],
 			lineColors: ['#996cd9', '#c3cdd4'],
 			parseTime: false,
 			yLabelFormat: function (y) {

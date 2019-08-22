@@ -23,11 +23,11 @@
 
 	Morris.Line({
 		element: 'comment-chart',
-		data: <?=json_encode($user_chart['data'])?>,
+		data: <?=json_encode($comment_chart['data'])?>,
 		hideHover: 'auto',
 		xkey: 'label',
 		ykeys: ['first', 'second'],
-		labels: ["<?= $user_chart['first']['label']?>", "<?= $user_chart['second']['label']?>"],
+		labels: ["<?= $comment_chart['first']['label']?>", "<?= $comment_chart['second']['label']?>"],
 		lineColors: ['#996cd9', '#c3cdd4'],
 		parseTime: false,
 		yLabelFormat: function (y) {
@@ -44,11 +44,11 @@
 
 	Morris.Line({
 		element: 'review-chart',
-		data: <?=json_encode($user_chart['data'])?>,
+		data: <?=json_encode($review_chart['data'])?>,
 		hideHover: 'auto',
 		xkey: 'label',
 		ykeys: ['first', 'second'],
-		labels: ["<?= $user_chart['first']['label']?>", "<?= $user_chart['second']['label']?>"],
+		labels: ["<?= $review_chart['first']['label']?>", "<?= $review_chart['second']['label']?>"],
 		lineColors: ['#996cd9', '#c3cdd4'],
 		parseTime: false,
 		yLabelFormat: function (y) {

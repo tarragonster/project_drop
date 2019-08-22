@@ -2,40 +2,40 @@
 	<div class="dashboard-progress-bar" id='dashboard-progress-bar' style="width: 100%"></div>
 </div>
 <div class="row">
-	<div class="col-md-2 col-xs-6">
+	<div class="col-md-2 col-sm-4 col-xs-6">
 		<a href="#">
 			<h3 class="header-dashboard header-dark">Total Users</h3>
 			<h2 class="header-dashboard-num"><?= number_format($top_users, 0) ?></h2>
 		</a>
 	</div>
-	<div class="col-md-2 col-xs-6">
+	<div class="col-md-2 col-sm-4 col-xs-6">
 		<a href="#">
 			<h3 class="header-dashboard header-dark">Total Blocked Watched</h3>
-			<h2 class="header-dashboard-num"><?= number_format($top_users, 0) ?></h2>
+			<h2 class="header-dashboard-num"><?= number_format($top_watched, 0) ?></h2>
 		</a>
 	</div>
-	<div class="col-md-2 col-xs-6">
+	<div class="col-md-2 col-sm-4 col-xs-6">
 		<a href="#">
 			<h3 class="header-dashboard header-dark">Total Comments</h3>
-			<h2 class="header-dashboard-num"><?= number_format($top_users, 0) ?></h2>
+			<h2 class="header-dashboard-num"><?= number_format($top_comments, 0) ?></h2>
 		</a>
 	</div>
-	<div class="col-md-2 col-xs-6">
+	<div class="col-md-2 col-sm-4 col-xs-6">
 		<a href="#">
 			<h3 class="header-dashboard header-dark">Total Reviews</h3>
-			<h2 class="header-dashboard-num"><?= number_format($top_users, 0) ?></h2>
+			<h2 class="header-dashboard-num"><?= number_format($top_reviews, 0) ?></h2>
 		</a>
 	</div>
-	<div class="col-md-2 col-xs-6">
+	<div class="col-md-2 col-sm-4 col-xs-6">
 		<a href="#">
 			<h3 class="header-dashboard header-dark">Total Stories</h3>
-			<h2 class="header-dashboard-num"><?= number_format($top_users, 0) ?></h2>
+			<h2 class="header-dashboard-num"><?= number_format($top_stories, 0) ?></h2>
 		</a>
 	</div>
-	<div class="col-md-2 col-xs-6">
+	<div class="col-md-2 col-sm-4 col-xs-6">
 		<a href="#">
 			<h3 class="header-dashboard header-dark">Total Blocks</h3>
-			<h2 class="header-dashboard-num"><?= number_format($top_users, 0) ?></h2>
+			<h2 class="header-dashboard-num"><?= number_format($top_blocks, 0) ?></h2>
 		</a>
 	</div>
 </div>

@@ -13,7 +13,7 @@ class Index extends MY_Controller {
 		$this->dashboard();
 	}
 
-	public function dashboard($fromDate = '', $toDate = '', $secondFromDate = '', $secondToDate = '') {
+	public function dashboard($fromDate = '2019-08-01', $toDate = '', $secondFromDate = '', $secondToDate = '') {
 		$admin = $this->session->userdata('admin');
 		if ($admin == null) {
 			redirect(base_url('login'));
@@ -51,11 +51,13 @@ class Index extends MY_Controller {
 			$this->customJs[] = 'assets/js/dashboard.js';
 
 			$dashboard['top_users'] = $this->dashboard_model->countUsers();
+			$dashboard['top_watched'] = $this->dashboard_model->countBlocksWatched();
+			$dashboard['top_comments'] = $this->dashboard_model->countComments();
+			$dashboard['top_reviews'] = $this->dashboard_model->countReviews();
+			$dashboard['top_blocks'] = $this->dashboard_model->countBlocks();
+			$dashboard['top_stories'] = $this->dashboard_model->countStories();
 			$dashboard['top_header'] = 'admin/dashboard/top';
-//			$dashboard['customJs'] = $this->customJs;
-//			$dashboard['customCss'] = $this->customCss;
 			$this->render('admin/dashboard/layout', $dashboard, 1, 10);
-//			$this->load->view('admin/dashboard/layout', $dashboard, 1, 10);
 		}
 	}
 	
