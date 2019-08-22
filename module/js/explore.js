@@ -158,16 +158,15 @@ function searchStory() {
 		data: {key:key},
 		url: BASE_APP_URL + 'explore/searchOtherProduct',
 		success: function (data) {
-			console.log(data)
 			var obj = JSON.parse(data);
 			html += "<ul id='result-search'>"
 			obj.forEach(function(item){
-				html += "<li class='result-item' data-id='" + item.user_id + "' data-value='" + item.full_name + ", @" + item.user_name + ", " + item.email + "'>"
-				html += "<a href='#' class='result-value'>" + item.full_name + ", @" + item.user_name + ", " + item.email + "</a></li>"
+				html += "<li class='result-item' data-id='" + item.product_id + "' data-value='" + item.name + "'>"
+				html += "<a href='#' class='result-value'>" + item.name + "</a></li>"
 			})
 			html += "</ul>"
-			$('#other_user').append(html)
+			$('#other_story').append(html)
 		}
 	});
-	$('#other_user').html('')
+	$('#other_story').html('')
 }
