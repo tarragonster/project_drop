@@ -115,7 +115,7 @@ class BR_Controller extends REST_Controller {
 		-6 => 'Sorry, this username is already in use',
 		-7 => 'Not change any information',
 		-8 => 'Field invalid',
-		-9 => 'This email does not exist in our system.',
+		-9 => 'Sorry this email is not linked to an existing account.',
 		-10 => 'This uid does not exist in our system.',
 		-11 => 'Can\'t to create conversations',
 		-12 => 'This conversation is not exists',
