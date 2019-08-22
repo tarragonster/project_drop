@@ -113,7 +113,7 @@
                                 <div class="dropdown view-status-outer">
                                     <button type="button" class="btn btn-header dropdown-toggle" id="view-status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="status-text">View All Statuses</span>
-                                        <i class="fal fa-chevron-down"></i>
+                                        <i class="fal fa-chevron-down" style="position: absolute;right: 6px;top: 6px;"></i>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="view-status">
                                         <li class="dropdown-item" onclick="getStatus()">All Statuses</li>
