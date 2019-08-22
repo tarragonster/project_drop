@@ -74,6 +74,42 @@ class Dashboard_model extends CI_Model {
 		}
 	}
 
+	public function genTableData($items, $excludeKeys = []) {
+		$data = "";
+		foreach ($items as $rowIndex => $item) {
+			$data .= '<tr>';
+			$first = true;
+			foreach ($item as $key => $value) {
+				if (!in_array($key, $excludeKeys)) {
+					$data .= '<td>';
+					if ($first) {
+						$first = false;
+						$data .= ($rowIndex + 1) . '. ';
+					}
+					if (is_numeric($value)) {
+						$data .= '' . number_format($value, 0) . '</td>';
+					} else {
+						$data .= "{$value}</td>";
+					}
+				}
+			}
+			$data .= "</tr>\n";
+		}
+		return $data;
+	}
+
+	public function genMostFollowerData($most_followers) {
+		$data = "";
+		foreach ($most_followers as $key => $row) {
+			$data .= '<tr>'
+				. "<td>" . ($key + 1) . ". " . ucwords($row['full_name']) . " - @{$row['user_name']}</td>"
+				. "<td>" . number_format(empty($row['num_of_followers']) ? 0 : $row['num_of_followers'], 0) . "</td>"
+				. "<td>" . number_format(empty($row['new_followers']) ? 0 : $row['new_followers'], 0) . "</td>"
+				. "</tr><br/>";
+		}
+		return $data;
+	}
+
 	public function formatLabel($time, $steps, $sampleYear = false) {
 		if ($steps == -1) {
 			return $sampleYear ? date('M', $time) : date('M Y', $time);
@@ -153,19 +189,15 @@ class Dashboard_model extends CI_Model {
 		$params['endDate'] = $endDate;
 		$params['secondStart'] = $secondStart;
 		$params['secondEnd'] = $secondEnd;
+		$params['first_label'] = $this->formatRange($startDate, $endDate);
+		$params['second_label'] = $this->formatRange($secondStart, $secondEnd);
 
 		// collect users
 		$user_chart = [
-			'first' => [
-				'label' => $this->formatRange($startDate, $endDate),
-				'value' => $this->countUsers($startDate, $endDate),
-			],
-			'second' => [
-				'label' => $this->formatRange($secondStart, $secondEnd),
-				'value' => $this->countUsers($secondStart, $secondEnd),
-			],
+			'first' => $this->countUsers($startDate, $endDate),
+			'second' => $this->countUsers($secondStart, $secondEnd),
 		];
-		$user_chart['percent'] = getPercent($user_chart['first']['value'], $user_chart['second']['value']);
+		$user_chart['percent'] = getPercent($user_chart['first'], $user_chart['second']);
 
 		$data = [];
 		$temp = $startDate;
@@ -185,16 +217,10 @@ class Dashboard_model extends CI_Model {
 		$params['user_chart'] = $user_chart;
 
 		$comment_chart = [
-			'first' => [
-				'label' => $this->formatRange($startDate, $endDate),
-				'value' => $this->countComments($startDate, $endDate),
-			],
-			'second' => [
-				'label' => $this->formatRange($secondStart, $secondEnd),
-				'value' => $this->countComments($secondStart, $secondEnd),
-			],
+			'first' => $this->countComments($startDate, $endDate),
+			'second' => $this->countComments($secondStart, $secondEnd)
 		];
-		$comment_chart['percent'] = getPercent($comment_chart['first']['value'], $comment_chart['second']['value']);
+		$comment_chart['percent'] = getPercent($comment_chart['first'], $comment_chart['second']);
 
 		$data = [];
 		$temp = $startDate;
@@ -214,16 +240,10 @@ class Dashboard_model extends CI_Model {
 		$params['comment_chart'] = $comment_chart;
 
 		$review_chart = [
-			'first' => [
-				'label' => $this->formatRange($startDate, $endDate),
-				'value' => $this->countReviews($startDate, $endDate),
-			],
-			'second' => [
-				'label' => $this->formatRange($secondStart, $secondEnd),
-				'value' => $this->countReviews($secondStart, $secondEnd),
-			],
+			'first' => $this->countReviews($startDate, $endDate),
+			'second' => $this->countReviews($secondStart, $secondEnd)
 		];
-		$review_chart['percent'] = getPercent($review_chart['first']['value'], $review_chart['second']['value']);
+		$review_chart['percent'] = getPercent($review_chart['first'], $review_chart['second']);
 
 		$data = [];
 		$temp = $startDate;
@@ -242,25 +262,32 @@ class Dashboard_model extends CI_Model {
 		$review_chart['data'] = $data;
 		$params['review_chart'] = $review_chart;
 
-		$most_followers = $this->getMostFollower($secondStart, $endDate);
-		$params['most_followers'] = $most_followers;
-
 		$most_watched_blocks = $this->getWatchedBlocks($secondStart, $endDate);
-		$params['most_watched_blocks'] = $most_watched_blocks;
+		$params['most_watched_blocks_data'] = $this->genTableData($most_watched_blocks, ['episode_id', 'season_id', 'season_name']);
 
 		$most_review_stories = $this->getMostReviewStories($secondStart, $endDate);
-		$params['most_review_stories'] = $most_review_stories;
+		$params['most_review_stories_data'] = $this->genTableData($most_review_stories, ['product_id']);
 
 		$most_liked_blocks = $this->getMostLikedBlocks($secondStart, $endDate);
-		$params['most_liked_blocks'] = $most_liked_blocks;
+		$params['most_liked_blocks_data'] = $this->genTableData($most_liked_blocks, ['episode_id', 'season_id', 'season_name']);
 
-		$params['most_shared_stories'] = [];
+		$most_shared_stories = $this->getMostSharedStories($secondStart, $endDate);
+		$params['most_shared_stories_data'] = $this->genTableData($most_shared_stories, ['story_id']);
 
 		$most_commented_blocks = $this->getMostCommentedBlocks($secondStart, $endDate);
-		$params['most_commented_blocks'] = $most_commented_blocks;
+		$params['most_commented_blocks_data'] = $this->genTableData($most_commented_blocks, ['episode_id', 'season_id', 'season_name']);
 
 		$most_commented_stories = $this->getMostCommentedStories($secondStart, $endDate);
-		$params['most_commented_stories'] = $most_commented_stories;
+		$params['most_commented_stories_data'] = $this->genTableData($most_commented_stories, ['product_id']);
+
+		$age_demographic = $this->getAgeDemographic($secondStart, $endDate);
+		$params['age_demographic'] = $age_demographic;
+
+		$top_searched = $this->getTopSearched($secondStart, $endDate);
+		$params['top_searched'] = $top_searched;
+
+		$most_followers = $this->getMostFollower($secondStart, $endDate);
+		$params['most_followers_data'] = $this->genMostFollowerData($most_followers);
 
 		return $params;
 	}
@@ -288,7 +315,7 @@ class Dashboard_model extends CI_Model {
 	}
 
 	public function getWatchedBlocks($from, $to) {
-		$this->db->select('uw.episode_id, e.season_id, e.name, count(*) as watched');
+		$this->db->select('uw.episode_id, e.season_id, e.name, "" as story_name, count(*) as watched');
 		$this->db->from('user_watch uw');
 		$this->db->join('episode e', 'e.episode_id = uw.episode_id');
 		if ($from > 0)
@@ -304,7 +331,7 @@ class Dashboard_model extends CI_Model {
 	}
 
 	public function getMostLikedBlocks($from, $to) {
-		$this->db->select('el.episode_id, e.season_id, e.name, count(*) as num_of_like');
+		$this->db->select('el.episode_id, e.season_id, e.name, "" as story_name, count(*) as num_of_like');
 		$this->db->from('episode_like el');
 		$this->db->join('episode e', 'e.episode_id = el.episode_id');
 		if ($from > 0)
@@ -321,7 +348,7 @@ class Dashboard_model extends CI_Model {
 	}
 
 	public function getMostCommentedBlocks($from, $to) {
-		$this->db->select('c.episode_id, e.season_id, e.name, count(*) as num_of_comments');
+		$this->db->select('c.episode_id, e.season_id, e.name, "" as story_name, count(*) as num_of_comments');
 		$this->db->from('comments c');
 		$this->db->join('episode e', 'e.episode_id = c.episode_id');
 		if ($from > 0)
@@ -356,6 +383,22 @@ class Dashboard_model extends CI_Model {
 		return $items;
 	}
 
+	public function getMostSharedStories($from, $to) {
+		$this->db->select('ss.story_id, p.name, sum(friends) as num_of_shared');
+		$this->db->from('story_shared ss');
+		$this->db->join('product p', 'p.product_id = ss.story_id');
+		if ($from > 0)
+			$this->db->where('ss.shared_at >=', $from);
+		if ($to > 0)
+			$this->db->where('ss.shared_at <', $to);
+		$this->db->group_by('ss.story_id');
+		$this->db->order_by('num_of_shared desc');
+		$this->db->order_by('ss.story_id desc');
+		$this->db->limit(5);
+		$items = $this->db->get()->result_array();
+		return $items;
+	}
+
 	public function getMostReviewStories($from, $to) {
 		$this->db->select('up.product_id, p.name, count(*) as num_of_reviewed');
 		$this->db->from('user_picks up');
@@ -373,6 +416,50 @@ class Dashboard_model extends CI_Model {
 		return $items;
 	}
 
+	public function getAgeDemographic($from, $to) {
+		$sql = 'select'
+			. ' sum(if(year_old >= 18 and year_old <= 24, num_of_age, 0)) as group_01,'
+			. ' sum(if(year_old >= 25 and year_old <= 34, num_of_age, 0)) as group_02,'
+			. ' sum(if(year_old >= 35 and year_old <= 50, num_of_age, 0)) as group_03,'
+			. ' sum(if(year_old > 50, num_of_age, 0)) as group_04'
+//			. ', sum(if(year_old is null or year_old < 18, num_of_age, 0)) as group_05'
+//			. ' from (select (2019 - year(`birthday`)) as year_old, count(*) as num_of_age from user group by year_old) as years;';
+			. ' from (select (2019 - year(`birthday`)) as year_old, count(*) as num_of_age from user where birthday is not null and year(`birthday`) < 2001 group by year_old) as years;';
+
+		$item = $this->db->query($sql)->first_row('array');
+		if ($item == null) {
+			$item = [
+				'group_01' => 0,
+				'group_02' => 0,
+				'group_03' => 0,
+				'group_04' => 0,
+//				'group_05' => 0,
+			];
+		}
+		$data = [];
+		foreach ($item as $key => $value) {
+			$data[] = $value;
+		}
+		return $data;
+	}
+
+	public function getTopSearched($from, $to) {
+		$this->db->select('keyword, times');
+		$this->db->from('trending_search');
+		$this->db->order_by('times', 'desc');
+		$this->db->limit(5);
+		$items = $this->db->get()->result_array();
+		$data = [];
+		$labels = [];
+		if (count($items) > 0) {
+			foreach ($items as $key => $value) {
+				$data[] = $value['times'];
+				$labels[] = $value['keyword'];
+			}
+		}
+		return ['data' => $data, 'labels' => $labels];
+	}
+
 	public function getMostFollower($from, $to) {
 		$this->db->select('u.user_id, u.full_name, u.user_name, uf.num_of_followers, uf2.new_followers');
 		$this->db->from('user u');
@@ -381,7 +468,7 @@ class Dashboard_model extends CI_Model {
 		$sub_query .= ' where ';
 		$sub_query .= '1488799243 >= ' . $from . ' and 1488799243 < ' . $to;
 		$sub_query .= ' group by follower_id';
-		$this->db->join('('.$sub_query.') as uf2', 'u.user_id = uf2.follower_id', 'left');
+		$this->db->join('(' . $sub_query . ') as uf2', 'u.user_id = uf2.follower_id', 'left');
 		$this->db->order_by('new_followers desc');
 		$this->db->order_by('num_of_followers desc');
 		$this->db->order_by('user_id desc');

@@ -60,6 +60,61 @@ function showDateRange(secondStart, secondEnd) {
 	}
 }
 
+var searchedChartConfig = {
+	type: 'pie',
+	data: {
+		datasets: [{
+			data: [],
+			backgroundColor: [
+				'#4A81D4',
+				'#F4F8FB',
+				'#2FBC9B',
+				'#28292C',
+				'#C7AE6E'
+			]
+		}],
+		labels: []
+	},
+	options: {
+		responsive: true,
+		legend: {
+			position: 'right',
+			onClick: function (e) {
+				e.stopPropagation();
+			}
+		}
+	}
+};
+
+var ageChartConfig = {
+	type: 'pie',
+	data: {
+		datasets: [{
+			data: [],
+			backgroundColor: [
+				'#4A81D4',
+				'#F4F8FB',
+				'#2FBC9B',
+				'#28292C',
+				'#FF0000'
+			]
+		}],
+		labels: []
+	},
+	options: {
+		responsive: true,
+		legend: {
+			position: 'right',
+			onClick: function (e) {
+				e.stopPropagation();
+			}
+		}
+	}
+};
+
+window.searchedChart = new Chart(document.getElementById('chart-searched').getContext('2d'), searchedChartConfig);
+window.ageChart = new Chart(document.getElementById('chart-age').getContext('2d'), ageChartConfig);
+
 $('#reportrange').daterangepicker({
 	format: 'MM/DD/YYYY',
 	startDate: moment(),
@@ -112,10 +167,14 @@ $('#reportrange').daterangepicker({
 
 function reloadDashboard(start, end, secondStart, secondEnd) {
 	$('#dashboard-loading').show();
+	var appendingURL = "";
+	if (start != null) {
+		appendingURL = "/" + start.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + end.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + secondStart.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + secondEnd.tz('America/Los_Angeles').format('YYYY-MM-DD');
+	}
 	$.ajax({
 		type: "POST",
 		dataType: "json",
-		url: BASE_APP_URL + "index/dashboard/" + start.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + end.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + secondStart.tz('America/Los_Angeles').format('YYYY-MM-DD') + "/" + secondEnd.tz('America/Los_Angeles').format('YYYY-MM-DD'),
+		url: BASE_APP_URL + "index/dashboard" + appendingURL,
 		data: {},
 
 		success: function (data) {
@@ -131,7 +190,7 @@ function reloadDashboard(start, end, secondStart, secondEnd) {
 
 			dataSetChanged(data);
 		},
-		error: function() {
+		error: function () {
 			$('#dashboard-loading').hide();
 		}
 	});
@@ -152,11 +211,11 @@ function dataSetChanged(data) {
 		$('#unix_timestamp').val(data['unix_timestamp']);
 	}
 	if (data['user_chart'] != null) {
-		$('.chart-label-second').html(data['user_chart']['second']['label']);
-		$('.chart-label-first').html(data['user_chart']['first']['label']);
+		$('.chart-label-first').html(data['first_label']);
+		$('.chart-label-second').html(data['second_label']);
 
 		$('#user-chart').empty();
-		$('#user_value').html($.number(data['user_chart']['first']['value'], 0));
+		$('#user_value').html($.number(data['user_chart']['first'], 0));
 		$('#user_percent').html(html_percent(data['user_chart']['percent']));
 		Morris.Line({
 			element: 'user-chart',
@@ -164,7 +223,7 @@ function dataSetChanged(data) {
 			hideHover: 'auto',
 			xkey: 'label',
 			ykeys: ['first', 'second'],
-			labels: [data['user_chart']['first']['label'], data['user_chart']['second']['label']],
+			labels: [data['first_label'], data['second_label']],
 			lineColors: ['#996cd9', '#c3cdd4'],
 			parseTime: false,
 			yLabelFormat: function (y) {
@@ -181,7 +240,7 @@ function dataSetChanged(data) {
 
 
 		$('#comment-chart').empty();
-		$('#comment_value').html($.number(data['comment_chart']['first']['value'], 0));
+		$('#comment_value').html($.number(data['comment_chart']['first'], 0));
 		$('#comment_percent').html(html_percent(data['comment_chart']['percent']));
 		Morris.Line({
 			element: 'comment-chart',
@@ -189,7 +248,7 @@ function dataSetChanged(data) {
 			hideHover: 'auto',
 			xkey: 'label',
 			ykeys: ['first', 'second'],
-			labels: [data['comment_chart']['first']['label'], data['comment_chart']['second']['label']],
+			labels: [data['first_label'], data['second_label']],
 			lineColors: ['#996cd9', '#c3cdd4'],
 			parseTime: false,
 			yLabelFormat: function (y) {
@@ -205,15 +264,16 @@ function dataSetChanged(data) {
 		});
 
 		$('#review-chart').empty();
-		$('#review_value').html($.number(data['comment_chart']['first']['value'], 0));
+		$('#review_value').html($.number(data['comment_chart']['first'], 0));
 		$('#review_percent').html(html_percent(data['comment_chart']['percent']));
+
 		Morris.Line({
 			element: 'review-chart',
 			data: data['review_chart']['data'],
 			hideHover: 'auto',
 			xkey: 'label',
 			ykeys: ['first', 'second'],
-			labels: [data['review_chart']['first']['label'], data['review_chart']['second']['label']],
+			labels: [data['first_label'], data['second_label']],
 			lineColors: ['#996cd9', '#c3cdd4'],
 			parseTime: false,
 			yLabelFormat: function (y) {
@@ -227,22 +287,31 @@ function dataSetChanged(data) {
 			},
 			resize: true,
 		});
+		$('#watched-blocks-body').empty().html(data['most_watched_blocks_data']);
+		$('#reviewed-stories-body').empty().html(data['most_review_stories_data']);
+		$('#liked-blocks-body').empty().html(data['most_liked_blocks_data']);
+		$('#shared-stories-body').empty().html(data['most_shared_stories_data']);
+		$('#commented-blocks-body').empty().html(data['most_commented_blocks_data']);
+		$('#commented-stories-body').empty().html(data['most_commented_stories_data']);
 
-		searchedChartConfig.data.datasets[0].data = [
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor()
-		];
+		searchedChartConfig.data.datasets[0].data = data['top_searched']['data'];
+		searchedChartConfig.data.labels = data['top_searched']['labels'];
 		searchedChart.update();
 
-		ageChartConfig.data.datasets[0].data = [
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor(),
-			randomScalingFactor()
+		ageChartConfig.data.datasets[0].data = data['age_demographic'];
+		ageChartConfig.data.labels = [
+			'18-24',
+			'25-34',
+			'35-50',
+			'50+',
+//				'Undefined'
 		];
 		ageChart.update();
+
+		$('#most-followed-body').empty().html(data['most_followers_data']);
 	}
 }
+
+$('.chart-label-first').html(currentStartRange.tz('America/Los_Angeles').format('MMM DD, YYYY'));
+$('.chart-label-second').html(currentSecondStartRange.tz('America/Los_Angeles').format('MMM DD, YYYY'));
+reloadDashboard(currentStartRange, currentEndRange, currentSecondStartRange, currentSecondEndRange);

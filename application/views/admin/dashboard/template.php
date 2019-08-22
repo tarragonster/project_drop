@@ -4,11 +4,9 @@
 			<div class="chart-content">
 				<span class="chart-title">Users</span>
 				<div class="chart-number-box">
-					<span id="user_value" class="number-value"><?= number_format($user_chart['first']['value']); ?></span>
+					<span id="user_value" class="number-value">&nbsp;</span>
 
-					<div id="user_percent" class="percent-value">
-						<?= html_percent($user_chart['percent']) ?>
-					</div>
+					<div id="user_percent" class="percent-value"></div>
 					<div style="clear:both"></div>
 				</div>
 				<span class="chart-information">Users Over Time</span>
@@ -16,16 +14,15 @@
 			<div class="widget-chart text-center">
 				<div id="user-chart" style="height:200px;width:100%;"></div>
 			</div>
-			<div class="chart-content">
-				<div class="chart-label pull-right m-l-15">
-					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
-					<span class="chart-mini-label chart-label-second"><?= $user_chart['second']['label'] ?></span>
-				</div>
-				<div class="chart-label pull-right">
+			<div class="chart-content text-center">
+				<div class="chart-label">
 					<div class="chart-mini-box" style="background-color: #996cd9"></div>
-					<span class="chart-mini-label chart-label-first"><?= $user_chart['first']['label'] ?></span>
+					<span class="chart-mini-label chart-label-first"></span>
 				</div>
-				<div style="clear:both"></div>
+				<div class="chart-label m-l-15">
+					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
+					<span class="chart-mini-label chart-label-second"></span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -34,11 +31,9 @@
 			<div class="chart-content">
 				<span class="chart-title">Comments</span>
 				<div class="chart-number-box">
-					<span id="comment_value" class="number-value"><?= number_format($comment_chart['first']['value']); ?></span>
+					<span id="comment_value" class="number-value">&nbsp;</span>
 
-					<div id="comment_percent" class="percent-value">
-						<?= html_percent($comment_chart['percent']) ?>
-					</div>
+					<div id="comment_percent" class="percent-value"></div>
 					<div style="clear:both"></div>
 				</div>
 				<span class="chart-information">Comments Over Time</span>
@@ -46,16 +41,15 @@
 			<div class="widget-chart text-center">
 				<div id="comment-chart" style="height:200px;width:100%;"></div>
 			</div>
-			<div class="chart-content">
-				<div class="chart-label pull-right m-l-15">
-					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
-					<span class="chart-mini-label chart-label-second"><?= $comment_chart['second']['label'] ?></span>
-				</div>
-				<div class="chart-label pull-right">
+			<div class="chart-content text-center">
+				<div class="chart-label">
 					<div class="chart-mini-box" style="background-color: #996cd9"></div>
-					<span class="chart-mini-label chart-label-first"><?= $comment_chart['first']['label'] ?></span>
+					<span class="chart-mini-label chart-label-first"></span>
 				</div>
-				<div style="clear:both"></div>
+				<div class="chart-label m-l-15">
+					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
+					<span class="chart-mini-label chart-label-second"></span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -64,11 +58,9 @@
 			<div class="chart-content">
 				<span class="chart-title">Reviews</span>
 				<div class="chart-number-box">
-					<span id="review_value" class="number-value"><?= number_format($review_chart['first']['value']); ?></span>
+					<span id="review_value" class="number-value">&nbsp;</span>
 
-					<div id="review_percent" class="percent-value">
-						<?= html_percent($user_chart['percent']) ?>
-					</div>
+					<div id="review_percent" class="percent-value"></div>
 					<div style="clear:both"></div>
 				</div>
 				<span class="chart-information">Reviews Over Time</span>
@@ -76,16 +68,15 @@
 			<div class="widget-chart text-center">
 				<div id="review-chart" style="height:200px;width:100%;"></div>
 			</div>
-			<div class="chart-content">
-				<div class="chart-label pull-right m-l-15">
-					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
-					<span class="chart-mini-label chart-label-second"><?= $review_chart['second']['label'] ?></span>
-				</div>
-				<div class="chart-label pull-right">
+			<div class="chart-content text-center">
+				<div class="chart-label">
 					<div class="chart-mini-box" style="background-color: #996cd9"></div>
-					<span class="chart-mini-label chart-label-first"><?= $review_chart['first']['label'] ?></span>
+					<span class="chart-mini-label chart-label-first"></span>
 				</div>
-				<div style="clear:both"></div>
+				<div class="chart-label m-l-15">
+					<div class="chart-mini-box" style="background-color: #c3cdd4"></div>
+					<span class="chart-mini-label chart-label-second"></span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -100,19 +91,11 @@
 				<thead>
 				<tr>
 					<th>Block</th>
-					<th>Story</th>
-					<th>Watched</th>
+					<th style="width: 30%">Story</th>
+					<th style="width: 100px">Watched</th>
 				</tr>
 				</thead>
-				<tbody>
-				<?php foreach ($most_watched_blocks as $key => $row) : ?>
-					<tr>
-						<td><?= $key + 1 ?>. <?= $row['name']?></td>
-						<td><?= empty($row['story_name']) ? 'Deleted' : $row['story_name']?></td>
-						<td><?= number_format($row['watched'], 0)?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
+				<tbody id="watched-blocks-body"></tbody>
 			</table>
 		</div>
 	</div>
@@ -125,17 +108,10 @@
 				<thead>
 				<tr>
 					<th>Story</th>
-					<th>Reviews</th>
+					<th style="width: 100px">Reviews</th>
 				</tr>
 				</thead>
-				<tbody>
-				<?php foreach ($most_review_stories as $key => $row) : ?>
-					<tr>
-						<td><?= $key + 1 ?>. <?= $row['name']?></td>
-						<td><?= number_format($row['num_of_reviewed'], 0)?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
+				<tbody id="reviewed-stories-body"></tbody>
 			</table>
 		</div>
 	</div>
@@ -150,19 +126,11 @@
 				<thead>
 				<tr>
 					<th>Block</th>
-					<th>Story</th>
-					<th>Likes</th>
+					<th style="width: 30%">Story</th>
+					<th style="width: 100px">Likes</th>
 				</tr>
 				</thead>
-				<tbody>
-				<?php foreach ($most_liked_blocks as $key => $row) : ?>
-					<tr>
-						<td><?= $key + 1 ?>. <?= $row['name']?></td>
-						<td><?= empty($row['story_name']) ? 'Deleted' : $row['story_name']?></td>
-						<td><?= number_format($row['num_of_like'], 0)?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
+				<tbody id="liked-blocks-body"></tbody>
 			</table>
 		</div>
 	</div>
@@ -175,17 +143,10 @@
 				<thead>
 				<tr>
 					<th>Story</th>
-					<th>Shares</th>
+					<th style="width: 100px">Shares</th>
 				</tr>
 				</thead>
-				<tbody>
-				<?php foreach ($most_shared_stories as $key => $row) : ?>
-					<tr>
-						<td><?= $key + 1 ?>. <?= $row['name']?></td>
-						<td><?= number_format($row['num_of_shared'], 0)?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
+				<tbody id="shared-stories-body"></tbody>
 			</table>
 		</div>
 	</div>
@@ -200,19 +161,11 @@
 				<thead>
 				<tr>
 					<th>Block</th>
-					<th>Story</th>
-					<th>Comments</th>
+					<th style="width: 30%">Story</th>
+					<th style="width: 100px">Comments</th>
 				</tr>
 				</thead>
-				<tbody>
-				<?php foreach ($most_commented_blocks as $key => $row) : ?>
-					<tr>
-						<td><?= $key + 1 ?>. <?= $row['name']?></td>
-						<td><?= empty($row['story_name']) ? 'Deleted' : $row['story_name']?></td>
-						<td><?= number_format($row['num_of_comments'], 0)?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
+				<tbody id="commented-blocks-body"></tbody>
 			</table>
 		</div>
 	</div>
@@ -225,17 +178,10 @@
 				<thead>
 				<tr>
 					<th>Story</th>
-					<th>Reviews</th>
+					<th style="width: 100px">Reviews</th>
 				</tr>
 				</thead>
-				<tbody>
-				<?php foreach ($most_commented_stories as $key => $row) : ?>
-					<tr>
-						<td><?= $key + 1 ?>. <?= $row['name']?></td>
-						<td><?= number_format($row['num_of_comments'], 0)?></td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
+				<tbody id="commented-stories-body"></tbody>
 			</table>
 		</div>
 	</div>
@@ -272,15 +218,7 @@
 					<th>New Followers</th>
 				</tr>
 				</thead>
-				<tbody>
-				<?php foreach ($most_followers as $key => $row) : ?>
-				<tr>
-					<td><?= $key + 1 ?>. <?= $row['full_name'] ?> - @<?= $row['user_name'] ?></td>
-					<td><?= number_format(empty($row['num_of_followers']) ? 0 : $row['num_of_followers'], 0) ?></td>
-					<td><?= number_format(empty($row['new_followers']) ? 0 : $row['new_followers'], 0) ?></td>
-				</tr>
-				<?php endforeach; ?>
-				</tbody>
+				<tbody id="most-followed-body"></tbody>
 			</table>
 		</div>
 	</div>

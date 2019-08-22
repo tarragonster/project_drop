@@ -73,28 +73,16 @@
 		type: 'pie',
 		data: {
 			datasets: [{
-				data: [
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-				],
+				data: <?=json_encode($top_searched['data'])?>,
 				backgroundColor: [
 					'#4A81D4',
 					'#F4F8FB',
 					'#2FBC9B',
 					'#28292C',
-					'#C7AE6E',
+					'#C7AE6E'
 				]
 			}],
-			labels: [
-				'Action',
-				'3 Beauties',
-				'Marc Lopez',
-				'Docuseries',
-				'Clip'
-			]
+			labels: <?=json_encode($top_searched['labels'])?>
 		},
 		options: {
 			responsive: true,
@@ -111,24 +99,21 @@
 		type: 'pie',
 		data: {
 			datasets: [{
-				data: [
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor(),
-					randomScalingFactor()
-				],
+				data: <?=json_encode($age_demographic)?>,
 				backgroundColor: [
 					'#4A81D4',
 					'#F4F8FB',
 					'#2FBC9B',
-					'#28292C'
+					'#28292C',
+					'#FF0000'
 				]
 			}],
 			labels: [
 				'18-24',
 				'25-34',
 				'35-50',
-				'50+'
+				'50+',
+//				'Undefined'
 			]
 		},
 		options: {

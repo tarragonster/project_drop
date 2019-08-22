@@ -13,7 +13,7 @@ class Index extends MY_Controller {
 		$this->dashboard();
 	}
 
-	public function dashboard($fromDate = '2019-08-01', $toDate = '', $secondFromDate = '', $secondToDate = '') {
+	public function dashboard($fromDate = '', $toDate = '', $secondFromDate = '', $secondToDate = '') {
 		$admin = $this->session->userdata('admin');
 		if ($admin == null) {
 			redirect(base_url('login'));
@@ -28,13 +28,12 @@ class Index extends MY_Controller {
 		} else {
 			$endDate = strtotime(date('Y-m-d', time())) + 86400;
 		}
-		$dashboard = $this->dashboard_model->getDashBoard($startDate, $endDate, $secondFromDate, $secondToDate);
 		if ($this->input->is_ajax_request()) {
+			$dashboard = $this->dashboard_model->getDashBoard($startDate, $endDate, $secondFromDate, $secondToDate);
 			header('Content-Type: application/json');
 			$dashboard['success'] = true;
 			echo json_encode($dashboard);
 		} else {
-			$this->mainParams['bottom_html'] = $this->load->view('admin/dashboard/scripts', $dashboard, true);
 			$this->customCss[] = 'assets/plugins/morris/morris.css';
 			$this->customCss[] = 'assets/plugins/bootstrap-daterangepicker/daterangepicker.css';
 			$this->customCss[] = 'assets/css/dashboard.css';
@@ -50,6 +49,7 @@ class Index extends MY_Controller {
 			$this->customJs[] = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js';
 			$this->customJs[] = 'assets/js/dashboard.js';
 
+			$dashboard = [];
 			$dashboard['top_users'] = $this->dashboard_model->countUsers();
 			$dashboard['top_watched'] = $this->dashboard_model->countBlocksWatched();
 			$dashboard['top_comments'] = $this->dashboard_model->countComments();
@@ -60,7 +60,7 @@ class Index extends MY_Controller {
 			$this->render('admin/dashboard/layout', $dashboard, 1, 10);
 		}
 	}
-	
+
 	public function login() {
 		$admin = $this->session->userdata('admin');
 		if ($admin != null) {
