@@ -525,4 +525,17 @@ class Comment_model extends BaseModel {
         $this->db->join('user u2','crp.reporter_id=u2.user_id');
 
     }
+
+    public function updateCommentReportNote($report_id,$note){
+        $this->db->where('report_id',$report_id);
+        $this->db->update('comment_reports',['content'=>$note]);
+    }
+
+    public function getCommentReportNote($report_id){
+        $this->db->select();
+        $this->db->where('report_id',$report_id);
+        $this->db->from('comment_reports');
+
+        return $this->db->get()->result_array();
+    }
 }

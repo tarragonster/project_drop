@@ -10,6 +10,9 @@ class Comments{
 
     comment_id:number;
     replies_id:number;
+    report_id:number;
+    note:string;
+    switch:boolean = false;
 
 
     sendAjaxRequest(_callback) {
@@ -139,6 +142,35 @@ class Comments{
         this.sendAjaxRequest(function (data) {
             $('#delete-reply').modal('hide');
             commentModel.showCommentReply();
+        })
+    }
+
+    showNoteReportComment(){
+        this.url = '/comment/showNote/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-replies-content').html(data.content);
+
+        })
+    }
+
+    saveNoteReportComment(){
+        this.url = '/comment/saveNote/' + this.report_id;
+        this.typereq = 'POST';
+        this.paramreq = {
+            note: this.note
+        };
+        this.sendAjaxRequest(function (data) {
+            $('#view-replies-content').html(data.confirmContent);
+            commentModel.switch =true
+        })
+    }
+    showEditReportComment(){
+        this.url = '/comment/editNote/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-replies-content').html(data.content);
+
         })
     }
 }
@@ -290,4 +322,53 @@ function ConfirmDeleteReply(){
     if(validatedata ==true){
         commentModel.confirmDeleteReply()
     }
+}
+
+$('#view-replies-popup').on('hidden.bs.modal', function () {
+
+    if(commentModel.switch == true){
+        location.reload();
+        commentModel.switch = false
+    }
+});
+
+function ShowNoteReportComment(event){
+    commentModel.report_id = $(event).data('report_id');
+    commentModel.showNoteReportComment();
+    $('#view-replies-popup').modal('show');
+}
+
+function FillNoteComment(event){
+    var divfield = $(event).text();
+    $("[name=note]").val(divfield)
+
+}
+
+function SaveNoteReportComment(){
+    $("#form-note-update" ).validate({
+        rules: {
+            note: {
+                required: true,
+            },
+        },
+        messages: {
+
+        }
+    });
+    let validatedata = $("#form-note-update" ).valid()
+    if(validatedata ==true){
+        commentModel.note = $('.note-input').text()
+        commentModel.saveNoteReportComment()
+    }
+}
+
+function EditCommentReportNote(){
+    commentModel.showEditReportComment()
+}
+
+function ShowEditReportComment(event){
+    commentModel.report_id = $(event).data('report_id')
+    commentModel.showEditReportComment()
+    $('#view-replies-popup').modal('show');
+
 }

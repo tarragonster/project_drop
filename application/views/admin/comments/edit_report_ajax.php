@@ -7,14 +7,17 @@
     </div>
 </div>
 <div class="outer-content note-content">
+
     <form action="" method='POST' id="form-note-update">
         <div class="row" style="margin: 0">
             <div class="modal-content group-popup outer-table-modal">
                 <span class="lead" style="font-weight: 600">Reported Comment Notes</span>
                 <div contenteditable class="form-control style-edit-input note-input"
-                     style="min-height: 125px!important;margin-top: 25px!important;" onkeyup="FillNoteComment(this)"></div>
-                <input type="text" name="note" style="display: none">
+                     style="min-height: 125px!important;margin-top: 25px!important;"
+                     onkeyup="FillNoteComment(this)"><?php echo $report[0]['content'] ?></div>
+                <input type="text" name="note" value="<?php echo $report[0]['content'] ?>" style="display: none">
             </div>
         </div>
     </form>
+
 </div>

@@ -6,7 +6,7 @@
 </div>
 <div class="outer-content note-content">
     <div class="tab-content">
-        <form action="" method='POST' id="form-update">
+        <form action="" method='POST' id="form-user-update">
             <div class="row" style="margin: 0">
                 <div class="modal-content group-popup outer-table-modal">
                     <span class="lead">Report Note</span>
