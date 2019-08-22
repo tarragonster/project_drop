@@ -676,17 +676,6 @@ class Product extends Base_Controller {
 		$conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
 
-        $headers = array(
-            'icon' => array('label' => '', 'sorting' => false),
-            'episode_id' => array('label' => 'Block ID', 'sorting' => false),
-            'position' => array('label' => 'Block #', 'sorting' => false),
-            'name' => array('label' => 'Block Name', 'sorting' => false),
-            'activity' => array('label' => 'Block Activity', 'sorting' => false),
-            'created' => array('label' => 'Create Date', 'sorting' => false),
-            'status' => array('label' => 'Status', 'sorting' => true),
-            'Actions' => array('label' => 'Actions')
-        );
-
 		$product = $this->product_model->checkProduct($product_id);
 		// Get seasons by product
         $seasons = $this->season_model->getSeasonByProduct($product_id);
@@ -703,11 +692,20 @@ class Product extends Base_Controller {
 	        	$params = array(
 					'page_index' => 'empty_episode',
 					'page_base' => 'product/manageSeason/' . $product_id,
-					'headers' => $headers,
 					'seasons' => $seasons,	
 					'episodes' => $episodes	
 				);
 	        }else {
+	        	$headers = array(
+		            'icon' => array('label' => '', 'sorting' => false),
+		            'episode_id' => array('label' => 'Block ID', 'sorting' => false),
+		            'position' => array('label' => 'Block #', 'sorting' => false),
+		            'name' => array('label' => 'Block Name', 'sorting' => false),
+		            'activity' => array('label' => 'Block Activity', 'sorting' => false),
+		            'created' => array('label' => 'Create Date', 'sorting' => false),
+		            'status' => array('label' => 'Status', 'sorting' => true),
+		            'Actions' => array('label' => 'Actions')
+		        );
 		        $episode_ids = Hash::combine($episodes,'{n}.episode_id','{n}');
 		        $episode_ids = array_keys($episode_ids);
 
@@ -737,9 +735,9 @@ class Product extends Base_Controller {
 		        $params = array(
 					'page_index' => 'manage_season',
 					'page_base' => 'product/manageSeason/' . $product_id,
-					'headers' => $headers,
 					'episodes' => $episodes,
 					'seasons' => $seasons,
+					'headers' => $headers,
 					'new_seasons' => $new_seasons,
 					'product_id' => $product_id,
 					'conditions' => $conditions

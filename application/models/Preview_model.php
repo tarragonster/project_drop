@@ -123,12 +123,13 @@ class Preview_model extends BaseModel {
 	}
 
 	public function searchOtherProducts($key, $preview_ids) {
-		$this->db->select('p.name');
+		$this->db->select('p.product_id, p.name');
 		$this->db->from('product p');
-		// $this->db->where_not_in('p.product_id', $preview_ids);
+		$this->db->where_not_in('p.product_id', $preview_ids);
 		if (!empty($key)) {
 			$this->db->where('p.name like "%' . $key . '%"');
 		}
+		$this->db->limit(10);
 		return $this->db->get()->result_array();
 	}
 
