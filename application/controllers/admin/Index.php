@@ -28,34 +28,41 @@ class Index extends MY_Controller {
 		} else {
 			$endDate = strtotime(date('Y-m-d', time())) + 86400;
 		}
-		$dashboard = $this->dashboard_model->getDashBoard($startDate, $endDate, $secondFromDate, $secondToDate);
 		if ($this->input->is_ajax_request()) {
+			$dashboard = $this->dashboard_model->getDashBoard($startDate, $endDate, $secondFromDate, $secondToDate);
 			header('Content-Type: application/json');
 			$dashboard['success'] = true;
 			echo json_encode($dashboard);
 		} else {
-			$this->mainParams['bottom_html'] = $this->load->view('admin/dashboard/scripts', $dashboard, true);
 			$this->customCss[] = 'assets/plugins/morris/morris.css';
-			$this->customCss[] = 'assets/plugins/bootstrap-daterangepicker/daterangepicker.css';
 			$this->customCss[] = 'assets/css/dashboard.css';
 			$this->customJs[] = 'assets/vendor/peity/jquery.peity.min.js';
 			$this->customJs[] = 'assets/vendor/jquery-sparkline/jquery.sparkline.min.js';
 			$this->customJs[] = 'assets/plugins/moment/moment.js';
 			$this->customJs[] = 'assets/vendor/moment/moment-timezone.js';
-			$this->customJs[] = 'assets/plugins/bootstrap-daterangepicker/daterangepicker.js';
+
+			$this->customCss[] = 'assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+			$this->customJs[] = 'assets/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+
 			$this->customJs[] = 'assets/vendor/jquery-number/jquery.number.min.js';
 			$this->customJs[] = 'assets/plugins/raphael/raphael-min.js';
 			$this->customJs[] = 'assets/plugins/morris/morris.min.js';
+			$this->customCss[] = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css';
+			$this->customJs[] = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js';
 			$this->customJs[] = 'assets/js/dashboard.js';
 
+			$dashboard = [];
 			$dashboard['top_users'] = $this->dashboard_model->countUsers();
-//			$dashboard['customJs'] = $this->customJs;
-//			$dashboard['customCss'] = $this->customCss;
+			$dashboard['top_watched'] = $this->dashboard_model->countBlocksWatched();
+			$dashboard['top_comments'] = $this->dashboard_model->countComments();
+			$dashboard['top_reviews'] = $this->dashboard_model->countReviews();
+			$dashboard['top_blocks'] = $this->dashboard_model->countBlocks();
+			$dashboard['top_stories'] = $this->dashboard_model->countStories();
+			$dashboard['top_header'] = 'admin/dashboard/top';
 			$this->render('admin/dashboard/layout', $dashboard, 1, 10);
-//			$this->load->view('admin/dashboard/layout', $dashboard, 1, 10);
 		}
 	}
-	
+
 	public function login() {
 		$admin = $this->session->userdata('admin');
 		if ($admin != null) {

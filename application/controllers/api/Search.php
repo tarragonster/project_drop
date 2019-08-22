@@ -11,24 +11,28 @@ class Search extends BR_Controller {
 		$this->load->model('user_model');
 	}
 
-	public function get_get($type, $key = '') {
-		$key = urldecode($key);
+	public function get_get($type, $keyword = '') {
+		$keyword = urldecode($keyword);
+		if (strlen($keyword) >= 3) {
+			$this->load->model('search_model');
+			$this->search_model->storeSearch($keyword);
+		}
 		if ($type == 1) {
-			$products = $this->product_model->getProductByName($key);
+			$products = $this->product_model->getProductByName($keyword);
 			$this->create_success(array('products' => $products));
 		} else {
 			if ($type == 2) {
-				$casts = $this->cast_model->getCastByName($key);;
+				$casts = $this->cast_model->getCastByName($keyword);;
 				$this->create_success(array('casts' => $casts));
 			} else {
 				if ($type == 3) {
 					$user_type = $this->get('user_type');
 					$user_type = is_numeric($user_type) ? $user_type * 1 : -1;
 					if ($this->user_id != null) {
-						if (empty($key)) {
+						if (empty($keyword)) {
 							$users = $this->user_model->getUsers($this->user_id, $user_type);
 						} else {
-							$users = $this->user_model->searchUser($key, $this->user_id);
+							$users = $this->user_model->searchUser($keyword, $this->user_id);
 						}
 
 						$following = $this->user_model->getFollowing($this->user_id);
@@ -42,7 +46,7 @@ class Search extends BR_Controller {
 							}
 						}
 					} else {
-						$users = $this->user_model->searchUser($key, -1, $user_type);
+						$users = $this->user_model->searchUser($keyword, -1, $user_type);
 						foreach ($users as $key => $user) {
 							$users[$key]['is_follow'] = '0';
 						}
@@ -59,24 +63,28 @@ class Search extends BR_Controller {
 		if (!is_numeric($type)) {
 			$type = 1;
 		}
-		$key = $this->get('key');
+		$keyword = urldecode($this->get('key'));
+		if (strlen($keyword) >= 3) {
+			$this->load->model('search_model');
+			$this->search_model->storeSearch($keyword);
+		}
 
 		if ($type == 1) {
-			$products = $this->product_model->getProductByName($key);
+			$products = $this->product_model->getProductByName($keyword);
 			$this->create_success(array('products' => $products));
 		} else {
 			if ($type == 2) {
-				$casts = $this->cast_model->getCastByName($key);;
+				$casts = $this->cast_model->getCastByName($keyword);;
 				$this->create_success(array('casts' => $casts));
 			} else {
 				if ($type == 3) {
 					$user_type = $this->get('user_type');
 					$user_type = is_numeric($user_type) ? $user_type * 1 : -1;
 					if ($this->user_id != null) {
-						if (empty($key)) {
+						if (empty($keyword)) {
 							$users = $this->user_model->getUsers($this->user_id, $user_type);
 						} else {
-							$users = $this->user_model->searchUser($key, $this->user_id);
+							$users = $this->user_model->searchUser($keyword, $this->user_id);
 						}
 
 						$following = $this->user_model->getFollowing($this->user_id);
@@ -90,7 +98,7 @@ class Search extends BR_Controller {
 							}
 						}
 					} else {
-						$users = $this->user_model->searchUser($key, -1, $user_type);
+						$users = $this->user_model->searchUser($keyword, -1, $user_type);
 						foreach ($users as $key => $user) {
 							$users[$key]['is_follow'] = '0';
 						}
