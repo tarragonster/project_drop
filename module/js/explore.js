@@ -15,20 +15,7 @@ $(".sortable").sortable({
 	},
 }).disableSelection();
 
-$('#add-user').on('click', function (e) {
-	e.preventDefault();
-	$('#add-user-form').html("");
-	$.ajax({
-		type: "POST",
-		dataType: "html",
-		data: {key:'add-user'},
-		url: BASE_APP_URL + 'explore/ajaxExplore',
-		success: function (data) {
-			$('#add-user-form').html(data);
-			$('#add-user-popup').modal('show');
-		}
-	});
-});
+
 
 //Action update status of featured user
 $('body').delegate('.btnAct', 'click', function(e) {
@@ -86,8 +73,23 @@ $('body').delegate('.preview-btn', 'click', function(e) {
     });
 });
 
+// Show add featured user popup
+$('#add-user').on('click', function (e) {
+	e.preventDefault();
+	$('#add-user-form').html("");
+	$.ajax({
+		type: "POST",
+		dataType: "html",
+		data: {key:'add-user'},
+		url: BASE_APP_URL + 'explore/ajaxExplore',
+		success: function (data) {
+			$('#add-user-form').html(data);
+			$('#add-user-popup').modal('show');
+		}
+	});
+});
 
-
+// Add featured user form
 function searchUser() {
 	var key = $('#user_key').val()
 	var html = ''
@@ -127,4 +129,45 @@ function addUser() {
 		$('#user_key').val(user_id)
 		$('#user-form-add').submit()
 	}
+}
+
+// Show add preview story popup
+$('#add-story').on('click', function (e) {
+	e.preventDefault();
+	$('#add-story-form').html("");
+	$.ajax({
+		type: "POST",
+		dataType: "html",
+		data: {key:'add-story'},
+		url: BASE_APP_URL + 'explore/ajaxExplore',
+		success: function (data) {
+			$('#add-story-form').html(data);
+			$('#add-story-popup').modal('show');
+		}
+	});
+});
+
+// Add explore preview
+function searchStory() {
+	var key = $('#story_key').val();
+	var html = ''
+
+	$.ajax({
+		type: "POST",
+		dataType: "html",
+		data: {key:key},
+		url: BASE_APP_URL + 'explore/searchOtherProduct',
+		success: function (data) {
+			console.log(data)
+			var obj = JSON.parse(data);
+			html += "<ul id='result-search'>"
+			obj.forEach(function(item){
+				html += "<li class='result-item' data-id='" + item.user_id + "' data-value='" + item.full_name + ", @" + item.user_name + ", " + item.email + "'>"
+				html += "<a href='#' class='result-value'>" + item.full_name + ", @" + item.user_name + ", " + item.email + "</a></li>"
+			})
+			html += "</ul>"
+			$('#other_user').append(html)
+		}
+	});
+	$('#other_user').html('')
 }

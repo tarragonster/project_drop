@@ -13,8 +13,6 @@
 <div class="modal-body">
 	<div class="tab-content custom-tab">
 		<h4>Block Details</h4>
-			<div class='err-format'>Image format is not suppported</div>
-			<div class='err-size'>The size of the image more than 1MB</div>
 			<input type="hidden" name="product_id" value="<?php echo $product_id?>">
 			<div class="form-group" style="margin-top: 20px">
                 <label>Block name</label>
@@ -26,7 +24,6 @@
             		<div class="form-group">
 		                <label>Story name</label>
 		                <input type="text" name="story_name" id="story_name" required class="form-control custom-input" readonly="readonly" value="<?php echo $product['name']?>" />
-		                <span class="mess_err" id="story_err"></span>
 		            </div>
 		        </div>
             	<div class="col-lg-6 col-md-6">
@@ -56,8 +53,9 @@
                 <label>Block image</label>
                 <div class="row" style="margin-left: 0;">
                     <img id='block_image' src="<?php echo base_url('assets/images/borders/516x295.svg')?>" width='185' height='106' sty />
-                    <div class='err-format' id="block_err1">Image format is not suppported</div>
+                    <div class='err-format' id="block_err1">Image format is not supported</div>
                     <div class='err-size' id="block_err2">The size must be less than 1MB</div>
+                    <div class="mess_err" id="blockImg_err"></div>
                     <div class="uploader" onclick="$('#blockImg').click()">
                         <button type="button" class="btn ">Upload</button>
                         <input type="file" name="block_img" id="blockImg" class="imagePhoto" required="" />
@@ -82,16 +80,19 @@
 	    if (isImage == false) {
 	        $('#block_err1').css('display', 'block');
 	        $('#block_err2').css('display', 'none');
+	        $('#blockImg_err').css('display', 'none');
 	        $('#block_image').attr('src',BASE_APP_URL + 'assets/images/borders/516x295.svg');
 	    } 
 	    else if(fileSize /(1024*1024) > 1){
 	        $('#block_err2').css('display', 'block');
 	        $('#block_err1').css('display', 'none');
+	        $('#blockImg_err').css('display', 'none');
 	        $('#block_image').attr('src',BASE_APP_URL + 'assets/images/borders/516x295.svg');
 	    }
 	    else {
 	        $('#block_err1').css('display', 'none');
 	        $('#block_err2').css('display', 'none');
+	        $('#blockImg_err').css('display', 'none');
 	        var reader = new FileReader();
 	        reader.onload = function (event) {
 	            
