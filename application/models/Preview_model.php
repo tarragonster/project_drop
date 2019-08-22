@@ -122,6 +122,10 @@ class Preview_model extends BaseModel {
 		return $this->db->get()->result_array();
 	}
 
+	public function searchOtherProducts($key, $product_ids) {
+		
+	}
+
 	public function updatePriority($params, $id) {
 		$this->db->where('product_id', $id);
 		$this->db->update($this->table, $params);
