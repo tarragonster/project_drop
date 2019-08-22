@@ -890,7 +890,7 @@ class User extends BR_Controller {
 		$password = $this->c_getWithLength('password', 32, 6);
 		$new_password = $this->c_getWithLength('new_password', 32, 6);
 		if (md5($password) != $user['password']) {
-			$this->create_error(-4, 'Sory, your current password is incorrect.');
+			$this->create_error(-4, 'Sorry, your current password is incorrect.');
 		}
 		$params = array();
 		$params['password'] = md5($new_password);
