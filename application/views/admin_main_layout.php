@@ -10,7 +10,6 @@
 
 	<title>10 Block cPanel</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap" rel="stylesheet">
 	<link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/core.css'); ?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo base_url('assets/css/components.css'); ?>" rel="stylesheet" type="text/css"/>
@@ -21,6 +20,7 @@
     <link href="<?php echo base_url('assets/app/core-table/coreTable.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url('module/css/admin_main_layout.css'); ?>" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/multiselect/css/jquery.multiselect.css')?>">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" >
 
 	<!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -58,7 +58,7 @@
 		<!-- LOGO -->
 		<div class="topbar-left">
 			<div class="text-center">
-				<a href="<?php echo base_url('') ?>" class="logo"><i class="icon-magnet icon-c-logo"></i><span>10 Block</span></a>
+				<a href="<?php echo base_url('') ?>" class="logo"><span>10 Block</span></a>
 			</div>
 		</div>
 
@@ -66,46 +66,70 @@
 		<div class="navbar navbar-default" role="navigation">
 			<div class="container">
 				<div class="">
-					<div class="pull-left">
-						<button class="button-menu-mobile open-left">
-							<i class="ion-navicon"></i>
-						</button>
-						<span class="clearfix"></span>
-					</div>
-					<ul class="pull-right" style="margin-bottom: 0">
-						<ul class="nav navbar-nav navbar-right">
-							<li class="dropdown">
-								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
-									<i class="fa fa-cog" style="font-size: 28px; line-height: 60px"></i>
-								</a>
-								<ul class="dropdown-menu">
-									<li><a href="<?php echo base_url('lockscreen'); ?>"><i class="ti-lock m-r-5"></i> Lock screen</a></li>
-<!--									<li><a href="--><?php //echo base_url('logout'); ?><!--"><i class="ti-power-off m-r-5"></i> Logout</a></li>-->
-								</ul>
-							</li>
-							
-						</ul>
-						<?php if(isset($sub_id) && $sub_id == 21):?>
-							<li class="btn-export">
-								<button type="button" class="btn">
-									<a href="<?php echo base_url('user/exportUsers')?>">Export</a>
-								</button>
-							</li>
-						<?php elseif(isset($sub_id) && $sub_id == 32):?>
-							<li class="btn-export">
-								<button type="button" class="btn">
-									<a href="<?php echo base_url('product/exportFilms')?>">Export</a>
-								</button>
-							</li>
+<!--					<div class="pull-left">-->
+<!--						<button class="button-menu-mobile open-left">-->
+<!--							<i class="ion-navicon"></i>-->
+<!--						</button>-->
+<!--						<span class="clearfix"></span>-->
+<!--					</div>-->
+<!--					<ul class="pull-right" style="margin-bottom: 0">-->
+<!--						<ul class="nav navbar-nav navbar-right">-->
+<!--							<li class="dropdown">-->
+<!--								<a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">-->
+<!--									<i class="fa fa-cog" style="font-size: 28px; line-height: 60px"></i>-->
+<!--								</a>-->
+<!--								<ul class="dropdown-menu">-->
+<!--									<li><a href="--><?php //echo base_url('lockscreen'); ?><!--"><i class="ti-lock m-r-5"></i> Lock screen</a></li>-->
+<!--								</ul>-->
+<!--							</li>-->
+<!--							-->
+<!--						</ul>-->
+						<?php if(isset($sub_id) && $sub_id == 31):?>
 							<li class="btn-export">
 								<button type="button" class="btn btn-header">
 									<a href="<?php echo base_url('product/add')?>">Add Story</a>
+								</button>
+							</li>
+						<?php elseif(isset($sub_id) && $sub_id == 34): ?>
+							<li class="btn-export">
+								<button type="button" class="btn btn-header">
+									<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Add New&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></a>
+									<ul class="dropdown-menu" role="menu" style="min-width: 87px;left: unset;top: 46px;">
+										<li class="add-season-btn" data-product="<?php echo $this->session->userdata('product_id')?>">
+											<a href="">Add season</a>
+										</li>
+										<li class="add-block-btn" data-product="<?php echo $this->session->userdata('product_id')?>" data-toggle="modal" data-target="#add-block-popup">
+											<a href="">Add block</a>
+										</li>
+									</ul>
 								</button>
 							</li>
 						<?php elseif(isset($sub_id) && $sub_id == 51):?>
 							<li class="btn-export">
 								<button type="button" class="btn btn-header" id="add-genre-btn">Add Genre</button>
 							</li>
+                        <?php elseif(isset($sub_id) && $sub_id == 21):?>
+                            <li class="btn-export">
+                                <div class="dropdown view-status-outer">
+                                    <button type="button" class="btn btn-header dropdown-toggle" id="view-status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="status-text">View All Statuses</span>
+                                        <i class="fal fa-chevron-down" style="position: absolute;right: 6px;top: 6px;"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="view-status">
+                                        <li class="dropdown-item" onclick="getStatus()">All Statuses</li>
+                                        <li class="dropdown-item" onclick="getEnabled()">Enabled</li>
+                                        <li class="dropdown-item" onclick="getDisabled()">Disabled</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        <?php elseif(isset($sub_id) && $sub_id == 11):?>
+                        	<li class="btn-export">
+                                <button type="button" class="btn btn-header" id="add-user" data-toggle="modal" data-target="#add-user-popup">Add User</button>
+                            </li>
+                        <?php elseif(isset($sub_id) && $sub_id == 12):?>
+                        	<li class="btn-export">
+                                <button type="button" class="btn btn-header" id="add-story" data-toggle="modal" data-target="#add-story-popup">Add Story</button>
+                            </li>
 						<?php endif;?>
 					</ul>
 				</div>
@@ -151,7 +175,7 @@
                             <span>Stories</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('preview'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>">
+						<a href="<?php echo base_url('explore'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 10 ? ' active' : ''; ?>">
                             <?php if (isset($parent_id) && $parent_id == 10) { ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Explore-active.svg') ?> " alt="Explore">
                             <?php }else{ ?>
@@ -168,22 +192,22 @@
                             <?php } ?>
                             <span>Collections</span></a>
 					</li>
-					<li class="has_sub">
-						<a href="#" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>">
+					<li>
+						<a href="<?php echo base_url('comment'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>">
                             <?php if (isset($parent_id) && $parent_id == 9) { ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Comments-active.svg') ?>" alt="Comments">
                             <?php }else{ ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Comments.svg') ?>" alt="Comments">
                             <?php } ?>
                             <span>Comments</span> </a>
-						<ul class="list-unstyled">
-							<li <?php echo($sub_id == 91 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('comment'); ?>"><span>Comments</span></a>
-							</li>
-							<li <?php echo($sub_id == 92 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('comment/reports'); ?>">Reported Comments</a>
-							</li>
-						</ul>
+<!--						<ul class="list-unstyled">-->
+<!--							<li --><?php //echo($sub_id == 91 ? 'class="active"' : ''); ?><!-- >-->
+<!--								<a href="--><?php //echo base_url('comment'); ?><!--"><span>Comments</span></a>-->
+<!--							</li>-->
+<!--							<li --><?php //echo($sub_id == 92 ? 'class="active"' : ''); ?><!-- >-->
+<!--								<a href="--><?php //echo base_url('comment/reports'); ?><!--">Reported Comments</a>-->
+<!--							</li>-->
+<!--						</ul>-->
 					</li>
                     <li>
                         <a href="<?php echo base_url('setting'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 5 ? ' active' : ''; ?>">
@@ -247,14 +271,16 @@
 <script src="<?php echo base_url('assets/js/jquery.blockUI.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/waves.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/wow.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-ui.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery.scrollTo.min.js'); ?>"></script>
 
 <script src="<?php echo base_url('assets/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.js'); ?>"></script>
+<script src="<?php echo base_url('assets/plugins/multiselect/js/jquery.multiselect.js')?>"></script>
+<script src="<?php echo base_url('assets/js/jquery-ui.js')?>"></script>
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+
 <?php
 if (isset($customJs) && is_array($customJs)) {
 	foreach ($customJs as $script) {
@@ -267,3 +293,14 @@ if (isset($customJs) && is_array($customJs)) {
 <?= isset($bottom_html) ? $bottom_html : ''; ?>
 </body>
 </html>
+<script>
+    function getStatus(){
+        $('.status-text').text('View All Statuses')
+    }
+    function getEnabled(){
+        $('.status-text').text('View Enabled')
+    }
+    function getDisabled(){
+        $('.status-text').text('View Disabled')
+    }
+</script>

@@ -17,20 +17,23 @@
     color: #FFFFFF;
 }
 #upload-img {
-    margin-left: 60px; 
+    /*margin-left: 40px; */
 }
 .uploader {
     width: 31%;
-    margin-top: 10px;
+    margin-top: 2px;
     background: transparent;
     border-radius: 11px;
 }
 .uploader button {
-    font-size: 10px;
     text-transform: uppercase;
     border-radius: 20px;
     background-color: #36404a;
     color: white;
+    padding: 3px 10px 2px;
+    font-size: 11px;
+    letter-spacing: 0.73px;
+    font-weight: 500;
 }
 #poster_image {
     width: 70px;
@@ -148,23 +151,26 @@
 
 .modal-dialog {
     margin-top: 15em;
-    width: 35em;
+    /*width: 35em;*/
 }
 .modal .modal-dialog .modal-content {
     text-align: center;
-    padding: 30px 60px;
+    padding: 30px 75px;
 }
 .modal-content .modal-description h2 {
     font-weight: bold;
 }
 .modal-content .modal-description p {
-    margin: 25px 0;
+    margin-top: 0;
+    /*margin-bottom: 48px;*/
+    color: #4A4A4A;
+    font-weight: 500;
 }
 .modal-content .modal-description input {
     font-size: large;
     border-radius: 8px;
     border: 1px solid;
-    margin-bottom: 30px;
+    /*margin-bottom: 30px;*/
     padding-left: 10px;
 }
 .modal-content .modal-button button a {
@@ -204,4 +210,7 @@ element.style {
 div.per_page select {
     border-radius: 20px;
     width: 60px;
+}
+.display-flex {
+    display: flex;
 }

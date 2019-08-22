@@ -1,0 +1,1 @@
+ALTER TABLE comments ADD status int NOT NULL DEFAULT '1'

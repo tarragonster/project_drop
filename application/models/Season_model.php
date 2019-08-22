@@ -81,4 +81,15 @@ class Season_model extends BaseModel {
 		$this->db->update('episode', array('status' => 0));
 		$this->db->trans_complete();
 	}
+
+	public function getSeasonByProduct($product_id) {
+		$this->db->where('product_id', $product_id);
+		return $this->db->get($this->table)->result_array();
+	}
+
+	public function getSeasonWithoutBlock($product_id, $season_ids) {
+		$this->db->where('product_id', $product_id);
+		$this->db->where_not_in('season_id', $season_ids);
+		return $this->db->get($this->table)->result_array();
+	}
 }

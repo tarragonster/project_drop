@@ -1,5 +1,5 @@
 <div class="background">
-    <form id="prdadd" action='' method='POST' enctype="multipart/form-data">
+    <form id="product_add" action='' method='POST' enctype="multipart/form-data">
         <div class="row">
             <?php if($this->session->flashdata('msg')){
                 echo '<div class="col-md-6"><div class="alert alert-success">';
@@ -15,32 +15,15 @@
                     <div class="col-md-12">
                         <label>Story Name</label>
                         <div class="form-group">
-                            <input type="text" name='name' value="" class="form-control" required="" placeholder="Type Name"/>
+                            <input type="text" name='name' id="name" value="" class="form-control" required="" placeholder="Type Name"/>
+                            <span class="mess_err" id="name_err"></span>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <label>Story Description</label>
                         <div class="form-group">
                             <textarea name="description" id='text-area-des' maxlength='475' class="form-control textarea" required="" rows="4" placeholder="Type Description"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label>Year</label>
-                        <div class="form-group">
-                            <input type="text" name='publish_year' value="" class="form-control" required="" placeholder="Type Year"/>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Rating</label>
-                            <select id='rate_id' class="form-control" required name='rate_id'>
-                                <option value="">Select Rating</option>
-                                <?php
-                                foreach ($rates as $item) {
-                                    echo "<option value='{$item['rate_id']}'>{$item['name']}</option>";
-                                }
-                                ?>
-                            </select>
+                            <span class="mess_err" id="des_err"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -53,6 +36,7 @@
                                 }
                                 ?>
                             </select>
+                            <span class="mess_err" id="genre_err"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -63,12 +47,14 @@
                                 <option value="1">Active</option>
                                 <option value="0">Inactive</option>
                             </select>
+                            <span class="mess_err" id="status_err"></span>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <label>Creators</label>
                         <div class="form-group">
-                            <input type="text" name='creators' value="" class="form-control" required="" placeholder="Type Creator"/>
+                            <input type="text" name='creators' id="creators" value="" class="form-control" required="" placeholder="Type Creator"/>
+                            <span class="mess_err" id="creators_err"></span>
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -82,7 +68,8 @@
                     <div class="col-md-12">
                         <label>Trailer JW Media ID</label>
                         <div class="form-group">
-                            <input type="text" name='jw_media_id' value="" class="form-control" required="" placeholder="Type JW Media ID" />
+                            <input type="text" name='jw_media_id' id="jw_media_id" value="" class="form-control" required="" placeholder="Type JW Media ID" />
+                            <span class="mess_err" id="jw_err"></span>
                         </div>
                     </div>
                 </div>
@@ -94,6 +81,9 @@
                                     <label>Poster Image</label>
                                     <div class="row">
                                         <img id='poster_image' src="<?php echo base_url('assets/images/borders/233x346@3x.png')?>"/>
+                                        <div class='err-format' id="poster_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="poster_err2">The size must be less than 1MB</div>
+                                        <div class="mess_err" id="poster_err"></div>
                                         <div class="uploader" onclick="$('#posterImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="poster_img" id="posterImg" class="imagePhoto" required="" />
@@ -104,6 +94,9 @@
                                     <label>Story Image</label>
                                     <div class="row">
                                         <img id='series_image' src="<?php echo base_url('assets/images/borders/750x667@3x.png')?>"/>
+                                        <div class='err-format' id="series_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="series_err2">The size must be less than 1MB</div>
+                                        <div class="mess_err" id="story_err"></div>
                                         <div class="uploader" onclick="$('#seriesImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="series_img" id="seriesImg" class="imagePhoto" required="" />
@@ -114,6 +107,8 @@
                                     <label>Preview Round Image</label>
                                     <div class="row">
                                         <img id='preview_image' src="<?php echo base_url('assets/images/borders/135x135@3x.png')?>"/>
+                                        <div class='err-format' id="pre_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="pre_err2">The size must be less than 1MB</div>
                                         <div class="uploader" onclick="$('#previewImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="preview_img" id="previewImg" class="imagePhoto"/>
@@ -121,11 +116,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="padding-left: 0;padding-right: 0">
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Carousel Banner</label>
                                     <div class="row">
                                         <img id='carousel_image' src="<?php echo base_url('assets/images/borders/667x440@3x.png')?>"/>
+                                        <div class='err-format' id="car_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="car_err2">The size must be less than 1MB</div>
+                                        <div class="mess_err" id="carousel_err"></div>
                                         <div class="uploader" onclick="$('#carouselImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="carousel_img" id="carouselImg" class="imagePhoto" required="" />
@@ -136,6 +134,8 @@
                                     <label>Explore Preview Image</label>
                                     <div class="row">
                                         <img id='explore_image' src="<?php echo base_url('assets/images/borders/650x688@3x.png')?>"/>
+                                        <div class='err-format' id="ex_err1">Image format is not suppported</div>
+                                        <div class='err-size' id="ex_err2">The size must be less than 1MB</div>
                                         <div class="uploader" onclick="$('#exploreImg').click()">
                                             <button type="button" class="btn ">Upload</button>
                                             <input type="file" accept="image/*" name="explore_img" id="exploreImg" class="imagePhoto"/>
@@ -152,7 +152,7 @@
             <div class="bottom">
                 <div style='margin-top: 16px' class="col-md-12">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-update" name='cmd' value='Save'>Create</button>
+                        <button type="button" class="btn btn-update" value='Save' onclick="saveProduct('add')">Create</button>
                     </div>
                 </div>
             </div>

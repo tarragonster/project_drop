@@ -1,0 +1,1 @@
+ALTER TABLE comment_reports ADD content text NOT NULL AFTER comment_id

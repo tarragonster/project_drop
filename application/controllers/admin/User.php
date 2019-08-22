@@ -11,6 +11,7 @@ class User extends Base_Controller {
 	}
 
 	public function index($page = 1) {
+        $this->customJs[] = '';
         $conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
 
@@ -30,8 +31,8 @@ class User extends Base_Controller {
         }
 
 		$config['base_url'] = base_url('user');
-		$config['total_rows'] = $this->user_model->getNumOfUser();
-		$config['per_page'] = PERPAGE_ADMIN;
+		$config['total_rows'] = $this->user_model->countAllUser($conditions);
+		$config['per_page'] = $per_page;
 		$config['cur_page'] = $page;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
@@ -43,54 +44,63 @@ class User extends Base_Controller {
             'dropdown-size' => 125,
         );
 
-//        pre_print($conditions['per_page']);
-
         $headers = array(
             'img' => array('label' => '', 'sorting' => false),
-            'user_id' => array('label' => 'User ID', 'sorting' => true),
+            'user_id' => array('label' => 'User&nbsp;ID', 'sorting' => true),
             'user_name' => array('label' => 'Name', 'sorting' => true),
             'email' => array('label' => 'Email', 'sorting' => true),
-            'total_pick'=> array('label' => 'Activity', 'sorting' => true),
+            'total_pick'=> array('label' => 'Activity', 'sorting' => false),
             'dt' => array('label' => 'Version'),
             'joined' => array('label' => 'Create Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
 		$pinfo = array(
-			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
-			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
+			'from' => $per_page * ($page - 1) + 1,
+			'to' => min(array($per_page * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
 		$users = $this->user_model->getAllUsers($conditions,$page - 1);
 
         $user_ids = Hash::combine($users,'{n}.user_id','{n}.user_id');
 
-        //todo Get Like by user_ids
-        $likes = ($this->user_model->getAllLike($user_ids));
-        $likes= Hash::combine($likes,'{n}.id','{n}','{n}.user_id');
+        if(!empty($users)){
+            //todo Get Like by user_ids
+            $likes = ($this->user_model->getAllLike($user_ids));
+            $likes= Hash::combine($likes,'{n}.id','{n}','{n}.user_id');
 
-        //todo Get comment by user_ids
-        $comments = $this->user_model->getAllComment($user_ids);
-        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
-        //todo Get pick by user_ids
-        $picks = $this->user_model->getAllPick($user_ids);
-        $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
-        //todo Get Version by user_ids
-        $version = $this->user_model->getVersion($user_ids);
-        $version= Hash::combine($version,'{n}.id','{n}','{n}.user_id');
-
+            //todo get Product Like by user_ids
+            $product_likes = $this->user_model->getProductLike($user_ids);
+            $product_likes = Hash::combine($product_likes,'{n}.id','{n}','{n}.user_id');
+            //todo get Comment Like by user_ids
+            $comment_likes = $this->user_model->getCommentLike($user_ids);
+            $comment_likes = Hash::combine($comment_likes,'{n}.id','{n}','{n}.user_id');
+            //todo Get comment by user_ids
+            $comments = $this->user_model->getAllComment($user_ids);
+            $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
+            //todo Get pick by user_ids
+            $picks = $this->user_model->getAllPick($user_ids);
+            $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
+            //todo Get Version by user_ids
+            $version = $this->user_model->getVersion($user_ids);
+            $version= Hash::combine($version,'{n}.id','{n}','{n}.user_id');
+        }
 
         foreach ($users as $key=>$value){
             $users[$key]['likes'] = !empty($likes[$value['user_id']])?$likes[$value['user_id']]:[];
-            $users[$key]['total_like'] = count($users[$key]['likes']);
+            $users[$key]['total_like'] = count($users[$key]['likes']) > 0 ? count($users[$key]['likes']):'0';
+            $users[$key]['product_likes'] = !empty($product_likes[$value['user_id']])?$product_likes[$value['user_id']]:[];
+            $users[$key]['total_pd_like'] = count($users[$key]['product_likes']) > 0 ? count($users[$key]['product_likes']):'0';
+            $users[$key]['comment_likes'] = !empty($comment_likes[$value['user_id']])?$comment_likes[$value['user_id']]:[];
+            $users[$key]['total_cm_like'] = count($users[$key]['comment_likes']) > 0 ? count($users[$key]['comment_likes']):'0';
             $users[$key]['comments'] = !empty($comments[$value['user_id']])?$comments[$value['user_id']]:[];
-            $users[$key]['total_comment'] = count($users[$key]['comments']);
+            $users[$key]['total_comment'] = count($users[$key]['comments']) > 0 ? count($users[$key]['comments']):'0';
             $users[$key]['picks'] = !empty($picks[$value['user_id']])?$picks[$value['user_id']]:[];
-            $users[$key]['total_pick'] = count($users[$key]['picks']);
+            $users[$key]['total_pick'] = count($users[$key]['picks']) > 0 ? count($users[$key]['picks']):'0';
             $users[$key]['version'] = !empty($version[$value['user_id']])?$version[$value['user_id']]:[];
-            $users[$key]['total_version'] = count($users[$key]['version']);
+            $users[$key]['total_version'] = count($users[$key]['version']) > 0 ? count($users[$key]['version']):'0';
+            $users[$key]['sum_like'] = $users[$key]['total_like'] + $users[$key]['total_cm_like'] + $users[$key]['total_pd_like'];
         }
-
 
 		$userData['users']=$users;
         $userData['headers'] = $headers;
@@ -110,7 +120,7 @@ class User extends Base_Controller {
 
 		$data = array();
 		$data['customCss'] = array('assets/css/settings.css','module/css/user.css');
-		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js');
+		$data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js','assets/js/jquery.validate.js');
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 21;
 		$data['account'] = $this->account;
@@ -284,6 +294,7 @@ class User extends Base_Controller {
 			$this->load->library('oauths');
 			$this->oauths->delete($user['user_id']);
 			$this->user_model->clearData($user['user_id']);
+			$this->ajaxSuccess($user);
 		}
 		$this->redirect('user');
 
@@ -299,20 +310,50 @@ class User extends Base_Controller {
 			$this->load->library('oauths');
 			$this->oauths->delete($user['user_id']);
 			$this->user_model->clearData($user['user_id']);
-		}
+            $this->ajaxSuccess($user);
+        }
 		$this->redirect('user');
 
 	}
 
 	public function delete($user_id = '') {
 		$this->load->model('notify_model');
-		$user = $this->user_model->getUserForAdmin($user_id);
+        $confirmDelete = $this->input->post('confirmDelete');
+        $user = $this->user_model->getUserForAdmin($user_id);
+        $data = [];
+        if (trim($confirmDelete, ' ') != "DELETE-USER") {
+            $data['id'] = $user_id;
+            $data['code'] = -1;
+            $data['message'] = 'Sorry, it must be confirmed by typing "DELETE-USER" into input box above';
+            $this->ajaxSuccess($data);
+
+        }
+
 		if ($user != null) {
-			$this->user_model->delete($user_id);
+            $data['message'] = "";
+//			$this->user_model->delete($user_id);
+            $this->user_model->deleteUserStatus($user_id);
 			$this->notify_model->deleteReference('user', $user_id);
-		}
-		$this->redirect('user');
+            $this->ajaxSuccess($data);
+
+        }
+//		$this->redirect('user');
 	}
+	public function firstModalDelete(){
+        $param =[];
+	    $data = [];
+        $data['success'] = '1';
+	    $data['content'] = $this->load->view('admin/users/deleteUser_firstModal',$param,true);
+	    $this->ajaxSuccess($data);
+    }
+
+    public function secondModalDelete(){
+        $param =[];
+        $data = [];
+        $data['success'] = '1';
+        $data['content'] = $this->load->view('admin/users/deleteUser_secondModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
 
 	public function ajaxEdit($user_id = '') {
 		$user = $this->user_model->getUserForAdmin($user_id);
@@ -327,6 +368,8 @@ class User extends Base_Controller {
 			$params['full_name'] = $this->input->post('full_name');
 //			$params['user_type'] = $this->input->post('user_type');
 			$params['bio'] = $this->input->post('bio');
+            $params['user_type'] = $this->input->post('curator');
+            $feature = $this->input->post('feature');
 
 			$userEmail = $this->user_model->getByEmail($params['email']);
 			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
@@ -353,6 +396,12 @@ class User extends Base_Controller {
 			}
 			$this->user_model->update($params, $user_id);
 
+			if($feature == '1'){
+                $this->user_model->updateFeature($user_id);
+            }else{
+                $this->user_model->deleteFeature($user_id);
+            }
+
 			$this->load->library('contact_lib');
 			if ($params['email'] != $user['email']) {
 				$this->contact_lib->updateContact(CONTACT_TYPE_EMAIL, $user['email'], 0);
@@ -377,9 +426,12 @@ class User extends Base_Controller {
 		$layoutParams['user_likes'] = $this->user_model->getUserLikes($user_id, -1);
 		$layoutParams['user_comments'] = $this->user_model->getUserComments($user_id, -1);
 		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
-		$layoutParams['thumbs_up'] = $this->user_model->getProductThumbUpList($user_id, -1);
+		$layoutParams['like_product'] = $this->user_model->getProductThumbUpList($user_id, -1);
+		$layoutParams['like_episode'] = $this->user_model->getEpisodeThumbUpList($user_id, -1);
+		$layoutParams['like_comment'] = $this->user_model->getCommentThumbUpList($user_id, -1);
         $layoutParams['isEdit'] = $this->input->get('isEdit');
         $layoutParams['isProfile'] = $this->input->get('isProfile');
+        $layoutParams['isCreate'] = $this->input->get('isCreate');
         $layoutParams['active'] = $this->input->get('active');
 
 
@@ -397,40 +449,103 @@ class User extends Base_Controller {
 	}
 
 	public function reports($page = 1) {
-		$this->load->library('pagination');
+        $conditions = array();
+        parse_str($_SERVER['QUERY_STRING'], $conditions);
+
+        $this->load->library('pagination');
 
 		$page = ($page <= 0) ? 1 : $page;
 
-		$config['base_url'] = base_url('user/reports');
+        if (!empty($conditions['per_page'])) {
+            $per_page = $conditions['per_page'] * 1;
+            if ($per_page < 50)
+                $per_page = 25;
+            if ($per_page > 100)
+                $per_page = 100;
+            $conditions['per_page'] = $per_page;
+        } else {
+            $per_page = 25;
+        }
 
-		$config['total_rows'] = $this->user_model->getNumReports();
-		$config['per_page'] = PERPAGE_ADMIN;
+		$config['base_url'] = base_url('user/reports');
+		$config['total_rows'] = $this->user_model->getAllReports($conditions);
+		$config['per_page'] = $per_page;
 		$config['cur_page'] = $page;
 		$config['add_query_string'] = TRUE;
 		$this->pagination->initialize($config);
-		$pinfo = array(
-			'from' => PERPAGE_ADMIN * ($page - 1) + 1,
-			'to' => min(array(PERPAGE_ADMIN * $page, $config['total_rows'])),
+
+        $paging = array(
+            'from' => $per_page * ($page - 1) + 1,
+            'to' => min(array($per_page * $page, $config['total_rows'])),
+            'total' => $config['total_rows'],
+            'dropdown-size' => 125,
+        );
+
+        $headers = array(
+            'img' => array('label' => '', 'sorting' => false),
+            'report_id' => array('label' => 'Report ID', 'sorting' => true),
+            'full_name' => array('label' => 'Reported User', 'sorting' => true),
+            'reporter_name' => array('label' => 'Reporter User', 'sorting' => true),
+            'created_at' => array('label' => 'Report Date', 'sorting' => false),
+            'status' => array('label' => 'Status', 'sorting' => true),
+            'Actions' => array('label' => 'Action', 'sorting' => false));
+
+        $pinfo = array(
+			'from' => $per_page * ($page - 1) + 1,
+			'to' => min(array($per_page * $page, $config['total_rows'])),
 			'total' => $config['total_rows'],
 		);
-		$reports = $this->user_model->getReports($page - 1);
+
+        $reports = $this->user_model->getReports($conditions,$page - 1);
 
 		$reportParam['reports'] = $reports;
 		$reportParam['info'] = $pinfo;
 		$reportParam['sub_id'] = 23;
+        $reportParam['conditions'] = $conditions;
+        $reportParam['paging'] = $paging;
+        $reportParam['headers'] = $headers;
 
-		$content = $this->load->view('admin/users/report',$reportParam, true);
+        $content = $this->load->view('admin/users/report',$reportParam, true);
 
 		$data = array();
 		$data['parent_id'] = 2;
 		$data['sub_id'] = 23;
 		$data['account'] = $this->account;
 		$data['content'] = $content;
-        $data['customCss'] = array('module/css/user.css');
-        $data['customJs'] = array('assets/app/search.js');
+        $data['customCss'] = array('assets/css/settings.css','module/css/user.css');
+        $data['customJs'] = array('assets/js/settings.js', 'assets/app/search.js','assets/app/core-table/coreTable.js','module/js/user.js','assets/js/jquery.validate.js');
 
         $this->load->view('admin_main_layout', $data);
 	}
+
+	public function showNote($report_id){
+	    $param['report_id'] = $report_id;
+	    $data['code'] = 200;
+	    $data['content'] = $this->load->view('admin/users/user_report_ajax',$param,true);
+
+	    $this->ajaxSuccess($data);
+	}
+
+	public function saveNote($report_id){
+        $param = [];
+        $note = $this->input->post('note');
+        $this->user_model->updateReportNote($report_id,$note);
+        $data['code'] = 200;
+        $data['confirmContent'] = $this->load->view('admin/users/report_confirm_note',$param,true);
+
+        $this->ajaxSuccess($data);
+    }
+
+    public function editNote($report_id){
+        $param = [];
+        $report = $this->user_model->getReportNote($report_id);
+        $param['report_id'] = $report_id;
+        $param['report'] = $report;
+        $data['code'] = 200;
+        $data['content'] = $this->load->view('admin/users/edit_report_ajax',$param,true);
+
+        $this->ajaxSuccess($data);
+    }
 
 	public function deleteReport($report_id) {
 		$this->db->where('report_id', $report_id);
@@ -461,11 +576,22 @@ class User extends Base_Controller {
 
 	public function removeWatch($id) {
 		$watch = $this->user_model->getWatch($id);
-		if ($watch == null) {
-			$this->redirect();
-		}
+        $confirmDelete = $this->input->post('confirmDelete');
+        $data = [];
+        if (trim($confirmDelete, ' ') != "REMOVE") {
+            $data['id'] = $id;
+            $data['code'] = -1;
+            $data['message'] = 'Sorry, it must be confirmed by typing "REMOVE" into input box above';
+            $this->ajaxSuccess($data);
+
+        }
+//		if ($watch == null) {
+//			$this->redirect();
+//		}
+        $data['message'] = "";
 		$this->user_model->removeWatch($id);
-		$this->redirect();
+        $this->ajaxSuccess($data);
+//		$this->redirect();
 	}
 
 	public function removeLike($id) {
@@ -528,4 +654,101 @@ class User extends Base_Controller {
 		$html = $this->load->view('admin/users_table', $data, true);
 		die(json_encode($html));
 	}
+
+	public function deleteComment($id){
+        $param = [];
+        $param['comment_id'] = $id;
+        $this->user_model->removeComment($id);
+        $this->ajaxSuccess($param);
+    }
+
+    public function ShowCommentReplies($comment_id){
+        $layoutParams = [];
+        $layoutParams['comment_replies'] = $this->user_model->getCommentReplies($comment_id);
+        $content = $this->load->view('admin/users/comment_replies', $layoutParams, true);
+        $data['content'] = $content;
+        $this->ajaxSuccess($data);
+    }
+
+    public function disableUserReported($report_id){
+	    $this->user_model->disableReported($report_id);
+        $this->ajaxSuccess();
+
+    }
+
+    public function enableUserReported($report_id){
+        $this->user_model->enableReported($report_id);
+        $this->ajaxSuccess();
+
+    }
+
+    public function firstModalDeleteReported(){
+        $param =[];
+        $data = [];
+        $data['test'] = '1';
+        $data['content'] = $this->load->view('admin/users/deleteReported_firstModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function showSecondDeleteReported(){
+        $param =[];
+        $data = [];
+        $data['test'] = '1';
+        $data['content'] = $this->load->view('admin/users/deleteReported_secondModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function deleteReported($user_id = ''){
+        $this->load->model('notify_model');
+        $confirmDelete = $this->input->post('confirmDelete');
+        $user = $this->user_model->getUserForAdmin($user_id);
+        $data = [];
+        if (trim($confirmDelete, ' ') != "DELETE-USER") {
+            $data['id'] = $user_id;
+            $data['code'] = -1;
+            $data['message'] = 'Sorry, it must be confirmed by typing "DELETE-USER" into input box above';
+            $this->ajaxSuccess($data);
+
+        }
+
+        if ($user != null) {
+            $data['message'] = "";
+            $this->user_model->deleteUserStatus($user_id);
+            $this->notify_model->deleteReference('user', $user_id);
+            $this->ajaxSuccess($data);
+
+        }
+    }
+
+    function addVerify($user_id){
+	    $this->user_model->addVerify($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function addCurator($user_id){
+        $this->user_model->addCurator($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function removeTag($user_id){
+        $this->user_model->removeTag($user_id);
+        $this->ajaxSuccess();
+    }
+
+    function deleteEpisodeLike($episodeLike_id){
+        $this->user_model->deleteEpisodeLike($episodeLike_id);
+        $this->ajaxSuccess();
+
+    }
+
+    function deleteProductLike($productLike_id){
+        $this->user_model->deleteProductLike($productLike_id);
+        $this->ajaxSuccess();
+
+    }
+    function deleteCommentLike($commentLike_id){
+        $this->user_model->deleteCommentLike($commentLike_id);
+        $this->ajaxSuccess();
+
+    }
 }

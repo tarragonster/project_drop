@@ -11,33 +11,42 @@
                         <img style="width: 100%; height: 100%;border-radius: 29.5px;"
                              src="<?= media_thumbnail($row['avatar'], 70) ?>"/>
                     </div>
+                    <?php if($row['user_type'] == 1){ ?>
+                        <span class="outer-tag"><img src="<?= base_url('assets/imgs/Verify.svg') ?>" alt=""></span>
+                    <?php } ?>
+                    <?php if($row['user_type'] == 2){ ?>
+                        <span class="outer-tag"><img src="<?= base_url('assets/imgs/Btag-orange.svg') ?>" alt=""></span>
+                    <?php } ?>
                 </td>
                 <td class="header-item-content item-style"><?php echo $row['user_id'] ?></td>
-                <td class="header-item-content item-style" style="font-weight: 900;">
+                <td class="header-item-content item-style" style="font-weight: 600;">
                     <?php echo $row['full_name'] ?><br>
                     <span style="font-weight: 500!important;">@<?php echo $row['user_name'] ?></span>
                 </td>
                 <td class="header-item-content item-style"><?php echo $row['email'] ?></td>
                 <td class="header-item-content item-style">Comments:&nbsp;<?php echo $row['total_comment'] ?> <br>
-                    Thumbs&nbsp;up:&nbsp;<?php echo $row['total_like'] ?> <br>
+                    Thumbs&nbsp;up:&nbsp;<?php echo $row['sum_like'] ?> <br>
                     Picks:&nbsp;<?php echo $row['total_pick'] ?>
                 </td>
 
                 <td class="header-item-content item-style">
                     <?php if (!empty($row['version'])) { ?>
                         <?php foreach ($row['version'] as $k => $vl) { ?>
-                            <?= $vl['name'] ?> &nbsp;&nbsp;
+                            <?php if($vl['dtype_id'] == 1){ ?>
+                                <span><?= $vl['name'] ?> - 1.0.4</span><br>
+                            <?php }else{ ?>
+                                <span><?= $vl['name'] ?> - 1.0.7</span><br>
+                            <?php } ?>
                         <?php } ?>
                     <?php } ?>
                 </td>
 
 
                 <td class="header-item-content item-style"><?php echo date('m/d/Y h:iA', $row['joined']) ?></td>
-                <?php if($row['status'] == 1){ ?>
-                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span class="text-uppercase">Enable</span></td>
-                <?php }else{ ?>
-                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;<span class="text-uppercase">Disable</span></td>
-
+                <?php if($row['user_status'] == 1){ ?>
+                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span class="text-uppercase">Enabled</span></td>
+                <?php }elseif($row['user_status'] == 0){ ?>
+                    <td class="header-item-content item-style status-tb"><img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;<span class="text-uppercase">Disabled</span></td>
                 <?php } ?>
                 <td class="header-item-content item-style">
                     <div class="dropdown">
@@ -47,16 +56,31 @@
                             <li class="text-uppercase view-user-click" data-user_id="<?= $row['user_id'] ?>" onclick="ShowUserProfile(this)"><a href="#" class="drp-items"><span>View</span><img
                                             src="<?= base_url('assets/images/view.svg') ?>" alt=""></a>
                             </li>
-                            <li class="text-uppercase"><a href="<?php echo base_url('user/edit/' . $row['user_id']) ?>" class="drp-items"><span>Edit</span><img
-                                            src="<?= base_url('assets/images/edit.svg') ?>" alt=""></a></li>
+                            <?php if($row['user_type'] == 1){ ?>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="RemoveTag(this)"><a class="drp-items"><span>Remove</span><img
+                                                src="<?= base_url('assets/images/addTrue.svg') ?>" alt=""></a></li>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="AddCurator(this)"><a class="drp-items"><span>Add</span><img
+                                                src="<?= base_url('assets/images/addB.svg') ?>" alt=""></a></li>
+                            <?php }elseif($row['user_type'] == 2){ ?>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="AddVerify(this)"><a class="drp-items"><span>Add</span><img
+                                                src="<?= base_url('assets/images/addTrue.svg') ?>" alt=""></a></li>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="RemoveTag(this)"><a class="drp-items"><span>Remove</span><img
+                                                src="<?= base_url('assets/images/addB.svg') ?>" alt=""></a></li>
+                            <?php }else{ ?>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="AddVerify(this)"><a class="drp-items"><span>Add</span><img
+                                                src="<?= base_url('assets/images/addTrue.svg') ?>" alt=""></a></li>
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="AddCurator(this)"><a class="drp-items"><span>Add</span><img
+                                                src="<?= base_url('assets/images/addB.svg') ?>" alt=""></a></li>
+                            <?php } ?>
+
                             <?php if ($row['status'] == 1): ?>
-                                <li class="text-uppercase"><a href="<?php echo base_url('user/block/' . $row['user_id']) ?>" class="drp-items"><span>Disable</span><img
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="ShowBlockUser(this)"><a class="drp-items"><span>Disable</span><img
                                                 src="<?= base_url('assets/images/block.svg') ?>" alt=""></a></li>
                             <?php else: ?>
-                                <li class="text-uppercase"><a href="<?php echo base_url('user/unBlock/' . $row['user_id']) ?>" class="drp-items"><span>Enable</span><img
+                                <li class="text-uppercase" data-user_id="<?= $row['user_id'] ?>" onclick="ShowUnblockUser(this)"><a class="drp-items"><span>Enable</span><img
                                                 src="<?= base_url('assets/images/block.svg') ?>" alt=""></a></li>
                             <?php endif; ?>
-                            <li class="text-uppercase"><a href="<?php echo base_url('user/delete/' . $row['user_id']) ?>" class="drp-items"><span>Delete</span><img
+                            <li class="text-uppercase <?php echo $row['user_status'] == '2' ? "dis-btn" : ""; ?>" data-user_id="<?= $row['user_id'] ?>" onclick="ShowFirstDeleteModal(this)"><a href="#" class="drp-items"><span>Delete</span><img
                                             src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                         </ul>
                     </div>
@@ -73,7 +97,7 @@
 $has_items = isset($paging) && $paging['total'] > 0;
 $dropdown_size = $has_items && isset($paging['dropdown-size']) ? $paging['dropdown-size'] - 25 : '40';
 ?>
-<div class="row" style="padding: 0 20px;padding-top: 10px; margin: 0; background: white; border-bottom-left-radius: 6px;border-bottom-right-radius: 6px;">
+<div class="row" style="padding: 0 20px;padding-top: 10px; margin: 0; background: white; border-bottom-left-radius: 6px;border-bottom-right-radius: 6px;height: 70px;">
     <?php if (isset($paging)) : ?>
         <div class="col-xs-4">
             <?php

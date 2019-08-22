@@ -29,8 +29,8 @@ if($this->session->flashdata('error')){
 						            foreach ($products as $row): ?>
 						                <tr>
 							                <td><img style="max-width: 37px; height: 55px;border-radius: 5px;" src="<?= media_thumbnail($row['image'], 70) ?>"/></td>
-							                <td><?php echo $row['product_id']?></td>
-							                <td><?php echo $row['name']?></td>
+							                <td class="width-5"><?php echo $row['product_id']?></td>
+							                <td class="weight-600"><?php echo $row['name']?></td>
 							                <td><?php echo $row['total_block']?></td>
 							                <td>
 							                    <?php 
@@ -49,7 +49,7 @@ if($this->session->flashdata('error')){
 					                                <span>DISABLED</span>
 				                                <?php else: ?>
 				                                	<i class="fa fa-circle text-success" style="font-size: 60%;"></i>&nbsp;
-					                                <span>ENABLE</span>
+					                                <span>ENABLED</span>
 				                                <?php endif;?>
 				                            </td>
 							                <td>
@@ -142,11 +142,11 @@ if($this->session->flashdata('error')){
 					<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
 				</div>
 				<div class="modal-description">
-					<h2>Are You Sure?</h2>
+					<h2>Are you sure?</h2>
 					<p>Are you sure you want to disable this film? You will be able to undo this in the actions section.</p>
 				</div>
 				<div class="modal-button">
-					<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal" style="margin-right: 10px;color: #FFFFFF;">Cancel</button>
+					<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
 					<button type="button" class="btn btn-warning dis-confirm">Disable</button>
 				</div>	
 			</div>
@@ -159,11 +159,11 @@ if($this->session->flashdata('error')){
 					<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
 				</div>
 				<div class="modal-description">
-					<h2>Are You Sure?</h2>
+					<h2>Are you sure?</h2>
 					<p>Are you sure you want to enable this film? You will be able to undo this in the actions section.</p>
 				</div>
 				<div class="modal-button">
-					<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal" style="margin-right: 10px;color: #FFFFFF;">Cancel</button>
+					<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal" >Cancel</button>
 					<button type="submit" class="btn btn-warning en-confirm">Enable</button>
 				</div>	
 			</div>
@@ -176,12 +176,12 @@ if($this->session->flashdata('error')){
 					<img src="<?php echo base_url('assets/images/quit.jpg')?>">
 				</div>
 				<div class="modal-description">
-					<h2>Are You Sure?</h2>
+					<h2>Are you sure?</h2>
 					<p>Are you sure you want to delete this film? You will not be able to undo this.</p>
 				</div>
 				<div class="modal-button">
-					<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal" style="margin-right: 10px;color: #FFFFFF;">Cancel</button>
-					<button class="btn btn-danger del-btn" data-toggle="modal" data-target="#confirm-del-modal" data-dismiss="modal" >Delete</button>
+					<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
+					<button class="btn del-btn" data-toggle="modal" data-target="#confirm-del-modal" data-dismiss="modal" >Delete</button>
 				</div>	
 			</div>
 		</div>
@@ -193,13 +193,13 @@ if($this->session->flashdata('error')){
 					<img src="<?php echo base_url('assets/images/quit.jpg')?>">
 				</div>
 				<div class="modal-description">
-					<h2>Are You Sure?</h2>
+					<h2>Are you sure?</h2>
 					<p>Type "DELETE" in the box below to proceed. <br> You will not be able to undo this.</p>
 					<input type="text" id="text-confirm">
 				</div>
 				<div class="modal-button">
-					<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal" style="margin-right:10px;color: #FFFFFF;">Cancel</button>
-					<button type="submit" class="btn btn-danger del-confirm">Delete</button>
+					<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal" >Cancel</button>
+					<button type="submit" class="btn del-confirm">Delete</button>
 				</div>  
 			</div>
 		</div>
