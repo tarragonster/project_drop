@@ -578,6 +578,12 @@ class Product extends BR_Controller {
 		}
 		$users = $this->user_model->getUserListByIds($this->user_id, $checked_ids);
 		if (count($users) > 0) {
+			$this->product_model->insertShared([
+				'user_id' => $this->user_id,
+				'story_id' => $product_id,
+				'friends' => count($users),
+				'shared_at' => time(),
+			]);
 			$this->load->model('notify_model');
 			$meta = [
 				'user_id' => $this->user_id,

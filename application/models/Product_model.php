@@ -512,4 +512,8 @@ class Product_model extends BaseModel {
 		$this->db->where('pick_id', $pick_id);
 		$this->db->delete('user_picks');
 	}
+
+	public function insertShared($params) {
+		$this->db->insert('story_shared', $params);
+	}
 }

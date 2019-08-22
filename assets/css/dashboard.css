@@ -1,18 +1,62 @@
+.content-page > .content {
+    padding-top: 5px;
+}
+
 .chart-card-box {
     padding: 20px 0px;
     margin-bottom: 12px;
 }
 
+.table-card-box {
+    padding: 20px 0 0 0;
+    margin-bottom: 12px;
+    min-height: 266px;
+}
+
+.table-card-box .table {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.table-card-box thead th:first-child{
+    padding-left: 20px;
+}
+
+.table-card-box tbody tr td:first-child{
+    padding-left: 20px;
+}
+
+.table-card-box thead > tr > th {
+    border-top: 0!important;
+    border-bottom: 1px solid #979797;
+    color: #9B9B9B;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1.03px;
+}
+
+.table-card-box tbody > tr > td {
+    border-bottom: 1px solid #979797;
+    color: #000000;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.88px;
+}
+
+.table-card-box tbody > tr:last-child > td {
+    border-bottom: 0;
+}
+
 .chart-content {
-    margin: 0px 20px;
+    margin: 0 20px;
 }
 
 .chart-title {
-    color: #1f282d;
-    font-size: 13px;
+    color: #000000;
+    font-size: 16px;
     display: block;
     font-weight: 600;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.32px;
     line-height: 18px;
 }
 
@@ -26,6 +70,10 @@
 
 .chart-number-box .number-value {
     float: left;
+    font-weight: 600;
+    font-size: 29px;
+    letter-spacing: 2.13px;
+    line-height: 40px;
 }
 
 .chart-number-box .percent-value {
@@ -34,35 +82,34 @@
 
 .chart-information {
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 600;
     margin-top: 8px;
-    letter-spacing: 0.05em;
+    letter-spacing: 1.1px;
     line-height: 20px;
     display: block;
-    color: #4c4e51;
+    color: #000000;
 }
 
 .header-dashboard {
     font-size: 14px;
     margin: 0;
-    line-height: 0;
     text-align: center;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 1.16px;
+    color: #1F282C !important;
 }
 
-.header-dark {
-     font-size: 14px;
-     font-weight: 600;
-     letter-spacing: 0.04em;
-     line-height: 16px;
-     margin-bottom: 8px;
-     color: #30383f !important;
- }
+@media only screen and (max-width: 1414px) and (min-width: 1200px) {
+    .header-dashboard-long {
+        font-size: 80%;
+    }
+}
 
 .header-dashboard-num {
-    font-size: 22px;
-    line-height: 1.1;
-    letter-spacing: 0.1em;
+    font-size: 36px;
+    letter-spacing: 2.64px;
     margin-top: 0;
     font-weight: 400;
     text-align: center;
@@ -105,13 +152,194 @@
     font-size: 12px;
 }
 
+.date-range-picker {
+    margin: 0 0 0 250px;
+    padding-top: 16px;
+}
+.date-range-picker .compared-box {
+    line-height: 27px;
+    color: #ffffff;
+    font-weight: 500;
+}
+
 .daterange-analytic {
-    border: 1px solid #E3E3E3;
-    border-radius: 4px;
-    color: #30383f;
-    padding: 7px 12px;
+    border: 1px solid #C7AE6E;
+    border-radius: 50px;
+    background-color: #C7AE6E;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 4px 16px;
+    letter-spacing: 0.83px;
     font-size: 12px;
-    max-width: 100%;
-    -webkit-box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, 0.1);
+}
+
+.daterangepicker .ranges {
+    width: 300px;
+}
+
+.daterangepicker .ranges ul {
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.daterangepicker .ranges ul li {
+    flex-basis: calc(50% - 4px);
+}
+
+.daterangepicker .range_inputs button {
+    font-weight: 500;
+}
+
+.filter-dropdown {
+    max-width: none;
+    z-index: 3000;
+    position: absolute;
+    background: #fff;
+    top: 100px;
+    left: 20px;
+    margin-top: 1px;
+    border-radius: 4px;
+    padding: 0;
+}
+
+.filter-dropdown.opensright:before {
+    position: absolute;
+    top: -7px;
+    left: 9px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #ccc;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    content: '';
+}
+
+.filter-dropdown.opensright:after {
+     position: absolute;
+     top: -6px;
+     left: 10px;
+     display: inline-block;
+     border-right: 6px solid transparent;
+     border-bottom: 6px solid #fff;
+     border-left: 6px solid transparent;
+     content: '';
+ }
+
+.filter-dropdown .ranges {
+    width: 300px;
+}
+
+.filter-dropdown .ranges ul {
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.filter-dropdown .ranges ul li {
+    flex-basis: calc(50% - 4px);
+}
+
+.filter-dropdown .range_inputs button {
+    font-weight: 500;
+}
+
+.filter-popup {
+    width: 327px!important;
+    margin: 0!important;
+}
+
+.filter-header {
+    font-family: 'Montserrat', "Helvetica Neue",Helvetica,Arial,sans-serif;
+    display: flex;
+    height: 72px;
+    padding: 0px 8px;
+}
+
+.filter-header button {
+    background: transparent;
+    border: 0;
+    outline: none;
+    color: #C7AE6E;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.78px;
+}
+
+.filter-header h3 {
+    line-height: 52px;
+    font-size: 14px;
+    text-align: center;
+    flex-grow: 1;
+    color: #403F3F;
+    letter-spacing: 0.78px;
+}
+
+.filter-section {
+    font-family: 'Montserrat', "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 36px;
+    color: #9B9B9B;
+    font-size: 12px;
+    padding-left: 16px;
+    letter-spacing: 0.67px;
+    font-weight: 400;
+    background: #F5F6F8;
+}
+
+.filter-popup .input-daterange {
+    display: flex;
+    height: 70px;
+}
+
+.filter-popup .input-daterange .line {
+    height: 70px;
+    flex-basis: 1px;
+    width: 1px;
+    background: #F2F2F2;
+}
+
+.filter-popup .input-daterange input {
+    flex-grow: 1;
+    flex-basis: calc(50% - 0.5px);
+    font-family: 'Montserrat', "Helvetica Neue",Helvetica,Arial,sans-serif;
+    border: 0;
+    border-radius: 0;
+    height: 70px;
+    padding: 0 0 0 16px;
+    text-align: left;
+    box-shadow: none;
+}
+
+.filter-popup .preset-list {
+    list-style: none;
+    margin: 0;
+    width: 327px!important;
+    padding: 16px 16px 6px 16px!important;
+}
+
+.filter-popup .preset-list li {
+    text-align: center;
+    border-radius: 40px;
+    line-height: 27px;
+    background: #9B9B9B;
+    font-weight: 500;
+    letter-spacing: 0.93px;
+    color: #ffffff;
+    text-transform: uppercase;
+    border: 0!important;
+    font-size: 13px;
+    padding: 3px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.filter-popup .preset-list li.active {
+    background: #C7AE6E;
+}
+
+
+.filter-popup .preset-list li:hover {
+    background: #C7AE6E;
 }

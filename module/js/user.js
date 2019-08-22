@@ -37,7 +37,7 @@ var User = /** @class */ (function () {
         });
     };
     User.prototype.showUserProfile = function () {
-        $('#view-user-content').html("");
+        // $('#view-user-content').html("");
         this.paramreq = {
             user_id: this.user_id,
             isEdit: this.isEdit,
@@ -488,7 +488,7 @@ function ShowReportNote(event) {
     $('#view-note-popup').modal('show');
 }
 function SaveReportNote() {
-    $("#form-update").validate({
+    $("#form-user-update").validate({
         rules: {
             note: {
                 required: true,
@@ -496,7 +496,7 @@ function SaveReportNote() {
         },
         messages: {}
     });
-    var validatedata = $("#form-update").valid();
+    var validatedata = $("#form-user-update").valid();
     if (validatedata == true) {
         model.note = $('.note-input').text();
         model.saveReportNote();

@@ -648,10 +648,10 @@ table.dataTable thead .sorting_desc:after {
     width: 100%;
 }
 
-#noSortHeader-crpAction {
-    width: 6%;
+.noSortHeader-crpAction{
+    width: 6%!important;
 }
 
-#header_statusheader-crp{
+.header_statusheader-crp{
     width: 19%;
 }
