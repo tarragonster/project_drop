@@ -346,7 +346,7 @@ class User{
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide')
+            $('#delete-episode-like').modal('hide')
         })
     }
 
@@ -358,7 +358,7 @@ class User{
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide')
+            $('#delete-product-like').modal('hide')
         })
     }
     confirmDeleteCommentLike(){
@@ -369,7 +369,7 @@ class User{
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide')
+            $('#delete-comment-like').modal('hide')
         })
     }
 
@@ -831,7 +831,7 @@ function ConfirmDeleteProductLike(){
 
 function ShowDeleteCommentLike(event){
     model.commentLike_id = $(event).data('cl_id');
-    $('#delete-product-like').modal('show');
+    $('#delete-comment-like').modal('show');
 }
 
 function ConfirmDeleteCommentLike(){

@@ -32,7 +32,11 @@
                 <td class="header-item-content item-style">
                     <?php if (!empty($row['version'])) { ?>
                         <?php foreach ($row['version'] as $k => $vl) { ?>
-                            <?= $vl['name'] ?> &nbsp;&nbsp;
+                            <?php if($vl['dtype_id'] == 1){ ?>
+                                <span><?= $vl['name'] ?> - 1.0.4</span><br>
+                            <?php }else{ ?>
+                                <span><?= $vl['name'] ?> - 1.0.7</span><br>
+                            <?php } ?>
                         <?php } ?>
                     <?php } ?>
                 </td>
