@@ -238,6 +238,10 @@ table.dataTable thead .sorting_desc:after {
 .weight-600 {
     font-weight: 600 !important;
 }
+.title-header {
+    color: #9B9B9B;
+    font-size: 11px;
+}
 /*STORY LIST*/
 
 /*STORY FORM*/
