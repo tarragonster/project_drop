@@ -36,7 +36,7 @@ var User = /** @class */ (function () {
         });
     };
     User.prototype.showUserProfile = function () {
-        $('#view-user-content').html("");
+        // $('#view-user-content').html("");
         this.paramreq = {
             user_id: this.user_id,
             isEdit: this.isEdit,
