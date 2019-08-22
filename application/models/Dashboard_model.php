@@ -466,7 +466,7 @@ class Dashboard_model extends CI_Model {
 		$this->db->join('(select follower_id, count(*) as num_of_followers from user_follow group by follower_id) as uf', 'u.user_id = uf.follower_id');
 		$sub_query = 'select follower_id, count(*) as new_followers from user_follow';
 		$sub_query .= ' where ';
-		$sub_query .= '1488799243 >= ' . $from . ' and 1488799243 < ' . $to;
+		$sub_query .= 'timestamp >= ' . $from . ' and timestamp < ' . $to;
 		$sub_query .= ' group by follower_id';
 		$this->db->join('(' . $sub_query . ') as uf2', 'u.user_id = uf2.follower_id', 'left');
 		$this->db->order_by('new_followers desc');
