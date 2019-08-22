@@ -1,13 +1,53 @@
 <div class="section-content">
     <!-- <form action="" method="get"> -->
+    	<?php if(!empty($new_seasons)): 
+    			foreach ($new_seasons as $key => $value): 
+    	?>
+        	<div class="empty-season">
+		    	<div class="hub-faq-title" style="margin-bottom:10px;">
+		    		<span><?=$value['name']?></span>
+		    	</div>
+	    		<div class="table-responsive">
+		            <table class="table dataTable">
+						<div class="col-sm-1 col-lg-1" style="padding: 0px;width: 7%"></div>
+						<div class="col-sm-2 col-lg-1" style="padding: 0px;width: 7%">
+							<div class="title-header">Block ID</div>
+						</div>
+						<div class="col-sm-3 col-lg-1" style="width: 7%">
+							<div class="title-header">Block #</div>
+						</div>
+						<div class="col-sm-2 col-lg-3" style="width: 27%">
+							<div class="title-header">Block Name</div>
+						</div>
+						<div class="col-sm-2 col-lg-2" style="width: 14%">
+							<div class="title-header">Block Activity</div>
+						</div>
+						<div class="col-sm-2 col-lg-2" style="width: 20%">
+							<div class="title-header">Create Date</div>
+						</div>
+						<div class="col-sm-1 col-lg-1" style="width: 11%">
+							<div class="title-header">Status</div>
+						</div>
+						<div class="col-sm-1 col-lg-1" style="width: 40px">
+							<div class="title-header">Actions</div>
+						</div>
+		                <tbody>
+							<div class="card-box season-mess-box">
+								<span>Click <b>Add New</b> to add blocks to this story</span>
+							</div>
+						</tbody>
+					</table>
+				</div>
+			</div>
+    	<?php 	endforeach; 
+    		  endif;
+    	?>
         <?php
         $numb = 0;
         if(!empty($episodes)){ foreach ($episodes as $key=>$value){
             $numb++;
         ?>
         <div class="hub-faq-title"><span><?=$seasons[$key]?></span></div>
-
-        <!-- TABLE -->
         <div class="table-responsive">
             <table class="table dataTable">
                 <?php $this->load->view('admin/base/table_header')?>
@@ -48,7 +88,7 @@
 				                                <span>DISABLED</span>
 			                                <?php else: ?>
 			                                	<i class="fa fa-circle text-success icon-size"></i>&nbsp;&nbsp;
-				                                <span>ENABLE</span>
+				                                <span>ENABLED</span>
 			                                <?php endif;?>
 			                            </div>
 				                        <div class="col-sm-3 sortable-box width-5" style="float: right;">

@@ -21,10 +21,10 @@
                 $conditions['inverse'] = 1;
                 $class = 'sorting';
             }
-            $url = base_url('user/reports') . '?' . http_build_query($conditions);
-            echo '<th th-header-url="' . $url . '" class="'. ShowHeaderFAQ($row['label'].'header-rp').' th-header ' . $class.'"><span style="margin-left: 14px;">'. $row['label'] . '</span></th>';
+            $url = base_url('comment/comments/'.$title_episode[0]['episode_id']) . '?' . http_build_query($conditions);
+            echo '<th th-header-url="' . $url . '" class="'. ShowHeaderFAQ($row['label']). ' th-header ' . $class.'"><span style="margin-left: 14px;">'. $row['label'] . '</span></th>';
         } else
-            echo '<th class="noSortHeader-rp'.$row['label'] .' "><span style="margin-left: 14px;">'. (is_array($row) ? $row['label'] : $row) . '</span></th>';
+            echo '<th class="noSortHeader'.$row['label'] .' "><span style="margin-left: 14px;">'. (is_array($row) ? $row['label'] : $row) . '</span></th>';
     }
     ?>
 </tr>

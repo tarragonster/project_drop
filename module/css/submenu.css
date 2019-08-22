@@ -168,13 +168,10 @@
 }
 .form-dispatch.form-control, .form-dispatch.form-control:hover {
 	color: #9B9B9B;
-	/*font-family: 'Avenir Next';*/
 	padding-left: 0;
-    font-size: 11px;
 }
 .alert-warning {
 	font-size: 13px;
-    /*font-family: 'Avenir Next';*/
 }
 .icon-size {
     font-size: 60%;

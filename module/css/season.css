@@ -1,6 +1,20 @@
+
 .section-content {
 	left: 85px;
 	margin-top: 0;
+}
+.empty-season {
+    margin-bottom: 80px;
+}
+.explore-mess-box {
+    border: 2px solid #c7c8cb;
+    border-radius: 10px;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 14px;
+    color: #403F3F;
 }
 .hub-faq-title span {
     border-radius: 5px;
@@ -15,6 +29,9 @@
 .hub-faq-title {
     border-top: none;
     margin: 20px 0 0;
+}
+.tab-content>.tab-pane {
+    display: block;
 }
 .sortable-move {
     margin-left: 5px;
@@ -49,7 +66,7 @@
     flex-basis: 20%;
 }
 .table > thead > tr > th:nth-child(7) {
-    width: 9%;
+    width: 10%;
 }
 table.dataTable thead .sorting:before,
 table.dataTable thead .sorting_asc:before,
@@ -75,11 +92,15 @@ table.dataTable thead .sorting_desc:before {
     border-bottom: 1px solid #EEEDEB;
 }
 .season-mess-box {
-    top: 80px;
+    /*top: 80px;*/
+    margin-top: 20px;
     width: 100%;
     text-align: center;
     position: absolute;
     border: 1.5px solid #d6d6d6;
+}
+.title-header {
+    color: #9B9B9B;
 }
 .dropdown-menu {
     left: -30px;

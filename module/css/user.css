@@ -65,7 +65,6 @@
 
 .submenu-item{
     display: flex;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
     font-style: normal;
     font-size: 11px;
@@ -88,13 +87,13 @@
 
 .active-submnu{
 
-    color: #403F3F;
-    border-left: 6px solid #403F3F;
+    color: #403F3F!important;
+    border-left: 6px solid #403F3F!important;
 
 }
 
 .active-submnu:hover{
-    color: #403F3F;
+    color: #403F3F!important;
 }
 
 .outer-search{
@@ -175,26 +174,26 @@
 
 .noSortHeaderActivity {
 
-    width: 11%;
+    width: 12%;
 
 }
 
 
 .noSortHeaderVersion{
 
-    width: 10%;
+    width: 12%;
 
 }
 
 .noSortHeaderCreate{
 
-    width: 17%
+    width: 15%
 
 }
 
 .header_status{
 
-    width: 17%;
+    width: 12%;
 
 }
 
@@ -264,13 +263,11 @@ table.dataTable thead .sorting_desc:after {
 .table > thead:first-child > tr:first-child > th{
 
     padding-right: 0;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: 11px;
     color: #9B9B9B;
     height: 36px;
-    padding-top: 20px!important;
-    text-transform: uppercase;
+    padding-top: 20px;
 }
 
 .table > thead:first-child > tr:first-child > th:last-child span{
@@ -290,7 +287,6 @@ table.dataTable thead .sorting_desc:after {
     padding-left: 21px!important;
     border-top: 1px solid #979797;
     background: #ffffff;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: 11px;
     color: #403F3F;
@@ -349,13 +345,12 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .status-tb{
-    font-weight: 900!important;
+    font-weight: 600!important;
     font-size: 12px!important;
-
+    letter-spacing: 0.8px;
 }
 
 .drp-items > span {
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 500;
     font-size: 11px;
     color: #9B9B9B;
@@ -652,11 +647,11 @@ table.dataTable thead .sorting_desc:after {
 
 .first-column {
     width: 93px!important;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
     font-weight: 500;
     font-size: 13px!important;
     color: #9B9B9B!important;
     text-transform: uppercase!important;
+    letter-spacing: 0.87px;
 }
 
 .next-column{
@@ -681,11 +676,11 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .ava-text{
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
     font-size: 11px;
     text-transform: uppercase;
     color: #9B9B9B;
+    letter-spacing: 0.73px;
 }
 
 .upper-info{
@@ -1157,7 +1152,6 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .film_title {
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif!important;
     font-weight: 500!important;
     font-size: 14px!important;
     color: #403F3F!important;
@@ -1168,7 +1162,6 @@ table.dataTable thead .sorting_desc:after {
     height: 100%;
     padding: 0;
     border: 0;
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
     font-size: 12px;
     color: #403F3F;
@@ -1327,4 +1320,26 @@ table.dataTable thead .sorting_desc:after {
     padding-left: 21px;
     color: #E62C30;
     width: 100%;
+}
+
+/*.reply-username{*/
+/*    float: right;*/
+/*}*/
+
+.view-status-outer > ul > li{
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.fa-chevron-down:before {
+    font-family: 'FontAwesome';
+    content: "\f078";
+    font-weight: 500;
+}
+.noSortHeader-rpAction {
+    width: 5%;
+}
+.header_statusheader-rp{
+    width: 20%;
+
 }

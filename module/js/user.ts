@@ -89,7 +89,25 @@ class User{
             model.isCreate = false;
             $('#view-user-content').html(data.content);
         })
+    }
 
+    showCommentUser(){
+        $('#view-replies-content').html("");
+        this.paramreq = {
+            user_id: this.user_id,
+            isEdit: this.isEdit,
+            isProfile: this.isProfile,
+            isCreate:this.isCreate,
+            active: this.active,
+        };
+        this.url = '/user/ajaxProfile/' + this.user_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            model.isProfile = true;
+            model.isEdit = false;
+            model.isCreate = false;
+            $('#view-replies-content').html(data.content);
+        })
     }
 
     saveUpdateProfile(myFormData){
@@ -328,7 +346,7 @@ class User{
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide')
+            $('#delete-episode-like').modal('hide')
         })
     }
 
@@ -340,7 +358,7 @@ class User{
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide')
+            $('#delete-product-like').modal('hide')
         })
     }
     confirmDeleteCommentLike(){
@@ -351,7 +369,7 @@ class User{
             model.active = 'thumb-up';
             model.showUserProfile();
             model.active = 'profile';
-            $('#delete-comment').modal('hide')
+            $('#delete-comment-like').modal('hide')
         })
     }
 
@@ -813,7 +831,7 @@ function ConfirmDeleteProductLike(){
 
 function ShowDeleteCommentLike(event){
     model.commentLike_id = $(event).data('cl_id');
-    $('#delete-product-like').modal('show');
+    $('#delete-comment-like').modal('show');
 }
 
 function ConfirmDeleteCommentLike(){
@@ -830,3 +848,11 @@ function ConfirmDeleteCommentLike(){
         model.confirmDeleteCommentLike();
     }
 }
+
+function ShowCommentUser(event){
+    model.isProfile =true
+    model.isEdit= false
+    model.user_id = $(event).data('user_id');
+    model.showCommentUser()
+    $('#view-replies-popup').modal('show');
+ }

@@ -61,6 +61,8 @@ class Explore extends Base_Controller {
 		$key = $this->input->post('key');
 		if ($key == 'add-user') {
 			$this->load->view('admin/explore/sub_page/add_featured_user');
+		}else {
+			$this->load->view('admin/explore/sub_page/add_preview_story');
 		}
 	}
 
@@ -169,6 +171,14 @@ class Explore extends Base_Controller {
 		$this->customJs[] = 'module/js/coreTable.js';
 		$this->customJs[] = 'module/js/explore.js';
 		$this->render('/explore/explore_page', $params, 10, 12);
+	}
+
+	public function searchOtherProduct() {
+		$key = $this->input->post('key');
+		$previews = $this->preview_model->getPreviews();
+		$preview_ids = Hash::combine($previews,'{n}.product_id','{n}.product_id');
+		$other_products = $this->preview_model->searchOtherProducts($key, $preview_ids);
+		echo json_encode($other_products);
 	}
 
 	public function sortPreviewStory() {

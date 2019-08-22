@@ -57,7 +57,7 @@
     border: 0px !important;
 }
 /*SORTING*/
-#add-user {
+#add-user, #add-story {
     margin-right: 50px;
 }
 .table thead {
@@ -436,7 +436,7 @@
 .custom-input::placeholder {
   color: #565656;
 }
-#add-user-btn {
+#add-user-btn, #add-story-btn {
     float: right;
     margin: 15px 0;
     padding: 2px 20px !important;

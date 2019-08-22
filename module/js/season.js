@@ -73,7 +73,7 @@ function saveEpisode(key) {
     var episode_name = $('#episode_name').val()
     var jw_media_id = $('#jw_media_id').val()
     var description = $('#description').val()
-
+    var block_image = $('#block_image').attr('src')
     if(episode_name == '') {
         $('#block_err').text('Block name must not be empty')
     }else {
@@ -89,10 +89,16 @@ function saveEpisode(key) {
     }else {
         $('#des_err').text('')
     }
+    if(block_image == BASE_APP_URL + 'assets/images/borders/516x295.svg') {
+        $('#blockImg_err').text('Block image must not be empty')
+    }else {
+        $('#blockImg_err').text('')
+    }
     if($('#block_err').text() == '' && 
         $('#jw_err').text() == '' && 
         $('#des_err').text() == '' && 
-        $('#block_image').attr('src') != BASE_APP_URL + 'assets/images/borders/516x295.svg') 
+        $('#blockImg_err').text() == '' && 
+        $('#block_err1').css('display') == 'none' && $('#block_err2').css('display') == 'none')
     {
         if(key == 'edit') {
             $('#block-form-edit').submit();

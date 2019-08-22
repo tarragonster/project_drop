@@ -51,7 +51,7 @@ class User extends Base_Controller {
             'email' => array('label' => 'Email', 'sorting' => true),
             'total_pick'=> array('label' => 'Activity', 'sorting' => false),
             'dt' => array('label' => 'Version'),
-            'joined' => array('label' => 'Create&nbsp;Date'),
+            'joined' => array('label' => 'Create Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
             'Actions' => array('label' => 'Action', 'sorting' => false));
 
@@ -101,8 +101,6 @@ class User extends Base_Controller {
             $users[$key]['total_version'] = count($users[$key]['version']) > 0 ? count($users[$key]['version']):'0';
             $users[$key]['sum_like'] = $users[$key]['total_like'] + $users[$key]['total_cm_like'] + $users[$key]['total_pd_like'];
         }
-
-//        pre_print($users);
 
 		$userData['users']=$users;
         $userData['headers'] = $headers;

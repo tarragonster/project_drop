@@ -110,11 +110,25 @@
 							</li>
                         <?php elseif(isset($sub_id) && $sub_id == 21):?>
                             <li class="btn-export">
-                                <button type="button" class="btn btn-header" id="view-status">View All Statuses </button>
+                                <div class="dropdown view-status-outer">
+                                    <button type="button" class="btn btn-header dropdown-toggle" id="view-status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="status-text">View All Statuses</span>
+                                        <i class="fal fa-chevron-down" style="position: absolute;right: 6px;top: 6px;"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="view-status">
+                                        <li class="dropdown-item" onclick="getStatus()">All Statuses</li>
+                                        <li class="dropdown-item" onclick="getEnabled()">Enabled</li>
+                                        <li class="dropdown-item" onclick="getDisabled()">Disabled</li>
+                                    </ul>
+                                </div>
                             </li>
                         <?php elseif(isset($sub_id) && $sub_id == 11):?>
                         	<li class="btn-export">
                                 <button type="button" class="btn btn-header" id="add-user" data-toggle="modal" data-target="#add-user-popup">Add User</button>
+                            </li>
+                        <?php elseif(isset($sub_id) && $sub_id == 12):?>
+                        	<li class="btn-export">
+                                <button type="button" class="btn btn-header" id="add-story" data-toggle="modal" data-target="#add-story-popup">Add Story</button>
                             </li>
 						<?php endif;?>
 					</ul>
@@ -178,22 +192,22 @@
                             <?php } ?>
                             <span>Collections</span></a>
 					</li>
-					<li class="has_sub">
-						<a href="#" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>">
+					<li>
+						<a href="<?php echo base_url('comment'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>">
                             <?php if (isset($parent_id) && $parent_id == 9) { ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Comments-active.svg') ?>" alt="Comments">
                             <?php }else{ ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Comments.svg') ?>" alt="Comments">
                             <?php } ?>
                             <span>Comments</span> </a>
-						<ul class="list-unstyled">
-							<li <?php echo($sub_id == 91 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('comment'); ?>"><span>Comments</span></a>
-							</li>
-							<li <?php echo($sub_id == 92 ? 'class="active"' : ''); ?>>
-								<a href="<?php echo base_url('comment/reports'); ?>">Reported Comments</a>
-							</li>
-						</ul>
+<!--						<ul class="list-unstyled">-->
+<!--							<li --><?php //echo($sub_id == 91 ? 'class="active"' : ''); ?><!-- >-->
+<!--								<a href="--><?php //echo base_url('comment'); ?><!--"><span>Comments</span></a>-->
+<!--							</li>-->
+<!--							<li --><?php //echo($sub_id == 92 ? 'class="active"' : ''); ?><!-- >-->
+<!--								<a href="--><?php //echo base_url('comment/reports'); ?><!--">Reported Comments</a>-->
+<!--							</li>-->
+<!--						</ul>-->
 					</li>
                     <li>
                         <a href="<?php echo base_url('setting'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 5 ? ' active' : ''; ?>">
@@ -279,3 +293,14 @@ if (isset($customJs) && is_array($customJs)) {
 <?= isset($bottom_html) ? $bottom_html : ''; ?>
 </body>
 </html>
+<script>
+    function getStatus(){
+        $('.status-text').text('View All Statuses')
+    }
+    function getEnabled(){
+        $('.status-text').text('View Enabled')
+    }
+    function getDisabled(){
+        $('.status-text').text('View Disabled')
+    }
+</script>

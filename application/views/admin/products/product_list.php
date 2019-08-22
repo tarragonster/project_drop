@@ -49,7 +49,7 @@ if($this->session->flashdata('error')){
 					                                <span>DISABLED</span>
 				                                <?php else: ?>
 				                                	<i class="fa fa-circle text-success" style="font-size: 60%;"></i>&nbsp;
-					                                <span>ENABLE</span>
+					                                <span>ENABLED</span>
 				                                <?php endif;?>
 				                            </td>
 							                <td>

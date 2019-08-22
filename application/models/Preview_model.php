@@ -122,6 +122,17 @@ class Preview_model extends BaseModel {
 		return $this->db->get()->result_array();
 	}
 
+	public function searchOtherProducts($key, $preview_ids) {
+		$this->db->select('p.product_id, p.name');
+		$this->db->from('product p');
+		$this->db->where_not_in('p.product_id', $preview_ids);
+		if (!empty($key)) {
+			$this->db->where('p.name like "%' . $key . '%"');
+		}
+		$this->db->limit(10);
+		return $this->db->get()->result_array();
+	}
+
 	public function updatePriority($params, $id) {
 		$this->db->where('product_id', $id);
 		$this->db->update($this->table, $params);

@@ -41,7 +41,7 @@
                 <div class="row inner-profile" style="margin: 0">
                     <div class="upper-info">
                         <div class="left-info">
-                            <span class="lead text-uppercase" style="font-weight: 900;color: #403F3F">User Details</span>
+                            <span class="lead text-uppercase" style="font-weight: 600;letter-spacing: 0.73px;color: #403F3F">User Details</span>
                             <div class="table-responsive" style="padding-top: 20px!important;">
                                 <table class="table table-user-detail">
                                     <tbody>
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                     <div class="under-info">
-                        <span class="lead text-uppercase" style="font-weight: 900;color: #403F3F">User Stats</span>
+                        <span class="lead text-uppercase" style="font-weight: 600;letter-spacing: 0.73px;color: #403F3F">User Stats</span>
                         <div class="container-stats" style="margin-top: 20px">
                             <div class="stats-element">
                                 <div class="title-stats"><span># of Comments:</span></div>
@@ -168,11 +168,11 @@
                         <table class="table dataTable table-hover table-modal">
                             <thead>
                             <tr>
-                                <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 900">Comment Id</th>
-                                <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 900">Comment</th>
-                                <th style="width: 18%;padding: 0!important; height: 24px!important;font-weight: 900">Date</th>
-                                <th style="width: 22%;padding: 0!important; height: 24px!important;font-weight: 900">Status</th>
-                                <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 900">Actions</th>
+                                <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 600;letter-spacing: 0.58px;">Comment Id</th>
+                                <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Comment</th>
+                                <th style="width: 18%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Date</th>
+                                <th style="width: 22%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Status</th>
+                                <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -182,7 +182,7 @@
                                     <tr>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['comment_id']; ?></td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
-                                            <span style="font-weight: 600;!important;"><?php echo $row['film_name']; ?> - <?php echo $row['name']; ?></span><br>
+                                            <span style="font-weight: 600;!important;letter-spacing: 0.73px"><?php echo $row['film_name']; ?> - <?php echo $row['name']; ?></span><br>
                                             <?php echo $row['content']; ?>
                                         </td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
@@ -230,11 +230,11 @@
                     <table class="table dataTable table-hover table-modal">
                         <thead>
                         <tr>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 900">Story Id</th>
-                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 900">Story Name</th>
-                            <th style="width: 18%;padding: 0!important; height: 24px!important;font-weight: 900">Date</th>
-                            <th style="width: 22%;padding: 0!important; height: 24px!important;font-weight: 900">Status</th>
-                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 900">Actions</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 600;letter-spacing: 0.58px;">Story Id</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Story Name</th>
+                            <th style="width: 18%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Date</th>
+                            <th style="width: 22%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Status</th>
+                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -244,7 +244,7 @@
                                 <tr>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 500;">
-                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
+                                        <span style="font-weight: 600;!important;letter-spacing: 0.73px;"><?php echo $row['name']; ?></span><br>
                                         <?php echo $row['quote']; ?>
                                     </td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['created_at']) ?></td>
@@ -286,10 +286,10 @@
                     <table class="table dataTable table-hover table-modal">
                         <thead>
                         <tr>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 900">Story Id</th>
-                            <th style="width: 40%;padding: 0!important; height: 24px!important;font-weight: 900">Picks</th>
-                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 900">Date</th>
-                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 900">Actions</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 600;letter-spacing: 0.58px;">Story Id</th>
+                            <th style="width: 40%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Picks</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Date</th>
+                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -299,7 +299,7 @@
                                 <tr>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 500;">
-                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span><br>
+                                        <span style="font-weight: 600!important;letter-spacing: 0.73px;"><?php echo $row['name']; ?></span><br>
                                     </td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['update_time']) ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
@@ -329,12 +329,12 @@
                     <table class="table dataTable table-hover table-modal">
                         <thead>
                         <tr>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 900">Story Id</th>
-                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 900">Story</th>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 900">Type</th>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 900">Date</th>
-                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 900">Status</th>
-                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 900">Actions</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important; padding-left: 10px!important;font-weight: 600;letter-spacing: 0.58px;">Story Id</th>
+                            <th style="width: 30%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Story</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Type</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Date</th>
+                            <th style="width: 20%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Status</th>
+                            <th style="width: 10%;padding: 0!important; height: 24px!important;font-weight: 600;letter-spacing: 0.58px;">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -344,13 +344,13 @@
                                 <tr>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 900;">
-                                        <span style="font-weight: 900;!important;"><?php echo $row['name']; ?></span>
+                                        <span style="font-weight: 600;!important;letter-spacing: 0.73px;"><?php echo $row['name']; ?></span>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Story</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Story</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;">
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Thumps Up</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumps Up</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
@@ -370,17 +370,17 @@
                             foreach ($like_episode as $row): ?>
                                 <tr>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 900;">
-                                        <span style="font-weight: 900;!important;"><?php echo $row['film_name']; ?> - <?php echo $row['episode_name']; ?></span>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
+                                        <span style="font-weight: 600;!important;letter-spacing: 0.73px;"><?php echo $row['film_name']; ?> - <?php echo $row['episode_name']; ?></span>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Block</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Block</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;">
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
                                     <?php if($row['status'] == 1){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Thumps Up</td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumps Up</td>
                                     <?php }elseif($row['status'] == 0){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Thumps Down</td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumps Down</td>
                                     <?php } ?>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
@@ -401,20 +401,20 @@
                             foreach ($like_comment as $row): ?>
                                 <tr>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 900;">
-                                        <span style="font-weight: 900;!important;"><?php echo $row['film_name']; ?> - <?php echo $row['episode_name']; ?></span>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
+                                        <span style="font-weight: 600;!important;letter-spacing: 0.73px;"><?php echo $row['film_name']; ?> - <?php echo $row['episode_name']; ?></span>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Comment</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Comment</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;">
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">Thumps Up</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumps Up</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
                                             <ul class="dropdown-menu" id="customDropdown">
-                                                <li class="text-uppercase" onclick="ShowDeleteCommentLike(this)" data-commentLike_id="<?= $row['cl_id'] ?>">
+                                                <li class="text-uppercase" onclick="ShowDeleteCommentLike(this)" data-cl_id="<?= $row['cl_id'] ?>">
                                                     <a class="drp-items"><span>Remove</span>
                                                         <img src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>
                                             </ul>
