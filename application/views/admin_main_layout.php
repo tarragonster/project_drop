@@ -127,13 +127,20 @@
 					<li class="btn-export">
 						<div class="dropdown view-status-outer">
 							<button type="button" class="btn btn-header dropdown-toggle" id="view-status" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span class="status-text">View All Statuses</span>
+								<?php if(!empty($conditions['get_status']) && $conditions['get_status'] == 'enabled'){ ?>
+                                    <span class="status-text">View Enabled</span>
+                                <?php }elseif(!empty($conditions['get_status']) && $conditions['get_status'] == 'disabled'){ ?>
+                                    <span class="status-text">View Disabled</span>
+                                <?php }else{ ?>
+                                    <span class="status-text">View All Statuses</span>
+                                <?php } ?>
 								<i class="fal fa-chevron-down" style="position: absolute;right: 6px;top: 6px;"></i>
 							</button>
 							<ul class="dropdown-menu" aria-labelledby="view-status">
-								<li class="dropdown-item" onclick="getStatus()">All Statuses</li>
-								<li class="dropdown-item" onclick="getEnabled()">Enabled</li>
-								<li class="dropdown-item" onclick="getDisabled()">Disabled</li>
+                                <?php $get_status = isset($conditions['get_status']) ? $conditions['get_status'] : ''; ?>
+								<li class="dropdown-item"><a href="<?php echo base_url('user') ?>">All Statuses</a></li>
+								<li class="dropdown-item"><a href="<?php echo base_url('user') . '?get_status=' . $get_status='enabled' ?>">Enabled</a></li>
+								<li class="dropdown-item"><a href="<?php echo base_url('user') . '?get_status=' . $get_status='disabled' ?>">Disabled</a></li>
 							</ul>
 						</div>
 					</li>
@@ -191,7 +198,7 @@
 							<span>Explore</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('collection'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 4 ? ' active' : ''; ?>">
+						<a href="<?php echo base_url('collection/carousel'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 4 ? ' active' : ''; ?>">
 							<?php if (isset($parent_id) && $parent_id == 4) { ?>
 								<img src="<?php echo base_url('assets/images/left-sidebar/Collections-active.svg') ?> " alt="Collections">
 							<?php } else { ?>

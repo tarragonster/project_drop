@@ -29,25 +29,25 @@ var Comments = /** @class */ (function () {
             location.reload();
         });
     };
-    Comments.prototype.showFirstDeleteModal = function () {
+    Comments.prototype.showFirstDeleteCommentReplies = function () {
         this.url = '/comment/firstModalDelete/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-content').html(data.content);
         });
     };
-    Comments.prototype.showSecondDeleteModal = function () {
+    Comments.prototype.showSecondDeleteCommentReplies = function () {
         this.url = '/comment/secondModalDelete/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-content').html(data.content);
         });
     };
-    Comments.prototype.confirmDeleteComment = function () {
+    Comments.prototype.confirmDeleteCommentReplies = function () {
         this.url = '/comment/deleteComment/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
-            $('#delete-comment').modal('hide');
+            $('#delete-comment-box').modal('hide');
             location.reload();
         });
     };
@@ -137,6 +137,41 @@ var Comments = /** @class */ (function () {
             $('#view-replies-content').html(data.content);
         });
     };
+    Comments.prototype.saveDisableCommentReported = function () {
+        this.url = '/comment/disableCommentReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
+    Comments.prototype.saveEnableCommentReported = function () {
+        this.url = '/comment/enableCommentReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
+    Comments.prototype.showFirstDeleteReportedComment = function () {
+        this.url = '/comment/showFirstDeleteReportedComment/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-reportedComment-content').html(data.content);
+        });
+    };
+    Comments.prototype.showSecondDeleteReportedComment = function () {
+        this.url = '/comment/showSecondDeleteReportedComment/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-reportedComment-content').html(data.content);
+        });
+    };
+    Comments.prototype.confirmDeleteReportedComment = function () {
+        this.url = '/comment/confirmDeleteReportedComment/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload();
+        });
+    };
     Comments.object = new Comments();
     return Comments;
 }());
@@ -155,33 +190,33 @@ function ShowEnableComment(event) {
 function SaveEnableComment() {
     commentModel.saveEnableComment();
 }
-function ShowFirstDeleteComment(event) {
+function ShowFirstDeleteCommentReplies(event) {
     commentModel.comment_id = $(event).data('comment_id');
-    commentModel.showFirstDeleteModal();
-    $('#delete-comment').modal('show');
+    commentModel.showFirstDeleteCommentReplies();
+    $('#delete-comment-box').modal('show');
 }
-function ShowSecondDeleteComment() {
-    commentModel.showSecondDeleteModal();
+function ShowSecondDeleteCommentReplies() {
+    commentModel.showSecondDeleteCommentReplies();
 }
-function ConfirmDeleteComment() {
+function ConfirmDeleteCommentReplies() {
     $('#form-deleteComment').validate({
         rules: {
             confirmDeleteComment: {
                 required: true,
-                confirmInput: true
+                confirmCommentInput: true
             },
         },
     });
     var validatedata = $("#form-deleteComment").valid();
     if (validatedata == true) {
-        commentModel.confirmDeleteComment();
+        commentModel.confirmDeleteCommentReplies();
     }
 }
 $(document).ready(function () {
     $.validator.setDefaults({
         ignore: []
     });
-    $.validator.addMethod("confirmInput", function (value, element) {
+    $.validator.addMethod("confirmCommentInput", function (value, element) {
         if (this.optional(element) || value == "DELETE-COMMENT") {
             return true;
         }
@@ -248,7 +283,7 @@ function ConfirmDeleteReply() {
         rules: {
             confirmReplyComment: {
                 required: true,
-                confirmInput: true
+                confirmCommentInput: true
             },
         },
     });
@@ -294,4 +329,44 @@ function ShowEditReportComment(event) {
     commentModel.report_id = $(event).data('report_id');
     commentModel.showEditReportComment();
     $('#view-replies-popup').modal('show');
+}
+function ShowDisableCommentReported(event) {
+    commentModel.report_id = $(event).data('report_id');
+    $('#disable-commentReported').modal('show');
+}
+function SaveDisableCommentReported() {
+    commentModel.saveDisableCommentReported();
+}
+function ShowEnableCommentReported(event) {
+    commentModel.report_id = $(event).data('report_id');
+    $('#enable-commentReported').modal('show');
+}
+function SaveEnableCommentReported() {
+    commentModel.saveEnableCommentReported();
+}
+function ShowFirstDeleteReportedComment(event) {
+    commentModel.report_id = $(event).data('report_id');
+    commentModel.showFirstDeleteReportedComment();
+    $('#delete-commentReported').modal('show');
+}
+function ShowSecondDeleteReportedComment() {
+    commentModel.showSecondDeleteReportedComment();
+}
+function ConfirmDeleteReportedComment() {
+    $('#form-deleteReportedComment').validate({
+        rules: {
+            confirmDeleteReportedComment: {
+                required: true,
+                confirmCommentInput: true
+            },
+        },
+    });
+    var validatedata = $("#form-deleteReportedComment").valid();
+    if (validatedata == true) {
+        commentModel.confirmDeleteReportedComment();
+    }
+}
+function ShowRemoveReportedComment(event) {
+    commentModel.report_id = $(event).data('report_id');
+    $('#reject-commentReported').modal('show');
 }

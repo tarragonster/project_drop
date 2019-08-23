@@ -14,7 +14,7 @@
 }
 
 .submenu-title{
-    font-weight: 900;
+    font-weight: 600;
     font-size: 20px;
     display: block;
     margin-top: 30px;
@@ -270,6 +270,7 @@ table.dataTable thead .sorting_desc:after {
     font-weight: 500;
     font-size: 11px;
     color: #9B9B9B;
+    letter-spacing: 0.73px;
 }
 
 .view-comment-click{
@@ -290,12 +291,12 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .style-content-block{
-    margin-top: 0;
+    margin-top: 0!important;
 }
 
 .backProduct-btn{
     text-decoration: none;
-    font-weight: 900;
+    font-weight: 600;
     font-size: 12px;
     color: #403F3F;
 }
@@ -321,7 +322,7 @@ table.dataTable thead .sorting_desc:after {
     padding: 2px 4px;
 
     color: #ffffff;
-    font-weight: 900;
+    font-weight: 600;
     font-size: 11px;
 }
 
@@ -338,8 +339,8 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .table-block.dataTable thead
-.sorting:before, table.dataTable thead
-.sorting_asc:before, table.dataTable thead
+.sorting:before, .table-block.dataTable thead
+.sorting_asc:before, .table-block.dataTable thead
 .sorting_desc:before {
     top: 28%;
 }
@@ -429,7 +430,7 @@ table.dataTable thead .sorting_desc:after {
 .outer-text-dis span{
     display: block;
     width: 100%;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 31px;
     text-align: center;
     color: #403F3F;
@@ -545,7 +546,7 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .replies-tag{
-    font-weight: 900;
+    font-weight: 600;
     font-size: 11px;
     color: #9B9B9B;
 }
@@ -654,4 +655,50 @@ table.dataTable thead .sorting_desc:after {
 
 .header_statusheader-crp{
     width: 19%;
+}
+#delete-reportedComment-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 76px!important;
+    padding-right:76px!important;
+    padding-bottom: 28px!important;
+}
+
+#commentReported-confirm-delete-error{
+     position: absolute;
+     top: 33px;
+     padding-left: 21px;
+     color: #E62C30;
+     width: 100%;
+}
+
+.noSortHeaderActions{
+    width: 6%;
+}
+
+.outer-comment-tab{
+    overflow-y: scroll;
+}
+
+/** width *!*/
+.outer-comment-tab::-webkit-scrollbar{
+    width: 8px;
+}
+
+/* Track */
+.outer-comment-tab::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+.outer-comment-tab::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.outer-comment-tab::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

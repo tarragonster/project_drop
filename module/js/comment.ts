@@ -50,14 +50,14 @@ class Comments{
         })
     }
 
-    showFirstDeleteModal(){
+    showFirstDeleteCommentReplies(){
         this.url = '/comment/firstModalDelete/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-content').html(data.content)
         })
     }
-    showSecondDeleteModal(){
+    showSecondDeleteCommentReplies(){
         this.url = '/comment/secondModalDelete/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
@@ -65,11 +65,11 @@ class Comments{
         })
     }
 
-    confirmDeleteComment(){
+    confirmDeleteCommentReplies(){
         this.url = '/comment/deleteComment/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
-            $('#delete-comment').modal('hide');
+            $('#delete-comment-box').modal('hide');
             location.reload();
         })
     }
@@ -173,6 +173,47 @@ class Comments{
 
         })
     }
+
+    saveDisableCommentReported(){
+        this.url = '/comment/disableCommentReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    saveEnableCommentReported(){
+        this.url = '/comment/enableCommentReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    showFirstDeleteReportedComment(){
+        this.url = '/comment/showFirstDeleteReportedComment/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-reportedComment-content').html(data.content)
+
+        })
+    }
+    showSecondDeleteReportedComment(){
+        this.url = '/comment/showSecondDeleteReportedComment/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-reportedComment-content').html(data.content)
+
+        })
+    }
+
+    confirmDeleteReportedComment(){
+        this.url = '/comment/confirmDeleteReportedComment/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
 }
 
 let commentModel = Comments.object;
@@ -195,29 +236,29 @@ function SaveEnableComment(){
     commentModel.saveEnableComment();
 }
 
-function ShowFirstDeleteComment(event){
+function ShowFirstDeleteCommentReplies(event){
     commentModel.comment_id = $(event).data('comment_id')
-    commentModel.showFirstDeleteModal()
-    $('#delete-comment').modal('show')
+    commentModel.showFirstDeleteCommentReplies()
+    $('#delete-comment-box').modal('show')
 }
 
-function ShowSecondDeleteComment(){
-    commentModel.showSecondDeleteModal()
+function ShowSecondDeleteCommentReplies(){
+    commentModel.showSecondDeleteCommentReplies()
 }
 
-function ConfirmDeleteComment(){
+function ConfirmDeleteCommentReplies(){
     $('#form-deleteComment').validate({
         rules: {
             confirmDeleteComment: {
                 required: true,
-                confirmInput:true
+                confirmCommentInput:true
             },
 
         },
     });
     let validatedata = $("#form-deleteComment").valid();
     if(validatedata ==true){
-        commentModel.confirmDeleteComment()
+        commentModel.confirmDeleteCommentReplies()
     }
 }
 
@@ -226,7 +267,7 @@ $(document).ready(function(){
         ignore: []
     });
 
-    $.validator.addMethod("confirmInput", function(value, element) {
+    $.validator.addMethod("confirmCommentInput", function(value, element) {
         if(this.optional(element) || value == "DELETE-COMMENT") {
             return true;
         }else{
@@ -255,8 +296,6 @@ $(document).ready(function () {
             $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
         }, 0);
     });
-
-
 });
 
 function ShowDisableCommentBox(event){
@@ -313,7 +352,7 @@ function ConfirmDeleteReply(){
         rules: {
             confirmReplyComment: {
                 required: true,
-                confirmInput:true
+                confirmCommentInput:true
             },
 
         },
@@ -367,8 +406,55 @@ function EditCommentReportNote(){
 }
 
 function ShowEditReportComment(event){
-    commentModel.report_id = $(event).data('report_id')
+    commentModel.report_id = $(event).data('report_id');
     commentModel.showEditReportComment()
     $('#view-replies-popup').modal('show');
 
 }
+
+function ShowDisableCommentReported(event){
+    commentModel.report_id = $(event).data('report_id');
+    $('#disable-commentReported').modal('show')
+}
+
+function SaveDisableCommentReported(){
+    commentModel.saveDisableCommentReported()
+}
+
+function ShowEnableCommentReported(event){
+    commentModel.report_id = $(event).data('report_id');
+    $('#enable-commentReported').modal('show')
+}
+
+function SaveEnableCommentReported(){
+    commentModel.saveEnableCommentReported()
+}
+function ShowFirstDeleteReportedComment(event){
+    commentModel.report_id = $(event).data('report_id');
+    commentModel.showFirstDeleteReportedComment()
+    $('#delete-commentReported').modal('show')
+}
+function ShowSecondDeleteReportedComment(){
+    commentModel.showSecondDeleteReportedComment()
+}
+
+function ConfirmDeleteReportedComment(){
+    $('#form-deleteReportedComment').validate({
+        rules: {
+            confirmDeleteReportedComment: {
+                required: true,
+                confirmCommentInput:true
+            },
+        },
+    });
+    let validatedata = $("#form-deleteReportedComment").valid();
+    if(validatedata == true){
+        commentModel.confirmDeleteReportedComment()
+    }
+}
+
+function ShowRemoveReportedComment(event){
+    commentModel.report_id = $(event).data('report_id');
+    $('#reject-commentReported').modal('show')
+}
+

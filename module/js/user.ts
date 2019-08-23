@@ -260,8 +260,14 @@ class User{
         this.url = '/user/ShowCommentReplies/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
-            $('#view-user-content').html('');
-            $('#view-user-content').html(data.content)
+            if(location.pathname.split('/')[1] == 'user'){
+                $('#view-user-content').html('');
+                $('#view-user-content').html(data.content)
+            }
+            if(location.pathname.split('/')[1] == 'comment'){
+                $('#view-replies-content').html('');
+                $('#view-replies-content').html(data.content)
+            }
         })
     }
 
@@ -371,6 +377,10 @@ class User{
             model.active = 'profile';
             $('#delete-comment-like').modal('hide')
         })
+    }
+
+    ShowReportedCommentUser(){
+
     }
 
 }
@@ -646,7 +656,12 @@ function ShowCommentReplies(event){
 function BackComments(event){
     model.comment_id = $(event).data('comment_id')
     model.active = 'comments';
-    model.showUserProfile();
+    if(location.pathname.split('/')[1] == 'user'){
+        model.showUserProfile();
+    }
+    if(location.pathname.split('/')[1] == 'comment'){
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 
@@ -850,6 +865,14 @@ function ConfirmDeleteCommentLike(){
 }
 
 function ShowCommentUser(event){
+    model.isProfile =true
+    model.isEdit= false
+    model.user_id = $(event).data('user_id');
+    model.showCommentUser()
+    $('#view-replies-popup').modal('show');
+}
+
+function ShowReportedCommentUser(event){
     model.isProfile =true
     model.isEdit= false
     model.user_id = $(event).data('user_id');

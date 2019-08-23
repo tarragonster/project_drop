@@ -53,7 +53,7 @@ class User extends Base_Controller {
             'dt' => array('label' => 'Version'),
             'joined' => array('label' => 'Create Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
-            'Actions' => array('label' => 'Action', 'sorting' => false));
+            'Actions' => array('label' => 'Actions', 'sorting' => false));
 
 		$pinfo = array(
 			'from' => $per_page * ($page - 1) + 1,
@@ -81,9 +81,6 @@ class User extends Base_Controller {
             //todo Get pick by user_ids
             $picks = $this->user_model->getAllPick($user_ids);
             $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
-            //todo Get Version by user_ids
-            $version = $this->user_model->getVersion($user_ids);
-            $version= Hash::combine($version,'{n}.id','{n}','{n}.user_id');
         }
 
         foreach ($users as $key=>$value){
@@ -102,7 +99,7 @@ class User extends Base_Controller {
             $users[$key]['sum_like'] = $users[$key]['total_like'] + $users[$key]['total_cm_like'] + $users[$key]['total_pd_like'];
         }
 
-		$userData['users']=$users;
+        $userData['users']=$users;
         $userData['headers'] = $headers;
         $userData['conditions'] = $conditions;
         $userData['paging'] = $paging;

@@ -48,10 +48,10 @@ class Comment extends Base_Controller {
             'img' => array('label' => '', 'sorting' => false),
             'product_id' => array('label' => 'Story ID', 'sorting' => true),
             'name' => array('label' => 'Story Name', 'sorting' => true),
-            'num_episode' => array('label' => '# of Blocks', 'sorting' => true),
-            'num_comment'=> array('label' => '# of Comments', 'sorting' => true),
+            'total_episodes' => array('label' => '# of Blocks', 'sorting' => true),
+            'total_comments'=> array('label' => '# of Comments', 'sorting' => true),
             'pv_status' => array('label' => 'Status', 'sorting' => true),
-            'Actions' => array('label' => 'Action', 'sorting' => false));
+            'Actions' => array('label' => 'Actions', 'sorting' => false));
 
         $pinfo = array(
             'from' => $per_page * ($page - 1) + 1,
@@ -60,23 +60,22 @@ class Comment extends Base_Controller {
         );
 
         $products = $this->comment_model->getAllProducts($conditions,$page - 1);
-        $product_ids = Hash::combine($products, '{n}.product_id','{n}.product_id');
-
-        $episodes = $this->comment_model->getAllEpisode($product_ids);
-        $episodes = Hash::combine($episodes,'{n}.episode_id','{n}','{n}.product_id');
-
-        $comments = $this->comment_model->getAllComment($product_ids);
-        $comments = Hash::combine($comments,'{n}.comment_id','{n}','{n}.product_id');
-
-
-        foreach ($products as $key=>$value) {
-            $products[$key]['episodes'] = !empty($episodes[$value['product_id']])?$episodes[$value['product_id']]:[];
-            $products[$key]['total_episodes'] = count($products[$key]['episodes']) > 0 ? count($products[$key]['episodes']):'0';
-            $products[$key]['comments'] = !empty($comments[$value['product_id']])?$comments[$value['product_id']]:[];
-            $products[$key]['total_comments'] = count($products[$key]['comments']) > 0 ? count($products[$key]['comments']):'0';
-        }
-
 //        pre_print($products);
+//        $product_ids = Hash::combine($products, '{n}.product_id','{n}.product_id');
+//
+//        $episodes = $this->comment_model->getAllEpisode($product_ids);
+//        $episodes = Hash::combine($episodes,'{n}.episode_id','{n}','{n}.product_id');
+//
+//        $comments = $this->comment_model->getAllComment($product_ids);
+//        $comments = Hash::combine($comments,'{n}.comment_id','{n}','{n}.product_id');
+
+
+//        foreach ($products as $key=>$value) {
+//            $products[$key]['episodes'] = !empty($episodes[$value['product_id']])?$episodes[$value['product_id']]:[];
+//            $products[$key]['total_episodes'] = count($products[$key]['episodes']) > 0 ? count($products[$key]['episodes']):'0';
+//            $products[$key]['comments'] = !empty($comments[$value['product_id']])?$comments[$value['product_id']]:[];
+//            $products[$key]['total_comments'] = count($products[$key]['comments']) > 0 ? count($products[$key]['comments']):'0';
+//        }
 
         $params['sub_id'] = 91;
         $params['headers'] = $headers;
@@ -137,9 +136,9 @@ class Comment extends Base_Controller {
             'episode_id' => array('label' => 'Block ID', 'sorting' => true),
             'position' => array('label' => 'Block #', 'sorting' => true),
             'ep_name' => array('label' => 'Block Name', 'sorting' => true),
-            'num_comments'=> array('label' => '# of Comments', 'sorting' => true),
+            'total_comments'=> array('label' => '# of Comments', 'sorting' => true),
             'e_status' => array('label' => 'Status', 'sorting' => true),
-            'Actions' => array('label' => 'Action', 'sorting' => false));
+            'Actions' => array('label' => 'Actions', 'sorting' => false));
 
         $pinfo = array(
             'from' => $per_page * ($page - 1) + 1,
@@ -148,17 +147,17 @@ class Comment extends Base_Controller {
         );
 
         $blocks = $this->comment_model->getAllBlocks($product_id,$conditions,$page - 1);
-        $block_ids = Hash::combine($blocks,'{n}.episode_id','{n}.episode_id');
+//        $block_ids = Hash::combine($blocks,'{n}.episode_id','{n}.episode_id');
 
-        if(!empty($blocks)) {
-            $comments = $this->comment_model->getBlockComments($block_ids);
-            $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.episode_id');
-        }
-
-        foreach ($blocks as $key=>$value) {
-            $blocks[$key]['comments'] = !empty($comments[$value['episode_id']])?$comments[$value['episode_id']]:[];
-            $blocks[$key]['total_comment'] = count($blocks[$key]['comments']) > 0 ? count($blocks[$key]['comments']):'0';
-        }
+//        if(!empty($blocks)) {
+//            $comments = $this->comment_model->getBlockComments($block_ids);
+//            $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.episode_id');
+//        }
+//
+//        foreach ($blocks as $key=>$value) {
+//            $blocks[$key]['comments'] = !empty($comments[$value['episode_id']])?$comments[$value['episode_id']]:[];
+//            $blocks[$key]['total_comment'] = count($blocks[$key]['comments']) > 0 ? count($blocks[$key]['comments']):'0';
+//        }
 
         $params['headers'] = $headers;
         $params['conditions'] = $conditions;
@@ -356,11 +355,11 @@ class Comment extends Base_Controller {
             'comment_id' => array('label' => 'Comment ID', 'sorting' => true),
             'full_name' => array('label' => 'Username', 'sorting' => true),
             'content'=> array('label' => 'Content', 'sorting' => true),
-            'num_likes'=> array('label' => 'Likes', 'sorting' => true),
-            'num_replies'=> array('label' => 'Replies', 'sorting' => true),
+            'total_like'=> array('label' => 'Likes', 'sorting' => true),
+            'total_reply'=> array('label' => 'Replies', 'sorting' => true),
             'timestamp'=> array('label' => 'Create Date', 'sorting' => true),
             'status' => array('label' => 'Status', 'sorting' => true),
-            'Actions' => array('label' => 'Action', 'sorting' => false));
+            'Actions' => array('label' => 'Actions', 'sorting' => false));
 
         $pinfo = array(
             'from' => $per_page * ($page - 1) + 1,
@@ -372,25 +371,25 @@ class Comment extends Base_Controller {
         $title_episode = $this->comment_model->getEpisodeName($episode_id);
 
         $comments = $this->comment_model->getCommentComments($episode_id,$conditions,$page - 1);
-        $comment_ids = Hash::combine($comments,'{n}.comment_id','{n}.comment_id');
 
-        if(!empty($comments)){
-            $comment_likes = $this->comment_model->getCommentLikes($comment_ids);
-            $comment_likes = Hash::combine($comment_likes,'{n}.id','{n}','{n}.comment_id');
+//        $comment_ids = Hash::combine($comments,'{n}.comment_id','{n}.comment_id');
 
-            $comment_replies = $this->comment_model->getCommentReplies($comment_ids);
-            $comment_replies = Hash::combine($comment_replies,'{n}.replies_id','{n}','{n}.comment_id');
-        }
-        foreach($comments as $key=>$value){
-            $comments[$key]['comment_likes'] = !empty($comment_likes[$value['comment_id']])?$comment_likes[$value['comment_id']]:[];
-            $comments[$key]['total_like'] = count($comments[$key]['comment_likes']) > 0 ? count($comments[$key]['comment_likes']):'0';
+//        if(!empty($comments)){
+//            $comment_likes = $this->comment_model->getCommentLikes($comment_ids);
+//            $comment_likes = Hash::combine($comment_likes,'{n}.id','{n}','{n}.comment_id');
+//
+//            $comment_replies = $this->comment_model->getCommentReplies($comment_ids);
+//            $comment_replies = Hash::combine($comment_replies,'{n}.replies_id','{n}','{n}.comment_id');
+//        }
+//        foreach($comments as $key=>$value){
+//            $comments[$key]['comment_likes'] = !empty($comment_likes[$value['comment_id']])?$comment_likes[$value['comment_id']]:[];
+//            $comments[$key]['total_like'] = count($comments[$key]['comment_likes']) > 0 ? count($comments[$key]['comment_likes']):'0';
+//
+//            $comments[$key]['comment_replies'] = !empty($comment_replies[$value['comment_id']])?$comment_replies[$value['comment_id']]:[];
+//            $comments[$key]['total_reply'] = count($comments[$key]['comment_replies']) > 0 ? count($comments[$key]['comment_replies']):'0';
+//
+//        }
 
-            $comments[$key]['comment_replies'] = !empty($comment_replies[$value['comment_id']])?$comment_replies[$value['comment_id']]:[];
-            $comments[$key]['total_reply'] = count($comments[$key]['comment_replies']) > 0 ? count($comments[$key]['comment_replies']):'0';
-
-        }
-
-//        pre_print($comments);
 
         $params['headers'] = $headers;
         $params['conditions'] = $conditions;
@@ -538,5 +537,36 @@ class Comment extends Base_Controller {
         $data['content'] = $this->load->view('admin/comments/edit_report_ajax',$param,true);
 
         $this->ajaxSuccess($data);
+    }
+
+    public function disableCommentReported($report_id){
+        $this->comment_model->disableCommentReported($report_id);
+        $this->ajaxSuccess();
+    }
+
+    public function enableCommentReported($report_id){
+        $this->comment_model->enableCommentReported($report_id);
+        $this->ajaxSuccess();
+    }
+
+    public function showFirstDeleteReportedComment($report_id){
+        $param =[];
+        $data = [];
+        $data['test'] = '1';
+        $data['content'] = $this->load->view('admin/comments/deleteReportedComment_firstModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function showSecondDeleteReportedComment($report_id){
+        $param =[];
+        $data = [];
+        $data['test'] = '1';
+        $data['content'] = $this->load->view('admin/comments/deleteReportedComment_secondModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function confirmDeleteReportedComment($report_id){
+	    $this->comment_model->confirmDeleteReportedComment($report_id);
+        $this->ajaxSuccess();
     }
 }

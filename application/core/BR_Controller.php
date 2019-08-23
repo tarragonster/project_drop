@@ -9,6 +9,7 @@ class BR_Controller extends REST_Controller {
 	protected $device_type = 'Android';
 	protected $app_version = '0.0.1';
 	protected $build_number = '1';
+	protected $user = null;
 	protected $user_id = 0;
 	static $ALLOW_HEADERS = 'Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data,X-User-Agents';
 
@@ -68,6 +69,18 @@ class BR_Controller extends REST_Controller {
 				$this->load->library('oauths');
 				if (!$this->oauths->validate($this->user_id, $this->access_token)) {
 					$this->create_error(-1002);
+				}
+
+				$this->user = $this->user_model->get($this->user_id);
+				if ($this->user == null) {
+					$this->create_error(-1002);
+				}
+				if ($this->app_version != '0.0.1' && ($this->user['device_os'] != $this->device_type || $this->user['app_version'] != $this->app_version || $this->user['build_number'] != $this->build_number)) {
+					$this->user_model->update([
+						'device_os' => $this->device_type,
+						'app_version' => $this->app_version,
+						'build_number' => $this->build_number,
+					], $this->user_id);
 				}
 				return true;
 			}

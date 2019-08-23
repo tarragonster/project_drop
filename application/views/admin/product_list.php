@@ -21,7 +21,7 @@
                 <div class="outer-search dataTables_filter">
                     <i class="fa fa-search"></i>
                     <input name='key' value="<?php echo isset($conditions['key']) ? $conditions['key'] : '' ?>"
-                           type="search" class="form-control input-sm" placeholder="Search Users"/>
+                           type="search" class="form-control input-sm" placeholder="Search Stories"/>
                 </div>
                 <button type="submit" class="btn-nothing" name="cmd" value="nothing" style="display: none;">&nbsp;
                 </button>
@@ -46,7 +46,7 @@
                                                 </div>
                                             </td>
                                             <td class="header-item-content item-style"><?php echo $row['product_id'] ?></td>
-                                            <td class="header-item-content item-style" style="font-weight: 900!important;">
+                                            <td class="header-item-content item-style" style="font-weight: 600!important;">
                                                 <?php echo $row['name'] ?><br>
                                             </td>
                                             <td class="header-item-content item-style"><?php echo $row['total_episodes'] ?></td>
@@ -54,11 +54,11 @@
                                             <td class="header-item-content item-style"><?php echo $row['total_comments'] ?></td>
 
                                             <?php if ($row['pv_status'] == 1) { ?>
-                                                <td class="header-item-content item-style status-tb" style="font-weight: 900!important;"><img
+                                                <td class="header-item-content item-style status-tb" style="font-weight: 600!important;"><img
                                                             src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span
                                                             class="text-uppercase">Enabled</span></td>
                                             <?php } elseif ($row['pv_status'] == 0) { ?>
-                                                <td class="header-item-content item-style status-tb" style="font-weight: 900!important;"><img
+                                                <td class="header-item-content item-style status-tb" style="font-weight: 600!important;"><img
                                                             src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;<span
                                                             class="text-uppercase">Disabled</span></td>
                                             <?php } ?>

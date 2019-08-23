@@ -8,14 +8,14 @@
     You will not be able to undo this.
     </span>
 </div>
-<form action="" id="form-deleteComment">
+<form action="" id="form-deleteReportedComment">
     <div class="outer-input">
-        <input type="text" name="confirmDeleteComment" id="comment-confirm-delete">
+        <input type="text" name="confirmDeleteReportedComment" id="commentReported-confirm-delete">
     </div>
 </form>
 
 <div class="outer-btn">
     <button class="btn-confirm" data-dismiss="modal">Cancel</button>
-    <button class="btn-confirm" style="background: #E62C30;" onclick="ConfirmDeleteCommentReplies()">Delete</button>
+    <button class="btn-confirm" style="background: #E62C30;" onclick="ConfirmDeleteReportedComment()">Delete</button>
 </div>
 
