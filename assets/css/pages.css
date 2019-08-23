@@ -754,7 +754,7 @@ File: Pages
 }
 .u-countdown div span:first-child {
   font-size: 3em;
-  font-weight: 700;
+  font-weight: 600;
   height: 48px;
   line-height: 48px;
 }
@@ -1286,7 +1286,7 @@ File: Pages
 .price_card .name {
   display: block;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 0 0 30px;
   text-align: center;
   width: 100%;
@@ -1355,7 +1355,7 @@ File: Pages
 }
 .pricing-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 40px;
   position: relative;
   text-transform: uppercase;
@@ -1375,7 +1375,7 @@ File: Pages
 }
 .pricing-num {
   font-size: 40px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
 }
 .pricing-num sup {
@@ -1713,7 +1713,7 @@ File: Pages
 .ex-page-content .text-error {
   color: #252932;
   font-size: 98px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 150px;
 }
 .ex-page-content .text-error i {

@@ -1031,7 +1031,7 @@ table.dataTable thead .sorting_desc:after {
     display: block;
     width: 100%;
     font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 31px;
     text-align: center;
     color: #403F3F;

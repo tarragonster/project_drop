@@ -253,7 +253,7 @@ File: Helper clasess
   font-weight: 600;
 }
 .font-bold {
-  font-weight: 700;
+  font-weight: 600;
 }
 .font-normal {
   font-weight: normal;
@@ -1084,7 +1084,7 @@ File: Topbar,Left-sidebar,Right-sidebar
 .logo {
   color: #ffffff !important;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: .05em;
   line-height: 60px;
   text-transform: uppercase;

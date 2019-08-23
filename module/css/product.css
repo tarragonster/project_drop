@@ -208,7 +208,7 @@ table.dataTable thead .sorting_desc:after {
 }
 .modal-content .modal-description h2 {
     letter-spacing: 2.28px;
-    font-weight: 700;
+    font-weight: 600;
     color: #4A4A4A;
     font-size: 31px;
 }

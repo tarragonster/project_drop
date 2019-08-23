@@ -31,13 +31,13 @@
                                             <tr>
                                                 <td class="header-item-content item-style"> <span style="margin-left: 14px"><?php echo $row['report_id'] ?></span></td>
                                                 <td class="header-item-content item-style">
-                                                    <span style="font-weight: 900"><?php echo $row['reported_name'] ?></span><br>
+                                                    <span style="font-weight: 600"><?php echo $row['reported_name'] ?></span><br>
                                                     <span>@<?php echo $row['reported_short'] ?></span>
                                                 </td>
 
                                                 <td class="header-item-content item-style"><?php echo $row['content'] ?></td>
                                                 <td class="header-item-content item-style">
-                                                    <span style="font-weight: 900"><?php echo $row['reporter_name'] ?></span><br>
+                                                    <span style="font-weight: 600"><?php echo $row['reporter_name'] ?></span><br>
                                                     <span>@<?php echo $row['reporter_short'] ?></span>
                                                 </td>
                                                 <td class="header-item-content item-style"><?php echo date('m/d/Y h:iA', $row['created_at'])  ?></td>
@@ -85,7 +85,7 @@
                                                             <?php } ?>
                                                             <?php if($row['status'] == 'pending' || $row['status'] == 'rejected' || $row['status'] == 'deleted'){ ?>
                                                                 <li class="text-uppercase <?php echo $row['status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowDisableUserReported(this)">
+                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowDisableCommentrReported(this)">
                                                                     <a class="drp-items"><span>
                                                                 Disable Comment
                                                             </span></a>
