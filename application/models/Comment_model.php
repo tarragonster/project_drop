@@ -241,10 +241,11 @@ class Comment_model extends BaseModel {
     public function getAllComment($product_ids){
         $this->db->select('s.*,e.*,c.*');
         $this->db->where_in('s.product_id',$product_ids);
+        $this->db->where('c.is_deleted = 0');
         $this->db->from('season s');
         $this->db->join('episode e','e.season_id = s.season_id');
         $this->db->join('comments c', 'c.episode_id = e.episode_id');
-        $this->db->where('c.status = 0');
+
         $data = $this->db->get()->result_array();
         return $data;
     }

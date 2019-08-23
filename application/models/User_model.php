@@ -435,6 +435,15 @@ class User_model extends BaseModel {
     protected function makeQuery($conditions = array()) {
 	    $this->db->select('u.*, u.status as user_status');
         $this->db->where('u.is_deleted',0);
+
+        if (!empty($conditions['get_status']) && $conditions['get_status'] == 'enabled') {
+            $this->db->where('u.status',1);
+        }
+
+        if (!empty($conditions['get_status']) && $conditions['get_status'] == 'disabled') {
+            $this->db->where('u.status',0);
+        }
+
 	    $this->db->from('user u');
 
         if (!empty($conditions['key'])) {

@@ -1327,7 +1327,7 @@ table.dataTable thead .sorting_desc:after {
 /*}*/
 
 .view-status-outer > ul > li{
-    padding-left: 20px;
+    /*padding-left: 20px;*/
     cursor: pointer;
 }
 
