@@ -198,7 +198,7 @@
 							<span>Explore</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('collection'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 4 ? ' active' : ''; ?>">
+						<a href="<?php echo base_url('collection/carousel'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 4 ? ' active' : ''; ?>">
 							<?php if (isset($parent_id) && $parent_id == 4) { ?>
 								<img src="<?php echo base_url('assets/images/left-sidebar/Collections-active.svg') ?> " alt="Collections">
 							<?php } else { ?>
