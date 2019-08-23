@@ -24,7 +24,7 @@
 
 @font-face {
     font-family: "Avenir Next";
-    font-weight: 700;
+    font-weight: 600;
     font-style: normal;
     src: local('Avenir Next Bold'), local('AvenirNext-Bold'), url('AvenirNext-DemiBold.woff') format('woff'),
     url('AvenirNext-DemiBold.ttf')  format('truetype');
