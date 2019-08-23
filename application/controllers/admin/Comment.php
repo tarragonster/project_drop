@@ -12,7 +12,7 @@ class Comment extends Base_Controller {
         $this->load->model("comment_model");
 	}
 
-	public function index($page = 1) {
+	public function stories($page = 1) {
         $conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
 
@@ -30,7 +30,7 @@ class Comment extends Base_Controller {
         } else {
             $per_page = 25;
         }
-        $config['base_url'] = base_url('comment');
+        $config['base_url'] = base_url('comment/stories');
         $config['total_rows'] = $this->comment_model->countAllProduct($conditions);
         $config['per_page'] = $per_page;
         $config['cur_page'] = $page;

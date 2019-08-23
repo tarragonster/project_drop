@@ -5,7 +5,7 @@
         </div>
         <div class="submenu-content">
             <div class="cover-submenu-item">
-                <a href="<?php echo base_url('comment'); ?>"
+                <a href="<?php echo base_url('comment/stories'); ?>"
                    class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 91 ? ' active-mnu' : ''; ?>">Comments</a>
             </div>
             <div class="cover-submenu-item">
@@ -23,7 +23,7 @@
                             <div id="comment_table">
                                 <div class="backProduct-title">
                                     <div class="backProduct-outer">
-                                        <a class="backProduct-btn" href="<?php echo base_url('comment'); ?>">< Back to Stories</a>
+                                        <a class="backProduct-btn" href="<?php echo base_url('comment/stories'); ?>">< Back to Stories</a>
                                     </div>
                                     <span class="tag-product"><?php echo $title[0]['name'] ?></span>
                                 </div>

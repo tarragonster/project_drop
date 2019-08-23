@@ -5,7 +5,7 @@
         </div>
         <div class="submenu-content">
             <div class="cover-submenu-item">
-                <a href="<?php echo base_url('comment'); ?>"
+                <a href="<?php echo base_url('comment/stories'); ?>"
                    class="submenu-item text-uppercase <?php echo isset($sub_id) && $sub_id == 91 ? ' active-mnu' : ''; ?>">Comments</a>
             </div>
             <div class="cover-submenu-item">

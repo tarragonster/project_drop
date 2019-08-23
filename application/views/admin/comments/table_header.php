@@ -21,7 +21,7 @@
                 $conditions['inverse'] = 1;
                 $class = 'sorting';
             }
-            $url = base_url('comment') . '?' . http_build_query($conditions);
+            $url = base_url('comment/stories') . '?' . http_build_query($conditions);
             echo '<th th-header-url="' . $url . '" class="'. ShowHeaderFAQ($row['label']). ' th-header ' . $class.'"><span style="margin-left: 14px;">'. $row['label'] . '</span></th>';
         } else
             echo '<th class="noSortHeader'.$row['label'] .' "><span style="margin-left: 14px;">'. (is_array($row) ? $row['label'] : $row) . '</span></th>';
