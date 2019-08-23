@@ -53,7 +53,7 @@ class User extends Base_Controller {
             'dt' => array('label' => 'Version'),
             'joined' => array('label' => 'Create Date'),
             'status' => array('label' => 'Status', 'sorting' => true),
-            'Actions' => array('label' => 'Action', 'sorting' => false));
+            'Actions' => array('label' => 'Actions', 'sorting' => false));
 
 		$pinfo = array(
 			'from' => $per_page * ($page - 1) + 1,

@@ -12,5 +12,5 @@
 
 <div class="outer-btn">
     <button class="btn-confirm" data-dismiss="modal">Cancel</button>
-    <button class="btn-confirm" style="background: #E62C30;" onclick="ShowSecondDeleteComment()">Remove</button>
+    <button class="btn-confirm" style="background: #E62C30;" onclick="ShowSecondDeleteCommentReplies()">Remove</button>
 </div>

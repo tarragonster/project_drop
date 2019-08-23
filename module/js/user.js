@@ -205,8 +205,14 @@ var User = /** @class */ (function () {
         this.url = '/user/ShowCommentReplies/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
-            $('#view-user-content').html('');
-            $('#view-user-content').html(data.content);
+            if (location.pathname.split('/')[1] == 'user') {
+                $('#view-user-content').html('');
+                $('#view-user-content').html(data.content);
+            }
+            if (location.pathname.split('/')[1] == 'comment') {
+                $('#view-replies-content').html('');
+                $('#view-replies-content').html(data.content);
+            }
         });
     };
     User.prototype.saveDisableUserReported = function () {
@@ -531,7 +537,12 @@ function ShowCommentReplies(event) {
 function BackComments(event) {
     model.comment_id = $(event).data('comment_id');
     model.active = 'comments';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowTabProfile() {

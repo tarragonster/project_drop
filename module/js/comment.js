@@ -29,25 +29,25 @@ var Comments = /** @class */ (function () {
             location.reload();
         });
     };
-    Comments.prototype.showFirstDeleteModal = function () {
+    Comments.prototype.showFirstDeleteCommentReplies = function () {
         this.url = '/comment/firstModalDelete/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-content').html(data.content);
         });
     };
-    Comments.prototype.showSecondDeleteModal = function () {
+    Comments.prototype.showSecondDeleteCommentReplies = function () {
         this.url = '/comment/secondModalDelete/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-content').html(data.content);
         });
     };
-    Comments.prototype.confirmDeleteComment = function () {
+    Comments.prototype.confirmDeleteCommentReplies = function () {
         this.url = '/comment/deleteComment/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
-            $('#delete-comment').modal('hide');
+            $('#delete-comment-box').modal('hide');
             location.reload();
         });
     };
@@ -190,15 +190,15 @@ function ShowEnableComment(event) {
 function SaveEnableComment() {
     commentModel.saveEnableComment();
 }
-function ShowFirstDeleteComment(event) {
+function ShowFirstDeleteCommentReplies(event) {
     commentModel.comment_id = $(event).data('comment_id');
-    commentModel.showFirstDeleteModal();
-    $('#delete-comment').modal('show');
+    commentModel.showFirstDeleteCommentReplies();
+    $('#delete-comment-box').modal('show');
 }
-function ShowSecondDeleteComment() {
-    commentModel.showSecondDeleteModal();
+function ShowSecondDeleteCommentReplies() {
+    commentModel.showSecondDeleteCommentReplies();
 }
-function ConfirmDeleteComment() {
+function ConfirmDeleteCommentReplies() {
     $('#form-deleteComment').validate({
         rules: {
             confirmDeleteComment: {
@@ -209,7 +209,7 @@ function ConfirmDeleteComment() {
     });
     var validatedata = $("#form-deleteComment").valid();
     if (validatedata == true) {
-        commentModel.confirmDeleteComment();
+        commentModel.confirmDeleteCommentReplies();
     }
 }
 $(document).ready(function () {
