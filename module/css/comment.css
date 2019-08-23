@@ -655,3 +655,21 @@ table.dataTable thead .sorting_desc:after {
 .header_statusheader-crp{
     width: 19%;
 }
+#delete-reportedComment-content{
+    border: none!important;
+    height:100%;
+    width: 100%;
+
+    padding-top: 24px!important;
+    padding-left: 76px!important;
+    padding-right:76px!important;
+    padding-bottom: 28px!important;
+}
+
+#commentReported-confirm-delete-error{
+     position: absolute;
+     top: 33px;
+     padding-left: 21px;
+     color: #E62C30;
+     width: 100%;
+ }

@@ -56,7 +56,7 @@
                                                         <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;
                                                         <span class="text-uppercase">Report Removed</span>
                                                     </td>
-                                                <?php }elseif ($row['report_status'] == 'deleted'){ ?>
+                                                <?php }elseif ($row['status'] == 'deleted'){ ?>
                                                     <td class="header-item-content item-style status-tb">
                                                         <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;
                                                         <span class="text-uppercase">User Deleted</span>
@@ -92,7 +92,7 @@
                                                                 </li>
                                                             <?php }else{ ?>
                                                                 <li class="text-uppercase"
-                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowEnableUserReported(this)">
+                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowEnableCommentReported(this)">
                                                                     <a class="drp-items"><span>
                                                                 Enable Comment
                                                             </span></a>
@@ -101,18 +101,18 @@
                                                             <li class="text-uppercase
                                                                 <?php echo $row['status'] == 'rejected' ? "dis-btn" : ""; ?>
                                                                 <?php echo $row['status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowRemoveReport(this)">
+                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowRemoveReportedComment(this)">
                                                                 <a class="drp-items"><span>
                                                                 Remove Report
                                                             </span></a>
                                                             </li>
                                                             <li class="text-uppercase <?php echo $row['status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                                data-user_id="<?= $row['comment_id'] ?>" onclick="ShowFirstDeleteReported(this)"><a
+                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowFirstDeleteReportedComment(this)"><a
                                                                         class="drp-items"><span>
                                                                 Delete Comment</span></a>
                                                             </li>
                                                             <li class="text-uppercase"
-                                                                data-user_id="<?= $row['comment_id'] ?>" onclick="ShowUserProfile(this)">
+                                                                data-user_id="<?= $row['user_id'] ?>" onclick="ShowReportedCommentUser(this)">
                                                                 <a class="drp-items"><span>
                                                                 View User
                                                             </span></a>
@@ -174,3 +174,4 @@
 </div>
 
 <?php $this->load->view('admin/modals/modal_comment') ?>
+<?php $this->load->view('admin/modals/modal_user') ?>
