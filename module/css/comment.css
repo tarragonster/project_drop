@@ -270,6 +270,7 @@ table.dataTable thead .sorting_desc:after {
     font-weight: 500;
     font-size: 11px;
     color: #9B9B9B;
+    letter-spacing: 0.73px;
 }
 
 .view-comment-click{
@@ -672,4 +673,32 @@ table.dataTable thead .sorting_desc:after {
      padding-left: 21px;
      color: #E62C30;
      width: 100%;
- }
+}
+
+.noSortHeaderActions{
+    width: 6%;
+}
+
+.outer-comment-tab{
+    overflow-y: scroll;
+}
+
+/** width *!*/
+.outer-comment-tab::-webkit-scrollbar{
+    width: 8px;
+}
+
+/* Track */
+.outer-comment-tab::-webkit-scrollbar-track {
+    background: #ffffff;
+}
+
+/* Handle */
+.outer-comment-tab::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.outer-comment-tab::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

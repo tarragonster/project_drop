@@ -39,7 +39,7 @@
                                                 <td class="header-item-content item-style"><?php echo $row['position'] ?></td>
 
                                                 <td class="header-item-content item-style"><?php echo $row['ep_name'] ?></td>
-                                                <td class="header-item-content item-style"><?php echo $row['total_comment']  ?></td>
+                                                <td class="header-item-content item-style"><?php echo $row['total_comments']  ?></td>
 
                                                 <?php if ($row['e_status'] == 1) { ?>
                                                     <td class="header-item-content item-style status-tb" style="font-weight: 600!important;"><img

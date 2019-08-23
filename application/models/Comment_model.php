@@ -173,7 +173,7 @@ class Comment_model extends BaseModel {
 
 	public function getAllProducts($conditions = array(), $page = 0){
         $this->makeQuery($conditions);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('product_id','name','status'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('product_id','name','pv_status','total_episodes','total_comments'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             } else {
@@ -211,8 +211,11 @@ class Comment_model extends BaseModel {
     }
 
     protected function makeQuery($conditions = array()){
-	    $this->db->select('pv.*, pv.status as pv_status,');
+	    $this->db->select('pv.*, pv.status as pv_status, if(ec.total_episodes is null, 0, ec.total_episodes) as total_episodes, if(cc.total_comments is null, 0, cc.total_comments) as total_comments');
         $this->db->from('product_view pv');
+        $this->db->join('(select s.product_id, count(*) as total_episodes from episode e inner join season s on s.season_id = e.season_id group by s.product_id) as ec', 'ec.product_id = pv.product_id', 'left');
+        $this->db->join('(select s.product_id, count(*) as total_comments from comments c inner join episode e on c.episode_id = e.episode_id 
+                          inner join season s on s.season_id = e.season_id group by s.product_id) as cc', 'cc.product_id = pv.product_id', 'left');
 
         if (!empty($conditions['key'])) {
             $this->makeSearchQuery(['lower(pv.product_id)','lower(pv.name)','lower(pv.status)'], strtolower($conditions['key']));
@@ -261,7 +264,7 @@ class Comment_model extends BaseModel {
 
     public function countAllBlock($product_id,$conditions){
         $this->makeQueryBlock($product_id);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('episode_id','position', 'ep_name','e_status'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('episode_id','position', 'ep_name','e_status,','total_comments'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             }else {
@@ -275,10 +278,11 @@ class Comment_model extends BaseModel {
     }
 
     public function makeQueryBlock($product_id){
-	    $this->db->select('s.*,e.*,e.status as e_status,e.name as ep_name');
+	    $this->db->select('s.*,e.*,e.status as e_status,e.name as ep_name,if(cc.total_comments is null, 0, cc.total_comments) as total_comments');
 	    $this->db->where('s.product_id',$product_id);
 	    $this->db->from('season s');
 	    $this->db->join('episode e','e.season_id=s.season_id');
+        $this->db->join('(select e.episode_id, count(*) as total_comments from comments c inner join episode e on c.episode_id = e.episode_id group by e.episode_id) as cc', 'cc.episode_id = e.episode_id', 'left');
 
     }
 
@@ -309,8 +313,10 @@ class Comment_model extends BaseModel {
 	    $this->db->select('c.*');
 	    $this->db->where_in('c.episode_id',$block_ids);
 	    $this->db->from('comments c');
+        $this->db->where('c.is_deleted',0);
 
-	    return $this->db->get()->result_array();
+
+        return $this->db->get()->result_array();
     }
 
     public function getStoryName($episode_id){
@@ -354,7 +360,7 @@ class Comment_model extends BaseModel {
 
     public function getCommentComments($episode_id,$conditions = array(), $page = 0){
         $this->makeQueryComment($episode_id);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('comment_id','full_name', 'content','timestamp','status'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('comment_id','full_name', 'content','timestamp','status','total_like','total_reply'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             }else {
@@ -376,10 +382,15 @@ class Comment_model extends BaseModel {
     }
 
     public function makeQueryComment($episode_id){
-	    $this->db->select('c.*,u.full_name,u.user_name');
+	    $this->db->select('c.*,u.full_name,u.user_name,if(cls.total_like is null, 0, cls.total_like) as total_like,if(crs.total_reply is null, 0, crs.total_reply) as total_reply');
 	    $this->db->where('c.episode_id',$episode_id);
 	    $this->db->from('comments c');
+	    $this->db->where('c.is_deleted',0);
 	    $this->db->join('user u','c.user_id=u.user_id','LEFT');
+        $this->db->join('(select c.comment_id, count(*) as total_like from comment_like cl inner join comments c on cl.comment_id = c.comment_id group by c.comment_id) as cls', 'cls.comment_id = c.comment_id', 'left');
+        $this->db->join('(select c.comment_id, count(*) as total_reply from comment_replies cr inner join comments c on cr.comment_id = c.comment_id group by c.comment_id) as crs', 'crs.comment_id = c.comment_id', 'left');
+
+
     }
 
     public function getCommentLikes($comment_ids){
@@ -442,7 +453,7 @@ class Comment_model extends BaseModel {
     }
 
     public function getReplies($comment_id){
-	    $this->db->select('cr.replies_id,cr.user_id,cr.status,cr.content,cr.timestamp,u.user_name');
+	    $this->db->select('cr.replies_id,cr.user_id,cr.status,cr.content,cr.timestamp,u.user_name as replies_username');
 	    $this->db->where('comment_id',$comment_id);
 	    $this->db->from('comment_replies cr');
 	    $this->db->join('user u','u.user_id=cr.user_id');

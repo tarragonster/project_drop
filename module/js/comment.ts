@@ -50,14 +50,14 @@ class Comments{
         })
     }
 
-    showFirstDeleteModal(){
+    showFirstDeleteCommentReplies(){
         this.url = '/comment/firstModalDelete/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-content').html(data.content)
         })
     }
-    showSecondDeleteModal(){
+    showSecondDeleteCommentReplies(){
         this.url = '/comment/secondModalDelete/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
@@ -65,11 +65,11 @@ class Comments{
         })
     }
 
-    confirmDeleteComment(){
+    confirmDeleteCommentReplies(){
         this.url = '/comment/deleteComment/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
-            $('#delete-comment').modal('hide');
+            $('#delete-comment-box').modal('hide');
             location.reload();
         })
     }
@@ -236,17 +236,17 @@ function SaveEnableComment(){
     commentModel.saveEnableComment();
 }
 
-function ShowFirstDeleteComment(event){
+function ShowFirstDeleteCommentReplies(event){
     commentModel.comment_id = $(event).data('comment_id')
-    commentModel.showFirstDeleteModal()
-    $('#delete-comment').modal('show')
+    commentModel.showFirstDeleteCommentReplies()
+    $('#delete-comment-box').modal('show')
 }
 
-function ShowSecondDeleteComment(){
-    commentModel.showSecondDeleteModal()
+function ShowSecondDeleteCommentReplies(){
+    commentModel.showSecondDeleteCommentReplies()
 }
 
-function ConfirmDeleteComment(){
+function ConfirmDeleteCommentReplies(){
     $('#form-deleteComment').validate({
         rules: {
             confirmDeleteComment: {
@@ -258,7 +258,7 @@ function ConfirmDeleteComment(){
     });
     let validatedata = $("#form-deleteComment").valid();
     if(validatedata ==true){
-        commentModel.confirmDeleteComment()
+        commentModel.confirmDeleteCommentReplies()
     }
 }
 
@@ -296,8 +296,6 @@ $(document).ready(function () {
             $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
         }, 0);
     });
-
-
 });
 
 function ShowDisableCommentBox(event){

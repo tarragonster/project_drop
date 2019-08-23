@@ -52,7 +52,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="delete-comment" tabindex="-1" role="dialog">
+<div class="modal fade" id="delete-comment-box" tabindex="-1" role="dialog">
     <div class="modal-dialog outer-delete" role="document">
         <div class="modal-content" style="padding: 0px" id="delete-content">
 

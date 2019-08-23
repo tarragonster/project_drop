@@ -62,7 +62,7 @@
                             <?php } ?>
                             <li class="text-uppercase"
                                 data-comment_id="<?= $mainComment[0]['comment_id'] ?>"
-                                onclick="ShowFirstDeleteModal(this)"><a
+                                onclick="ShowFirstDeleteCommentReplies(this)"><a
                                         class="drp-items"><span>Delete Comment</span></a>
                             </li>
                             <li class="text-uppercase"
@@ -77,7 +77,7 @@
         <div class="replies-section">
             <?php if (isset($replies) && is_array($replies)) { ?>
                 <?php foreach ($replies as $key => $row) { ?>
-                    <span class="comment-username reply-username">@<?php echo $row['user_name'] ?></span>
+                    <span class="comment-username reply-username">@<?php echo $row['replies_username'] ?></span>
                     <div class="outer-replies-box">
                         <div class="comment-box replies-box" style="background: #9B9B9B!important;">
                             <div class="top-comment-box">

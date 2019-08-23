@@ -78,7 +78,7 @@
                                                             <?php } ?>
                                                             <li class="text-uppercase"
                                                                 data-comment_id="<?= $row['comment_id']  ?>"
-                                                                onclick="ShowFirstDeleteComment(this)"><a class="drp-items"><span>Delete Comment</span></a>
+                                                                onclick="ShowFirstDeleteCommentReplies(this)"><a class="drp-items"><span>Delete Comment</span></a>
                                                             </li>
                                                             <li class="text-uppercase"
                                                                 data-user_id="<?= $row['user_id']  ?>"
@@ -141,3 +141,4 @@
 </div>
 
 <?php $this->load->view('admin/modals/modal_comment') ?>
+<?php $this->load->view('admin/modals/modal_user') ?>

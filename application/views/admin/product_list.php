@@ -21,7 +21,7 @@
                 <div class="outer-search dataTables_filter">
                     <i class="fa fa-search"></i>
                     <input name='key' value="<?php echo isset($conditions['key']) ? $conditions['key'] : '' ?>"
-                           type="search" class="form-control input-sm" placeholder="Search Users"/>
+                           type="search" class="form-control input-sm" placeholder="Search Stories"/>
                 </div>
                 <button type="submit" class="btn-nothing" name="cmd" value="nothing" style="display: none;">&nbsp;
                 </button>
