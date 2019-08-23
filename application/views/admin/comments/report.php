@@ -85,7 +85,7 @@
                                                             <?php } ?>
                                                             <?php if($row['status'] == 'pending' || $row['status'] == 'rejected' || $row['status'] == 'deleted'){ ?>
                                                                 <li class="text-uppercase <?php echo $row['status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowDisableCommentrReported(this)">
+                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowDisableCommentReported(this)">
                                                                     <a class="drp-items"><span>
                                                                 Disable Comment
                                                             </span></a>
