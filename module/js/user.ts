@@ -373,6 +373,10 @@ class User{
         })
     }
 
+    ShowReportedCommentUser(){
+
+    }
+
 }
 
 let model = User.object;
@@ -850,6 +854,14 @@ function ConfirmDeleteCommentLike(){
 }
 
 function ShowCommentUser(event){
+    model.isProfile =true
+    model.isEdit= false
+    model.user_id = $(event).data('user_id');
+    model.showCommentUser()
+    $('#view-replies-popup').modal('show');
+}
+
+function ShowReportedCommentUser(event){
     model.isProfile =true
     model.isEdit= false
     model.user_id = $(event).data('user_id');

@@ -173,6 +173,47 @@ class Comments{
 
         })
     }
+
+    saveDisableCommentReported(){
+        this.url = '/comment/disableCommentReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    saveEnableCommentReported(){
+        this.url = '/comment/enableCommentReported/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
+
+    showFirstDeleteReportedComment(){
+        this.url = '/comment/showFirstDeleteReportedComment/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-reportedComment-content').html(data.content)
+
+        })
+    }
+    showSecondDeleteReportedComment(){
+        this.url = '/comment/showSecondDeleteReportedComment/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#delete-reportedComment-content').html(data.content)
+
+        })
+    }
+
+    confirmDeleteReportedComment(){
+        this.url = '/comment/confirmDeleteReportedComment/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            location.reload()
+        })
+    }
 }
 
 let commentModel = Comments.object;
@@ -210,7 +251,7 @@ function ConfirmDeleteComment(){
         rules: {
             confirmDeleteComment: {
                 required: true,
-                confirmInput:true
+                confirmCommentInput:true
             },
 
         },
@@ -226,7 +267,7 @@ $(document).ready(function(){
         ignore: []
     });
 
-    $.validator.addMethod("confirmInput", function(value, element) {
+    $.validator.addMethod("confirmCommentInput", function(value, element) {
         if(this.optional(element) || value == "DELETE-COMMENT") {
             return true;
         }else{
@@ -313,7 +354,7 @@ function ConfirmDeleteReply(){
         rules: {
             confirmReplyComment: {
                 required: true,
-                confirmInput:true
+                confirmCommentInput:true
             },
 
         },
@@ -375,6 +416,47 @@ function ShowEditReportComment(event){
 
 function ShowDisableCommentReported(event){
     commentModel.report_id = $(event).data('report_id');
-    commentModel.showDisableCommentrReported()
+    $('#disable-commentReported').modal('show')
+}
+
+function SaveDisableCommentReported(){
+    commentModel.saveDisableCommentReported()
+}
+
+function ShowEnableCommentReported(event){
+    commentModel.report_id = $(event).data('report_id');
+    $('#enable-commentReported').modal('show')
+}
+
+function SaveEnableCommentReported(){
+    commentModel.saveEnableCommentReported()
+}
+function ShowFirstDeleteReportedComment(event){
+    commentModel.report_id = $(event).data('report_id');
+    commentModel.showFirstDeleteReportedComment()
+    $('#delete-commentReported').modal('show')
+}
+function ShowSecondDeleteReportedComment(){
+    commentModel.showSecondDeleteReportedComment()
+}
+
+function ConfirmDeleteReportedComment(){
+    $('#form-deleteReportedComment').validate({
+        rules: {
+            confirmDeleteReportedComment: {
+                required: true,
+                confirmCommentInput:true
+            },
+        },
+    });
+    let validatedata = $("#form-deleteReportedComment").valid();
+    if(validatedata == true){
+        commentModel.confirmDeleteReportedComment()
+    }
+}
+
+function ShowRemoveReportedComment(event){
+    commentModel.report_id = $(event).data('report_id');
+    $('#reject-commentReported').modal('show')
 }
 

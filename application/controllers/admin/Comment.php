@@ -539,4 +539,35 @@ class Comment extends Base_Controller {
 
         $this->ajaxSuccess($data);
     }
+
+    public function disableCommentReported($report_id){
+        $this->comment_model->disableCommentReported($report_id);
+        $this->ajaxSuccess();
+    }
+
+    public function enableCommentReported($report_id){
+        $this->comment_model->enableCommentReported($report_id);
+        $this->ajaxSuccess();
+    }
+
+    public function showFirstDeleteReportedComment($report_id){
+        $param =[];
+        $data = [];
+        $data['test'] = '1';
+        $data['content'] = $this->load->view('admin/comments/deleteReportedComment_firstModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function showSecondDeleteReportedComment($report_id){
+        $param =[];
+        $data = [];
+        $data['test'] = '1';
+        $data['content'] = $this->load->view('admin/comments/deleteReportedComment_secondModal',$param,true);
+        $this->ajaxSuccess($data);
+    }
+
+    public function confirmDeleteReportedComment($report_id){
+	    $this->comment_model->confirmDeleteReportedComment($report_id);
+        $this->ajaxSuccess();
+    }
 }
