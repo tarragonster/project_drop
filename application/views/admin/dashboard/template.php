@@ -178,7 +178,7 @@
 				<thead>
 				<tr>
 					<th>Story</th>
-					<th style="width: 100px">Reviews</th>
+					<th style="width: 100px">Comments</th>
 				</tr>
 				</thead>
 				<tbody id="commented-stories-body"></tbody>

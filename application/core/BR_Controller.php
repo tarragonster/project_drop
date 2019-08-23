@@ -9,6 +9,7 @@ class BR_Controller extends REST_Controller {
 	protected $device_type = 'Android';
 	protected $app_version = '0.0.1';
 	protected $build_number = '1';
+	protected $user = null;
 	protected $user_id = 0;
 	static $ALLOW_HEADERS = 'Content-Type,x-requested-with,Access-Control-Allow-Origin,Authorization-Data,X-User-Agents';
 
@@ -69,6 +70,18 @@ class BR_Controller extends REST_Controller {
 				if (!$this->oauths->validate($this->user_id, $this->access_token)) {
 					$this->create_error(-1002);
 				}
+
+				$this->user = $this->user_model->get($this->user_id);
+				if ($this->user == null) {
+					$this->create_error(-1002);
+				}
+				if ($this->app_version != '0.0.1' && ($this->user['device_os'] != $this->device_type || $this->user['app_version'] != $this->app_version || $this->user['build_number'] != $this->build_number)) {
+					$this->user_model->update([
+						'device_os' => $this->device_type,
+						'app_version' => $this->app_version,
+						'build_number' => $this->build_number,
+					], $this->user_id);
+				}
 				return true;
 			}
 		}
@@ -115,7 +128,7 @@ class BR_Controller extends REST_Controller {
 		-6 => 'Sorry, this username is already in use',
 		-7 => 'Not change any information',
 		-8 => 'Field invalid',
-		-9 => 'This email does not exist in our system.',
+		-9 => 'Sorry this email is not linked to an existing account.',
 		-10 => 'This uid does not exist in our system.',
 		-11 => 'Can\'t to create conversations',
 		-12 => 'This conversation is not exists',

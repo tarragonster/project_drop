@@ -228,4 +228,109 @@ class Collection extends Base_Controller {
 		header('Content-Type: application/json');
 		echo json_encode($items);
 	}
+
+	//==================================================================================================================
+	public function sortable($collection_id) {
+		$collection = $this->collection_model->getCollectionById($collection_id);
+		if ($collection == null) {
+			redirect('collection');
+		}
+
+		header('Content-Type: application/json');
+		$response = ['success' => false];
+		if ($this->input->server('REQUEST_METHOD') == 'POST') {
+			$positions = $this->input->post('positions');
+
+			$product_ids = array_keys($positions);
+			foreach ($product_ids as $key => $product_id) {
+				$this->collection_model->updatePriority($collection_id, $product_id, $key + 1);
+			}
+			$response['success'] = true;
+		}
+		echo json_encode($response);
+	}
+
+	public function carousel() {
+		$this->load->model("product_model");
+		$this->load->library('hash');
+		$carousel_products = $this->product_model->getListProductByCollection(5);
+		if ($carousel_products == null) {
+			$params['page_index'] = 'empty_carousel';
+		} else {
+			$preview_ids = Hash::combine($carousel_products, '{n}.product_id', '{n}.product_id');
+
+			$comments = $this->product_model->getAllComment($preview_ids);
+			$comments = Hash::combine($comments, '{n}.comment_id', '{n}', '{n}.product_id');
+
+			$likes = $this->product_model->getAllLike($preview_ids);
+			$likes = Hash::combine($likes, '{n}.id', '{n}', '{n}.product_id');
+
+			$picks = $this->product_model->getAllPick($preview_ids);
+			$picks = Hash::combine($picks, '{n}.pick_id', '{n}', '{n}.product_id');
+
+			foreach ($carousel_products as $key => $value) {
+				$carousel_products[$key]['comments'] = !empty($comments[$value['product_id']]) ? $comments[$value['product_id']] : [];
+				$carousel_products[$key]['total_cmt'] = count($carousel_products[$key]['comments']);
+
+				$carousel_products[$key]['likes'] = !empty($likes[$value['product_id']]) ? $likes[$value['product_id']] : [];
+				$carousel_products[$key]['total_like'] = count($carousel_products[$key]['likes']);
+
+				$carousel_products[$key]['picks'] = !empty($picks[$value['product_id']]) ? $picks[$value['product_id']] : [];
+				$carousel_products[$key]['total_pick'] = count($carousel_products[$key]['picks']);
+			}
+			$params = [
+				'page_index' => 'collection_carousel',
+				'page_base' => 'collection/carousel',
+				'carousel_products' => $carousel_products
+			];
+		}
+		$this->customCss[] = 'module/css/submenu.css';
+		$this->customCss[] = 'module/css/genre.css';
+		$this->customCss[] = 'module/css/explore.css';
+		$this->customJs[] = 'module/js/coreTable.js';
+		$this->customJs[] = 'module/js/collection_carousel.js';
+		$this->render('/collection/collection_layout', $params, 4, 41);
+	}
+
+	public function trending() {
+		$this->load->model("product_model");
+		$this->load->library('hash');
+		$trending_products =  $this->product_model->getListProductByCollection(1);
+		if ($trending_products == null) {
+			$params['page_index'] = 'empty_trending';
+		} else {
+			$preview_ids = Hash::combine($trending_products, '{n}.product_id', '{n}.product_id');
+
+			$comments = $this->product_model->getAllComment($preview_ids);
+			$comments = Hash::combine($comments, '{n}.comment_id', '{n}', '{n}.product_id');
+
+			$likes = $this->product_model->getAllLike($preview_ids);
+			$likes = Hash::combine($likes, '{n}.id', '{n}', '{n}.product_id');
+
+			$picks = $this->product_model->getAllPick($preview_ids);
+			$picks = Hash::combine($picks, '{n}.pick_id', '{n}', '{n}.product_id');
+
+			foreach ($trending_products as $key => $value) {
+				$trending_products[$key]['comments'] = !empty($comments[$value['product_id']]) ? $comments[$value['product_id']] : [];
+				$trending_products[$key]['total_cmt'] = count($trending_products[$key]['comments']);
+
+				$trending_products[$key]['likes'] = !empty($likes[$value['product_id']]) ? $likes[$value['product_id']] : [];
+				$trending_products[$key]['total_like'] = count($trending_products[$key]['likes']);
+
+				$trending_products[$key]['picks'] = !empty($picks[$value['product_id']]) ? $picks[$value['product_id']] : [];
+				$trending_products[$key]['total_pick'] = count($trending_products[$key]['picks']);
+			}
+			$params = [
+				'page_index' => 'collection_trending',
+				'page_base' => 'collection/trending',
+				'trending_products' => $trending_products
+			];
+		}
+		$this->customCss[] = 'module/css/submenu.css';
+		$this->customCss[] = 'module/css/genre.css';
+		$this->customCss[] = 'module/css/explore.css';
+		$this->customJs[] = 'module/js/coreTable.js';
+		$this->customJs[] = 'module/js/collection_carousel.js';
+		$this->render('/collection/collection_layout', $params, 4, 41);
+	}
 }

@@ -121,4 +121,9 @@ class Collection_model extends BaseModel {
 		return $query->result_array();
 	}
 
+	public function updatePriority($collection_id, $product_id, $priority) {
+		$this->db->where('collection_id', $collection_id);
+		$this->db->where('product_id', $product_id);
+		$this->db->update('collection_product', ['priority' => $priority]);
+	}
 }

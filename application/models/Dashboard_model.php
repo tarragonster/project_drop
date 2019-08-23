@@ -262,31 +262,31 @@ class Dashboard_model extends CI_Model {
 		$review_chart['data'] = $data;
 		$params['review_chart'] = $review_chart;
 
-		$most_watched_blocks = $this->getWatchedBlocks($secondStart, $endDate);
+		$most_watched_blocks = $this->getWatchedBlocks($startDate, $endDate);
 		$params['most_watched_blocks_data'] = $this->genTableData($most_watched_blocks, ['episode_id', 'season_id', 'season_name']);
 
-		$most_review_stories = $this->getMostReviewStories($secondStart, $endDate);
+		$most_review_stories = $this->getMostReviewStories($startDate, $endDate);
 		$params['most_review_stories_data'] = $this->genTableData($most_review_stories, ['product_id']);
 
-		$most_liked_blocks = $this->getMostLikedBlocks($secondStart, $endDate);
+		$most_liked_blocks = $this->getMostLikedBlocks($startDate, $endDate);
 		$params['most_liked_blocks_data'] = $this->genTableData($most_liked_blocks, ['episode_id', 'season_id', 'season_name']);
 
-		$most_shared_stories = $this->getMostSharedStories($secondStart, $endDate);
+		$most_shared_stories = $this->getMostSharedStories($startDate, $endDate);
 		$params['most_shared_stories_data'] = $this->genTableData($most_shared_stories, ['story_id']);
 
-		$most_commented_blocks = $this->getMostCommentedBlocks($secondStart, $endDate);
+		$most_commented_blocks = $this->getMostCommentedBlocks($startDate, $endDate);
 		$params['most_commented_blocks_data'] = $this->genTableData($most_commented_blocks, ['episode_id', 'season_id', 'season_name']);
 
-		$most_commented_stories = $this->getMostCommentedStories($secondStart, $endDate);
+		$most_commented_stories = $this->getMostCommentedStories($startDate, $endDate);
 		$params['most_commented_stories_data'] = $this->genTableData($most_commented_stories, ['product_id']);
 
-		$age_demographic = $this->getAgeDemographic($secondStart, $endDate);
+		$age_demographic = $this->getAgeDemographic($startDate, $endDate);
 		$params['age_demographic'] = $age_demographic;
 
-		$top_searched = $this->getTopSearched($secondStart, $endDate);
+		$top_searched = $this->getTopSearched($startDate, $endDate);
 		$params['top_searched'] = $top_searched;
 
-		$most_followers = $this->getMostFollower($secondStart, $endDate);
+		$most_followers = $this->getMostFollower($startDate, $endDate);
 		$params['most_followers_data'] = $this->genMostFollowerData($most_followers);
 
 		return $params;
@@ -466,7 +466,7 @@ class Dashboard_model extends CI_Model {
 		$this->db->join('(select follower_id, count(*) as num_of_followers from user_follow group by follower_id) as uf', 'u.user_id = uf.follower_id');
 		$sub_query = 'select follower_id, count(*) as new_followers from user_follow';
 		$sub_query .= ' where ';
-		$sub_query .= '1488799243 >= ' . $from . ' and 1488799243 < ' . $to;
+		$sub_query .= 'timestamp >= ' . $from . ' and timestamp < ' . $to;
 		$sub_query .= ' group by follower_id';
 		$this->db->join('(' . $sub_query . ') as uf2', 'u.user_id = uf2.follower_id', 'left');
 		$this->db->order_by('new_followers desc');
