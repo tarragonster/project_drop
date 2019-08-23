@@ -442,7 +442,7 @@
 }
 .modal-adjust .row-info .tag-location .local-territory{
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     color: #403F3F;
     margin: 8px 0 0;
 }
@@ -1199,7 +1199,7 @@ th {
 }
 .modal-description h2 {
     font-size: 31px;
-    font-weight: 700;
+    font-weight: 600;
 }
 .modal-description {
     color: #4A4A4A;

@@ -35,7 +35,7 @@
                             <span><?php echo $total_commentLike ?></span>
                         </div>
                     <?php } else { ?>
-                        <div class="header-item-content item-style status-tb" style="font-weight: 900!important;">
+                        <div class="header-item-content item-style status-tb" style="font-weight: 600!important;">
                             <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;
                             <span class="text-uppercase">Disabled</span>
                         </div>
@@ -96,7 +96,7 @@
                                     </div>
                                 <?php } else { ?>
                                     <div class="header-item-content item-style status-tb"
-                                         style="font-weight: 900!important;">
+                                         style="font-weight: 600!important;">
                                         <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;
                                         <span class="text-uppercase">Disabled</span>
                                     </div>

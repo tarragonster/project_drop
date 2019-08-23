@@ -241,10 +241,11 @@ class Comment_model extends BaseModel {
     public function getAllComment($product_ids){
         $this->db->select('s.*,e.*,c.*');
         $this->db->where_in('s.product_id',$product_ids);
+        $this->db->where('c.is_deleted = 0');
         $this->db->from('season s');
         $this->db->join('episode e','e.season_id = s.season_id');
         $this->db->join('comments c', 'c.episode_id = e.episode_id');
-        $this->db->where('c.status = 0');
+
         $data = $this->db->get()->result_array();
         return $data;
     }
@@ -518,7 +519,7 @@ class Comment_model extends BaseModel {
     }
 
     public function makeQueryReportComment($conditions = array()){
-        $this->db->select('crp.report_id,crp.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
+        $this->db->select('crp.report_id,crp.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
         $this->db->from('comment_reports crp');
         $this->db->join('comments c','crp.comment_id=c.comment_id');
         $this->db->join('user u1','c.user_id=u1.user_id');
@@ -537,5 +538,20 @@ class Comment_model extends BaseModel {
         $this->db->from('comment_reports');
 
         return $this->db->get()->result_array();
+    }
+
+    public function disableCommentReported($report_id){
+        $this->db->where('report_id',$report_id);
+        $this->db->update('comment_reports',['status'=>'disable']);
+    }
+
+    public function enableCommentReported($report_id){
+        $this->db->where('report_id',$report_id);
+        $this->db->update('comment_reports',['status'=>'rejected']);
+    }
+
+    public function confirmDeleteReportedComment($report_id){
+        $this->db->where('report_id',$report_id);
+        $this->db->update('comment_reports',['status'=>'deleted']);
     }
 }

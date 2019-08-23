@@ -42,11 +42,11 @@
                                                 <td class="header-item-content item-style"><?php echo $row['total_comment']  ?></td>
 
                                                 <?php if ($row['e_status'] == 1) { ?>
-                                                    <td class="header-item-content item-style status-tb" style="font-weight: 900!important;"><img
+                                                    <td class="header-item-content item-style status-tb" style="font-weight: 600!important;"><img
                                                                 src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span
                                                                 class="text-uppercase">Enabled</span></td>
                                                 <?php } elseif ($row['e_status'] == 0) { ?>
-                                                    <td class="header-item-content item-style status-tb" style="font-weight: 900!important;"><img
+                                                    <td class="header-item-content item-style status-tb" style="font-weight: 600!important;"><img
                                                                 src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;<span
                                                                 class="text-uppercase">Disabled</span></td>
                                                 <?php } ?>

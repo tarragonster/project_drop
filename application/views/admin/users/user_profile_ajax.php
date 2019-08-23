@@ -187,16 +187,16 @@
                                         </td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
                                         <?php if(!empty($row['comment_reportId'])){ ?>
-                                            <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
+                                            <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;">
                                                 <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="green">&nbsp;<span>Reported</span>
                                             </td>
                                         <?php }else{ ?>
                                             <?php if($row['comment_status'] == 1){ ?>
-                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
+                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;">
                                                     <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span>Active</span>
                                                 </td>
                                             <?php }elseif($row['comment_status'] == 0){ ?>
-                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
+                                                <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;">
                                                     <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;<span>Inactive</span>
                                                 </td>
                                             <?php } ?>
@@ -249,11 +249,11 @@
                                     </td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['created_at']) ?></td>
                                     <?php if($row['up_status'] == 1){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;">
                                             <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;<span>Active</span>
                                         </td>
                                     <?php }elseif($row['up_status'] == 0){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 900;">
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;">
                                             <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;<span>Inactive</span>
                                         </td>
                                     <?php } ?>
@@ -343,7 +343,7 @@
                             foreach ($like_product as $row): ?>
                                 <tr>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['product_id']; ?></td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 900;">
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;font-weight: 600;">
                                         <span style="font-weight: 600;!important;letter-spacing: 0.73px;"><?php echo $row['name']; ?></span>
                                     </td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Story</td>
