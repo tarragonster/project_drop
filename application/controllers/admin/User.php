@@ -102,7 +102,7 @@ class User extends Base_Controller {
             $users[$key]['sum_like'] = $users[$key]['total_like'] + $users[$key]['total_cm_like'] + $users[$key]['total_pd_like'];
         }
 
-		$userData['users']=$users;
+        $userData['users']=$users;
         $userData['headers'] = $headers;
         $userData['conditions'] = $conditions;
         $userData['paging'] = $paging;

@@ -290,7 +290,7 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .style-content-block{
-    margin-top: 0;
+    margin-top: 0!important;
 }
 
 .backProduct-btn{
@@ -338,8 +338,8 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .table-block.dataTable thead
-.sorting:before, table.dataTable thead
-.sorting_asc:before, table.dataTable thead
+.sorting:before, .table-block.dataTable thead
+.sorting_asc:before, .table-block.dataTable thead
 .sorting_desc:before {
     top: 28%;
 }
