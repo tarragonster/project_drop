@@ -295,7 +295,7 @@ function ShowEditReportComment(event) {
     commentModel.showEditReportComment();
     $('#view-replies-popup').modal('show');
 }
-function ShowDisableCommentrReported(event) {
+function ShowDisableCommentReported(event) {
     commentModel.report_id = $(event).data('report_id');
     commentModel.showDisableCommentrReported();
 }
