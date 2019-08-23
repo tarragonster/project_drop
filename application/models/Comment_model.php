@@ -197,7 +197,7 @@ class Comment_model extends BaseModel {
 
     public function countAllProduct($conditions = array()){
         $this->makeQuery($conditions);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('product_id','name','pv_status'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('product_id','name','pv_status','total_episodes','total_comments'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             } else {
@@ -348,11 +348,6 @@ class Comment_model extends BaseModel {
             }
         }else{
             $this->db->order_by('c.comment_id', 'desc');
-        }
-        if (!empty($conditions['per_page'])) {
-            $per_page = $conditions['per_page'] * 1;
-        } else {
-            $per_page = 25;
         }
 
         return $this->db->count_all_results();

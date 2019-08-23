@@ -207,7 +207,7 @@
 							<span>Collections</span></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url('comment'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>">
+						<a href="<?php echo base_url('comment/stories'); ?>" class="waves-effect<?php echo isset($parent_id) && $parent_id == 9 ? ' active' : ''; ?>">
                             <?php if (isset($parent_id) && $parent_id == 9) { ?>
                                 <img src= "<?php echo base_url('assets/images/left-sidebar/Comments-active.svg') ?>" alt="Comments">
                             <?php }else{ ?>
