@@ -503,7 +503,7 @@ class Comment_model extends BaseModel {
 
     public function getReports($conditions = array(),$page = 0) {
         $this->makeQueryReportComment($conditions);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id','reported_name', 'content','reporter_name','status'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id','reported_name', 'content','reporter_name','created_at','status'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             }else {
