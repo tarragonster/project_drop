@@ -240,6 +240,7 @@ class Comment extends Base_Controller {
 	}
 
 	public function reports($page = 1) {
+//	    $this->output->enable_profiler(true);
         $conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
         $this->load->library('pagination');
@@ -286,7 +287,7 @@ class Comment extends Base_Controller {
             'total' => $config['total_rows'],
         );
 
-        $reports = $this->comment_model->getReports($page - 1);
+        $reports = $this->comment_model->getReports($conditions,$page - 1);
 
         $params['headers'] = $headers;
         $params['conditions'] = $conditions;
