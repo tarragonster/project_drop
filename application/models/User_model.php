@@ -397,7 +397,7 @@ class User_model extends BaseModel {
 
 	public function getAllUsers($conditions = array(), $page = 0) {
         $this->makeQuery($conditions);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id','full_name', 'email', 'joined','status'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('user_id','full_name', 'email', 'joined','status', 'user_name'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             }else {

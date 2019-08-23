@@ -81,9 +81,6 @@ class User extends Base_Controller {
             //todo Get pick by user_ids
             $picks = $this->user_model->getAllPick($user_ids);
             $picks= Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
-            //todo Get Version by user_ids
-            $version = $this->user_model->getVersion($user_ids);
-            $version= Hash::combine($version,'{n}.id','{n}','{n}.user_id');
         }
 
         foreach ($users as $key=>$value){
