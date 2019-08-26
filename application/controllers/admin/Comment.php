@@ -118,8 +118,20 @@ class Comment extends Base_Controller {
             $per_page = 25;
         }
 
+        $seasons = $this->comment_model->getAllSeasons($product_id);
+        $season_ids = Hash::combine($seasons,'{n}.season_id','{n}.season_id');
+
+        if(!empty($seasons)) {
+            $blocks = $this->comment_model->getAllBlocks($season_ids,$product_id,$conditions,$page - 1);
+            $blocks= Hash::combine($blocks,'{n}.episode_id','{n}','{n}.season_id');
+        }
+
+        foreach ($seasons as $key=>$value) {
+            $seasons[$key]['blocks'] = !empty($blocks[$value['season_id']])?$blocks[$value['season_id']]:[];
+        }
+
         $config['base_url'] = base_url('comment/block/'.$product_id);
-        $config['total_rows'] = $this->comment_model->countAllBlock($product_id,$conditions);
+        $config['total_rows'] = $this->comment_model->countAllBlock($season_ids,$product_id,$conditions);
         $config['per_page'] = $per_page;
         $config['cur_page'] = $page;
         $config['add_query_string'] = TRUE;
@@ -146,18 +158,7 @@ class Comment extends Base_Controller {
             'total' => $config['total_rows'],
         );
 
-        $blocks = $this->comment_model->getAllBlocks($product_id,$conditions,$page - 1);
-//        $block_ids = Hash::combine($blocks,'{n}.episode_id','{n}.episode_id');
-
-//        if(!empty($blocks)) {
-//            $comments = $this->comment_model->getBlockComments($block_ids);
-//            $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.episode_id');
-//        }
-//
-//        foreach ($blocks as $key=>$value) {
-//            $blocks[$key]['comments'] = !empty($comments[$value['episode_id']])?$comments[$value['episode_id']]:[];
-//            $blocks[$key]['total_comment'] = count($blocks[$key]['comments']) > 0 ? count($blocks[$key]['comments']):'0';
-//        }
+//        pre_print($seasons);
 
         $params['headers'] = $headers;
         $params['conditions'] = $conditions;
@@ -165,7 +166,7 @@ class Comment extends Base_Controller {
         $params['pinfo'] = $pinfo;
         $params['title'] = $this->comment_model->getStory($product_id);
         $params['sub_id'] = 91;
-        $params['blocks'] = $blocks;
+        $params['seasons'] = $seasons;
 
         $content = $this->load->view('admin/comments/block_list', $params, true);
 

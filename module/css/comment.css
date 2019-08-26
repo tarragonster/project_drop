@@ -127,7 +127,7 @@ table.dataTable thead .sorting_desc:after {
     content: none; /* sort-by-attributes-alt */
 }
 
-.table > thead:first-child > tr:first-child > th{
+.table > thead > tr:first-child > th{
 
     padding-right: 0;
     font-weight: 500;
@@ -135,9 +135,10 @@ table.dataTable thead .sorting_desc:after {
     color: #9B9B9B;
     height: 36px;
     padding-top: 20px!important;
+    border: none!important;
 }
 
-.table > thead:first-child > tr:first-child > th:last-child span{
+.table > thead > tr:first-child > th:last-child span{
 
     margin-left: 0!important;
 
@@ -324,6 +325,8 @@ table.dataTable thead .sorting_desc:after {
     color: #ffffff;
     font-weight: 600;
     font-size: 11px;
+    margin-top: -8px;
+    position: absolute;
 }
 
 .submenu-content{
@@ -334,7 +337,7 @@ table.dataTable thead .sorting_desc:after {
     font-weight: 500!important;
 }
 
-.table-block > thead:first-child > tr:first-child > th{
+.table-block > thead > tr:first-child > th{
     padding-top: 1px!important;
 }
 
@@ -701,4 +704,9 @@ table.dataTable thead .sorting_desc:after {
 /* Handle on hover */
 .outer-comment-tab::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.backProduct-title{
+    padding: 0!important;
+    height: 30px!important;
 }
