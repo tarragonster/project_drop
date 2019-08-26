@@ -10,7 +10,7 @@
     <form action="" method='POST' id="form-user-update">
         <div class="row" style="margin: 0">
             <div class="modal-content group-popup outer-table-modal">
-                <span class="lead" style="font-weight: 600">Report Note</span>
+                <span class="lead" style="font-weight: 600!important;">Report Notes</span>
                 <div contenteditable class="form-control style-edit-input note-input"
                      style="min-height: 125px!important;margin-top: 25px!important;"
                      onkeyup="FillNote(this)"><?php echo $report[0]['report_note'] ?></div>
