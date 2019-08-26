@@ -407,6 +407,7 @@
 }
 .custom-tab label {
     color: #9B9B9B;
+    font-weight: 600;
 }
 #upload-img {
     margin-left: 60px; 
@@ -531,6 +532,6 @@
 .btn-group i:hover {
     cursor: pointer;
 }
-.modal .modal-dialog .modal-content {
+.modal .modal-dialog .modal-content-popup {
     text-align: center !important;
 }

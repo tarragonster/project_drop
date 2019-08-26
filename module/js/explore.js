@@ -93,28 +93,32 @@ $('#add-user').on('click', function (e) {
 function searchUser() {
 	var key = $('#user_key').val()
 	var html = ''
-	
-	$.ajax({
-		type: "POST",
-		dataType: "html",
-		data: {key:key},
-		url: BASE_APP_URL + 'explore/searchOtherUser',
-		success: function (data) {
-			if(data != 'null'){
-				var obj = JSON.parse(data);
-				html += "<ul id='result-search'>"
-				obj.forEach(function(item){
-					html += "<li class='result-item' data-id='" + item.user_id + "' data-value='" + item.full_name + ", @" + item.user_name + ", " + item.email + "'>"
-					html += "<a href='#' class='result-value'>" + item.full_name + ", @" + item.user_name + ", " + item.email + "</a></li>"
-				})
-				html += "</ul>"
-				$('#other_user').append(html)
-			}else {
-				$('#other_user').css('display', 'none')
+	if(key == '') {
+		$('#other_user').css('display', 'none')
+	}else {
+		$.ajax({
+			type: "POST",
+			dataType: "html",
+			data: {key:key},
+			url: BASE_APP_URL + 'explore/searchOtherUser',
+			success: function (data) {
+				if(data != 'null'){
+					var obj = JSON.parse(data);
+					html += "<ul id='result-search'>"
+					obj.forEach(function(item){
+						html += "<li class='result-item' data-id='" + item.user_id + "' data-value='" + item.full_name + ", @" + item.user_name + ", " + item.email + "'>"
+						html += "<a href='#' class='result-value'>" + item.full_name + ", @" + item.user_name + ", " + item.email + "</a></li>"
+					})
+					html += "</ul>"
+					$('#other_user').css('display', 'block')
+					$('#other_user').append(html)
+				}else {
+					$('#other_user').css('display', 'none')
+				}
 			}
-		}
-	});
-	$('#other_user').html('')
+		});
+		$('#other_user').html('')
+	}
 }
 
 $(document).on('click','.result-item',function(){
@@ -154,7 +158,7 @@ $('#add-story').on('click', function (e) {
 function searchStory() {
 	var key = $('#story_key').val();
 	var html = ''
-	if($('#story_key').val() == '') {
+	if(key == '') {
 		$('#other_story').css('display', 'none')
 	}else {
 		$.ajax({

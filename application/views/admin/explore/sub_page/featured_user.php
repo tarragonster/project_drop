@@ -119,7 +119,7 @@
 </div>
 
 <div class="modal fade" id="dis-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-action">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
@@ -136,7 +136,7 @@
 	</div>
 </div>
 <div class="modal fade" id="en-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-action">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
@@ -153,7 +153,7 @@
 	</div>
 </div>
 <div class="modal fade" id="del-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-action">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/quit.jpg')?>">

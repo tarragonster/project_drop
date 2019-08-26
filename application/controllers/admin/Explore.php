@@ -74,7 +74,7 @@ class Explore extends Base_Controller {
 		$featured_users = $this->featured_model->getUsers();
 		$user_ids = Hash::combine($featured_users,'{n}.user_id','{n}.user_id');
 		$other_users = $this->featured_model->searchOtherUsers($key, $user_ids);
-		if(!empty($other_products)) {
+		if(!empty($other_users)) {
 			echo json_encode($other_users);
 		}else {
 			echo json_encode(null);
@@ -190,7 +190,6 @@ class Explore extends Base_Controller {
 			echo json_encode($other_products);
 		}else {
 			echo json_encode(null);
-
 		}
 	}
 
