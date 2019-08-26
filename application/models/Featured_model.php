@@ -118,7 +118,7 @@ class Featured_model extends BaseModel {
 		$this->db->from('user u');
 		$this->db->where_not_in('u.user_id', $user_ids);
 		if (!empty($key)) {
-			$this->db->where('u.user_name like "%' . $key . '%" or u.full_name like "%' . $key . '%" or u.email like "%' . $key . '%"');
+			$this->makeSearchQuery(['user_name','full_name','email'], $key);
 		}
 		$this->db->limit(10);
 		return $this->db->get()->result_array();
