@@ -525,3 +525,12 @@
 .display-flex {
     margin-left: 0;
 }
+.section-content {
+    margin-bottom: 50px;
+}
+.btn-group i:hover {
+    cursor: pointer;
+}
+.modal .modal-dialog .modal-content {
+    text-align: center !important;
+}
