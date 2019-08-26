@@ -47,7 +47,7 @@
 		                                <span>DISABLED</span>
 	                                <?php else: ?>
 	                                	<i class="fa fa-circle text-success icon-size"></i>&nbsp;&nbsp;
-		                                <span>ENABLE</span>
+		                                <span>ENABLED</span>
 	                                <?php endif;?>
 	                            </div>
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="width: 60px">
@@ -56,7 +56,7 @@
 										<ul class="dropdown-menu" role="menu" style="min-width: 90px">
 											<div class="dropdown-arrow"></div>
 											<li class="edit-genre-btn" data-id="<?php echo $row['product_id']; ?>">
-												<a href="#">
+												<a href="<?php echo base_url('product/edit/' . $row['product_id'])?>">
 													View
 													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/edit.svg')?>"></span>
 												</a>
@@ -106,7 +106,7 @@
 </div>
 
 <div class="modal fade" id="dis-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-action">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
@@ -123,7 +123,7 @@
 	</div>
 </div>
 <div class="modal fade" id="en-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-action">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">

@@ -148,6 +148,10 @@
 					<li class="btn-export">
 						<button type="button" class="btn btn-header" id="add-user" data-toggle="modal" data-target="#add-user-popup">Add User</button>
 					</li>
+				<?php elseif (isset($sub_id) && $sub_id == 12): ?>
+					<li class="btn-export">
+						<button type="button" class="btn btn-header" id="add-story" data-toggle="modal" data-target="#add-story-popup">Add Story</button>
+					</li>
 				<?php endif; ?>
 			</div>
 		</div>
