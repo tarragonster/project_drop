@@ -176,3 +176,7 @@
 .icon-size {
     font-size: 60%;
 }
+.modal-dialog {
+    width: 462px;
+    height: 333px;
+}
