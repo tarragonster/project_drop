@@ -25,7 +25,9 @@
                                     <div class="backProduct-outer">
                                         <a class="backProduct-btn" href="<?php echo base_url('comment/blocks/'.$title_episode[0]['product_id']); ?>">< Back to Blocks</a>
                                     </div>
-                                    <span class="tag-product"><?php echo $title_product[0]['name'] ?> - <?php echo $title_episode[0]['name'] ?></span>
+                                </div>
+                                <div style="height: 30px">
+                                    <span class="tag-product" style="margin-top: 8px!important;"><?php echo $title_product[0]['name'] ?> - <?php echo $title_episode[0]['name'] ?></span>
                                 </div>
                                 <table id="example3 " class="table dataTable table-hover table-block">
                                     <?php $this->load->view('admin/comments/table_header_comment') ?>

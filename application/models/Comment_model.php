@@ -262,8 +262,16 @@ class Comment_model extends BaseModel {
         return $data;
     }
 
-    public function countAllBlock($product_id,$conditions){
-        $this->makeQueryBlock($product_id);
+    public function getAllSeasons($product_id){
+	    $this->db->select();
+	    $this->db->where('product_id',$product_id);
+	    $this->db->from('season');
+
+	    return $this->db->get()->result_array();
+    }
+
+    public function countAllBlock($season_ids,$product_id,$conditions){
+        $this->makeQueryBlock($season_ids,$product_id);
         if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('episode_id','position', 'ep_name','e_status,','total_comments'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
@@ -277,17 +285,17 @@ class Comment_model extends BaseModel {
         return $this->db->count_all_results();
     }
 
-    public function makeQueryBlock($product_id){
+    public function makeQueryBlock($season_ids,$product_id){
 	    $this->db->select('s.*,e.*,e.status as e_status,e.name as ep_name,if(cc.total_comments is null, 0, cc.total_comments) as total_comments');
 	    $this->db->where('s.product_id',$product_id);
+	    $this->db->where_in('e.season_id',$season_ids);
 	    $this->db->from('season s');
 	    $this->db->join('episode e','e.season_id=s.season_id');
         $this->db->join('(select e.episode_id, count(*) as total_comments from comments c inner join episode e on c.episode_id = e.episode_id group by e.episode_id) as cc', 'cc.episode_id = e.episode_id', 'left');
-
     }
 
-    public function getAllBlocks($product_id,$conditions = array(), $page = 0){
-        $this->makeQueryBlock($product_id);
+    public function getAllBlocks($season_ids,$product_id,$conditions = array(), $page = 0){
+        $this->makeQueryBlock($season_ids,$product_id);
         if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('episode_id','position', 'ep_name','e_status'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
