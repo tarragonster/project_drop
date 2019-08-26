@@ -245,6 +245,15 @@ class User{
 
         })
     }
+
+    showConfirmNote(){
+        this.url = '/user/confirmNote/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-note-content').html(data.content);
+
+        })
+    }
     removeComment(){
         this.url = '/user/deleteComment/' + this.comment_id;
         this.typereq = 'POST';
@@ -815,6 +824,13 @@ function ShowEditNote(event){
     model.report_id = $(event).data('report_id')
     $('#view-note-popup').modal('show')
     model.editReportNote()
+}
+
+function ShowConfirmNote(event){
+    model.report_id = $(event).data('report_id')
+    $('#view-note-popup').modal('show')
+    model.showConfirmNote()
+
 }
 
 function AddVerify(event){

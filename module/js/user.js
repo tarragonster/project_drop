@@ -190,6 +190,13 @@ var User = /** @class */ (function () {
             $('#view-note-content').html(data.content);
         });
     };
+    User.prototype.showConfirmNote = function () {
+        this.url = '/user/confirmNote/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-note-content').html(data.content);
+        });
+    };
     User.prototype.removeComment = function () {
         this.url = '/user/deleteComment/' + this.comment_id;
         this.typereq = 'POST';
@@ -670,6 +677,11 @@ function ShowEditNote(event) {
     model.report_id = $(event).data('report_id');
     $('#view-note-popup').modal('show');
     model.editReportNote();
+}
+function ShowConfirmNote(event) {
+    model.report_id = $(event).data('report_id');
+    $('#view-note-popup').modal('show');
+    model.showConfirmNote();
 }
 function AddVerify(event) {
     model.user_id = $(event).data('user_id');

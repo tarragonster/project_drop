@@ -92,9 +92,9 @@
                                                             </li>
                                                         <?php }else{ ?>
                                                             <li class="text-uppercase view-user-click"
-                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowEditNote(this)"><a
+                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowConfirmNote(this)"><a
                                                                         class="drp-items"><span>
-                                                                Edit Notes
+                                                                View Notes
                                                             </span></a>
                                                             </li>
                                                         <?php } ?>

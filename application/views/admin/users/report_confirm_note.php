@@ -10,9 +10,7 @@
             <div class="row" style="margin: 0">
                 <div class="modal-content group-popup outer-table-modal">
                     <span class="lead">Report Note</span>
-                    <div class="text-note-confirm"><span>This user was reported to do inappropriate
-                        content and will be disabled until the issue is fully
-                        handled.</span>
+                    <div class="text-note-confirm"><span><?php echo $report[0]['report_note'] ?></span>
                     </div>
                 </div>
             </div>
