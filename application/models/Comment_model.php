@@ -525,7 +525,7 @@ class Comment_model extends BaseModel {
     }
 
     public function makeQueryReportComment($conditions = array()){
-        $this->db->select('crp.report_id,crp.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
+        $this->db->select('crp.report_id,c.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
         $this->db->from('comment_reports crp');
         $this->db->join('comments c','crp.comment_id=c.comment_id');
         $this->db->join('user u1','c.user_id=u1.user_id');
