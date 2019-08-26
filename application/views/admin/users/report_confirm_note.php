@@ -9,7 +9,7 @@
         <form action="" method='POST' id="form-user-update">
             <div class="row" style="margin: 0">
                 <div class="modal-content group-popup outer-table-modal">
-                    <span class="lead">Report Note</span>
+                    <span class="lead" style="font-weight: 600!important;">Report Notes</span>
                     <div class="text-note-confirm"><span><?php echo $report[0]['report_note'] ?></span>
                     </div>
                 </div>
