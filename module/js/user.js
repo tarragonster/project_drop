@@ -55,7 +55,6 @@ var User = /** @class */ (function () {
         });
     };
     User.prototype.showCommentUser = function () {
-        $('#view-replies-content').html("");
         this.paramreq = {
             user_id: this.user_id,
             isEdit: this.isEdit,
@@ -186,6 +185,13 @@ var User = /** @class */ (function () {
     };
     User.prototype.editReportNote = function () {
         this.url = '/user/editNote/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-note-content').html(data.content);
+        });
+    };
+    User.prototype.showConfirmNote = function () {
+        this.url = '/user/confirmNote/' + this.report_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#view-note-content').html(data.content);
@@ -331,7 +337,12 @@ function ShowUserProfile(event) {
 function EditUserProfile(event) {
     model.isProfile = false;
     model.isEdit = true;
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.isEdit = false;
     model.isProfile = true;
 }
@@ -546,14 +557,24 @@ function BackComments(event) {
     model.active = 'profile';
 }
 function ShowTabProfile() {
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
 }
 function ShowTabComment() {
     model.isProfile = false;
     model.isEdit = false;
     model.isCreate = false;
     model.active = 'comments';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowTabPick() {
@@ -561,7 +582,12 @@ function ShowTabPick() {
     model.isEdit = false;
     model.isCreate = true;
     model.active = 'your-picks';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowTabWatch() {
@@ -569,7 +595,12 @@ function ShowTabWatch() {
     model.isEdit = false;
     model.isCreate = true;
     model.active = 'watch-list';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowTabThumbsup() {
@@ -577,7 +608,12 @@ function ShowTabThumbsup() {
     model.isEdit = false;
     model.isCreate = true;
     model.active = 'thumb-up';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowDisableUserReported(event) {
@@ -641,6 +677,11 @@ function ShowEditNote(event) {
     model.report_id = $(event).data('report_id');
     $('#view-note-popup').modal('show');
     model.editReportNote();
+}
+function ShowConfirmNote(event) {
+    model.report_id = $(event).data('report_id');
+    $('#view-note-popup').modal('show');
+    model.showConfirmNote();
 }
 function AddVerify(event) {
     model.user_id = $(event).data('user_id');

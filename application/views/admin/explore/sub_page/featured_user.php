@@ -52,7 +52,7 @@
 		                                <span>DISABLED</span>
 	                                <?php else: ?>
 	                                	<i class="fa fa-circle text-success icon-size"></i>&nbsp;&nbsp;
-		                                <span>ENABLE</span>
+		                                <span>ENABLED</span>
 	                                <?php endif;?>
 	                            </div>
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="width: 70px">
@@ -60,7 +60,7 @@
 										<i type="button" style="font-size: 36px; color: #c7c7c7; line-height: 25px;" class="md md-more-horiz m-r-5 dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></i>
 										<ul class="dropdown-menu" role="menu" style="min-width: 90px">
 											<div class="dropdown-arrow"></div>
-											<li class="view-user-btn" data-id="<?php echo $row['user_id']; ?>">
+											<li class="view-user-btn" data-user_id="<?php echo $row['user_id']; ?>" onclick="ShowUserProfile(this)">
 												<a href="#">
 													View
 													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/edit.svg')?>"></span>
@@ -110,8 +110,16 @@
 	</form>
 </div>
 
+<div class="modal fade right" id="view-user-popup" tabindex="-1" role="dialog">
+    <div class="modal-dialog style-modal" role="document">
+        <div class="modal-content group-popup" style="padding: 0px" id="view-user-content">
+
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="dis-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-action">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
@@ -128,7 +136,7 @@
 	</div>
 </div>
 <div class="modal fade" id="en-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-action">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
@@ -145,7 +153,7 @@
 	</div>
 </div>
 <div class="modal fade" id="del-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-dialog-action">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/quit.jpg')?>">

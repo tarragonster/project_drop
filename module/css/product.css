@@ -242,6 +242,10 @@ table.dataTable thead .sorting_desc:after {
     color: #9B9B9B;
     font-size: 11px;
 }
+.modal-dialog {
+    width: 462px;
+    height: 333px;
+}
 /*STORY LIST*/
 
 /*STORY FORM*/

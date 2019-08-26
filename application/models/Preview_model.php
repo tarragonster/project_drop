@@ -137,4 +137,5 @@ class Preview_model extends BaseModel {
 		$this->db->where('product_id', $id);
 		$this->db->update($this->table, $params);
 	}
+
 }

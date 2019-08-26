@@ -527,6 +527,8 @@ class User extends Base_Controller {
         $param = [];
         $note = $this->input->post('note');
         $this->user_model->updateReportNote($report_id,$note);
+        $report = $this->user_model->getReportConfirmNote($report_id);
+        $param['report'] = $report;
         $data['code'] = 200;
         $data['confirmContent'] = $this->load->view('admin/users/report_confirm_note',$param,true);
 
@@ -540,6 +542,17 @@ class User extends Base_Controller {
         $param['report'] = $report;
         $data['code'] = 200;
         $data['content'] = $this->load->view('admin/users/edit_report_ajax',$param,true);
+
+        $this->ajaxSuccess($data);
+    }
+
+    public function confirmNote($report_id){
+        $param = [];
+        $report = $this->user_model->getReportConfirmNote($report_id);
+        $param['report_id'] = $report_id;
+        $param['report'] = $report;
+        $data['code'] = 200;
+        $data['content'] = $this->load->view('admin/users/report_confirm_note',$param,true);
 
         $this->ajaxSuccess($data);
     }

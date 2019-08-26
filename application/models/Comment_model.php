@@ -262,8 +262,16 @@ class Comment_model extends BaseModel {
         return $data;
     }
 
-    public function countAllBlock($product_id,$conditions){
-        $this->makeQueryBlock($product_id);
+    public function getAllSeasons($product_id){
+	    $this->db->select();
+	    $this->db->where('product_id',$product_id);
+	    $this->db->from('season');
+
+	    return $this->db->get()->result_array();
+    }
+
+    public function countAllBlock($season_ids,$product_id,$conditions){
+        $this->makeQueryBlock($season_ids,$product_id);
         if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('episode_id','position', 'ep_name','e_status,','total_comments'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
@@ -277,17 +285,17 @@ class Comment_model extends BaseModel {
         return $this->db->count_all_results();
     }
 
-    public function makeQueryBlock($product_id){
+    public function makeQueryBlock($season_ids,$product_id){
 	    $this->db->select('s.*,e.*,e.status as e_status,e.name as ep_name,if(cc.total_comments is null, 0, cc.total_comments) as total_comments');
 	    $this->db->where('s.product_id',$product_id);
+	    $this->db->where_in('e.season_id',$season_ids);
 	    $this->db->from('season s');
 	    $this->db->join('episode e','e.season_id=s.season_id');
         $this->db->join('(select e.episode_id, count(*) as total_comments from comments c inner join episode e on c.episode_id = e.episode_id group by e.episode_id) as cc', 'cc.episode_id = e.episode_id', 'left');
-
     }
 
-    public function getAllBlocks($product_id,$conditions = array(), $page = 0){
-        $this->makeQueryBlock($product_id);
+    public function getAllBlocks($season_ids,$product_id,$conditions = array(), $page = 0){
+        $this->makeQueryBlock($season_ids,$product_id);
         if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('episode_id','position', 'ep_name','e_status'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
@@ -503,7 +511,7 @@ class Comment_model extends BaseModel {
 
     public function getReports($conditions = array(),$page = 0) {
         $this->makeQueryReportComment($conditions);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id','reported_name', 'content','reporter_name','status'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('report_id','reported_name', 'content','reporter_name','created_at','status'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             }else {
@@ -525,7 +533,7 @@ class Comment_model extends BaseModel {
     }
 
     public function makeQueryReportComment($conditions = array()){
-        $this->db->select('crp.report_id,crp.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
+        $this->db->select('crp.report_id,c.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
         $this->db->from('comment_reports crp');
         $this->db->join('comments c','crp.comment_id=c.comment_id');
         $this->db->join('user u1','c.user_id=u1.user_id');
@@ -559,5 +567,13 @@ class Comment_model extends BaseModel {
     public function confirmDeleteReportedComment($report_id){
         $this->db->where('report_id',$report_id);
         $this->db->update('comment_reports',['status'=>'deleted']);
+    }
+
+    public function getConfirmReportNote($report_id){
+        $this->db->select('cr.content');
+        $this->db->where('report_id',$report_id);
+        $this->db->from('comment_reports cr');
+
+        return $this->db->get()->result_array();
     }
 }
