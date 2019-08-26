@@ -30,7 +30,7 @@
                                 <table id="example3 " class="table dataTable table-hover table-block">
                                     <?php if(isset($seasons) && is_array($seasons)){ ?>
                                         <?php foreach ($seasons as $k => $v){ ?>
-                                            <thead>
+                                            <thead class="headerForSeasonTitle">
                                             <tr>
                                                 <td class="backProduct-title">
                                                     <span class="tag-product"><?php echo $title[0]['name'] ?> - <?php echo $v['name'] ?></span>
