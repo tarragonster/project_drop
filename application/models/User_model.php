@@ -1226,4 +1226,12 @@ class User_model extends BaseModel {
     // 	$this->db->where_in('user_id', $user_ids);
     // 	return $this->db->count_all_results();
     // }
+
+    public function getReportConfirmNote($report_id){
+	    $this->db->select('ur.report_note');
+	    $this->db->where('ur.report_id',$report_id);
+	    $this->db->from('user_reports ur');
+
+	    return $this->db->get()->result_array();
+    }
 }
