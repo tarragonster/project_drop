@@ -535,3 +535,11 @@
 .modal .modal-dialog .modal-content-popup {
     text-align: center !important;
 }
+.mess_err {
+    text-transform: initial;
+    font-weight: 500;
+    color: #E70808;
+}
+.table > thead:first-child > tr:first-child > th {
+    height: unset;
+}
