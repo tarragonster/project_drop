@@ -11,6 +11,7 @@ class Explore extends Base_Controller {
 		$this->load->model("featured_model");
 		$this->load->model("preview_model");
 		$this->load->model("product_model");
+		$this->load->model('file_model');
 		$this->load->library('hash');
 	}
 
@@ -49,10 +50,12 @@ class Explore extends Base_Controller {
 				'featured_users' => $featured_users,
 			];
 		}
+		$this->customCss[] = 'module/css/user.css';
 		$this->customCss[] = 'module/css/submenu.css';
 		$this->customCss[] = 'module/css/genre.css';
 		$this->customCss[] = 'module/css/explore.css';
 		$this->customJs[] = 'module/js/coreTable.js';
+		$this->customJs[] = 'module/js/user.js';
 		$this->customJs[] = 'module/js/explore.js';
 		$this->render('/explore/explore_page', $params, 10, 11);
 	}
@@ -71,7 +74,12 @@ class Explore extends Base_Controller {
 		$featured_users = $this->featured_model->getUsers();
 		$user_ids = Hash::combine($featured_users,'{n}.user_id','{n}.user_id');
 		$other_users = $this->featured_model->searchOtherUsers($key, $user_ids);
-		echo json_encode($other_users);
+		if(!empty($other_products)) {
+			echo json_encode($other_users);
+		}else {
+			echo json_encode(null);
+
+		}
 	}
 
 	public function addFeaturedUser() {
@@ -178,7 +186,32 @@ class Explore extends Base_Controller {
 		$previews = $this->preview_model->getPreviews();
 		$preview_ids = Hash::combine($previews,'{n}.product_id','{n}.product_id');
 		$other_products = $this->preview_model->searchOtherProducts($key, $preview_ids);
-		echo json_encode($other_products);
+		if(!empty($other_products)) {
+			echo json_encode($other_products);
+		}else {
+			echo json_encode(null);
+
+		}
+	}
+
+	public function addPreviewStory() {
+		$product_id = $this->input->post('product_id');
+		$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
+		if ($explore_img != null && $explore_img['error'] == 0) {
+			$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+			$this->file_model->saveFile($explore_img, $path);
+			$promo_image = $path;
+		}
+		$max_priority = $this->preview_model->getMaxFilm();
+		$params = array(
+			'product_id' => $product_id,
+			'promo_image' => $promo_image,
+			'priority' => $max_priority + 1,
+			'added_at' => time(),
+			'status' => 1
+		);
+		$this->preview_model->insert($params);
+		$this->redirect('explore/managePreviews');
 	}
 
 	public function sortPreviewStory() {

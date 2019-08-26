@@ -100,15 +100,18 @@ function searchUser() {
 		data: {key:key},
 		url: BASE_APP_URL + 'explore/searchOtherUser',
 		success: function (data) {
-			console.log(data)
-			var obj = JSON.parse(data);
-			html += "<ul id='result-search'>"
-			obj.forEach(function(item){
-				html += "<li class='result-item' data-id='" + item.user_id + "' data-value='" + item.full_name + ", @" + item.user_name + ", " + item.email + "'>"
-				html += "<a href='#' class='result-value'>" + item.full_name + ", @" + item.user_name + ", " + item.email + "</a></li>"
-			})
-			html += "</ul>"
-			$('#other_user').append(html)
+			if(data != 'null'){
+				var obj = JSON.parse(data);
+				html += "<ul id='result-search'>"
+				obj.forEach(function(item){
+					html += "<li class='result-item' data-id='" + item.user_id + "' data-value='" + item.full_name + ", @" + item.user_name + ", " + item.email + "'>"
+					html += "<a href='#' class='result-value'>" + item.full_name + ", @" + item.user_name + ", " + item.email + "</a></li>"
+				})
+				html += "</ul>"
+				$('#other_user').append(html)
+			}else {
+				$('#other_user').css('display', 'none')
+			}
 		}
 	});
 	$('#other_user').html('')
@@ -151,22 +154,53 @@ $('#add-story').on('click', function (e) {
 function searchStory() {
 	var key = $('#story_key').val();
 	var html = ''
-
-	$.ajax({
-		type: "POST",
-		dataType: "html",
-		data: {key:key},
-		url: BASE_APP_URL + 'explore/searchOtherProduct',
-		success: function (data) {
-			var obj = JSON.parse(data);
-			html += "<ul id='result-search'>"
-			obj.forEach(function(item){
-				html += "<li class='result-item' data-id='" + item.product_id + "' data-value='" + item.name + "'>"
-				html += "<a href='#' class='result-value'>" + item.name + "</a></li>"
-			})
-			html += "</ul>"
-			$('#other_story').append(html)
-		}
-	});
-	$('#other_story').html('')
+	if($('#story_key').val() == '') {
+		$('#other_story').css('display', 'none')
+	}else {
+		$.ajax({
+			type: "POST",
+			dataType: "html",
+			data: {key:key},
+			url: BASE_APP_URL + 'explore/searchOtherProduct',
+			success: function (data) {
+				if(data != 'null'){
+					var obj = JSON.parse(data);
+					html += "<ul id='result-search'>"
+					obj.forEach(function(item){
+						html += "<li class='result-item' data-id='" + item.product_id + "' data-value='" + item.name + "'>"
+						html += "<a href='#' class='result-value'>" + item.name + "</a></li>"
+					})
+					html += "</ul>"
+					$('#other_story').css('display', 'block')
+					$('#other_story').append(html)
+				}else {
+					$('#other_story').css('display', 'none')
+				}
+			}
+		});
+		$('#other_story').html('')
+	}
 }
+	
+
+$(document).on('click','.result-item',function(){
+	$('.uploader').css('display', 'block')
+
+	var product_id = $(this).data('id')
+	var product_name = $(this).data('value')
+
+	$('#story_key').val(product_name)
+	$('#story_key').attr('data-id', product_id)
+	$('#other_story').html('')
+});
+
+function addStory() {
+	var product_name = $('#story_key').val()
+	if(product_name != '') {
+		var product_id = $('#story_key').data('id')
+		$('#story_key').val(product_id)
+		$('#story-form-add').submit()
+	}
+}
+
+
