@@ -214,6 +214,15 @@ class Comments{
             location.reload()
         })
     }
+
+    showConfirmReportComments(){
+        this.url = '/comment/confirmNote/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            $('#view-replies-content').html(data.content);
+
+        })
+    }
 }
 
 let commentModel = Comments.object;
@@ -458,3 +467,8 @@ function ShowRemoveReportedComment(event){
     $('#reject-commentReported').modal('show')
 }
 
+function ShowConfirmReportComments(event){
+    commentModel.report_id = $(event).data('report_id');
+    commentModel.showConfirmReportComments();
+    $('#view-replies-popup').modal('show');
+}

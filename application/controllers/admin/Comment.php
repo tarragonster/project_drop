@@ -523,6 +523,8 @@ class Comment extends Base_Controller {
         $param = [];
         $note = $this->input->post('note');
         $this->comment_model->updateCommentReportNote($report_id,$note);
+        $report = $this->comment_model->getCommentReportNote($report_id);
+        $param['report'] = $report;
         $data['code'] = 200;
         $data['confirmContent'] = $this->load->view('admin/comments/report_confirm_note',$param,true);
 
@@ -569,5 +571,16 @@ class Comment extends Base_Controller {
     public function confirmDeleteReportedComment($report_id){
 	    $this->comment_model->confirmDeleteReportedComment($report_id);
         $this->ajaxSuccess();
+    }
+
+    public function confirmNote($report_id){
+        $param = [];
+        $report = $this->comment_model->getConfirmReportNote($report_id);
+        $param['report_id'] = $report_id;
+        $param['report'] = $report;
+        $data['code'] = 200;
+        $data['content'] = $this->load->view('admin/comments/report_confirm_note',$param,true);
+
+        $this->ajaxSuccess($data);
     }
 }
