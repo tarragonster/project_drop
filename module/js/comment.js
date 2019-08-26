@@ -172,6 +172,13 @@ var Comments = /** @class */ (function () {
             location.reload();
         });
     };
+    Comments.prototype.showConfirmReportComments = function () {
+        this.url = '/comment/confirmNote/' + this.report_id;
+        this.typereq = 'POST';
+        this.sendAjaxRequest(function (data) {
+            $('#view-replies-content').html(data.content);
+        });
+    };
     Comments.object = new Comments();
     return Comments;
 }());
@@ -369,4 +376,9 @@ function ConfirmDeleteReportedComment() {
 function ShowRemoveReportedComment(event) {
     commentModel.report_id = $(event).data('report_id');
     $('#reject-commentReported').modal('show');
+}
+function ShowConfirmReportComments(event) {
+    commentModel.report_id = $(event).data('report_id');
+    commentModel.showConfirmReportComments();
+    $('#view-replies-popup').modal('show');
 }

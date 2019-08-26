@@ -560,4 +560,12 @@ class Comment_model extends BaseModel {
         $this->db->where('report_id',$report_id);
         $this->db->update('comment_reports',['status'=>'deleted']);
     }
+
+    public function getConfirmReportNote($report_id){
+        $this->db->select('cr.content');
+        $this->db->where('report_id',$report_id);
+        $this->db->from('comment_reports cr');
+
+        return $this->db->get()->result_array();
+    }
 }
