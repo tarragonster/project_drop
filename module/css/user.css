@@ -1350,3 +1350,7 @@ table.dataTable thead .sorting_desc:after {
 .user-smg{
     color: #f05050;
 }
+
+.header_status{
+    padding-left: 21px!important;
+}
