@@ -116,7 +116,13 @@ class User{
 
         this.sendAjaxFormData(function (data) {
 
-            model.showUserProfile()
+            if(data.user_message != null || data.email_message != null){
+                $('.email-smg').text(data.email_message);
+                $('.user-smg').text(data.user_message);
+
+            }else{
+                model.showUserProfile()
+            }
         })
     }
 
@@ -268,7 +274,7 @@ class User{
         this.url = '/user/ShowCommentReplies/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
-            if(location.pathname.split('/')[1] == 'user'){
+            if(location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore'){
                 $('#view-user-content').html('');
                 $('#view-user-content').html(data.content)
             }
@@ -280,14 +286,14 @@ class User{
     }
 
     saveDisableUserReported(){
-        this.url = '/user/disableUserReported/' + this.report_id;
+        this.url = '/user/disableUserReported/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload()
         })
     }
     saveEnableUserReported(){
-        this.url = '/user/enableUserReported/' + this.report_id;
+        this.url = '/user/enableUserReported/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload()
@@ -295,7 +301,7 @@ class User{
     }
 
     saveRemoveReport(){
-        this.url = '/user/enableUserReported/' + this.report_id;
+        this.url = '/user/saveRemoveReport/' + this.report_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload()
@@ -405,9 +411,10 @@ function ShowUserProfile(event){
 }
 
 function EditUserProfile(event){
+    console.log('aaa')
     model.isProfile =false
     model.isEdit= true
-    if(location.pathname.split('/')[1] == 'user'){
+    if(location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore'){
         model.showUserProfile()
     }
     if(location.pathname.split('/')[1] == 'comment'){
@@ -669,7 +676,7 @@ function ShowCommentReplies(event){
 function BackComments(event){
     model.comment_id = $(event).data('comment_id')
     model.active = 'comments';
-    if(location.pathname.split('/')[1] == 'user'){
+    if(location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore'){
         model.showUserProfile();
     }
     if(location.pathname.split('/')[1] == 'comment'){
@@ -679,7 +686,7 @@ function BackComments(event){
 }
 
 function ShowTabProfile(){
-    if(location.pathname.split('/')[1] == 'user'){
+    if(location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore'){
         model.showUserProfile();
     }
     if(location.pathname.split('/')[1] == 'comment'){
@@ -693,7 +700,7 @@ function ShowTabComment(){
     model.isEdit = false;
     model.isCreate = false;
     model.active = 'comments';
-    if(location.pathname.split('/')[1] == 'user'){
+    if(location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore'){
         model.showUserProfile();
     }
     if(location.pathname.split('/')[1] == 'comment'){
@@ -706,9 +713,9 @@ function ShowTabComment(){
 function ShowTabPick(){
     model.isProfile = false;
     model.isEdit = false;
-    model.isCreate = true;
+    model.isCreate = false;
     model.active = 'your-picks';
-    if(location.pathname.split('/')[1] == 'user'){
+    if(location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore'){
         model.showUserProfile();
     }
     if(location.pathname.split('/')[1] == 'comment'){
@@ -720,9 +727,9 @@ function ShowTabPick(){
 function ShowTabWatch(){
     model.isProfile = false;
     model.isEdit = false;
-    model.isCreate = true;
+    model.isCreate = false;
     model.active = 'watch-list';
-    if(location.pathname.split('/')[1] == 'user'){
+    if(location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore'){
         model.showUserProfile();
     }
     if(location.pathname.split('/')[1] == 'comment'){
@@ -734,9 +741,9 @@ function ShowTabWatch(){
 function ShowTabThumbsup(){
     model.isProfile = false;
     model.isEdit = false;
-    model.isCreate = true;
+    model.isCreate = false;
     model.active = 'thumb-up';
-    if(location.pathname.split('/')[1] == 'user'){
+    if(location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore'){
         model.showUserProfile();
     }
     if(location.pathname.split('/')[1] == 'comment'){
@@ -746,7 +753,7 @@ function ShowTabThumbsup(){
 }
 
 function ShowDisableUserReported(event){
-    model.report_id = $(event).data('report_id');
+    model.user_id = $(event).data('user_id');
     $('#disable-user-reported').modal('show');
 }
 
@@ -755,7 +762,7 @@ function SaveDisableUserReported(){
 }
 
 function ShowEnableUserReported(event){
-    model.report_id = $(event).data('report_id');
+    model.user_id = $(event).data('user_id');
     $('#enable-user-reported').modal('show');
 
 }

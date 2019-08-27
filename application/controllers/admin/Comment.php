@@ -59,23 +59,7 @@ class Comment extends Base_Controller {
             'total' => $config['total_rows'],
         );
 
-        $products = $this->comment_model->getAllProducts($conditions,$page - 1);
-//        pre_print($products);
-//        $product_ids = Hash::combine($products, '{n}.product_id','{n}.product_id');
-//
-//        $episodes = $this->comment_model->getAllEpisode($product_ids);
-//        $episodes = Hash::combine($episodes,'{n}.episode_id','{n}','{n}.product_id');
-//
-//        $comments = $this->comment_model->getAllComment($product_ids);
-//        $comments = Hash::combine($comments,'{n}.comment_id','{n}','{n}.product_id');
-
-
-//        foreach ($products as $key=>$value) {
-//            $products[$key]['episodes'] = !empty($episodes[$value['product_id']])?$episodes[$value['product_id']]:[];
-//            $products[$key]['total_episodes'] = count($products[$key]['episodes']) > 0 ? count($products[$key]['episodes']):'0';
-//            $products[$key]['comments'] = !empty($comments[$value['product_id']])?$comments[$value['product_id']]:[];
-//            $products[$key]['total_comments'] = count($products[$key]['comments']) > 0 ? count($products[$key]['comments']):'0';
-//        }
+        $products = $this->comment_model->getAllProducts($conditions, $page - 1);
 
         $params['sub_id'] = 91;
         $params['headers'] = $headers;
@@ -372,25 +356,7 @@ class Comment extends Base_Controller {
         $title_product = $this->comment_model->getStoryName($episode_id);
         $title_episode = $this->comment_model->getEpisodeName($episode_id);
 
-        $comments = $this->comment_model->getCommentComments($episode_id,$conditions,$page - 1);
-
-//        $comment_ids = Hash::combine($comments,'{n}.comment_id','{n}.comment_id');
-
-//        if(!empty($comments)){
-//            $comment_likes = $this->comment_model->getCommentLikes($comment_ids);
-//            $comment_likes = Hash::combine($comment_likes,'{n}.id','{n}','{n}.comment_id');
-//
-//            $comment_replies = $this->comment_model->getCommentReplies($comment_ids);
-//            $comment_replies = Hash::combine($comment_replies,'{n}.replies_id','{n}','{n}.comment_id');
-//        }
-//        foreach($comments as $key=>$value){
-//            $comments[$key]['comment_likes'] = !empty($comment_likes[$value['comment_id']])?$comment_likes[$value['comment_id']]:[];
-//            $comments[$key]['total_like'] = count($comments[$key]['comment_likes']) > 0 ? count($comments[$key]['comment_likes']):'0';
-//
-//            $comments[$key]['comment_replies'] = !empty($comment_replies[$value['comment_id']])?$comment_replies[$value['comment_id']]:[];
-//            $comments[$key]['total_reply'] = count($comments[$key]['comment_replies']) > 0 ? count($comments[$key]['comment_replies']):'0';
-//
-//        }
+        $comments = $this->comment_model->getComments($episode_id,$conditions,$page - 1);
 
 
         $params['headers'] = $headers;

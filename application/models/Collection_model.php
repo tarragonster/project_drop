@@ -126,4 +126,39 @@ class Collection_model extends BaseModel {
 		$this->db->where('product_id', $product_id);
 		$this->db->update('collection_product', ['priority' => $priority]);
 	}
+
+	public function getProductByCollection($collection_id) {
+		$this->db->select('product_id');
+		$this->db->where('collection_id', $collection_id);
+		return $this->db->get('collection_product')->result_array();
+	}
+
+	public function getOtherProduct($key, $product_ids) {
+		$this->db->select('p.product_id, p.name');
+		$this->db->from('collection_product cp');
+		$this->db->join('product p', 'cp.product_id = p.product_id');
+		$this->db->where('p.name like "%' . $key . '%"');
+		$this->db->where_not_in('p.product_id', $product_ids);
+		$this->db->limit(10);
+		return $this->db->get()->result_array();
+	}
+	public function disableCarousel($product_id){
+	    $this->db->where('product_id',$product_id);
+	    $this->db->update('collection_product',['status'=>0]);
+    }
+
+    public function enableCarousel($product_id){
+        $this->db->where('product_id',$product_id);
+        $this->db->update('collection_product',['status'=>1]);
+    }
+
+    public function deleteCarousel($product_id){
+        $this->db->where('product_id',$product_id);
+        $this->db->delete('collection_product');
+    }
+
+    public function disableTrending($product_id){
+        $this->db->where('product_id',$product_id);
+        $this->db->update('collection_product',['status'=>0]);
+    }
 }

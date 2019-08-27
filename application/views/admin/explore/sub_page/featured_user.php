@@ -104,19 +104,21 @@
 	<form action="<?php echo base_url('explore/addFeaturedUser')?>" method="post" id="user-form-add" enctype="multipart/form-data">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content" id="add-user-form" style="padding: 0px">
-				
+
 			</div>
 		</div>
 	</form>
 </div>
 
-<div class="modal fade right" id="view-user-popup" tabindex="-1" role="dialog">
-    <div class="modal-dialog style-modal" role="document">
-        <div class="modal-content group-popup" style="padding: 0px" id="view-user-content">
+<!--<div class="modal fade right" id="view-user-popup" tabindex="-1" role="dialog">-->
+<!--    <div class="modal-dialog style-modal" role="document">-->
+<!--        <div class="modal-content group-popup" style="padding: 0px" id="view-user-content">-->
+<!---->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
-        </div>
-    </div>
-</div>
+<?php $this->load->view('admin/modals/modal_user') ?>
 
 <div class="modal fade" id="dis-modal" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-action">

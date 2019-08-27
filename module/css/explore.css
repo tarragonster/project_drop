@@ -248,12 +248,17 @@
 .modal.right .modal-dialog {
     position: fixed;
     margin: auto;
-    width: 617px;
+    width: 600px;
+    bottom: 0px;
     /*height: 100%;*/
     -webkit-transform: translate3d(0%, 0, 0);
     -ms-transform: translate3d(0%, 0, 0);
     -o-transform: translate3d(0%, 0, 0);
     transform: translate3d(0%, 0, 0);
+}
+
+.group-popup{
+    height: 100%!important;
 }
 
 .modal.left .modal-content,
@@ -542,4 +547,11 @@
 }
 .table > thead:first-child > tr:first-child > th {
     height: unset;
+}
+.right-50 {
+    margin-right: 50px !important;
+}
+
+.modal-carousel{
+    width: 462px;
 }

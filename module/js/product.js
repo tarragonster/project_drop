@@ -204,18 +204,18 @@ function handleCarouselImage(e) {
     if (isImage == false) {
         $('#car_err1').css('display', 'block');
         $('#car_err2').css('display', 'none');
-        $('#carousel_err').css('display', 'none');
+        // $('#carousel_err').css('display', 'none');
         $('#carousel_image').attr('src', BASE_APP_URL + 'assets/images/borders/667x440@3x.png');
     } 
     else if(fileSize /(1024*1024) > 1){
         $('#car_err2').css('display', 'block');
         $('#car_err1').css('display', 'none');
-        $('#carousel_err').css('display', 'none');
+        // $('#carousel_err').css('display', 'none');
         $('#carousel_image').attr('src', BASE_APP_URL + 'assets/images/borders/667x440@3x.png');
     }else {
         $('#car_err1').css('display', 'none');
         $('#car_err2').css('display', 'none');
-        $('#carousel_err').css('display', 'none');
+        // $('#carousel_err').css('display', 'none');
         var reader = new FileReader();
         reader.onload = function (event) {
 
@@ -306,15 +306,10 @@ function saveProduct(key) {
     }else {
         $('#story_err').text('')
     }
-    if(carousel_image == BASE_APP_URL + 'assets/images/borders/667x440@3x.png') {
-        $('#carousel_err').text('Carousel banner must not be empty')
-    }else {
-        $('#carousel_err').text('')
-    }
     if($('#name_err').text() == '' && $('#status_err').text() == '' &&
        $('#des_err').text() == '' && $('#creators_err').text() == '' &&
         $('#jw_err').text() == '' && $('#poster_err').text() == '' &&
-        $('#story_err').text() == '' && $('#carousel_err').text() == '' &&
+        $('#story_err').text() == '' && 
         $('#pre_err1').css('display') == 'none' && $('#pre_err2').css('display') == 'none' &&
         $('#ex_err1').css('display') == 'none' && $('#ex_err2').css('display') == 'none'
     ) {

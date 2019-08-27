@@ -101,13 +101,13 @@
 					</div>
 				<?php elseif (isset($sub_id) && $sub_id == 31): ?>
 					<li class="btn-export">
-						<button type="button" class="btn btn-header left-50">
+						<button type="button" class="btn btn-header right-50">
 							<a href="<?php echo base_url('product/add') ?>">Add Story</a>
 						</button>
 					</li>
 				<?php elseif (isset($sub_id) && $sub_id == 34): ?>
 					<li class="btn-export">
-						<button type="button" class="btn btn-header left-50">
+						<button type="button" class="btn btn-header right-50">
 							<a href="" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Add New&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></a>
 							<ul class="dropdown-menu" role="menu" style="min-width: 87px;left: unset;top: 46px;">
 								<li class="add-season-btn" data-product="<?php echo $this->session->userdata('product_id') ?>">
@@ -151,6 +151,14 @@
 				<?php elseif (isset($sub_id) && $sub_id == 12): ?>
 					<li class="btn-export">
 						<button type="button" class="btn btn-header" id="add-story" data-toggle="modal" data-target="#add-story-popup">Add Story</button>
+					</li>
+				<?php elseif (isset($sub_id) && $sub_id == 41): ?>
+					<li class="btn-export">
+						<button type="button" class="btn btn-header right-50" id="add-story-carousel" data-toggle="modal" data-target="#add-carousel-popup">Add Story</button>
+					</li>
+				<?php elseif (isset($sub_id) && $sub_id == 42): ?>
+					<li class="btn-export">
+						<button type="button" class="btn btn-header right-50" id="add-story-trending" data-toggle="modal" data-target="#add-trending-popup">Add Story</button>
 					</li>
 				<?php endif; ?>
 			</div>

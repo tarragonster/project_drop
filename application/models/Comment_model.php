@@ -192,7 +192,6 @@ class Comment_model extends BaseModel {
         }
 
         return $this->db->get()->result_array();
-
     }
 
     public function countAllProduct($conditions = array()){
@@ -238,17 +237,6 @@ class Comment_model extends BaseModel {
 	    $this->db->where_in('s.product_id',$product_ids);
 	    $this->db->from('season s');
 	    $this->db->join('episode e','e.season_id = s.season_id');
-        $data = $this->db->get()->result_array();
-        return $data;
-    }
-    public function getAllComment($product_ids){
-        $this->db->select('s.*,e.*,c.*');
-        $this->db->where_in('s.product_id',$product_ids);
-        $this->db->where('c.is_deleted = 0');
-        $this->db->from('season s');
-        $this->db->join('episode e','e.season_id = s.season_id');
-        $this->db->join('comments c', 'c.episode_id = e.episode_id');
-
         $data = $this->db->get()->result_array();
         return $data;
     }
@@ -303,6 +291,7 @@ class Comment_model extends BaseModel {
                 $this->db->order_by($conditions['sort_by'], 'asc');
             }
         }else{
+            $this->db->order_by('e.position');
             $this->db->order_by('e.episode_id', 'desc');
         }
         if (!empty($conditions['per_page'])) {
@@ -313,16 +302,6 @@ class Comment_model extends BaseModel {
         if ($page >= 0){
             $this->db->limit($per_page, $page * $per_page);
         }
-
-        return $this->db->get()->result_array();
-    }
-
-    public function getBlockComments($block_ids){
-	    $this->db->select('c.*');
-	    $this->db->where_in('c.episode_id',$block_ids);
-	    $this->db->from('comments c');
-        $this->db->where('c.is_deleted',0);
-
 
         return $this->db->get()->result_array();
     }
@@ -346,7 +325,7 @@ class Comment_model extends BaseModel {
         return $this->db->get()->result_array();
     }
 
-    public function countAllComments($episode_id,$conditions){
+    public function countAllComments($episode_id, $conditions){
         $this->makeQueryComment($episode_id);
         if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('comment_id','full_name', 'content','timestamp','status'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
@@ -361,7 +340,7 @@ class Comment_model extends BaseModel {
         return $this->db->count_all_results();
     }
 
-    public function getCommentComments($episode_id,$conditions = array(), $page = 0){
+    public function getComments($episode_id,$conditions = array(), $page = 0){
         $this->makeQueryComment($episode_id);
         if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('comment_id','full_name', 'content','timestamp','status','total_like','total_reply'))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
@@ -370,6 +349,7 @@ class Comment_model extends BaseModel {
                 $this->db->order_by($conditions['sort_by'], 'asc');
             }
         }else{
+            $this->db->order_by('total_like', 'desc');
             $this->db->order_by('c.comment_id', 'desc');
         }
         if (!empty($conditions['per_page'])) {
@@ -388,26 +368,16 @@ class Comment_model extends BaseModel {
 	    $this->db->select('c.*,u.full_name,u.user_name,if(cls.total_like is null, 0, cls.total_like) as total_like,if(crs.total_reply is null, 0, crs.total_reply) as total_reply');
 	    $this->db->where('c.episode_id',$episode_id);
 	    $this->db->from('comments c');
-	    $this->db->where('c.is_deleted',0);
+	    $this->db->where('c.is_deleted', 0);
 	    $this->db->join('user u','c.user_id=u.user_id','LEFT');
         $this->db->join('(select c.comment_id, count(*) as total_like from comment_like cl inner join comments c on cl.comment_id = c.comment_id group by c.comment_id) as cls', 'cls.comment_id = c.comment_id', 'left');
         $this->db->join('(select c.comment_id, count(*) as total_reply from comment_replies cr inner join comments c on cr.comment_id = c.comment_id group by c.comment_id) as crs', 'crs.comment_id = c.comment_id', 'left');
-
-
     }
 
     public function getCommentLikes($comment_ids){
         $this->db->select('cl.*');
         $this->db->where_in('cl.comment_id',$comment_ids);
         $this->db->from('comment_like cl');
-
-        return $this->db->get()->result_array();
-    }
-
-    public function getCommentReplies($comment_ids){
-        $this->db->select('cr.*');
-        $this->db->where_in('cr.comment_id',$comment_ids);
-        $this->db->from('comment_replies cr');
 
         return $this->db->get()->result_array();
     }
@@ -533,7 +503,7 @@ class Comment_model extends BaseModel {
     }
 
     public function makeQueryReportComment($conditions = array()){
-        $this->db->select('crp.report_id,c.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
+        $this->db->select('crp.report_id,c.content as comment_content, crp.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
         $this->db->from('comment_reports crp');
         $this->db->join('comments c','crp.comment_id=c.comment_id');
         $this->db->join('user u1','c.user_id=u1.user_id');
@@ -576,4 +546,63 @@ class Comment_model extends BaseModel {
 
         return $this->db->get()->result_array();
     }
+
+	public function getUserCommentReplies($comment_id){
+		$this->db->select('c.*,e.*,p.name as film_name');
+		$this->db->from('comments c');
+		$this->db->where('comment_id', $comment_id);
+		$this->db->join('episode e', 'c.episode_id = e.episode_id');
+		$this->db->join('season s', 'e.season_id = e.season_id');
+		$this->db->join('product p', 's.product_id = p.product_id');
+
+		return $this->db->get()->result_array();
+	}
+
+	public function countBlockComments($episode_id) {
+		$this->db->from('comments c');
+		$this->db->where('e.episode_id', $episode_id);
+		$this->db->where('c.is_deleted', 0);
+		$this->db->where('c.status', 1);
+		return $this->db->count_all_results();
+	}
+
+	public function countAllBlockReplies($episode_id) {
+		$this->db->from('comment_replies er');
+		$this->db->join('comments ec', 'ec.comment_id = er.comment_id');
+		$this->db->where('er.status', 1);
+		$this->db->where('ec.episode_id', $episode_id);
+		return $this->db->count_all_results();
+	}
+
+	public function getBlockComments($episode_id, $type, $page = -1) {
+		$this->db->select('c.comment_id, c.user_id, c.content, c.timestamp, u.user_name, u.full_name, u.avatar, u.user_id, if(l.num_of_likes is null, 0, l.num_of_likes) as num_like');
+		$this->db->from('comments c');
+		$this->db->join('user u', 'u.user_id = c.user_id');
+		$subQuery = 'select comment_id, count(*) as num_of_likes from comment_like group by comment_id';
+		$this->db->join("($subQuery) l", 'l.comment_id = c.comment_id', 'left');
+		$this->db->where('c.episode_id', $episode_id);
+		$this->db->where('c.is_deleted', 0);
+		$this->db->where('c.status', 1);
+		$this->db->group_by('c.comment_id');
+		$this->db->order_by('num_like', 'desc');
+		$this->db->order_by('c.comment_id', 'asc');
+		if ($page >= 0)
+			$this->db->limit(10, 10 * $page);
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+
+	public function getCommentReplies($comment_id) {
+		$this->db->select('r.replies_id, r.user_id, r.content, r.timestamp, u.user_name, u.full_name, u.avatar, u.user_id, if(rl.num_of_likes is null, 0, rl.num_of_likes) as num_like');
+		$this->db->from('comment_replies r');
+		$this->db->join('user u', 'u.user_id = r.user_id');
+		$subQuery = 'select replies_id, count(*) as num_of_likes from replies_like group by replies_id';
+		$this->db->join("($subQuery) rl", 'rl.replies_id = r.replies_id', 'left');
+		$this->db->where('r.comment_id', $comment_id);
+		$this->db->where('r.status', 1);
+		$this->db->order_by('num_like', 'desc');
+		$this->db->order_by('r.replies_id', 'asc');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
 }
