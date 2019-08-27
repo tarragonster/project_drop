@@ -12,14 +12,15 @@ class Comment extends BR_Controller {
 
 	public function get_get($episode_id, $type = 1, $page = -1) {
 		$this->load->model('episode_model');
+		$this->load->model('comment_model');
 		$episode = $this->episode_model->checkEpisode($episode_id);
 		if (!$episode) {
 			$this->create_error(-77);
 		}
-		$comments = $this->episode_model->getComments($episode_id, $type, $page);
+		$comments = $this->comment_model->getBlockComments($episode_id, $type, $page);
 		if ($this->user_id != null) {
 			foreach ($comments as $key => $comment) {
-				$replies = $this->episode_model->getReplies($comment['comment_id']);
+				$replies = $this->comment_model->getCommentReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
 					$replies[$t]['has_like'] = $this->comment_model->hasLikeReplies($rep['replies_id'], $this->user_id);
 				}
@@ -28,7 +29,7 @@ class Comment extends BR_Controller {
 			}
 		} else {
 			foreach ($comments as $key => $comment) {
-				$replies = $this->episode_model->getReplies($comment['comment_id']);
+				$replies = $this->comment_model->getCommentReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
 					$replies[$t]['has_like'] = 0;
 				}

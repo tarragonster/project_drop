@@ -25,7 +25,7 @@ class Explore extends Base_Controller {
 			$picks = $this->user_model->getAllPick($user_ids);
 			$picks = Hash::combine($picks,'{n}.pick_id','{n}','{n}.user_id');
 
-			$comments = $this->user_model->getAllComment($user_ids);
+			$comments = $this->user_model->getAllUserComments($user_ids);
 	        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
 
 			$likes = $this->user_model->getAllLike($user_ids);
@@ -149,7 +149,7 @@ class Explore extends Base_Controller {
 		}else {
 			$preview_ids = Hash::combine($previews,'{n}.product_id','{n}.product_id');
 
-			$comments = $this->product_model->getAllComment($preview_ids);
+			$comments = $this->product_model->getAllProductComments($preview_ids);
 	        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.product_id');
 
 			$likes = $this->product_model->getAllLike($preview_ids);

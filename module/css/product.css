@@ -245,7 +245,7 @@ table.dataTable thead .sorting_desc:after {
 .btn-group i {
     cursor: pointer;
 }
-.left-50 {
+.right-50 {
     margin-right: 50px !important;
 }
 .modal-dialog-action {

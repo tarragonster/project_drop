@@ -494,13 +494,13 @@ class User_model extends BaseModel {
         return $data;
     }
 
-    public function getAllComment($user_ids){
+    public function getAllUserComments($user_ids){
         $this->db->select('c.*');
-        $this->db->where_in('c.user_id',$user_ids);
+        $this->db->where_in('c.user_id', $user_ids);
+        $this->db->where_in('c.is_deleted', 0);
         $this->db->from('comments c');
         $data = $this->db->get()->result_array();
         return $data;
-
     }
 
 	public function clearData($user_id) {
@@ -1144,17 +1144,6 @@ class User_model extends BaseModel {
     public function removeComment($id) {
         $this->db->where('comment_id', $id);
         $this->db->delete('comments');
-    }
-
-    public function getCommentReplies($comment_id){
-	    $this->db->select('c.*,e.*,p.name as film_name');
-	    $this->db->from('comments c');
-	    $this->db->where('comment_id', $comment_id);
-	    $this->db->join('episode e', 'c.episode_id = e.episode_id');
-	    $this->db->join('season s', 'e.season_id = e.season_id');
-	    $this->db->join('product p', 's.product_id = p.product_id');
-
-	    return $this->db->get()->result_array();
     }
 
     public function disableReported($user_id){
