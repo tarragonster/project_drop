@@ -303,6 +303,7 @@ class Comment_model extends BaseModel {
                 $this->db->order_by($conditions['sort_by'], 'asc');
             }
         }else{
+            $this->db->order_by('e.position');
             $this->db->order_by('e.episode_id', 'desc');
         }
         if (!empty($conditions['per_page'])) {
@@ -370,6 +371,7 @@ class Comment_model extends BaseModel {
                 $this->db->order_by($conditions['sort_by'], 'asc');
             }
         }else{
+            $this->db->order_by('total_like', 'desc');
             $this->db->order_by('c.comment_id', 'desc');
         }
         if (!empty($conditions['per_page'])) {
@@ -533,7 +535,7 @@ class Comment_model extends BaseModel {
     }
 
     public function makeQueryReportComment($conditions = array()){
-        $this->db->select('crp.report_id,c.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
+        $this->db->select('crp.report_id,c.content as comment_content, crp.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
         $this->db->from('comment_reports crp');
         $this->db->join('comments c','crp.comment_id=c.comment_id');
         $this->db->join('user u1','c.user_id=u1.user_id');
