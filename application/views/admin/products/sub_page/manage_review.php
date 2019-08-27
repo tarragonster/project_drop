@@ -19,23 +19,23 @@
 						<?php foreach ($reviews as $key => $row):?>
 						<li id="pick_<?php echo $row['pick_id']; ?>" data-id="<?php echo $row['pick_id']; ?>">
 		                    <input type="hidden" name="positions[<?php echo $row['pick_id']?>]" value="1">
-		                    <div class="card-box card-sorting row">
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="padding: 0px;width: 40px;">
+		                    <div class="card-box card-sorting card-sorting-review row">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="width: 40px;">
 		                            <div class="sortable-move"><i class="icon-menu"></i></div>
 		                        </div>
-		                        <div class="col-sm-3 col-lg-2 sortable-box width-13 circle-image" style="padding: 0px">
+		                        <div class="col-sm-3 col-lg-2 sortable-box width-13 circle-image" style="width: 60px">
 		                               <img src="<?= media_thumbnail($row['avatar'], 70) ?>" alt='avatar'>
 		                        </div>
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-15" style="padding: 0px;flex-grow: 5;">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-15" style="width: 18%">
 	                                <?php echo $row['full_name']?> <br> @<?php echo $row['user_name']?>
 		                        </div>
-		                        <div class="col-sm-3 col-lg-2 sortable-box width-10" style="flex-grow: 1;">
+		                        <div class="col-sm-3 col-lg-2 sortable-box width-10">
 	                                <?= $row['name'] ?>
 	                            </div>
-	                            <div class="col-sm-3 col-lg-1 sortable-box width-48" style="flex-grow: 20;">
+	                            <div class="col-sm-3 col-lg-1 sortable-box width-48" style="width: 43%;">
 	                                <?= $row['quote'] ?>
 		                        </div>
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-9" style="flex-grow: 1;">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-9" style="width: 10%;">
 		                        	<?php if($row['is_hidden'] == 1): ?>
 		                                <i class="fa fa-circle text-danger" style="font-size: 60%;"></i>&nbsp;&nbsp;
 		                                <span>DISABLED</span>
@@ -44,7 +44,7 @@
 		                                <span>ENABLED</span>
 	                                <?php endif;?>
 	                            </div>
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="float: right;width: 80px;">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="float: right;width: 60px;">
 		                            <div class="btn-group">
 										<i type="button" style="font-size: 36px; color: #c7c7c7; line-height: 25px;" class="md md-more-horiz m-r-5 dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></i>
 										<ul class="dropdown-menu" role="menu" style="min-width: 87px">
