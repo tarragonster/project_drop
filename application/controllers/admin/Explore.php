@@ -57,8 +57,9 @@ class Explore extends Base_Controller {
 		$this->customJs[] = 'module/js/coreTable.js';
 		$this->customJs[] = 'module/js/user.js';
 		$this->customJs[] = 'module/js/explore.js';
-		$this->render('/explore/explore_page', $params, 10, 11);
-	}
+        $this->customJs[] = 'assets/js/jquery.validate.js';
+        $this->render('/explore/explore_page', $params, 10, 11);
+    }
 
 	public function ajaxExplore() {
 		$key = $this->input->post('key');
