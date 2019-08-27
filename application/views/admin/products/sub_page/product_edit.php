@@ -147,7 +147,7 @@
                                 <div class="col-md-12 portlets m-b-30">
                                     <label>Carousel Banner</label>
                                     <div class="row">
-                                        <img id='carousel_image' src="<?php echo (!empty($product['trailler_image'])) ? base_url($product['trailler_image']) : base_url('assets/images/borders/667x440@3x.png')?>"/>
+                                        <img id='carousel_image' src="<?php echo (!empty($product['carousel_img'])) ? base_url($product['carousel_img']) : base_url('assets/images/borders/667x440@3x.png')?>"/>
                                         <div class='err-format' id="car_err1">Image format is not suppported</div>
                                         <div class='err-size' id="car_err2">The size must be less than 1MB</div>
                                         <div class="mess_err" id="carousel_err"></div>

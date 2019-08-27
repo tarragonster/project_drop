@@ -8,6 +8,8 @@ class Collection extends Base_Controller {
 		parent::__construct();
 		$this->verifyAdmin();
 		$this->load->model("collection_model");
+		$this->load->model('product_model');
+		$this->load->library('hash');
 	}
 
 	public function index() {
@@ -94,45 +96,36 @@ class Collection extends Base_Controller {
 		$this->load->view('admin_main_layout', $data);
 	}
 
-	public function addToCollection() {
-		if ($this->input->server('REQUEST_METHOD') == 'POST') {
-			$collection_id = $this->input->post('collection_id') * 1;
-			$product_id = $this->input->post('product_id') * 1;
-
-			$collection = $this->collection_model->getCollectionById($collection_id);
-			if ($collection == null) {
-				redirect('collection');
-			}
-
-			$this->load->model("product_model");
-			$product = $this->product_model->getProductForAdmin($product_id);
-			if ($product == null) {
-				redirect('collection');
-			}
-
-			$params = [
-				'product_id' => $product_id,
-				'collection_id' => $collection_id,
-				'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
-			];
-			$promoImage = isset($_FILES['promo_image']) ? $_FILES['promo_image'] : null;
-			if ($promoImage != null && $promoImage['error'] == 0) {
-				$this->load->model('file_model');
-				$path = $this->file_model->createFileName($promoImage, 'media/feeds/', 'collection');
-				$params['promo_image'] = $path;
-				$this->file_model->saveFile($promoImage, $path);
-			} else {
-				$params['promo_image'] = $product['image'];
-			}
-
-			$this->collection_model->addFilm($params);
-			if ($collection_id == 1) {
-				$this->load->model('notify_model');
-				$this->notify_model->sendToAllUser(59, ['story_name' => $params['name'], 'product_id' => $product_id]);
-			}
-			redirect('collection/films/' . $collection_id);
+	public function addToCollection($collection_id) {
+		$collection = $this->collection_model->getCollectionById($collection_id);
+		if ($collection == null) {
+			redirect('collection');
 		}
-		redirect('collection');
+		$product_id = $this->input->post('product_id') * 1;
+		$product = $this->product_model->getProductForAdmin($product_id);
+		if ($product == null) {
+			redirect('collection');
+		}
+		$promoImage = isset($_FILES['promo_image']) ? $_FILES['promo_image'] : null;
+		if ($promoImage != null && $promoImage['error'] == 0) {
+			$this->load->model('file_model');
+			$path = $this->file_model->createFileName($promoImage, 'media/feeds/', 'collection');
+			$this->file_model->saveFile($promoImage, $path);
+			$promo_image = $path;
+		}
+		$paramsCollection = [
+			'product_id' => $product_id,
+			'collection_id' => $collection_id,
+			'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
+			'promo_image' => $promo_image,
+			'added_at' => time()
+		];
+		$this->collection_model->addFilm($paramsCollection);
+		if ($collection_id == 5) {
+			redirect('collection/carousel');
+		}else {
+			redirect('collection/trending');
+		}
 	}
 
 	public function editPromo($id) {
@@ -331,6 +324,28 @@ class Collection extends Base_Controller {
 		$this->customCss[] = 'module/css/explore.css';
 		$this->customJs[] = 'module/js/coreTable.js';
 		$this->customJs[] = 'module/js/collection_carousel.js';
-		$this->render('/collection/collection_layout', $params, 4, 41);
+		$this->render('/collection/collection_layout', $params, 4, 42);
+	}
+
+	public function ajaxCollection() {
+		$key = $this->input->post('key');
+		if ($key == 'add-carousel') {
+			$this->load->view('admin/collection/sub_page/add_carousel_story');
+		}else {
+			$this->load->view('admin/collection/sub_page/add_trending_story');
+		}
+	}
+
+	public function searchProductWithoutCollection() {
+		$collection_id = $this->input->post('collection_id');
+		$key = $this->input->post('key');
+		$carousel_products = $this->collection_model->getProductByCollection($collection_id);
+		$product_ids = Hash::combine($carousel_products,'{n}.product_id','{n}.product_id');
+		$other_products = $this->collection_model->getOtherProduct($key, $product_ids);
+		if(!empty($other_products)) {
+			echo json_encode($other_products);
+		}else {
+			echo json_encode(null);
+		}
 	}
 }

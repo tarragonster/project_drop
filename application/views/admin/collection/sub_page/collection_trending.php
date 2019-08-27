@@ -93,8 +93,8 @@
 	</table>
 </div>
 
-<div class="modal custom-modal below-header fade visiting right" id="add-story-popup" tabindex="-1" role="dialog">
-	<form action="<?php echo base_url('explore/addPreviewStory')?>" method="post" id="story-form-add" enctype="multipart/form-data">
+<div class="modal custom-modal below-header fade visiting right" id="add-trending-popup" tabindex="-1" role="dialog">
+	<form action="<?php echo base_url('collection/addToCollection/1')?>" method="post" id="story-form-add" enctype="multipart/form-data">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content" id="add-story-form" style="padding: 0px">
 

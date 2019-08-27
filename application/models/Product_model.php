@@ -516,4 +516,10 @@ class Product_model extends BaseModel {
 	public function insertShared($params) {
 		$this->db->insert('story_shared', $params);
 	}
+
+	public function getProductsWithoutCarousel() {
+		$this->db->select('product_id, name');
+		$this->db->where('trailler_image', null);
+		return $this->db->get($this->table)->result_array();
+	}
 }

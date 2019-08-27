@@ -159,12 +159,7 @@ class Product extends Base_Controller {
 				$params['background_img'] = $path;
 			}
 
-			$carousel_img = isset($_FILES['carousel_img']) ? $_FILES['carousel_img'] : null;
-			if ($carousel_img != null && $carousel_img['error'] == 0) {
-				$path = $this->file_model->createFileName($carousel_img, 'media/films/', 'carousel');
-				$this->file_model->saveFile($carousel_img, $path);
-				$params['trailler_image'] = $path;
-			}
+
 			$product_id = $this->product_model->insert($params);
 
 			$this->load->model('notify_model');
@@ -199,6 +194,21 @@ class Product extends Base_Controller {
 					);
 					$this->product_genres_model->insert($paramsGenre);
 				}
+			}
+
+			$carousel_img = isset($_FILES['carousel_img']) ? $_FILES['carousel_img'] : null;
+			if ($carousel_img != null && $carousel_img['error'] == 0) {
+				$collection_id = 5; //Carousel
+				$path = $this->file_model->createFileName($carousel_img, 'media/films/', 'carousel');
+				$this->file_model->saveFile($carousel_img, $path);
+				$data_collection = [
+					'product_id' => $product_id,
+					'collection_id' => $collection_id,
+					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
+					'promo_image' => $path,
+					'added_at' => time()
+				];
+				$this->collection_model->addFilm($data_collection);
 			}
 			redirect(base_url('product'));
 		}
@@ -290,12 +300,6 @@ class Product extends Base_Controller {
 				$params['background_img'] = $background_path;
 			}
 
-			$carousel_img = isset($_FILES['carousel_img']) ? $_FILES['carousel_img'] : null;
-			if ($carousel_img != null && $carousel_img['error'] == 0) {
-				$carousel_path = $this->file_model->createFileName($carousel_img, 'media/films/', 'carousel');
-				$this->file_model->saveFile($carousel_img, $carousel_path);
-				$params['trailler_image'] = $carousel_path;
-			}
 			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
 			if ($preview_img != null && $preview_img['error'] == 0) {
 				$preview_path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
@@ -323,6 +327,25 @@ class Product extends Base_Controller {
 					$this->preview_model->editPromo($product_id, $explore_path) ;
 				}
 			}
+
+			$carousel_img = isset($_FILES['carousel_img']) ? $_FILES['carousel_img'] : null;
+			if ($carousel_img != null && $carousel_img['error'] == 0) {
+				$collection_id = 5;
+				$carousel_path = $this->file_model->createFileName($carousel_img, 'media/films/', 'carousel');
+				$this->file_model->saveFile($carousel_img, $carousel_path);
+				$collection_product = $this->collection_model->getCollectionProducts($collection_id,$product_id);
+				if ($collection_product == null) {
+					$data_collection = array(
+						'collection_id' => $collection_id,
+						'product_id' => $product_id,
+						'promo_image' => $carousel_path,
+						'priority' => $this->collection_model->getMaxFilm($collection_id) + 1
+					);
+					$this->collection_model->addFilm($data_collection);
+				} else {
+					$this->collection_model->editPromo($collection_id, $product_id, $carousel_path);
+				}
+			}
 			$this->product_model->update($params, $product_id);
 			// $this->session->set_flashdata('msg', 'Edit success!');
 			redirect(base_url('product/edit/' . $product_id));
@@ -332,6 +355,7 @@ class Product extends Base_Controller {
 		$product['episodes'] = $this->product_model->getEpisodeSeasons($product_id);
 		$product['explore_img'] = $explore_product['promo_image'];
 		$product['preview_img'] = $collection_product['promo_image'];
+		$product['carousel_img'] = $this->collection_model->getCollectionProducts(5,$product_id)['promo_image'];
 		if ($product['paywall_episode'] != 0) {
 			$episode = $this->episode_model->getEpisodeById($product['paywall_episode']);
 			$product['position'] = $episode['position'];
