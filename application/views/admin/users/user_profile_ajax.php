@@ -81,7 +81,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="padding-left: 0!important;" class="first-column">Feature:</td>
+                                        <td style="padding-left: 0!important;" class="first-column">Featured:</td>
                                         <td class="next-column">
                                             <?php if($isEdit == 'true'){ ?>
                                                 <label class="cnt">
