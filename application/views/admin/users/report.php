@@ -56,12 +56,12 @@
                                             </td>
 
                                             <td class="header-item-content item-style"><?php echo date('m/d/Y h:iA', $row['created_at']) ?></td>
-                                            <?php if($row['report_status'] == 'pending' ){ ?>
+                                            <?php if($row['is_deleted'] == 1){ ?>
                                                 <td class="header-item-content item-style status-tb">
-                                                    <img src="<?= base_url('assets/imgs/warning.svg') ?>" alt="orange">&nbsp;
-                                                    <span class="text-uppercase">Pending</span>
+                                                    <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;
+                                                    <span class="text-uppercase">User Deleted</span>
                                                 </td>
-                                            <?php }elseif ($row['report_status'] == 'disable'){ ?>
+                                            <?php }elseif ($row['user_status'] == 0){ ?>
                                                 <td class="header-item-content item-style status-tb">
                                                     <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;
                                                     <span class="text-uppercase">User Disabled</span>
@@ -71,10 +71,10 @@
                                                     <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;
                                                     <span class="text-uppercase">Report Removed</span>
                                                 </td>
-                                            <?php }elseif ($row['report_status'] == 'deleted'){ ?>
+                                            <?php }else{ ?>
                                                 <td class="header-item-content item-style status-tb">
-                                                    <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;
-                                                    <span class="text-uppercase">User Deleted</span>
+                                                    <img src="<?= base_url('assets/imgs/warning.svg') ?>" alt="orange">&nbsp;
+                                                    <span class="text-uppercase">Pending</span>
                                                 </td>
                                             <?php } ?>
                                             <td class="header-item-content item-style">
@@ -104,34 +104,37 @@
                                                                 View User
                                                             </span></a>
                                                         </li>
-                                                        <?php if($row['report_status'] == 'pending' || $row['report_status'] == 'rejected' || $row['report_status'] == 'deleted'){ ?>
-                                                            <li class="text-uppercase <?php echo $row['report_status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowDisableUserReported(this)">
+
+                                                        <?php if($row['user_status'] == 1 && $row['is_deleted'] == 0 && $row['report_status'] == 'pending'){ ?>
+                                                            <li class="text-uppercase"
+                                                                data-user_id="<?= $row['user_id'] ?>" onclick="ShowDisableUserReported(this)">
                                                                 <a class="drp-items"><span>
                                                                 Disable User
                                                             </span></a>
                                                             </li>
-                                                        <?php }else{ ?>
+                                                        <?php }elseif($row['user_status'] == 0 && $row['is_deleted'] == 0 && $row['report_status'] == 'pending'){ ?>
                                                             <li class="text-uppercase"
-                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowEnableUserReported(this)">
+                                                                data-user_id="<?= $row['user_id'] ?>" onclick="ShowEnableUserReported(this)">
                                                                 <a class="drp-items"><span>
                                                                 Enable User
                                                             </span></a>
                                                             </li>
                                                         <?php } ?>
-                                                        <li class="text-uppercase
-                                                        <?php echo $row['report_status'] == 'rejected' ? "dis-btn" : ""; ?>
-                                                        <?php echo $row['report_status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                            data-report_id="<?= $row['report_id'] ?>" onclick="ShowRemoveReport(this)">
-                                                            <a class="drp-items"><span>
+                                                        <?php if($row['report_status'] == 'pending' && $row['is_deleted'] == 0){ ?>
+                                                            <li class="text-uppercase"
+                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowRemoveReport(this)">
+                                                                <a class="drp-items"><span>
                                                                 Remove Report
                                                             </span></a>
-                                                        </li>
-                                                        <li class="text-uppercase <?php echo $row['report_status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                            data-user_id="<?= $row['user_id'] ?>" onclick="ShowFirstDeleteReported(this)"><a
-                                                                    class="drp-items"><span>
+                                                            </li>
+                                                        <?php } ?>
+                                                        <?php if($row['is_deleted'] == 0 && $row['report_status'] == 'pending'){ ?>
+                                                            <li class="text-uppercase"
+                                                                data-user_id="<?= $row['user_id'] ?>" onclick="ShowFirstDeleteReported(this)"><a
+                                                                        class="drp-items"><span>
                                                                 Delete User</span></a>
-                                                        </li>
+                                                            </li>
+                                                        <?php } ?>
                                                     </ul>
                                                 </div>
                                             </td>
