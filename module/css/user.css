@@ -40,7 +40,6 @@
 }
 
 .submenu-title{
-    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 600;
     font-size: 20px;
     display: block;
@@ -49,6 +48,7 @@
     padding-bottom: 14px;
     width: 82px;
     border-bottom: 1px solid #EEEDEB;
+    color: #403F3F;
 }
 
 .submenu-content{
@@ -1342,4 +1342,15 @@ table.dataTable thead .sorting_desc:after {
 .header_statusheader-rp{
     width: 20%;
 
+}
+.email-smg{
+    color: #f05050;
+}
+
+.user-smg{
+    color: #f05050;
+}
+
+.header_status{
+    padding-left: 21px!important;
 }

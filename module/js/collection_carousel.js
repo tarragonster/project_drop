@@ -156,4 +156,24 @@ function addStoryTrending() {
 	}else {
 		$('#story-form-add').submit()
 	}
+	
+var carousel_id = null;
+
+function ShowDisableCarousel(event){
+	$("#dis-modal").modal("show");
+	carousel_id = $(event).data("id");
+}
+
+function DisableCarousel(event){
+	$.ajax({
+		type: "POST",
+		url: "/collection/disableCarousel/" + carousel_id,
+		// data: $('#form-data').serialize(),
+		success: function (data) {
+			if (!data.success) {
+				location.reload();
+			}
+		}
+	});
+
 }

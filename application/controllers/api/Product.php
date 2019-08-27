@@ -312,15 +312,15 @@ class Product extends BR_Controller {
 		$this->load->model('comment_model');
 		$episode['num_like'] = $this->episode_model->countLike($episode['episode_id'], 1);
 		$episode['num_dislike'] = $this->episode_model->countLike($episode['episode_id'], 0);
-		$comments = $this->episode_model->getComments($episode['episode_id'], 1, 0);
-		$episode['num_comment'] = $this->episode_model->countComment($episode['episode_id']) + $this->episode_model->countAllSubComment($episode['episode_id']);
+		$comments = $this->comment_model->getBlockComments($episode['episode_id'], 1, 0);
+		$episode['num_comment'] = $this->comment_model->countBlockComments($episode['episode_id']) + $this->comment_model->countAllBlockReplies($episode['episode_id']);
 
 		if ($this->user_id != null) {
 			$episode['review_info'] = $this->product_model->getProductUserReview($this->user_id, $episode['product_id']);
 			$episode['has_like'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 1);
 			$episode['has_dislike'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 0);
 			foreach ($comments as $key => $comment) {
-				$replies = $this->episode_model->getReplies($comment['comment_id']);
+				$replies = $this->comment_model->getCommentReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
 					$replies[$t]['has_like'] = $this->comment_model->hasLikeReplies($rep['replies_id'], $this->user_id);
 				}
@@ -334,7 +334,7 @@ class Product extends BR_Controller {
 			$episode['has_dislike'] = 0;
 			$episode['start_time'] = 0;
 			foreach ($comments as $key => $comment) {
-				$replies = $this->episode_model->getReplies($comment['comment_id']);
+				$replies = $this->comment_model->getCommentReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
 					$replies[$t]['has_like'] = 0;
 				}
@@ -593,6 +593,62 @@ class Product extends BR_Controller {
 			];
 			$this->notify_model->createNotifyMany($users, 57, $meta);
 		}
+		$this->create_success();
+	}
+
+	/**
+	 * @SWG\Post(
+	 *     path="/product/{product_id}/localShare",
+	 *     summary="Share story with 10 block friends",
+	 *     operationId="share-story-local",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Episode ID",
+	 *         in="formData",
+	 *         name="episode_id",
+	 *         required=false,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Number of friends have been shared.",
+	 *         in="formData",
+	 *         name="num_of_shared",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default=1,
+	 *     ),
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     }
+	 * )
+	 */
+	public function localShare_post($product_id) {
+		$product = $this->product_model->get($product_id);
+		if ($product == null) {
+			$this->create_error(-17);
+		}
+		$num_of_shared = $this->c_getNumberNotNull('num_of_shared');
+		$this->product_model->insertShared([
+			'user_id' => $this->user_id,
+			'story_id' => $product_id,
+			'friends' => $num_of_shared,
+			'shared_at' => time(),
+		]);
 		$this->create_success();
 	}
 

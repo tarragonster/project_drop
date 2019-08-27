@@ -136,11 +136,11 @@ class Product_model extends BaseModel {
 	}
 
 	public function getListProductByCollection($collection_id, $page = -1, $limit = 10) {
-		$this->db->select('p.*, cp.priority as priority_collection, cp.id, cp.promo_image, cp.added_at');
+		$this->db->select('p.*,cp.status, cp.priority as priority_collection, cp.id, cp.promo_image, cp.added_at');
 		$this->db->from('collection_product cp');
 		$this->db->join('product_view p', 'p.product_id = cp.product_id');
 		$this->db->where('cp.collection_id', $collection_id);
-		$this->db->where('p.status', 1);
+//		$this->db->where('p.status', 1);
 		$this->db->order_by('cp.priority', 'asc');
 		if ($page >= 0) {
 			$this->db->limit($limit, $limit * $page);
@@ -389,9 +389,10 @@ class Product_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getAllComment($product_ids){
+	public function getAllProductComments($product_ids){
 		$this->db->select('p.product_id, c.comment_id');
         $this->db->where_in('p.product_id', $product_ids);
+		$this->db->where('c.is_deleted', 0);
         $this->db->from('product p');
         $this->db->join('season s', 'p.product_id = s.product_id');
         $this->db->join('episode e', 's.season_id = e.season_id');

@@ -9,10 +9,8 @@
         <form action="" method='POST' id="form-note-update">
             <div class="row" style="margin: 0">
                 <div class="modal-content group-popup outer-table-modal">
-                    <span class="lead" style="font-weight: 600">Report Note</span>
-                    <div class="text-note-confirm"><span>This comment was reported to do inappropriate
-                        content and will be disabled until the issue is fully
-                        handled.</span>
+                    <span class="lead" style="font-weight: 600">Reported Comment Notes</span>
+                    <div class="text-note-confirm"><span><?php echo $report[0]['content'] ?></span>
                     </div>
                 </div>
             </div>

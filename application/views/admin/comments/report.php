@@ -35,7 +35,7 @@
                                                     <span>@<?php echo $row['reported_short'] ?></span>
                                                 </td>
 
-                                                <td class="header-item-content item-style"><?php echo $row['content'] ?></td>
+                                                <td class="header-item-content item-style"><?php echo $row['comment_content'] ?></td>
                                                 <td class="header-item-content item-style">
                                                     <span style="font-weight: 600"><?php echo $row['reporter_name'] ?></span><br>
                                                     <span>@<?php echo $row['reporter_short'] ?></span>
@@ -49,7 +49,7 @@
                                                 <?php } elseif ($row['status'] == 'disable') { ?>
                                                     <td class="header-item-content item-style status-tb">
                                                         <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;
-                                                        <span class="text-uppercase">User Disabled</span>
+                                                        <span class="text-uppercase">Comment Disabled</span>
                                                     </td>
                                                 <?php }elseif ($row['status'] == 'rejected'){ ?>
                                                     <td class="header-item-content item-style status-tb">
@@ -59,7 +59,7 @@
                                                 <?php }elseif ($row['status'] == 'deleted'){ ?>
                                                     <td class="header-item-content item-style status-tb">
                                                         <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;
-                                                        <span class="text-uppercase">User Deleted</span>
+                                                        <span class="text-uppercase">Comment Deleted</span>
                                                     </td>
                                                 <?php } ?>
                                                 <td class="header-item-content item-style">
@@ -68,7 +68,7 @@
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i>
                                                     </span>
                                                         <ul class="dropdown-menu" id="customDropdown">
-                                                            <?php if($row['content'] == ''){ ?>
+                                                            <?php if(empty($row['content'])){ ?>
                                                                 <li class="text-uppercase view-user-click"
                                                                     data-report_id="<?= $row['report_id'] ?>" onclick="ShowNoteReportComment(this)"><a
                                                                             class="drp-items"><span>
@@ -77,9 +77,9 @@
                                                                 </li>
                                                             <?php }else{ ?>
                                                                 <li class="text-uppercase view-user-click"
-                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowEditReportComment(this)"><a
+                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowConfirmReportComments(this)"><a
                                                                             class="drp-items"><span>
-                                                                Edit Notes
+                                                                View Notes
                                                             </span></a>
                                                                 </li>
                                                             <?php } ?>

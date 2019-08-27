@@ -63,6 +63,7 @@
                                                     <span class="user-tag">@</span>
                                                     <input type="text" name='user_name' value="<?php echo $user['user_name']; ?>" class="form-control style-edit-input" placeholder="" style="padding-left: 5px!important;"/>
                                                 </div>
+                                                <span class="user-smg"></span>
                                             <?php }else{ ?>
                                                 <?php echo empty($user['user_name']) ? 'N/A' : $user['user_name']; ?>
                                             <?php } ?>
@@ -73,6 +74,7 @@
                                         <td class="next-column">
                                             <?php if($isEdit == 'true'){ ?>
                                                 <input type="text" name='email' value="<?php echo $user['email']; ?>" class="form-control style-edit-input" placeholder=""/>
+                                                <span class="email-smg"></span>
                                             <?php }else{ ?>
                                                 <?php echo $user['email']; ?>
                                             <?php } ?>
@@ -182,7 +184,7 @@
                                     <tr>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-left: 20px!important;font-weight: 500;"><?php echo $row['comment_id']; ?></td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;padding-right: 10px!important;">
-                                            <span style="font-weight: 600;!important;letter-spacing: 0.73px"><?php echo $row['film_name']; ?> - <?php echo $row['name']; ?></span><br>
+                                            <span style="font-weight: 600;!important;letter-spacing: 0.73px"><?php echo $row['film_name']; ?> - B<?php echo $row['position']; ?></span><br>
                                             <?php echo $row['content']; ?>
                                         </td>
                                         <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;"><?php echo date('m/d/Y h:iA',$row['timestamp']) ?></td>
@@ -208,7 +210,7 @@
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
                                                 <ul class="dropdown-menu" id="customDropdown">
                                                     <li class="text-uppercase" data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowCommentReplies(this)"><a class="drp-items"><span>View</span><img
-                                                                    src="<?= base_url('assets/images/view.svg') ?>" alt=""></a>
+                                                                    src="<?= base_url('assets/images/pencil.svg') ?>" alt=""></a>
                                                     </li>
                                                     <li class="text-uppercase" data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowRemoveComment(this)"><a  class="drp-items"><span>Delete</span><img
                                                                     src="<?= base_url('assets/images/delete.svg') ?>" alt=""></a></li>

@@ -55,7 +55,6 @@ var User = /** @class */ (function () {
         });
     };
     User.prototype.showCommentUser = function () {
-        $('#view-replies-content').html("");
         this.paramreq = {
             user_id: this.user_id,
             isEdit: this.isEdit,
@@ -77,7 +76,13 @@ var User = /** @class */ (function () {
         this.url = '/user/ajaxEdit/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxFormData(function (data) {
-            model.showUserProfile();
+            if (data.user_message != null || data.email_message != null) {
+                $('.email-smg').text(data.email_message);
+                $('.user-smg').text(data.user_message);
+            }
+            else {
+                model.showUserProfile();
+            }
         });
     };
     User.prototype.showEditPick = function () {
@@ -191,6 +196,13 @@ var User = /** @class */ (function () {
             $('#view-note-content').html(data.content);
         });
     };
+    User.prototype.showConfirmNote = function () {
+        this.url = '/user/confirmNote/' + this.report_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            $('#view-note-content').html(data.content);
+        });
+    };
     User.prototype.removeComment = function () {
         this.url = '/user/deleteComment/' + this.comment_id;
         this.typereq = 'POST';
@@ -216,21 +228,21 @@ var User = /** @class */ (function () {
         });
     };
     User.prototype.saveDisableUserReported = function () {
-        this.url = '/user/disableUserReported/' + this.report_id;
+        this.url = '/user/disableUserReported/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
         });
     };
     User.prototype.saveEnableUserReported = function () {
-        this.url = '/user/enableUserReported/' + this.report_id;
+        this.url = '/user/enableUserReported/' + this.user_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
         });
     };
     User.prototype.saveRemoveReport = function () {
-        this.url = '/user/enableUserReported/' + this.report_id;
+        this.url = '/user/saveRemoveReport/' + this.report_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
@@ -331,7 +343,12 @@ function ShowUserProfile(event) {
 function EditUserProfile(event) {
     model.isProfile = false;
     model.isEdit = true;
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.isEdit = false;
     model.isProfile = true;
 }
@@ -546,49 +563,74 @@ function BackComments(event) {
     model.active = 'profile';
 }
 function ShowTabProfile() {
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
 }
 function ShowTabComment() {
     model.isProfile = false;
     model.isEdit = false;
     model.isCreate = false;
     model.active = 'comments';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowTabPick() {
     model.isProfile = false;
     model.isEdit = false;
-    model.isCreate = true;
+    model.isCreate = false;
     model.active = 'your-picks';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowTabWatch() {
     model.isProfile = false;
     model.isEdit = false;
-    model.isCreate = true;
+    model.isCreate = false;
     model.active = 'watch-list';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowTabThumbsup() {
     model.isProfile = false;
     model.isEdit = false;
-    model.isCreate = true;
+    model.isCreate = false;
     model.active = 'thumb-up';
-    model.showUserProfile();
+    if (location.pathname.split('/')[1] == 'user') {
+        model.showUserProfile();
+    }
+    if (location.pathname.split('/')[1] == 'comment') {
+        model.showCommentUser();
+    }
     model.active = 'profile';
 }
 function ShowDisableUserReported(event) {
-    model.report_id = $(event).data('report_id');
+    model.user_id = $(event).data('user_id');
     $('#disable-user-reported').modal('show');
 }
 function SaveDisableUserReported() {
     model.saveDisableUserReported();
 }
 function ShowEnableUserReported(event) {
-    model.report_id = $(event).data('report_id');
+    model.user_id = $(event).data('user_id');
     $('#enable-user-reported').modal('show');
 }
 function SaveEnableUserReported() {
@@ -641,6 +683,11 @@ function ShowEditNote(event) {
     model.report_id = $(event).data('report_id');
     $('#view-note-popup').modal('show');
     model.editReportNote();
+}
+function ShowConfirmNote(event) {
+    model.report_id = $(event).data('report_id');
+    $('#view-note-popup').modal('show');
+    model.showConfirmNote();
 }
 function AddVerify(event) {
     model.user_id = $(event).data('user_id');

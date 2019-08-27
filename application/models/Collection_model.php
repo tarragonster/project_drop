@@ -142,4 +142,8 @@ class Collection_model extends BaseModel {
 		$this->db->limit(10);
 		return $this->db->get()->result_array();
 	}
+	public function disableCarousel($product_id){
+	    $this->db->where('product_id',$product_id);
+	    $this->db->update('collection_product',['status'=>0]);
+    }
 }
