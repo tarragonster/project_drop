@@ -669,6 +669,55 @@
                 ]
             }
         },
+        "/product/{product_id}/localShare": {
+            "post": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Share story with 10 block friends",
+                "operationId": "share-story-local",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "description": "Product ID",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "episode_id",
+                        "in": "formData",
+                        "description": "Episode ID",
+                        "required": false,
+                        "type": "number",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "num_of_shared",
+                        "in": "formData",
+                        "description": "Number of friends have been shared.",
+                        "required": true,
+                        "type": "number",
+                        "format": "int64",
+                        "default": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "accessToken": []
+                    }
+                ]
+            }
+        },
         "/product/{product_id}/reviews": {
             "get": {
                 "tags": [
