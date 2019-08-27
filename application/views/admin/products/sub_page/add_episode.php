@@ -5,7 +5,7 @@
 				<h1 class="modal-title-name">Add Block</h1>
 			</div>
 			<div class="col-md-4 col-lg-4">
-	            <button type="button" class="btn btn-header" id="create-genre-btn" onclick="saveEpisode(key='add')">Create</button>
+	            <button type="button" class="btn btn-header" id="create-genre-btn" onclick="saveEpisode('add')">Create</button>
 	        </div>
 		</div>
 	</div>
