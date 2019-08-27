@@ -46,7 +46,7 @@
             <div class="grnlt-align-wrap">
                 <div class="login">
                     <div class="logo text-center">
-                        <img src="<?php echo base_url('favicon.ico')?>" width="120" alt="logo name">
+                        <img src="<?php echo base_url('assets/images/logo@3x.svg')?>" width="58" alt="logo name">
                     </div>
                     <form class="m-form" action="<?php echo isset($url) ? "?url=$url" : ''; ?>" method="post">
                         <?php 
@@ -77,12 +77,11 @@
                             <input type="submit" class="btn" name="cmd" value="login">
                         </div>
                     </form>
+                    <div class="forgot-block text-center">
+                        <a href="<?php echo base_url('forgotPassword')?>">Forgot Password?</a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="forgot-block text-center">
-            <a href="<?php echo base_url('forgotPassword')?>">Forgot Password?</a>
         </div>
     </body>
 </html>

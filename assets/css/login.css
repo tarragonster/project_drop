@@ -149,12 +149,12 @@ p {
 }
 
 .login .logo img {
-    width: 120px;
+    width: 58px;
 }
 
 .login form {
     display: block;
-    padding: 40px 115px;
+    padding: 40px 115px 0;
 }
 
 .login h1 {
@@ -305,8 +305,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .forgot-block {
-    position: fixed;
-    bottom: 40px;
+    margin-top: 0;
     font-size: 13px;
     color: #ffffff;
     width: 100%

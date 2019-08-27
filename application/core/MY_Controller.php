@@ -8,6 +8,7 @@ class MY_Controller extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+		date_default_timezone_set('America/Los_Angeles');
 		ini_set('memory_limit', '-1');
 
 		if (!empty($this->input->get('enable_profiler'))) {
