@@ -217,7 +217,7 @@ var User = /** @class */ (function () {
         this.url = '/user/ShowCommentReplies/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
-            if (location.pathname.split('/')[1] == 'user') {
+            if (location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore') {
                 $('#view-user-content').html('');
                 $('#view-user-content').html(data.content);
             }
@@ -341,9 +341,10 @@ function ShowUserProfile(event) {
     $('#view-user-popup').modal('show');
 }
 function EditUserProfile(event) {
+    console.log('aaa');
     model.isProfile = false;
     model.isEdit = true;
-    if (location.pathname.split('/')[1] == 'user') {
+    if (location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore') {
         model.showUserProfile();
     }
     if (location.pathname.split('/')[1] == 'comment') {
@@ -554,7 +555,7 @@ function ShowCommentReplies(event) {
 function BackComments(event) {
     model.comment_id = $(event).data('comment_id');
     model.active = 'comments';
-    if (location.pathname.split('/')[1] == 'user') {
+    if (location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore') {
         model.showUserProfile();
     }
     if (location.pathname.split('/')[1] == 'comment') {
@@ -563,7 +564,7 @@ function BackComments(event) {
     model.active = 'profile';
 }
 function ShowTabProfile() {
-    if (location.pathname.split('/')[1] == 'user') {
+    if (location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore') {
         model.showUserProfile();
     }
     if (location.pathname.split('/')[1] == 'comment') {
@@ -575,7 +576,7 @@ function ShowTabComment() {
     model.isEdit = false;
     model.isCreate = false;
     model.active = 'comments';
-    if (location.pathname.split('/')[1] == 'user') {
+    if (location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore') {
         model.showUserProfile();
     }
     if (location.pathname.split('/')[1] == 'comment') {
@@ -588,7 +589,7 @@ function ShowTabPick() {
     model.isEdit = false;
     model.isCreate = false;
     model.active = 'your-picks';
-    if (location.pathname.split('/')[1] == 'user') {
+    if (location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore') {
         model.showUserProfile();
     }
     if (location.pathname.split('/')[1] == 'comment') {
@@ -601,7 +602,7 @@ function ShowTabWatch() {
     model.isEdit = false;
     model.isCreate = false;
     model.active = 'watch-list';
-    if (location.pathname.split('/')[1] == 'user') {
+    if (location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore') {
         model.showUserProfile();
     }
     if (location.pathname.split('/')[1] == 'comment') {
@@ -614,7 +615,7 @@ function ShowTabThumbsup() {
     model.isEdit = false;
     model.isCreate = false;
     model.active = 'thumb-up';
-    if (location.pathname.split('/')[1] == 'user') {
+    if (location.pathname.split('/')[1] == 'user' || location.pathname.split('/')[1] == 'explore') {
         model.showUserProfile();
     }
     if (location.pathname.split('/')[1] == 'comment') {
