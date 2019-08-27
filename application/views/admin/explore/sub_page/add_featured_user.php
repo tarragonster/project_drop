@@ -15,7 +15,9 @@
 		<h4>Featured user search</h4>
 		<div class="form-group" style="margin-top: 20px;width: 100%">
 	        <label>Search user</label>
-	        <input type="text" name="user_id" id="user_key" required class="form-control custom-input" onkeyup='searchUser()' placeholder="Search name, username or email"/>
+	        <input type="hidden" name="user_id" id="user_id">
+	        <input type="text" id="user_key" required class="form-control custom-input" onkeyup='searchUser()' placeholder="Search name, username or email"/>
+	        <span class="mess_err" id="user_err"></span>
 	        <div id="other_user"></div>
 	    </div>
 	</div>

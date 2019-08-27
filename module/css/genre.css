@@ -24,7 +24,9 @@
     width: 23%;
 }
 /*Define width*/
-
+#add-genre-btn {
+    margin-right: 70px;
+}
 
 .product-sortable .label-category {
     text-transform: uppercase;
@@ -1032,6 +1034,7 @@ table, th, td {
     border-radius: 5px;
     margin-top: 10px; 
     overflow-y: unset;
+    margin-bottom: 50px;
 }
 .edit-popup .dropdown-arrow {
     left: 315px;
@@ -1219,4 +1222,9 @@ th {
 }
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td, .table > thead > tr > th, .table-bordered {
     border: none;
+}
+.mess_err {
+    text-transform: initial;
+    font-weight: 500;
+    color: #E70808;
 }

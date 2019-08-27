@@ -173,10 +173,10 @@ class News extends BR_Controller {
 						$item['content'] = str_replace("<<story_name>>", $product['name'], $item['content']);
 					}
 				}
-				if (isset($notify['data']['replies_id'])) {
-					$replies = $this->news_model->getReply($notify['data']['replies_id']);
-					$item['content'] .= $replies['content'];
-				}
+//				if (isset($notify['data']['replies_id'])) {
+//					$replies = $this->news_model->getReply($notify['data']['replies_id']);
+//					$item['content'] .= $replies['content'];
+//				}
 			}
 		}
 		$notify['content'] = $item['content'];

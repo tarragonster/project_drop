@@ -597,6 +597,62 @@ class Product extends BR_Controller {
 	}
 
 	/**
+	 * @SWG\Post(
+	 *     path="/product/{product_id}/localShare",
+	 *     summary="Share story with 10 block friends",
+	 *     operationId="share-story-local",
+	 *     tags={"Story"},
+	 *     produces={"application/json"},
+	 *     @SWG\Parameter(
+	 *         description="Product ID",
+	 *         in="path",
+	 *         name="product_id",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Episode ID",
+	 *         in="formData",
+	 *         name="episode_id",
+	 *         required=false,
+	 *         type="number",
+	 *         format="int64"
+	 *     ),
+	 *     @SWG\Parameter(
+	 *         description="Number of friends have been shared.",
+	 *         in="formData",
+	 *         name="num_of_shared",
+	 *         required=true,
+	 *         type="number",
+	 *         format="int64",
+	 *         default=1,
+	 *     ),
+	 *     @SWG\Response(
+	 *         response=200,
+	 *         description="Successful operation",
+	 *     ),
+	 *     security={
+	 *       {"accessToken": {}}
+	 *     }
+	 * )
+	 */
+	public function localShare_post($product_id) {
+		$product = $this->product_model->get($product_id);
+		if ($product == null) {
+			$this->create_error(-17);
+		}
+		$num_of_shared = $this->c_getNumberNotNull('num_of_shared');
+		$this->product_model->insertShared([
+			'user_id' => $this->user_id,
+			'story_id' => $product_id,
+			'friends' => $num_of_shared,
+			'shared_at' => time(),
+		]);
+		$this->create_success();
+	}
+
+	/**
 	 * @SWG\Get(
 	 *     path="/product/{product_id}/reviews",
 	 *     summary="Get Story Reviews",

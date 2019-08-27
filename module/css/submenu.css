@@ -180,3 +180,6 @@
     width: 462px;
     height: 333px;
 }
+.btn-group i {
+	cursor: pointer;
+}

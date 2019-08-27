@@ -5,7 +5,7 @@
 				<h1 class="modal-title-name">Add Genre</h1>
 			</div>
 			<div class="col-md-4 col-lg-4">
-	            <button type="button" class="btn btn-header" id="create-genre-btn" onclick="saveGenre()">Create</button>
+	            <button type="button" class="btn btn-header" id="create-genre-btn" onclick="saveGenre('add')">Create</button>
 	        </div>
 		</div>
 	</div>
@@ -18,11 +18,15 @@
 			<div class="form-group" style="margin-top: 20px">
                 <label>Genre name</label>
                 <input type="text" name="genre_name" id="genre_name" required class="form-control custom-input" placeholder="Enter Name" autocomplete="off"/>
+                <span class="mess_err" id="name_err"></span>
             </div>
             <div class="input-file">
                 <label>Genre image</label>
                 <div class="row" style="margin-left: 0;">
-                    <img id='genre_image' src="<?php echo base_url('assets/images/borders/369x214.svg')?>" width='183' height='108' sty />
+                    <img id='genre_image' src="<?php echo base_url('assets/images/borders/369x214.svg')?>" width='183' height='108'/>
+                    <div class='mess_err' id="genre_err1"></div>
+                    <div class='mess_err' id="genre_err2"></div>
+                    <div class="mess_err" id="genre_err"></div>
                     <div class="uploader" onclick="$('#genreImg').click()">
                         <button type="button" class="btn ">Upload</button>
                         <input type="file" name="genre_img" id="genreImg" class="imagePhoto" required="" />
@@ -45,18 +49,21 @@
 	    isImage = arr.includes(genre_image.split('.').pop())
 
 	    if (isImage == false) {
-			$('.err-format').css('display', 'block');
-			$('.err-size').css('display', 'none');
+			$('#genre_err1').text('Image format is not supported');
+			$('#genre_err2').text('');
+			$('#genre_err').text('');
 			$('#genre_image').attr('src','<?php echo base_url('assets/images/borders/369x214.svg')?>');
 		} 
 		else if(fileSize /(1024*1024) > 1){
-			$('.err-size').css('display', 'block');
-			$('.err-format').css('display', 'none');
+			$('#genre_err2').text('The size must be less than 1MB');
+			$('#genre_err1').text('');
+			$('#genre_err').text('');
 			$('#genre_image').attr('src','<?php echo base_url('assets/images/borders/369x214.svg')?>');
 		}
 		else {
-			$('.err-format').css('display', 'none');
-			$('.err-size').css('display', 'none');
+			$('#genre_err2').text('');
+			$('#genre_err1').text('');
+			$('#genre_err').text('');
 		    var reader = new FileReader();
 		    reader.onload = function (event) {
 		        
@@ -66,11 +73,4 @@
 	    reader.readAsDataURL(e.target.files[0]);
 	}
 
-	function saveGenre() {
-		var genre_name = $('#genre_name').val()
-		var genre_image = $('#genreImg').val()
-		if ((genre_name != '' || genre_image != '') && $('.err-format').css('display') == 'none' && $('.err-size').css('display') == 'none') {
-			$('#genre-form-add').submit();
-		}
-	}
 </script>
