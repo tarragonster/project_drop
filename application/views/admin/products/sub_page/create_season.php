@@ -12,7 +12,8 @@
                 <div class="col-md-6">
                     <div class="form-group form-dispatch">
                         <label style="margin-top: 27px;">Season Name</label>
-                        <input type="text" required name="season_name" class="form-control form-dispatch" autocomplete="off"/>
+                        <input type="text" required name="season_name" class="form-control form-dispatch" 
+                        autocomplete="off" style="color:#403F3F;" />
                     </div>
                 </div>
             </div>

@@ -242,7 +242,13 @@ table.dataTable thead .sorting_desc:after {
     color: #9B9B9B;
     font-size: 11px;
 }
-.modal-dialog {
+.btn-group i {
+    cursor: pointer;
+}
+.left-50 {
+    margin-right: 50px !important;
+}
+.modal-dialog-action {
     width: 462px;
     height: 333px;
 }
@@ -500,6 +506,22 @@ hr {
     letter-spacing: 0.73px;
     /*margin: 5px 0;*/
 }
+.card-sorting-review .sortable-box {
+    width: 7%;
+    height: 60px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    padding: 0 0px 0 10px;
+    font-weight: 500;
+    font-size: 11px;
+    color: #403F3F;
+    letter-spacing: 0.73px;
+    padding: 0;
+    margin-right: 10px;
+    box-sizing: content-box;
+}
 .sortable-move {
     background: #fff;
     border-radius: 5px 0 0 5px;
@@ -518,10 +540,11 @@ hr {
 .circle-image {
     width: 59px;
     height: 59px;
-    margin-right: 20px;
+    margin-right: 20px !important;
 }
 .circle-image img {
-    width: 100%;
+    width: 59px;
+    height: 59px;
     border-radius: 29.5px;
 }
 .table thead {
@@ -542,22 +565,22 @@ hr {
     width: 40px;
 }
 .table_review > thead > tr > th:nth-child(2) {
-    width: 80px;
+    width: 90px;
 }
 .table_review > thead > tr > th:nth-child(3) {
-    width: 18%;
+    width: 18.5%;
 }
 .table_review > thead > tr > th:nth-child(4) {
-    width: 9%;
+    width: 8%;
 }
 .table_review > thead > tr > th:nth-child(5) {
-    width: 47%;
+    width: 43%;
 }
 .table_review > thead > tr > th:nth-child(6) {
-    width: 9%
+    width: 11%;
 }
 .table_review > thead > tr > th:nth-child(7) {
-    width: 80px;
+    width: 60px;
 }
 .review-mess-box {
     text-align: center;
