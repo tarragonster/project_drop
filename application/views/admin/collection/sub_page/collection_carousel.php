@@ -67,14 +67,14 @@
 												</a>
 											</li>
 											<?php else: ?>
-											<li class="en-genre-btn preview-btn" data-id="<?php echo $row['product_id']; ?>" data-toggle="modal" data-target="#en-modal">
+											<li class="en-genre-btn preview-btn" data-id="<?php echo $row['product_id']; ?>" onclick="ShowEnableCarousel(this)">
 												<a href="#">
 													Enable
 													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/block.svg')?>"></span>
 												</a>
 											</li>
 											<?php endif; ?>
-											<li class="delete-genre-btn preview-btn" data-id="<?php echo $row['product_id']; ?>" data-toggle="modal" data-target="#del-modal">
+											<li class="delete-genre-btn preview-btn" data-id="<?php echo $row['product_id']; ?>" onclick="ShowDeleteCarousel(this)">
 												<a href="#">
 													Remove
 													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/trash.svg')?>"></span>
@@ -104,7 +104,7 @@
 </div>
 
 <div class="modal fade" id="dis-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-carousel">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
@@ -115,13 +115,13 @@
 			</div>
 			<div class="modal-button">
 				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-warning dis-confirm" data-id="" onclick="DisableCarousel(this)">Disable</button>
+				<button type="button" class="btn btn-warning dis-confirm" data-id="" onclick="DisableCarousel()">Disable</button>
 			</div>	
 		</div>
 	</div>
 </div>
 <div class="modal fade" id="en-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-carousel">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/exclamation.jpg')?>">
@@ -132,13 +132,13 @@
 			</div>
 			<div class="modal-button">
 				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
-				<button type="submit" class="btn btn-warning en-confirm">Enable</button>
+				<button type="submit" class="btn btn-warning en-confirm" onclick="EnableCarousel()">Enable</button>
 			</div>	
 		</div>
 	</div>
 </div>
 <div class="modal fade" id="del-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-carousel">
 		<div class="modal-content modal-content-popup">
 			<div class="modal-img">
 				<img src="<?php echo base_url('assets/images/quit.jpg')?>">
@@ -149,7 +149,7 @@
 			</div>
 			<div class="modal-button">
 				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
-				<button class="btn btn-danger remove-confirm" data-dismiss="modal" >Remove</button>
+				<button class="btn btn-danger remove-confirm" data-dismiss="modal" onclick="DeleteCarousel()">Remove</button>
 			</div>	
 		</div>
 	</div>

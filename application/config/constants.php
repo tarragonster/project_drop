@@ -119,3 +119,6 @@ const COLLECTION_TYPE_FRIEND_WATCHING   = 7;
 const DEVICE_TYPE_NONE      = 'none';
 const DEVICE_TYPE_ANDROID   = 'android';
 const DEVICE_TYPE_IOS       = 'ios';
+
+const COLLECTION_ID_TRENDING   = 1;
+const COLLECTION_ID_CAROUSEL   = 5;

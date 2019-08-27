@@ -131,4 +131,19 @@ class Collection_model extends BaseModel {
 	    $this->db->where('product_id',$product_id);
 	    $this->db->update('collection_product',['status'=>0]);
     }
+
+    public function enableCarousel($product_id){
+        $this->db->where('product_id',$product_id);
+        $this->db->update('collection_product',['status'=>1]);
+    }
+
+    public function deleteCarousel($product_id){
+        $this->db->where('product_id',$product_id);
+        $this->db->delete('collection_product');
+    }
+
+    public function disableTrending($product_id){
+        $this->db->where('product_id',$product_id);
+        $this->db->update('collection_product',['status'=>0]);
+    }
 }

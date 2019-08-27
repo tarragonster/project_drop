@@ -253,7 +253,7 @@ class Collection extends Base_Controller {
 	public function carousel() {
 		$this->load->model("product_model");
 		$this->load->library('hash');
-		$carousel_products = $this->product_model->getListProductByCollection(5);
+		$carousel_products = $this->product_model->getListProductByCollection(COLLECTION_ID_CAROUSEL);
 		if ($carousel_products == null) {
 			$params['page_index'] = 'empty_carousel';
 		} else {
@@ -295,7 +295,7 @@ class Collection extends Base_Controller {
 	public function trending() {
 		$this->load->model("product_model");
 		$this->load->library('hash');
-		$trending_products =  $this->product_model->getListProductByCollection(1);
+		$trending_products =  $this->product_model->getListProductByCollection(COLLECTION_ID_CAROUSEL);
 		if ($trending_products == null) {
 			$params['page_index'] = 'empty_trending';
 		} else {
@@ -336,6 +336,21 @@ class Collection extends Base_Controller {
 
 	public function disableCarousel($product_id){
         $this->collection_model->disableCarousel($product_id);
+        $this->ajaxSuccess();
+    }
+
+    public function enableCarousel($product_id){
+        $this->collection_model->enableCarousel($product_id);
+        $this->ajaxSuccess();
+    }
+
+    public function deleteCarousel($product_id){
+        $this->collection_model->deleteCarousel($product_id);
+        $this->ajaxSuccess();
+    }
+
+    public function disableTrending($product_id){
+        $this->collection_model->disableTrending($product_id);
         $this->ajaxSuccess();
     }
 }

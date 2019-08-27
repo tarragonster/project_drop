@@ -543,3 +543,7 @@
 .table > thead:first-child > tr:first-child > th {
     height: unset;
 }
+
+.modal-carousel{
+    width: 462px;
+}
