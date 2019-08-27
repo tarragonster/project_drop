@@ -17,6 +17,7 @@ $(".sortable").sortable({
 
 // Show add carousel story popup
 $('#add-story-carousel').on('click', function (e) {
+	console.log(111)
 	e.preventDefault();
 	$('#add-story-form').html("");
 	$.ajax({
@@ -156,6 +157,7 @@ function addStoryTrending() {
 	}else {
 		$('#story-form-add').submit()
 	}
+}
 	
 var carousel_id = null;
 
@@ -175,5 +177,4 @@ function DisableCarousel(event){
 			}
 		}
 	});
-
 }
