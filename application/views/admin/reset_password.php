@@ -48,7 +48,7 @@
             <div class="grnlt-align-wrap">
                 <div class="login">
                     <div class="logo text-center">
-                        <img src="<?php echo base_url('assets/images/logo@3x.svg')?>" width="58" alt="logo name">
+                        <img src="<?php echo base_url('assets/images/logo@3x.png')?>" width="58" alt="logo name">
                     </div>
                     <form class="m-form" action="<?php echo isset($url) ? "?url=$url" : ''; ?>" method="post">
                         <?php 
