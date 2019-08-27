@@ -312,15 +312,15 @@ class Product extends BR_Controller {
 		$this->load->model('comment_model');
 		$episode['num_like'] = $this->episode_model->countLike($episode['episode_id'], 1);
 		$episode['num_dislike'] = $this->episode_model->countLike($episode['episode_id'], 0);
-		$comments = $this->episode_model->getComments($episode['episode_id'], 1, 0);
-		$episode['num_comment'] = $this->episode_model->countComment($episode['episode_id']) + $this->episode_model->countAllSubComment($episode['episode_id']);
+		$comments = $this->comment_model->getBlockComments($episode['episode_id'], 1, 0);
+		$episode['num_comment'] = $this->comment_model->countBlockComments($episode['episode_id']) + $this->comment_model->countAllBlockReplies($episode['episode_id']);
 
 		if ($this->user_id != null) {
 			$episode['review_info'] = $this->product_model->getProductUserReview($this->user_id, $episode['product_id']);
 			$episode['has_like'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 1);
 			$episode['has_dislike'] = $this->episode_model->hasLikeEpisode($episode['episode_id'], $this->user_id, 0);
 			foreach ($comments as $key => $comment) {
-				$replies = $this->episode_model->getReplies($comment['comment_id']);
+				$replies = $this->comment_model->getCommentReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
 					$replies[$t]['has_like'] = $this->comment_model->hasLikeReplies($rep['replies_id'], $this->user_id);
 				}
@@ -334,7 +334,7 @@ class Product extends BR_Controller {
 			$episode['has_dislike'] = 0;
 			$episode['start_time'] = 0;
 			foreach ($comments as $key => $comment) {
-				$replies = $this->episode_model->getReplies($comment['comment_id']);
+				$replies = $this->comment_model->getCommentReplies($comment['comment_id']);
 				foreach ($replies as $t => $rep) {
 					$replies[$t]['has_like'] = 0;
 				}

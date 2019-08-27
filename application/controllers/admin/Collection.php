@@ -259,7 +259,7 @@ class Collection extends Base_Controller {
 		} else {
 			$preview_ids = Hash::combine($carousel_products, '{n}.product_id', '{n}.product_id');
 
-			$comments = $this->product_model->getAllComment($preview_ids);
+			$comments = $this->product_model->getAllProductComments($preview_ids);
 			$comments = Hash::combine($comments, '{n}.comment_id', '{n}', '{n}.product_id');
 
 			$likes = $this->product_model->getAllLike($preview_ids);
@@ -301,7 +301,7 @@ class Collection extends Base_Controller {
 		} else {
 			$preview_ids = Hash::combine($trending_products, '{n}.product_id', '{n}.product_id');
 
-			$comments = $this->product_model->getAllComment($preview_ids);
+			$comments = $this->product_model->getAllProductComments($preview_ids);
 			$comments = Hash::combine($comments, '{n}.comment_id', '{n}', '{n}.product_id');
 
 			$likes = $this->product_model->getAllLike($preview_ids);

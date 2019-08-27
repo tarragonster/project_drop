@@ -68,7 +68,7 @@ class Product extends Base_Controller {
 	        $blocks= Hash::combine($blocks,'{n}.episode_id','{n}','{n}.product_id');
 
 			//Get comments by product_ids
-			$comments = $this->product_model->getAllComment($product_ids);
+			$comments = $this->product_model->getAllProductComments($product_ids);
 	        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.product_id');
 
 	        //Get likes by product_ids
@@ -710,7 +710,7 @@ class Product extends Base_Controller {
 		        $episode_ids = array_keys($episode_ids);
 
 		        //Get comments by episodes
-				$comments = $this->episode_model->getAllComment($episode_ids);
+				$comments = $this->episode_model->getAllEpisodeComments($episode_ids);
 		        $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.episode_id');
 
 		        //Get comments by episodes

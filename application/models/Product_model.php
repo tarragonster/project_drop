@@ -389,9 +389,10 @@ class Product_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getAllComment($product_ids){
+	public function getAllProductComments($product_ids){
 		$this->db->select('p.product_id, c.comment_id');
         $this->db->where_in('p.product_id', $product_ids);
+		$this->db->where('c.is_deleted', 0);
         $this->db->from('product p');
         $this->db->join('season s', 'p.product_id = s.product_id');
         $this->db->join('episode e', 's.season_id = e.season_id');

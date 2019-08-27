@@ -76,7 +76,7 @@ class User extends Base_Controller {
             $comment_likes = $this->user_model->getCommentLike($user_ids);
             $comment_likes = Hash::combine($comment_likes,'{n}.id','{n}','{n}.user_id');
             //todo Get comment by user_ids
-            $comments = $this->user_model->getAllComment($user_ids);
+            $comments = $this->user_model->getAllUserComments($user_ids);
             $comments= Hash::combine($comments,'{n}.comment_id','{n}','{n}.user_id');
             //todo Get pick by user_ids
             $picks = $this->user_model->getAllPick($user_ids);
@@ -638,23 +638,7 @@ class User extends Base_Controller {
         $data['content'] = $this->load->view('admin/users/edit_pick_content', $pick, true);
 
         $this->ajaxSuccess($data);
-
-//		$this->load->view('admin_main_layout', $data);
 	}
-
-//	public function getUsersByStatus()
-//	{
-//		$status = $this->input->get('status');
-//		if ($status == 0 || $status == 1) {
-//			$users = $this->user_model->getUsersForAdmin($status);
-//		}else
-//		{
-//			$users = $this->user_model->getAllUsers();
-//		}
-//		$data = ['users' => $users];
-//		$html = $this->load->view('admin/users_table', $data, true);
-//		die(json_encode($html));
-//	}
 
 	public function search()
 	{
@@ -673,8 +657,9 @@ class User extends Base_Controller {
     }
 
     public function ShowCommentReplies($comment_id){
+	    $this->load->model('comment_model');
         $layoutParams = [];
-        $layoutParams['comment_replies'] = $this->user_model->getCommentReplies($comment_id);
+        $layoutParams['comment_replies'] = $this->comment_model->getUserCommentReplies($comment_id);
         $content = $this->load->view('admin/users/comment_replies', $layoutParams, true);
         $data['content'] = $content;
         $this->ajaxSuccess($data);
