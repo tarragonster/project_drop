@@ -328,8 +328,8 @@ class User extends Base_Controller {
 
 		if ($user != null) {
             $data['message'] = "";
-//			$this->user_model->delete($user_id);
-            $this->user_model->deleteUserStatus($user_id);
+			$this->user_model->delete($user_id);
+//            $this->user_model->deleteUserStatus($user_id);
 			$this->notify_model->deleteReference('user', $user_id);
             $this->ajaxSuccess($data);
 
@@ -370,15 +370,20 @@ class User extends Base_Controller {
 
 			$userEmail = $this->user_model->getByEmail($params['email']);
 			if ($userEmail != null && $userEmail['user_id'] != $user_id) {
-				$this->session->set_flashdata('error_message', 'Sorry, this email is already linked to an existing account');
-//				redirect(base_url('user/edit/' . $user_id));
-			}
+//                $params['email_message'] = $this->session->set_flashdata('error_message', 'Sorry, this email is already linked to an existing account');
+                $params['email_message'] = 'Sorry, this email is already linked to an existing account';
+
+                $this->ajaxSuccess($params);
+
+            }
 
 			$userX = $this->user_model->getByUsername($params['user_name']);
 			if ($userX != null && $userX['user_id'] != $user_id) {
-				$this->session->set_flashdata('error_message', 'Sorry, this username is already linked to an existing account');
-//				redirect(base_url('user/edit/' . $user_id));
-			}
+//                $params['user_message'] = $this->session->set_flashdata('error_message', 'Sorry, this username is already linked to an existing account');
+                $params['user_message'] = 'Sorry, this username is already linked to an existing account';
+
+                $this->ajaxSuccess($params);
+            }
 
 			$avatar = isset($_FILES['avatar']) ? $_FILES['avatar'] : null;
 			if ($avatar != null) {
@@ -430,6 +435,8 @@ class User extends Base_Controller {
         $layoutParams['isProfile'] = $this->input->get('isProfile');
         $layoutParams['isCreate'] = $this->input->get('isCreate');
         $layoutParams['active'] = $this->input->get('active');
+        $layoutParams['email_message'] = '';
+        $layoutParams['user_message'] = '';
 
 
 
@@ -680,14 +687,14 @@ class User extends Base_Controller {
         $this->ajaxSuccess($data);
     }
 
-    public function disableUserReported($report_id){
-	    $this->user_model->disableReported($report_id);
+    public function disableUserReported($user_id){
+	    $this->user_model->disableReported($user_id);
         $this->ajaxSuccess();
 
     }
 
-    public function enableUserReported($report_id){
-        $this->user_model->enableReported($report_id);
+    public function enableUserReported($user_id){
+        $this->user_model->enableReported($user_id);
         $this->ajaxSuccess();
 
     }
@@ -758,6 +765,12 @@ class User extends Base_Controller {
     }
     function deleteCommentLike($commentLike_id){
         $this->user_model->deleteCommentLike($commentLike_id);
+        $this->ajaxSuccess();
+
+    }
+
+    function saveRemoveReport($report_id){
+	    $this->user_model->saveRemoveReport($report_id);
         $this->ajaxSuccess();
 
     }
