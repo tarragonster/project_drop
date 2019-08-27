@@ -54,13 +54,13 @@
 										<ul class="dropdown-menu" role="menu" style="min-width: 90px">
 											<div class="dropdown-arrow"></div>
 											<li class="edit-genre-btn" data-id="<?php echo $row['product_id']; ?>">
-												<a href="#">
+												<a href="<?php echo base_url('product/edit/' . $row['product_id'])?>">
 													View
 													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/edit.svg')?>"></span>
 												</a>
 											</li>
 											<?php if($row['status'] == 1):?>
-											<li class="dis-genre-btn preview-btn" data-id="<?php echo $row['product_id']; ?>" data-toggle="modal" data-target="#dis-modal">
+											<li class="dis-genre-btn preview-btn" data-id="<?php echo $row['product_id']; ?>" onclick="ShowDisableCarousel(this)">
 												<a href="#">
 													Disable
 													<span class="action-icon"><img src="<?php echo base_url('assets/images/icons/block.svg')?>"></span>
@@ -115,7 +115,7 @@
 			</div>
 			<div class="modal-button">
 				<button type="button" class="btn btn-secondary cancel-btn" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-warning dis-confirm">Disable</button>
+				<button type="button" class="btn btn-warning dis-confirm" data-id="" onclick="DisableCarousel(this)">Disable</button>
 			</div>	
 		</div>
 	</div>

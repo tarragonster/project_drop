@@ -333,4 +333,9 @@ class Collection extends Base_Controller {
 		$this->customJs[] = 'module/js/collection_carousel.js';
 		$this->render('/collection/collection_layout', $params, 4, 41);
 	}
+
+	public function disableCarousel($product_id){
+        $this->collection_model->disableCarousel($product_id);
+        $this->ajaxSuccess();
+    }
 }

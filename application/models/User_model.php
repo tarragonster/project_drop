@@ -736,13 +736,16 @@ class User_model extends BaseModel {
         }else{
             $this->db->order_by('up.report_id', 'desc');
         }
+
+        return $this->db->count_all_results();
+
     }
 
 	public function getReports($conditions = array(), $page = 0) {
 		$this->db->from('user_reports ur');
 		$this->db->join('user u1', 'u1.user_id = ur.user_id');
 		$this->db->join('user u2', 'u2.user_id = ur.reporter_id');
-		$this->db->select('ur.report_id,ur.report_note, u1.*, u2.full_name as reporter_name,u2.user_name as reporter_user_name, ur.created_at,ur.status as report_status');
+		$this->db->select('u1.status as user_status,u1.is_deleted,ur.report_id,ur.report_note, u1.*, u2.full_name as reporter_name,u2.user_name as reporter_user_name, ur.created_at,ur.status as report_status');
 
         if (!empty($conditions['key'])) {
             $this->makeSearchQuery(['lower(ur.report_id)','lower(u1.full_name)','lower(u2.full_name)','lower(ur.created_at)'], strtolower($conditions['key']));
@@ -1101,9 +1104,9 @@ class User_model extends BaseModel {
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('user_profile_configs');
 
-		$this->db->where('user_id', $user_id);
-		$this->db->or_where('reporter_id', $user_id);
-		$this->db->delete('user_reports');
+//		$this->db->where('user_id', $user_id);
+//		$this->db->or_where('reporter_id', $user_id);
+//		$this->db->delete('user_reports');
 
 		$this->db->or_where('reference_id', $user_id);
 		$this->db->delete('contact_contacts');
@@ -1111,14 +1114,13 @@ class User_model extends BaseModel {
         $this->db->or_where('user_id', $user_id);
         $this->db->delete('user_notification_setting');
 
-		$this->db->where('user_id', $user_id);
-        $this->db->delete('user');
-
 		$this->db->like('data', '"user_id":' . $user_id, 'both');
 		$this->db->delete('user_notify');
 
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user',array('is_deleted'=>1));
 
-		return parent::delete($user_id);
+//		return parent::delete($user_id);
 	}
 
 	public function getNotificationSetting($user_id) {
@@ -1144,23 +1146,19 @@ class User_model extends BaseModel {
         $this->db->delete('comments');
     }
 
-    public function disableReported($report_id){
-	    $this->db->where('report_id',$report_id);
-	    $this->db->update('user_reports', array('status'=>'disable'));
+    public function disableReported($user_id){
+	    $this->db->where('user_id',$user_id);
+	    $this->db->update('user', array('status'=>0));
     }
 
-    public function enableReported($report_id){
-        $this->db->where('report_id',$report_id);
-        $this->db->update('user_reports', array('status'=>'rejected'));
-
+    public function enableReported($user_id){
+        $this->db->where('user_id',$user_id);
+        $this->db->update('user', array('status'=>1));
     }
 
     public function deleteUserStatus($user_id){
         $this->db->where('user_id',$user_id);
         $this->db->update('user',array('is_deleted'=>1));
-
-        $this->db->where('user_id',$user_id);
-        $this->db->update('user_reports',array('status'=>'deleted'));
 	}
 
 	public function addVerify($user_id){
@@ -1222,5 +1220,10 @@ class User_model extends BaseModel {
 	    $this->db->from('user_reports ur');
 
 	    return $this->db->get()->result_array();
+    }
+
+    public function saveRemoveReport($report_id){
+        $this->db->where('report_id',$report_id);
+        $this->db->update('user_reports',['status'=>'rejected']);
     }
 }
