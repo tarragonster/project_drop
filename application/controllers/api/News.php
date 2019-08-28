@@ -135,7 +135,7 @@ class News extends BR_Controller {
 
 				if ($item['type'] == 9 && isset($notify['data']['comment_id'])) {
 					$comment = $this->news_model->getComment($notify['data']['comment_id']);
-					$item['content'] .= $comment['content'];
+					$item['content'] .= $comment['content'] . ' on';
 				}
 			}
 			if ($checkFill == 1) {
@@ -187,7 +187,7 @@ class News extends BR_Controller {
 	}
 
 	function testNews_get($user_id = 47) {
-		$this->db->like('data', '"user_id":'.$user_id, 'both');
+		$this->db->like('data', '"user_id":' . $user_id, 'both');
 		$this->db->delete('user_notify');
 	}
 }
