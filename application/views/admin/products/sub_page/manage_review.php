@@ -29,7 +29,7 @@
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-15" style="width: 18%">
 	                                <?php echo $row['full_name']?> <br> @<?php echo $row['user_name']?>
 		                        </div>
-		                        <div class="col-sm-3 col-lg-2 sortable-box width-10">
+		                        <div class="col-sm-3 col-lg-2 sortable-box width-10" style="width: 10%">
 	                                <?= $row['name'] ?>
 	                            </div>
 	                            <div class="col-sm-3 col-lg-1 sortable-box width-48" style="width: 43%;">
