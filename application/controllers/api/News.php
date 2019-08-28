@@ -128,6 +128,7 @@ class News extends BR_Controller {
 					$user = $this->news_model->getUserForNotify($notify['data']['uid_comment']);
 					$notify['user_name'] .= '*' . $user['user_name'];
 					$notify['avatar2'] = $user['avatar'];
+					$notify['user_id2'] = $user['user_id'];
 					$notify['user_type2'] = $user['user_type'];
 					$item['content'] = str_replace(" <<username>>", '*', $item['content']);
 				}
