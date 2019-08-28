@@ -163,14 +163,14 @@ class News extends BR_Controller {
 						$episode_name = $episode_name . $episode['name'];
 					}
 				}
-				if ($episode_name != '' && in_array($notify['type'], [52, 53, 54])) {
+				if ($episode_name != '' && in_array($notify['type'], [53, 54])) {
 					$item['content'] = $item['content'] . ' on ' . $episode_name . ' of';
 				}
 				if (isset($notify['data']['product_id'])) {
 					$product = $this->news_model->getProductForNotify($notify['data']['product_id']);
 					if ($product != null) {
 						$notify['product_image'] = $product['image'];
-						$notify['product_name'] = $product['name'];
+						$notify['product_name'] = $notify['type'] == 52 ? '' : $product['name'];
 						$item['content'] = str_replace("<<story_name>>", $product['name'], $item['content']);
 					}
 				}

@@ -86,7 +86,7 @@ class Notify_model extends CI_Model {
 		],
 		'52' => [
 			'setting_key' => NOTIFICATION_COMMENT_MENTIONS,
-			'formatted' => "mentioned you",
+			'formatted' => "mentioned you.",
 			'delay_seconds' => 3 * 60, // Delay 3min
 		],
 		'53' => [
