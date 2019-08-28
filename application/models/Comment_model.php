@@ -563,7 +563,7 @@ class Comment_model extends BaseModel {
 
 	public function countBlockComments($episode_id) {
 		$this->db->from('comments c');
-		$this->db->where('e.episode_id', $episode_id);
+		$this->db->where('c.episode_id', $episode_id);
 		$this->db->where('c.is_deleted', 0);
 		$this->db->where('c.status', 1);
 		return $this->db->count_all_results();
