@@ -41,25 +41,26 @@
                                                     <span>@<?php echo $row['reporter_short'] ?></span>
                                                 </td>
                                                 <td class="header-item-content item-style"><?php echo date('m/d/Y h:iA', $row['created_at'])  ?></td>
-                                                <?php if ($row['status'] == 'pending') { ?>
+                                                <?php $row_status = '';
+                                                if ($row['is_deleted'] == 1) { $row_status = 'Comment Deleted' ?>
                                                     <td class="header-item-content item-style status-tb">
-                                                        <img src="<?= base_url('assets/imgs/warning.svg') ?>" alt="orange">&nbsp;
-                                                        <span class="text-uppercase">Pending</span>
+                                                        <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;
+                                                        <span class="text-uppercase">Comment Deleted</span>
                                                     </td>
-                                                <?php } elseif ($row['status'] == 'disable') { ?>
+                                                <?php } elseif ($row['comment_status'] == 0) { $row_status = 'Comment Disabled'; ?>
                                                     <td class="header-item-content item-style status-tb">
                                                         <img src="<?= base_url('assets/imgs/red.svg') ?>" alt="red">&nbsp;
                                                         <span class="text-uppercase">Comment Disabled</span>
                                                     </td>
-                                                <?php }elseif ($row['status'] == 'rejected'){ ?>
+                                                <?php }elseif ($row['report_status'] == 'rejected'){ $row_status = 'Report Removed'; ?>
                                                     <td class="header-item-content item-style status-tb">
                                                         <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;
                                                         <span class="text-uppercase">Report Removed</span>
                                                     </td>
-                                                <?php }elseif ($row['status'] == 'deleted'){ ?>
+                                                <?php }else{ $row_status = 'Pending'; ?>
                                                     <td class="header-item-content item-style status-tb">
-                                                        <img src="<?= base_url('assets/imgs/dark.svg') ?>" alt="dark">&nbsp;
-                                                        <span class="text-uppercase">Comment Deleted</span>
+                                                        <img src="<?= base_url('assets/imgs/warning.svg') ?>" alt="orange">&nbsp;
+                                                        <span class="text-uppercase">Pending</span>
                                                     </td>
                                                 <?php } ?>
                                                 <td class="header-item-content item-style">
@@ -83,40 +84,46 @@
                                                             </span></a>
                                                                 </li>
                                                             <?php } ?>
-                                                            <?php if($row['status'] == 'pending' || $row['status'] == 'rejected' || $row['status'] == 'deleted'){ ?>
-                                                                <li class="text-uppercase <?php echo $row['status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowDisableCommentReported(this)">
-                                                                    <a class="drp-items"><span>
+                                                            <?php if($row_status != 'Comment Deleted' && $row_status != 'Report Removed'){ ?>
+                                                                <?php if($row_status == 'Pending'){ ?>
+                                                                    <li class="text-uppercase"
+                                                                        data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowDisableCommentReported(this)">
+                                                                        <a class="drp-items"><span>
                                                                 Disable Comment
                                                             </span></a>
-                                                                </li>
-                                                            <?php }else{ ?>
-                                                                <li class="text-uppercase"
-                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowEnableCommentReported(this)">
-                                                                    <a class="drp-items"><span>
+                                                                    </li>
+                                                                <?php }else{ ?>
+                                                                    <li class="text-uppercase"
+                                                                        data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowEnableCommentReported(this)">
+                                                                        <a class="drp-items"><span>
                                                                 Enable Comment
+                                                            </span></a>
+                                                                    </li>
+                                                                <?php } ?>
+                                                            <?php } ?>
+                                                            <?php if($row_status != 'Comment Deleted' && $row_status != 'Report Removed'){ ?>
+                                                                <li class="text-uppercase"
+                                                                    data-report_id="<?= $row['report_id'] ?>" onclick="ShowRemoveReportedComment(this)">
+                                                                    <a class="drp-items"><span>
+                                                                Remove Report
                                                             </span></a>
                                                                 </li>
                                                             <?php } ?>
-                                                            <li class="text-uppercase
-                                                                <?php echo $row['status'] == 'rejected' ? "dis-btn" : ""; ?>
-                                                                <?php echo $row['status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowRemoveReportedComment(this)">
-                                                                <a class="drp-items"><span>
-                                                                Remove Report
-                                                            </span></a>
-                                                            </li>
-                                                            <li class="text-uppercase <?php echo $row['status'] == 'deleted' ? "dis-btn" : ""; ?>"
-                                                                data-report_id="<?= $row['report_id'] ?>" onclick="ShowFirstDeleteReportedComment(this)"><a
-                                                                        class="drp-items"><span>
+                                                            <?php if($row_status != 'Comment Deleted'){ ?>
+                                                                <li class="text-uppercase"
+                                                                    data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowFirstDeleteReportedComment(this)"><a
+                                                                            class="drp-items"><span>
                                                                 Delete Comment</span></a>
-                                                            </li>
-                                                            <li class="text-uppercase"
-                                                                data-user_id="<?= $row['user_id'] ?>" onclick="ShowReportedCommentUser(this)">
-                                                                <a class="drp-items"><span>
+                                                                </li>
+                                                            <?php } ?>
+                                                            <?php if($row_status != 'Comment Deleted'){ ?>
+                                                                <li class="text-uppercase"
+                                                                    data-user_id="<?= $row['user_id'] ?>" onclick="ShowReportedCommentUser(this)">
+                                                                    <a class="drp-items"><span>
                                                                 View User
                                                             </span></a>
-                                                            </li>
+                                                                </li>
+                                                            <?php } ?>
                                                         </ul>
                                                     </div>
                                                 </td>
