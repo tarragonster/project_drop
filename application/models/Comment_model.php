@@ -503,7 +503,10 @@ class Comment_model extends BaseModel {
     }
 
     public function makeQueryReportComment($conditions = array()){
-        $this->db->select('crp.report_id,c.content as comment_content, crp.content,crp.created_at,crp.status,u1.user_name as reported_short,u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
+        $this->db->select('crp.report_id,c.content as comment_content,c.status as comment_status,
+         crp.content,crp.created_at,crp.status as report_status,u1.user_name as reported_short,
+         u1.user_id,u1.full_name as reported_name,u2.user_name as reporter_short,
+         u2.full_name as reporter_name,c.is_deleted,crp.comment_id');
         $this->db->from('comment_reports crp');
         $this->db->join('comments c','crp.comment_id=c.comment_id');
         $this->db->join('user u1','c.user_id=u1.user_id');
@@ -524,19 +527,19 @@ class Comment_model extends BaseModel {
         return $this->db->get()->result_array();
     }
 
-    public function disableCommentReported($report_id){
-        $this->db->where('report_id',$report_id);
-        $this->db->update('comment_reports',['status'=>'disable']);
+    public function disableCommentReported($comment_id){
+        $this->db->where('comment_id',$comment_id);
+        $this->db->update('comments',['status'=>0]);
     }
 
-    public function enableCommentReported($report_id){
-        $this->db->where('report_id',$report_id);
-        $this->db->update('comment_reports',['status'=>'rejected']);
+    public function enableCommentReported($comment_id){
+        $this->db->where('comment_id',$comment_id);
+        $this->db->update('comments',['status'=>1]);
     }
 
-    public function confirmDeleteReportedComment($report_id){
-        $this->db->where('report_id',$report_id);
-        $this->db->update('comment_reports',['status'=>'deleted']);
+    public function confirmDeleteReportedComment($comment_id){
+        $this->db->where('comment_id',$comment_id);
+        $this->db->update('comments',['is_deleted'=>1]);
     }
 
     public function getConfirmReportNote($report_id){

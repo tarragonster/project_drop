@@ -657,7 +657,7 @@ table.dataTable thead .sorting_desc:after {
 }
 
 .header_statusheader-crp{
-    width: 19%;
+    width: 21%;
 }
 #delete-reportedComment-content{
     border: none!important;
@@ -714,4 +714,8 @@ table.dataTable thead .sorting_desc:after {
 
 .headerForSeasonTitle > tr > td{
     border: none!important;
+}
+
+.dateheader-crp{
+    width: 17%;
 }
