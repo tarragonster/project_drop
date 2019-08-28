@@ -555,3 +555,28 @@
 .modal-carousel{
     width: 462px;
 }
+
+html{
+    height: 100%!important;
+}
+
+body{
+    overflow: unset;
+}
+
+.fixed-left{
+    height: 100%;
+}
+
+.content-page{
+    overflow: unset!important;
+    height: 100%;
+}
+
+#wrapper{
+    overflow-y: unset!important;
+}
+
+.section-container{
+    overflow: unset!important;
+}
