@@ -352,3 +352,20 @@ function ShowHeaderFAQ($str){
     $new_str = strtolower($new_str);
     return $new_str;
 }
+
+function unset_keys(&$item, $keys) {
+	foreach ($keys as $key) {
+		if (array_key_exists($key, $item)) {
+			unset($item[$key]);
+		}
+	}
+	return $item;
+}
+
+function unset_keys_array(&$array, $keys) {
+	$items = [];
+	foreach ($array as $item) {
+		$items[] = unset_keys($item, $keys);
+	}
+	return $items;
+}

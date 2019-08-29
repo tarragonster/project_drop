@@ -305,8 +305,8 @@ class BR_Controller extends REST_Controller {
 		$profile = $this->user_model->getProfileUser($user_id);
 		$profile['num_following'] = $this->user_model->countFollowing($user_id);
 		$profile['num_followers'] = $this->user_model->countFollowers($user_id);
-		$this->load->model('news_model');
-		$profile['num_news'] = $this->news_model->countNotification($this->user_id);
+		$this->load->model('notify_model');
+		$profile['num_news'] = $this->notify_model->countNotification($this->user_id);
 		if ($this->user_id == $user_id) {
 			$profile['notification'] = $this->user_model->getNotificationSetting($this->user_id);
 		}
