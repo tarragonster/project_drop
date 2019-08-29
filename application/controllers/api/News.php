@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/core/BR_Controller.php';
 
 class News extends BR_Controller {
+	const SUPPORTED_IOS_VERSION = '1.0.7';
+	const SUPPORTED_ANDROID_VERSION = '1.0.4';
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('notify_model');
@@ -32,10 +34,16 @@ class News extends BR_Controller {
 		$news = array();
 		$following = array();
 		$you = array();
+
+		$newVersion = false;
+		if (($this->device_type == DEVICE_TYPE_ANDROID && version_compare($this->app_version, News::SUPPORTED_ANDROID_VERSION) >= 0) || ($this->device_type == DEVICE_TYPE_IOS && version_compare($this->app_version, News::SUPPORTED_IOS_VERSION) >= 0)) {
+			$newVersion = true;
+		}
+
 		$items = $this->notify_model->getNewForFollowing($this->user_id);
 		if (is_array($items) && count($items) > 0) {
 			foreach ($items as $item) {
-				$filledItem = $this->fillNotifyData($item);
+				$filledItem = $newVersion ? $this->getNotifyData($item) : $this->fillData($item, 1);
 				if ($filledItem != null) {
 					array_push($following, $filledItem);
 				}
@@ -44,7 +52,7 @@ class News extends BR_Controller {
 		$items = $this->notify_model->getNewForYou($this->user_id);
 		if (is_array($items) && count($items) > 0) {
 			foreach ($items as $item) {
-				$filledItem = $this->fillNotifyData($item);
+				$filledItem = $newVersion ? $this->getNotifyData($item) : $this->fillData($item, 2);
 				if ($filledItem != null) {
 					array_push($you, $filledItem);
 				}
@@ -102,7 +110,6 @@ class News extends BR_Controller {
 		$notify['avatar'] = '';
 		$notify['has_followed'] = '0';
 
-		$alert_content = Notify_model::$templates[$item['type']]['alert_formatted'];
 		$item['content'] = Notify_model::$templates[$item['type']]['formatted'];
 
 		if ($notify['data'] != null) {
@@ -177,16 +184,11 @@ class News extends BR_Controller {
 						$item['content'] = str_replace("<<story_name>>", $product['name'], $item['content']);
 					}
 				}
-//				if (isset($notify['data']['replies_id'])) {
-//					$replies = $this->notify_model->getReply($notify['data']['replies_id']);
-//					$item['content'] .= $replies['content'];
-//				}
 			}
 		}
 		$notify['content'] = $item['content'];
 		$notify['timestamp'] = $item['timestamp'];
 		$notify['status'] = $item['status'];
-		$notify['alert_content'] = $alert_content;
 		return $notify;
 	}
 
@@ -262,9 +264,9 @@ class News extends BR_Controller {
 			if (isset($notify['data']['uid_comment'])) {
 				if ($notify['data']['uid_comment'] == $notify['data']['user_id']) {
 					if ($notify['type'] == 10) {
-						$alert_content = str_replace("<<username_seconds>>", 'their', $alert_content);
+						$alert_content = str_replace("<<username_2nd>>", 'their', $alert_content);
 					} else {
-						$alert_content = str_replace("<<username_seconds>>", 'to their', $alert_content);
+						$alert_content = str_replace("<<username_2nd>>", 'to their', $alert_content);
 					}
 				} else {
 					$userSecond = $this->notify_model->getUserForNotify($notify['data']['uid_comment']);
@@ -293,9 +295,9 @@ class News extends BR_Controller {
 
 					$alert_content = str_replace("<<story_name>>", $product['name'], $alert_content);
 					if ($fillAlert) {
-						$alert_content = str_replace("<<story_name_end>>", $product['name'], $alert_content);
+						$alert_content = str_replace("<<story_name>>", $product['name'], $alert_content);
 					} else {
-						$alert_content = str_replace(" <<story_name_end>>", '', $alert_content);
+						$alert_content = str_replace(" <<story_name>>", '', $alert_content);
 					}
 				}
 			}
@@ -304,6 +306,84 @@ class News extends BR_Controller {
 				if ($episode != null) {
 					$notify['episode_image'] = $episode['image'];
 					$alert_content = str_replace("<<block_name>>", $episode['name'], $alert_content);
+				}
+			}
+		}
+		$notify['timestamp'] = $item['timestamp'];
+		$notify['status'] = $item['status'];
+		$notify['content'] = $alert_content;
+		return $notify;
+	}
+
+	public function getNotifyData($item) {
+		$notify = array();
+		$notify['notify_id'] = $item['notify_id'];
+		$notify['type'] = $item['type'];
+		$notify['data'] = $item['data'] == null ? null : json_decode($item['data'], true);
+		$notify['user_name'] = '';
+		$notify['username_2nd'] = '';
+		$notify['product_name'] = '';
+		$notify['block_name'] = '';
+		$notify['avatar'] = '';
+		$notify['has_followed'] = '0';
+
+		$alert_content = Notify_model::$templates[$item['type']]['alert_formatted'];
+
+		if ($notify['data'] != null) {
+			foreach ($notify['data'] as $key => $value) {
+				if (!empty($value) && $key != 'story_name') {
+					$alert_content = str_replace("<<$key>>", $value, $alert_content);
+				}
+			}
+
+			if (isset($notify['data']['user_id'])) {
+				$user = $this->notify_model->getUserForNotify($notify['data']['user_id']);
+				if ($user == null) {
+					return null;
+				}
+				$notify['avatar'] = $user['avatar'];
+				$notify['user_type'] = $user['user_type'];
+				if (isset($notify['data']['user_id']) == $this->user_id) {
+					$notify['user_name'] = empty($user['user_name']) ? $user['full_name'] : $user['user_name'];
+					$notify['has_followed'] = $this->user_model->checkFollower($this->user_id, $notify['data']['user_id']) ? '1' : '0';
+				} else {
+					$notify['user_name'] = 'You';
+					$notify['has_followed'] = '0';
+				}
+			}
+			if (isset($notify['data']['uid_comment'])) {
+				if ($notify['data']['uid_comment'] == $notify['data']['user_id']) {
+					if ($notify['type'] == 10) {
+						$alert_content = str_replace("<<username_2nd>>", 'their', $alert_content);
+					} else {
+						$alert_content = str_replace("<<username_2nd>>", 'to their', $alert_content);
+					}
+				} else {
+					$userSecond = $this->notify_model->getUserForNotify($notify['data']['uid_comment']);
+					$notify['avatar2'] = $userSecond['avatar'];
+					$notify['user_id2'] = $userSecond['user_id'];
+					$notify['user_type2'] = $userSecond['user_type'];
+					$notify['username_2nd'] = $userSecond['user_name'];
+				}
+
+				if ($item['type'] == 9 && isset($notify['data']['comment_id'])) {
+					$comment = $this->notify_model->getComment($notify['data']['comment_id']);
+					$alert_content = str_replace("<<comment_content>>", $comment['content'], $alert_content);
+				}
+			}
+
+			if (isset($notify['data']['product_id'])) {
+				$product = $this->notify_model->getProductForNotify($notify['data']['product_id']);
+				if ($product != null) {
+					$notify['product_image'] = $product['image'];
+					$notify['product_name'] = $product['name'];
+				}
+			}
+			if (isset($notify['data']['episode_id'])) {
+				$episode = $this->notify_model->getPartEpisodeForNotify($notify['data']['episode_id']);
+				if ($episode != null) {
+					$notify['episode_image'] = $episode['image'];
+					$notify['block_name'] = $episode['name'];
 				}
 			}
 		}

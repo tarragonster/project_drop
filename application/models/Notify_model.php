@@ -6,19 +6,19 @@ class Notify_model extends CI_Model {
 		'1' => [
 			'setting_key' => NOTIFICATION_NEW_WATCHLIST,
 			'formatted' => 'is watching',
-			'alert_formatted' => '<<username>> is watching <<block_name>> of <<story_name_end>>',
+			'alert_formatted' => '<<username>> is watching <<block_name>> of <<story_name>>',
 			'delay_seconds' => 0,
 		],
 		'2' => [
 			'setting_key' => NOTIFICATION_NEW_THUMBS_UP,
 			'formatted' => "liked",
-			'alert_formatted' => "<<username>> liked <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> liked <<block_name>> of <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'3' => [
 			'setting_key' => NOTIFICATION_NEW_THUMBS_UP,
 			'formatted' => "disliked",
-			'alert_formatted' => "<<username>> disliked <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> disliked <<block_name>> of <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'4' => [
@@ -30,19 +30,19 @@ class Notify_model extends CI_Model {
 		'5' => [
 			'setting_key' => NOTIFICATION_COMMENT_LIKES,
 			'formatted' => "liked comment",
-			'alert_formatted' => "<<username>> liked comment <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> liked comment <<block_name>> of <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'6' => [
 			'setting_key' => NOTIFICATION_COMMENT_REPLIES,
 			'formatted' => "commented on",
-			'alert_formatted' => "<<username>> commented on <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> commented on <<block_name>> of <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'7' => [
 			'setting_key' => NOTIFICATION_NEW_STORIES,
 			'formatted' => "10 Block Series Suggestion:",
-			'alert_formatted' => "10 Block Series Suggestion: <<story_name_end>>",
+			'alert_formatted' => "10 Block Series Suggestion: <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'8' => [
@@ -54,25 +54,25 @@ class Notify_model extends CI_Model {
 		'9' => [
 			'setting_key' => NOTIFICATION_COMMENT_LIKES,
 			'formatted' => "liked <<username>>'s comment: ",
-			'alert_formatted' => "<<username>> liked <<username_seconds>>'s comment: <<comment_content>> on <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> liked <<username_2nd>>'s comment: <<comment_content>> on <<block_name>> of <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'10' => [
 			'setting_key' => NOTIFICATION_COMMENT_REPLIES,
 			'formatted' => "replied to <<username>>'s comment on",
-			'alert_formatted' => "<<username>> replied to <<username_seconds>>'s comment on <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> replied to <<username_2nd>>'s comment on <<block_name>> of <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'11' => [
 			'setting_key' => NOTIFICATION_COMMENT_MENTIONS,
 			'formatted' => "mentioned <<username>> in a comment on",
-			'alert_formatted' => "<<username>> mentioned <<username_seconds>> in a comment on <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> mentioned <<username_2nd>> in a comment on <<block_name>> of <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'12' => [
 			'setting_key' => NOTIFICATION_NEW_FOLLOWERS,
 			'formatted' => "started following <<username>>",
-			'alert_formatted' => "<<username>> started following <<username_seconds>>",
+			'alert_formatted' => "<<username>> started following <<username_2nd>>",
 			'delay_seconds' => 0,
 		],
 		'13' => [
@@ -108,13 +108,13 @@ class Notify_model extends CI_Model {
 		'53' => [
 			'setting_key' => NOTIFICATION_COMMENT_LIKES,
 			'formatted' => "liked your comment",
-			'alert_formatted' => "<<username>> liked your comment on <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> liked your comment on <<block_name>> of <<story_name>>",
 			'delay_seconds' => 0,
 		],
 		'54' => [
 			'setting_key' => NOTIFICATION_COMMENT_REPLIES,
 			'formatted' => "replied to you",
-			'alert_formatted' => "<<username>> replied to you on <<block_name>> of <<story_name_end>>",
+			'alert_formatted' => "<<username>> replied to you on <<block_name>> of <<story_name>>",
 			'delay_seconds' => 2 * 60, // Delay 2min
 		],
 		'55' => [
@@ -318,15 +318,15 @@ class Notify_model extends CI_Model {
 		if (isset($data['uid_comment'])) {
 			if ($data['uid_comment'] == $data['user_id']) {
 				if ($type == 10) {
-					$alert_content = str_replace("<<username_seconds>>", 'their', $alert_content);
+					$alert_content = str_replace("<<username_2nd>>", 'their', $alert_content);
 				} else {
-					$alert_content = str_replace("<<username_seconds>>", 'to their', $alert_content);
+					$alert_content = str_replace("<<username_2nd>>", 'to their', $alert_content);
 				}
 			} else {
 				$secondUser = $this->notify_model->getUserForNotify($data['uid_comment']);
 				if ($secondUser != null) {
 					$second_username = empty($secondUser['user_name']) ? $secondUser['full_name'] : $secondUser['user_name'];
-					$alert_content = str_replace("<<username_seconds>>", $second_username, $alert_content);
+					$alert_content = str_replace("<<username_2nd>>", $second_username, $alert_content);
 				}
 			}
 
@@ -340,7 +340,7 @@ class Notify_model extends CI_Model {
 			$product = $this->notify_model->getProductForNotify($data['product_id']);
 			if ($product != null) {
 				$alert_content = str_replace("<<story_name>>", $product['name'], $alert_content);
-				$alert_content = str_replace("<<story_name_end>>", $product['name'], $alert_content);
+				$alert_content = str_replace("<<story_name>>", $product['name'], $alert_content);
 			}
 		}
 		if (isset($data['episode_id'])) {
@@ -459,15 +459,13 @@ class Notify_model extends CI_Model {
 	public function getNewForFollowing($user_id, $page = -1) {
 		$this->db->select('un.*');
 		$this->db->from('user_notify un');
-//		$this->db->where('un.user_id', $user_id);
+		$this->db->where('un.user_id', $user_id);
 		$this->db->where('un.timestamp <=', time());
 		$this->db->where('type <', 50);
 		$this->db->order_by('un.timestamp', 'desc');
 		$this->db->order_by('un.notify_id', 'desc');
 		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
-		} else {
-			$this->db->limit(100);
 		}
 		$query = $this->db->get();
 		return $query->result_array();
@@ -476,15 +474,13 @@ class Notify_model extends CI_Model {
 	public function getNewForYou($user_id, $page = -1) {
 		$this->db->select('*');
 		$this->db->from('user_notify un');
-//		$this->db->where('user_id', $user_id);
+		$this->db->where('user_id', $user_id);
 		$this->db->where('un.timestamp <=', time());
 		$this->db->where('type >', 50);
 		$this->db->order_by('un.timestamp', 'desc');
 		$this->db->order_by('un.notify_id', 'desc');
 		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
-		} else {
-			$this->db->limit(100);
 		}
 		$query = $this->db->get();
 		return $query->result_array();
