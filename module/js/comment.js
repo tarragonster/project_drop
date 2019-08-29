@@ -138,35 +138,35 @@ var Comments = /** @class */ (function () {
         });
     };
     Comments.prototype.saveDisableCommentReported = function () {
-        this.url = '/comment/disableCommentReported/' + this.report_id;
+        this.url = '/comment/disableCommentReported/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
         });
     };
     Comments.prototype.saveEnableCommentReported = function () {
-        this.url = '/comment/enableCommentReported/' + this.report_id;
+        this.url = '/comment/enableCommentReported/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
         });
     };
     Comments.prototype.showFirstDeleteReportedComment = function () {
-        this.url = '/comment/showFirstDeleteReportedComment/' + this.report_id;
+        this.url = '/comment/showFirstDeleteReportedComment/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-reportedComment-content').html(data.content);
         });
     };
     Comments.prototype.showSecondDeleteReportedComment = function () {
-        this.url = '/comment/showSecondDeleteReportedComment/' + this.report_id;
+        this.url = '/comment/showSecondDeleteReportedComment/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-reportedComment-content').html(data.content);
         });
     };
     Comments.prototype.confirmDeleteReportedComment = function () {
-        this.url = '/comment/confirmDeleteReportedComment/' + this.report_id;
+        this.url = '/comment/confirmDeleteReportedComment/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload();
@@ -338,21 +338,21 @@ function ShowEditReportComment(event) {
     $('#view-replies-popup').modal('show');
 }
 function ShowDisableCommentReported(event) {
-    commentModel.report_id = $(event).data('report_id');
+    commentModel.comment_id = $(event).data('comment_id');
     $('#disable-commentReported').modal('show');
 }
 function SaveDisableCommentReported() {
     commentModel.saveDisableCommentReported();
 }
 function ShowEnableCommentReported(event) {
-    commentModel.report_id = $(event).data('report_id');
+    commentModel.comment_id = $(event).data('comment_id');
     $('#enable-commentReported').modal('show');
 }
 function SaveEnableCommentReported() {
     commentModel.saveEnableCommentReported();
 }
 function ShowFirstDeleteReportedComment(event) {
-    commentModel.report_id = $(event).data('report_id');
+    commentModel.comment_id = $(event).data('comment_id');
     commentModel.showFirstDeleteReportedComment();
     $('#delete-commentReported').modal('show');
 }

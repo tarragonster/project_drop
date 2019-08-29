@@ -509,13 +509,13 @@ class Comment extends Base_Controller {
         $this->ajaxSuccess($data);
     }
 
-    public function disableCommentReported($report_id){
-        $this->comment_model->disableCommentReported($report_id);
+    public function disableCommentReported($comment_id){
+        $this->comment_model->disableCommentReported($comment_id);
         $this->ajaxSuccess();
     }
 
-    public function enableCommentReported($report_id){
-        $this->comment_model->enableCommentReported($report_id);
+    public function enableCommentReported($comment_id){
+        $this->comment_model->enableCommentReported($comment_id);
         $this->ajaxSuccess();
     }
 
@@ -535,8 +535,8 @@ class Comment extends Base_Controller {
         $this->ajaxSuccess($data);
     }
 
-    public function confirmDeleteReportedComment($report_id){
-	    $this->comment_model->confirmDeleteReportedComment($report_id);
+    public function confirmDeleteReportedComment($comment_id){
+	    $this->comment_model->confirmDeleteReportedComment($comment_id);
         $this->ajaxSuccess();
     }
 

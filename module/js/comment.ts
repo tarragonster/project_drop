@@ -175,7 +175,7 @@ class Comments{
     }
 
     saveDisableCommentReported(){
-        this.url = '/comment/disableCommentReported/' + this.report_id;
+        this.url = '/comment/disableCommentReported/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload()
@@ -183,7 +183,7 @@ class Comments{
     }
 
     saveEnableCommentReported(){
-        this.url = '/comment/enableCommentReported/' + this.report_id;
+        this.url = '/comment/enableCommentReported/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload()
@@ -191,7 +191,7 @@ class Comments{
     }
 
     showFirstDeleteReportedComment(){
-        this.url = '/comment/showFirstDeleteReportedComment/' + this.report_id;
+        this.url = '/comment/showFirstDeleteReportedComment/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-reportedComment-content').html(data.content)
@@ -199,7 +199,7 @@ class Comments{
         })
     }
     showSecondDeleteReportedComment(){
-        this.url = '/comment/showSecondDeleteReportedComment/' + this.report_id;
+        this.url = '/comment/showSecondDeleteReportedComment/' + this.comment_id;
         this.typereq = 'GET';
         this.sendAjaxRequest(function (data) {
             $('#delete-reportedComment-content').html(data.content)
@@ -208,7 +208,7 @@ class Comments{
     }
 
     confirmDeleteReportedComment(){
-        this.url = '/comment/confirmDeleteReportedComment/' + this.report_id;
+        this.url = '/comment/confirmDeleteReportedComment/' + this.comment_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload()
@@ -422,7 +422,7 @@ function ShowEditReportComment(event){
 }
 
 function ShowDisableCommentReported(event){
-    commentModel.report_id = $(event).data('report_id');
+    commentModel.comment_id = $(event).data('comment_id');
     $('#disable-commentReported').modal('show')
 }
 
@@ -431,7 +431,7 @@ function SaveDisableCommentReported(){
 }
 
 function ShowEnableCommentReported(event){
-    commentModel.report_id = $(event).data('report_id');
+    commentModel.comment_id = $(event).data('comment_id');
     $('#enable-commentReported').modal('show')
 }
 
@@ -439,7 +439,7 @@ function SaveEnableCommentReported(){
     commentModel.saveEnableCommentReported()
 }
 function ShowFirstDeleteReportedComment(event){
-    commentModel.report_id = $(event).data('report_id');
+    commentModel.comment_id = $(event).data('comment_id');
     commentModel.showFirstDeleteReportedComment()
     $('#delete-commentReported').modal('show')
 }
