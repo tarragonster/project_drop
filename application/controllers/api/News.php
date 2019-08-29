@@ -320,12 +320,10 @@ class News extends BR_Controller {
 		$notify['notify_id'] = $item['notify_id'];
 		$notify['type'] = $item['type'];
 		$notify['data'] = $item['data'] == null ? null : json_decode($item['data'], true);
-		$notify['user_name'] = '';
-		$notify['username_2nd'] = '';
-		$notify['product_name'] = '';
+		$notify['user'] = null;
+		$notify['user_2nd'] = null;
+		$notify['story_name'] = '';
 		$notify['block_name'] = '';
-		$notify['avatar'] = '';
-		$notify['has_followed'] = '0';
 
 		$alert_content = Notify_model::$templates[$item['type']]['alert_formatted'];
 
@@ -341,15 +339,13 @@ class News extends BR_Controller {
 				if ($user == null) {
 					return null;
 				}
-				$notify['avatar'] = $user['avatar'];
-				$notify['user_type'] = $user['user_type'];
-				if (isset($notify['data']['user_id']) == $this->user_id) {
-					$notify['user_name'] = empty($user['user_name']) ? $user['full_name'] : $user['user_name'];
-					$notify['has_followed'] = $this->user_model->checkFollower($this->user_id, $notify['data']['user_id']) ? '1' : '0';
+				if (isset($user['user_id']) == $this->user_id) {
+					$user['has_followed'] = $this->user_model->checkFollower($this->user_id, $user['user_id']) ? '1' : '0';
 				} else {
-					$notify['user_name'] = 'You';
-					$notify['has_followed'] = '0';
+					$user['user_name'] = 'You';
+					$user['has_followed'] = '0';
 				}
+				$notify['user'] = $user;
 			}
 			if (isset($notify['data']['uid_comment'])) {
 				if ($notify['data']['uid_comment'] == $notify['data']['user_id']) {
@@ -358,12 +354,16 @@ class News extends BR_Controller {
 					} else {
 						$alert_content = str_replace("<<username_2nd>>", 'to their', $alert_content);
 					}
-				} else {
-					$userSecond = $this->notify_model->getUserForNotify($notify['data']['uid_comment']);
-					$notify['avatar2'] = $userSecond['avatar'];
-					$notify['user_id2'] = $userSecond['user_id'];
-					$notify['user_type2'] = $userSecond['user_type'];
-					$notify['username_2nd'] = $userSecond['user_name'];
+				}
+				$userSecond = $this->notify_model->getUserForNotify($notify['data']['uid_comment']);
+				if ($userSecond != null) {
+					if (isset($userSecond['user_id']) == $this->user_id) {
+						$userSecond['has_followed'] = $this->user_model->checkFollower($this->user_id, $userSecond['user_id']) ? '1' : '0';
+					} else {
+						$userSecond['user_name'] = 'You';
+						$userSecond['has_followed'] = '0';
+					}
+					$notify['user_2nd'] = $userSecond;
 				}
 
 				if ($item['type'] == 9 && isset($notify['data']['comment_id'])) {
@@ -375,14 +375,14 @@ class News extends BR_Controller {
 			if (isset($notify['data']['product_id'])) {
 				$product = $this->notify_model->getProductForNotify($notify['data']['product_id']);
 				if ($product != null) {
-					$notify['product_image'] = $product['image'];
-					$notify['product_name'] = $product['name'];
+					$notify['story_image'] = $product['image'];
+					$notify['story_name'] = $product['name'];
 				}
 			}
 			if (isset($notify['data']['episode_id'])) {
 				$episode = $this->notify_model->getPartEpisodeForNotify($notify['data']['episode_id']);
 				if ($episode != null) {
-					$notify['episode_image'] = $episode['image'];
+					$notify['block_image'] = $episode['image'];
 					$notify['block_name'] = $episode['name'];
 				}
 			}
