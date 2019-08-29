@@ -507,7 +507,7 @@ hr {
     /*margin: 5px 0;*/
 }
 .card-sorting-review .sortable-box {
-    width: 7%;
+    /*width: 7%;*/
     height: 60px;
     display: -webkit-flex;
     display: flex;
@@ -626,5 +626,13 @@ hr {
 }
 .content-page > .content {
     margin-bottom: 0;
+}
+@media screen and (max-width: 1200px) {
+    .table_review > thead > tr > th:nth-child(2) {
+        width: 70px;
+    }
+    .table_review > thead > tr > th:nth-child(6) {
+        width: 12%;
+    }
 }
 /*REVIEWS*/
