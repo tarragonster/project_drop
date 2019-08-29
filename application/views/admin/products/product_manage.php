@@ -6,7 +6,7 @@
                 <a href="<?php echo base_url('product/edit/' . $this->session->userdata('product_id'))?>">Manage Story</a>
             </li>
             <li <?= ($page_index == 'manage_season') || ($page_index == 'create_season') || ($page_index == 'empty_episode') ? 'class="active"' : ''; ?>>
-                <a href="<?php echo base_url('product/manageSeason/' . $this->session->userdata('product_id'))?>">Manage Season</a>
+                <a href="<?php echo base_url('product/manageSeason/' . $this->session->userdata('product_id'))?>">Manage Blocks</a>
             </li>
             <li <?= ($page_index == 'manage_review') || ($page_index == 'empty_review') ? 'class="active"' : ''; ?>>
                 <a href="<?php echo base_url('product/manageReview/' . $this->session->userdata('product_id'))?>">Reviews</a>
