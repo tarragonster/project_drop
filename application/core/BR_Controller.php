@@ -40,7 +40,7 @@ class BR_Controller extends REST_Controller {
 			'post' => json_encode($this->post()),
 			'image' => json_encode($_FILES),
 			'get' => json_encode($this->get()),
-			'access_token' => $this->access_token,
+			'access_token' => $this->user_id . ' | ' . $this->access_token,
 			'ctime' => time()
 		));
 	}
