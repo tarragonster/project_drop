@@ -285,7 +285,7 @@ function image_mask($imageUri, $mark = 'assets/images/mask.png', $width = '100%'
 	if (!empty($moreStyle)) {
 		$style .= $moreStyle;
 	}
-	return '<img src="' . base_url($mark) . '" class="' . $class . '" style="' . $style . '" width="' . $width . '" title="' . $title . '"/>';
+	return '<img data-src="' . base_url($mark) . '" class="' . $class . '" style="' . $style . '" width="' . $width . '" title="' . $title . '"/>';
 }
 
 function media_thumbnail($mediaUri, $size = 100, $default = 'assets/images/placeholder.png') {
