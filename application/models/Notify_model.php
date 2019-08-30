@@ -1,6 +1,7 @@
 <?php
+require_once APPPATH . '/core/BaseModel.php';
 
-class Notify_model extends CI_Model {
+class Notify_model extends BaseModel {
 
 	public static $templates = array(
 		'1' => [
@@ -175,6 +176,9 @@ class Notify_model extends CI_Model {
 
 	public function __construct() {
 		parent::__construct();
+
+		$this->table = 'user_notify';
+		$this->id_name = 'notify_id';
 		$this->load->library('cipush');
 	}
 
