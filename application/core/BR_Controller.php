@@ -36,13 +36,36 @@ class BR_Controller extends REST_Controller {
 		}
 
 		$this->validate_authorization(1);
-		$this->db->insert('aa_manager_api', array('api_name' => uri_string(),
+		$this->db->insert('aa_manager_api', [
+			'api_name' => uri_string(),
 			'post' => json_encode($this->post()),
+			'user_agent' => $app_data . ' | ' . $_SERVER['HTTP_USER_AGENT'],
 			'image' => json_encode($_FILES),
 			'get' => json_encode($this->get()),
 			'access_token' => $this->user_id . ' | ' . $this->access_token,
 			'ctime' => time()
-		));
+		]);
+	}
+
+	protected function available($androidVersion, $iosVersion, $androidBuildNumber = -1, $iosBuildNumber = -1) {
+		if ($this->device_type == DEVICE_TYPE_ANDROID) {
+			$value = version_compare($this->app_version, $androidVersion);
+			if ($value > 0) {
+				return true;
+			}
+			if ($value == 0 && $this->build_number >= $androidBuildNumber) {
+				return true;
+			}
+		} else if ($this->device_type == DEVICE_TYPE_IOS) {
+			$value = version_compare($this->app_version, $iosVersion);
+			if ($value > 0) {
+				return true;
+			}
+			if ($value == 0 && $this->build_number >= $iosBuildNumber) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected function create_error($code, $message = '') {
