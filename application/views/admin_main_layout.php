@@ -295,6 +295,7 @@
 <script src="<?php echo base_url('assets/vendor/datatables/dataTables.bootstrap.min.js'); ?>"></script>
 <script src="<?php echo base_url('assets/plugins/multiselect/js/jquery.multiselect.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery-ui.js') ?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 
 <script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 
@@ -312,6 +313,10 @@ if (isset($customJs) && is_array($customJs)) {
 </body>
 </html>
 <script>
+	
+	const observer = lozad();
+	observer.observe();
+
     function getStatus(){
         $('.status-text').text('View All Statuses')
     }

@@ -42,6 +42,7 @@ class Preview_model extends BaseModel {
 				'product_id' => $product_id,
 				'promo_image' => $promo_image,
 				'priority' => $this->getMaxFilm() + 1,
+				'added_at' => time(),
 				'status' => 1,
 			]);
 			return $this->db->insert_id();

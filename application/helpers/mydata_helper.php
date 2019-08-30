@@ -285,7 +285,7 @@ function image_mask($imageUri, $mark = 'assets/images/mask.png', $width = '100%'
 	if (!empty($moreStyle)) {
 		$style .= $moreStyle;
 	}
-	return '<img src="' . base_url($mark) . '" class="' . $class . '" style="' . $style . '" width="' . $width . '" title="' . $title . '"/>';
+	return '<img data-src="' . base_url($mark) . '" class="' . $class . '" style="' . $style . '" width="' . $width . '" title="' . $title . '"/>';
 }
 
 function media_thumbnail($mediaUri, $size = 100, $default = 'assets/images/placeholder.png') {
@@ -351,4 +351,21 @@ function ShowHeaderFAQ($str){
     $new_str = 'header_'.$new_str;
     $new_str = strtolower($new_str);
     return $new_str;
+}
+
+function unset_keys(&$item, $keys) {
+	foreach ($keys as $key) {
+		if (array_key_exists($key, $item)) {
+			unset($item[$key]);
+		}
+	}
+	return $item;
+}
+
+function unset_keys_array(&$array, $keys) {
+	$items = [];
+	foreach ($array as $item) {
+		$items[] = unset_keys($item, $keys);
+	}
+	return $items;
 }

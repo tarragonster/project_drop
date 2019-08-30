@@ -134,9 +134,8 @@ class Collection_model extends BaseModel {
 	}
 
 	public function getOtherProduct($key, $product_ids) {
-		$this->db->select('p.product_id, p.name');
-		$this->db->from('collection_product cp');
-		$this->db->join('product p', 'cp.product_id = p.product_id');
+		$this->db->select('p.product_id, p.name, p.image');
+		$this->db->from('product p');
 		$this->db->where('p.name like "%' . $key . '%"');
 		$this->db->where_not_in('p.product_id', $product_ids);
 		$this->db->limit(10);

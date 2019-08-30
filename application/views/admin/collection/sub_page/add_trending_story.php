@@ -23,13 +23,13 @@
 	    <div class="form-group" style="padding-right: 0;margin-top: 50px;">
             <label>Poster Image</label>
             <div class="row" style="padding-left: 10px">
-                <img id='explore_image' width='70' height='100' src="<?php echo base_url('assets/images/borders/233x346@3x.png')?>"/>
+                <img id='trending_image' width='70' height='100' src="<?php echo base_url('assets/images/borders/233x346@3x.png')?>"/>
                 <div class='mess_err' id="ex_err1"></div>
                 <div class='mess_err' id="ex_err2"></div>
                 <div class="mess_err" id="img_err"></div>
-                <div class="uploader" onclick="$('#exploreImg').click()" style="display: none">
+                <div class="uploader" onclick="$('#trendingImg').click()" style="display: none">
                     <button type="button" class="btn">Upload alternative image</button>
-                    <input type="file" accept="image/*" name="promo_image" id="exploreImg" class="imagePhoto"/>
+                    <input type="file" accept="image/*" name="promo_image" id="trendingImg" class="imagePhoto"/>
                 </div>
             </div>
         </div>
@@ -37,28 +37,28 @@
 </div>
 
 <script type="text/javascript">
-	var exploreImgLoader = document.getElementById('exploreImg');
+	var exploreImgLoader = document.getElementById('trendingImg');
 	if (exploreImgLoader) {
 	    exploreImgLoader.addEventListener('change', handleExploreImage, false);
 	}
 	function handleExploreImage(e) {
 	    const arr = ['jpg', 'png', 'jpeg', 'gif', 'pdf', 'JPG', 'PNG', 'JPEG', 'GIF', 'PDF']
 
-	    var explore_image = $('#exploreImg').val()
-	    var fileSize = document.getElementById('exploreImg').files[0].size;
-	    isImage = arr.includes(explore_image.split('.').pop())
+	    var trending_image = $('#trendingImg').val()
+	    var fileSize = document.getElementById('trendingImg').files[0].size;
+	    isImage = arr.includes(trending_image.split('.').pop())
 
 	    if (isImage == false) {
 	        $('#ex_err1').text('Image format is not supported');
 	        $('#ex_err2').text('');
 	        $('#img_err').text('');
-	        $('#explore_image').attr('src', BASE_APP_URL + 'assets/images/borders/233x346@3x.png');
+	        $('#trending_image').attr('src', BASE_APP_URL + 'assets/images/borders/233x346@3x.png');
 	    } 
 	    else if(fileSize /(1024*1024) > 1){
 	        $('#ex_err2').text('The size must be less than 1MB');
 	        $('#ex_err1').text('');
 	        $('#img_err').text('');
-	        $('#explore_image').attr('src', BASE_APP_URL + 'assets/images/borders/233x346@3x.png');
+	        $('#trending_image').attr('src', BASE_APP_URL + 'assets/images/borders/233x346@3x.png');
 	    }else {
 	        $('#ex_err1').text('');
 	        $('#ex_err2').text('');
@@ -67,7 +67,7 @@
 	        var reader = new FileReader();
 	        reader.onload = function (event) {
 
-	            $('#explore_image').attr('src',event.target.result);
+	            $('#trending_image').attr('src',event.target.result);
 	        }
 	        reader.readAsDataURL(e.target.files[0]);
 	    }
