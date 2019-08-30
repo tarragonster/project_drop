@@ -159,25 +159,10 @@ class Product extends Base_Controller {
 				$params['background_img'] = $path;
 			}
 
-
 			$product_id = $this->product_model->insert($params);
 
 			$this->load->model('notify_model');
 			$this->notify_model->sendToAllUser(58, ['story_name' => $params['name'], 'product_id' => $product_id]);
-
-			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
-			if ($preview_img != null && $preview_img['error'] == 0) {
-				$collection_id = 2; // Preview
-				$path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
-				$this->file_model->saveFile($preview_img, $path);
-				$data_collection = array(
-					'collection_id' => $collection_id,
-					'product_id' => $product_id,
-					'promo_image' => $path,
-					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1
-				);
-				$this->collection_model->addFilmPreviews($data_collection);
-			}
 
 			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
 			if ($explore_img != null && $explore_img['error'] == 0) {
@@ -300,23 +285,6 @@ class Product extends Base_Controller {
 				$params['background_img'] = $background_path;
 			}
 
-			$preview_img = isset($_FILES['preview_img']) ? $_FILES['preview_img'] : null;
-			if ($preview_img != null && $preview_img['error'] == 0) {
-				$preview_path = $this->file_model->createFileName($preview_img, 'media/films/', 'preview');
-				$this->file_model->saveFile($preview_img, $preview_path);
-				if ($collection_product == null) {
-					$data_collection = array(
-						'collection_id' => $collection_id,
-						'product_id' => $product_id,
-						'promo_image' => $preview_path,
-						'priority' => $this->collection_model->getMaxFilm($collection_id) + 1
-					);
-					$this->collection_model->addFilmPreviews($data_collection);
-				} else {
-					$this->collection_model->editPromo($collection_id, $product_id, $preview_path);
-				}
-			}
-
 			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
 			if ($explore_img != null && $explore_img['error'] == 0) {
 				$explore_path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
@@ -347,14 +315,12 @@ class Product extends Base_Controller {
 				}
 			}
 			$this->product_model->update($params, $product_id);
-			// $this->session->set_flashdata('msg', 'Edit success!');
 			redirect(base_url('product/edit/' . $product_id));
 		}
 
 		$product['rates'] = $this->product_model->getRates();
 		$product['episodes'] = $this->product_model->getEpisodeSeasons($product_id);
 		$product['explore_img'] = $explore_product['promo_image'];
-		$product['preview_img'] = $collection_product['promo_image'];
 		$product['carousel_img'] = $this->collection_model->getCollectionProducts(5,$product_id)['promo_image'];
 		if ($product['paywall_episode'] != 0) {
 			$episode = $this->episode_model->getEpisodeById($product['paywall_episode']);

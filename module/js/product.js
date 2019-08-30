@@ -97,20 +97,14 @@ function handleImage(e) {
     isImage = arr.includes(poster_image.split('.').pop())
 
     if (isImage == false) {
-        $('#poster_err1').css('display', 'block');
-        $('#poster_err2').css('display', 'none');
-        $('#poster_err').css('display', 'none');
+        $('#poster_err').text('Image format is not suppported');
         $('#poster_image').attr('src', BASE_APP_URL + 'assets/images/borders/233x346@3x.png');
     } 
     else if(fileSize /(1024*1024) > 1){
-        $('#poster_err2').css('display', 'block');
-        $('#poster_err1').css('display', 'none');
-        $('#poster_err').css('display', 'none');
+        $('#poster_err').text('The size must be less than 1MB');
         $('#poster_image').attr('src', BASE_APP_URL + 'assets/images/borders/233x346@3x.png');
     }else {
-        $('#poster_err1').css('display', 'none');
-        $('#poster_err2').css('display', 'none');
-        $('#poster_err').css('display', 'none');
+        $('#poster_err').text('');
         var reader = new FileReader();
         reader.onload = function (event) {
 
@@ -133,20 +127,14 @@ function handleSeriesImage(e) {
     isImage = arr.includes(series_image.split('.').pop())
 
     if (isImage == false) {
-        $('#series_err1').css('display', 'block');
-        $('#series_err2').css('display', 'none');
-        $('#story_err').css('display', 'none');
+        $('#story_err').text('Image format is not suppported');
         $('#series_image').attr('src', BASE_APP_URL + 'assets/images/borders/750x667@3x.png');
     } 
     else if(fileSize /(1024*1024) > 1){
-        $('#series_err2').css('display', 'block');
-        $('#series_err1').css('display', 'none');
-        $('#story_err').css('display', 'none');
+        $('#story_err').text('The size must be less than 1MB');
         $('#series_image').attr('src', BASE_APP_URL + 'assets/images/borders/750x667@3x.png');
     }else {
-        $('#series_err1').css('display', 'none');
-        $('#series_err2').css('display', 'none');
-        $('#story_err').css('display', 'none');
+        $('#story_err').text('');
         var reader = new FileReader();
         reader.onload = function (event) {
 
@@ -154,39 +142,6 @@ function handleSeriesImage(e) {
         }
         reader.readAsDataURL(e.target.files[0]);
         err2 = false
-    }
-}
-
-var previewImgLoader = document.getElementById('previewImg');
-if (previewImgLoader) {
-    previewImgLoader.addEventListener('change', handlePreviewImage, false);
-}
-function handlePreviewImage(e) {
-    const arr = ['jpg', 'png', 'jpeg', 'gif', 'pdf', 'JPG', 'PNG', 'JPEG', 'GIF', 'PDF']
-
-    var preview_image = $('#previewImg').val()
-    var fileSize = document.getElementById('previewImg').files[0].size;
-    isImage = arr.includes(preview_image.split('.').pop())
-
-    if (isImage == false) {
-        $('#pre_err1').css('display', 'block');
-        $('#pre_err2').css('display', 'none');
-        $('#preview_image').attr('src', BASE_APP_URL + 'assets/images/borders/135x135@3x.png');
-    } 
-    else if(fileSize /(1024*1024) > 1){
-        $('#pre_err2').css('display', 'block');
-        $('#pre_err1').css('display', 'none');
-        $('#preview_image').attr('src', BASE_APP_URL + 'assets/images/borders/135x135@3x.png');
-    }else {
-        $('#pre_err1').css('display', 'none');
-        $('#pre_err2').css('display', 'none');
-        var reader = new FileReader();
-        reader.onload = function (event) {
-
-            $('#preview_image').attr('src',event.target.result);
-        }
-        reader.readAsDataURL(e.target.files[0]);
-        err3 = false
     }
 }
 
@@ -202,20 +157,14 @@ function handleCarouselImage(e) {
     isImage = arr.includes(carousel_image.split('.').pop())
 
     if (isImage == false) {
-        $('#car_err1').css('display', 'block');
-        $('#car_err2').css('display', 'none');
-        // $('#carousel_err').css('display', 'none');
+        $('#car_err').text('Image format is not suppported');
         $('#carousel_image').attr('src', BASE_APP_URL + 'assets/images/borders/667x440@3x.png');
     } 
     else if(fileSize /(1024*1024) > 1){
-        $('#car_err2').css('display', 'block');
-        $('#car_err1').css('display', 'none');
-        // $('#carousel_err').css('display', 'none');
+        $('#car_err').text('The size must be less than 1MB');
         $('#carousel_image').attr('src', BASE_APP_URL + 'assets/images/borders/667x440@3x.png');
     }else {
-        $('#car_err1').css('display', 'none');
-        $('#car_err2').css('display', 'none');
-        // $('#carousel_err').css('display', 'none');
+        $('#car_err').text('');
         var reader = new FileReader();
         reader.onload = function (event) {
 
@@ -238,17 +187,14 @@ function handleExploreImage(e) {
     isImage = arr.includes(explore_image.split('.').pop())
 
     if (isImage == false) {
-        $('#ex_err1').css('display', 'block');
-        $('#ex_err2').css('display', 'none');
+        $('#ex_err').text('Image format is not suppported');
         $('#explore_image').attr('src', BASE_APP_URL + 'assets/images/borders/650x688@3x.png');
     } 
     else if(fileSize /(1024*1024) > 1){
-        $('#ex_err2').css('display', 'block');
-        $('#ex_err1').css('display', 'none');
+        $('#ex_err').text('The size must be less than 1MB');
         $('#explore_image').attr('src', BASE_APP_URL + 'assets/images/borders/650x688@3x.png');
     }else {
-        $('#ex_err1').css('display', 'none');
-        $('#ex_err2').css('display', 'none');
+        $('#ex_err').text('');
         var reader = new FileReader();
         var reader = new FileReader();
         reader.onload = function (event) {
@@ -269,7 +215,7 @@ function saveProduct(key) {
     var jw_media_id = $('#jw_media_id').val()
     var poster_image = $('#poster_image').attr('src')
     var series_image = $('#series_image').attr('src')
-    var carousel_image = $('#carousel_image').attr('src')
+    var explore_image = $('#explore_image').attr('src')
 
     if(product_name == '') {
         $('#name_err').text('Story name must not be empty')
@@ -306,12 +252,15 @@ function saveProduct(key) {
     }else {
         $('#story_err').text('')
     }
+    if(explore_image == BASE_APP_URL + 'assets/images/borders/650x688@3x.png') {
+        $('#ex_err').text('Explore preview image must not be empty')
+    }else {
+        $('#ex_err').text('')
+    }
     if($('#name_err').text() == '' && $('#status_err').text() == '' &&
-       $('#des_err').text() == '' && $('#creators_err').text() == '' &&
+        $('#des_err').text() == '' && $('#creators_err').text() == '' &&
         $('#jw_err').text() == '' && $('#poster_err').text() == '' &&
-        $('#story_err').text() == '' && 
-        $('#pre_err1').css('display') == 'none' && $('#pre_err2').css('display') == 'none' &&
-        $('#ex_err1').css('display') == 'none' && $('#ex_err2').css('display') == 'none'
+        $('#story_err').text() == '' && $('#ex_err').text() == ''
     ) {
         if(key == 'add') {
             $('#product_add').submit();
@@ -321,18 +270,6 @@ function saveProduct(key) {
     }
 }
 
-var coverLoader = document.getElementById('coverPhoto');
-if (coverLoader) {
-    coverLoader.addEventListener('change', handleCoverImage, false);
-}
-function handleCoverImage(e) {
-    var reader = new FileReader();
-    reader.onload = function (event) {
-
-        $('#coverimg').attr('src',event.target.result);
-    }
-    reader.readAsDataURL(e.target.files[0]);
-}
 
 
 
