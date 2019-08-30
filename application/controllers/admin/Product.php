@@ -114,6 +114,7 @@ class Product extends Base_Controller {
 		$data['account'] = $this->account;
 		$data['content'] = $this->load->view('admin/products/product_list', $params, true);
 		$data['customJs'] = array('assets/plugins/sweetalert/dist/sweetalert.min.js','assets/app/delete-confirm.js', 'module/js/product.js', 'assets/app/search.js', 'assets/app/core-table/coreTable.js');
+
 		$data['customCss'] = array('assets/plugins/sweetalert/dist/sweetalert.css', 'assets/css/settings.css', 'module/css/product.css');
 		$this->load->view('admin_main_layout', $data);
 	}

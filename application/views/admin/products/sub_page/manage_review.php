@@ -24,7 +24,7 @@
 		                            <div class="sortable-move"><i class="icon-menu"></i></div>
 		                        </div>
 		                        <div class="col-sm-3 col-lg-2 sortable-box width-13 circle-image" style="width: 60px">
-		                               <img src="<?= media_thumbnail($row['avatar'], 70) ?>" alt='avatar'>
+		                               <img class="lozad" data-src="<?= media_thumbnail($row['avatar'], 70) ?>" alt='avatar'>
 		                        </div>
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-15" style="width: 18%">
 	                                <?php echo $row['full_name']?> <br> @<?php echo $row['user_name']?>
