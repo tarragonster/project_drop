@@ -342,7 +342,7 @@ class Comment_model extends BaseModel {
 
     public function getComments($episode_id,$conditions = array(), $page = 0){
         $this->makeQueryComment($episode_id);
-        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('comment_id','full_name', 'content','timestamp','status','total_like','total_reply'))) {
+        if (!empty($conditions['sort_by']) && in_array($conditions['sort_by'], array('comment_id','full_name', 'content','timestamp','status','total_like','total_reply',))) {
             if (!empty($conditions['inverse']) && $conditions['inverse'] == 1) {
                 $this->db->order_by($conditions['sort_by'], 'desc');
             }else {
@@ -361,7 +361,9 @@ class Comment_model extends BaseModel {
             $this->db->limit($per_page, $page * $per_page);
         }
 
-        return $this->db->get()->result_array();
+        $data = $this->db->get()->result_array();
+
+        return $data;
     }
 
     public function makeQueryComment($episode_id){
@@ -372,7 +374,8 @@ class Comment_model extends BaseModel {
 	    $this->db->join('user u','c.user_id=u.user_id','LEFT');
         $this->db->join('(select c.comment_id, count(*) as total_like from comment_like cl inner join comments c on cl.comment_id = c.comment_id group by c.comment_id) as cls', 'cls.comment_id = c.comment_id', 'left');
         $this->db->join('(select c.comment_id, count(*) as total_reply from comment_replies cr inner join comments c on cr.comment_id = c.comment_id group by c.comment_id) as crs', 'crs.comment_id = c.comment_id', 'left');
-    }
+
+	}
 
     public function getCommentLikes($comment_ids){
         $this->db->select('cl.*');
