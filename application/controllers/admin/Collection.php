@@ -112,6 +112,8 @@ class Collection extends Base_Controller {
 			$path = $this->file_model->createFileName($promoImage, 'media/feeds/', 'collection');
 			$this->file_model->saveFile($promoImage, $path);
 			$promo_image = $path;
+		}else {
+			$promo_image = $product['image'];
 		}
 		$paramsCollection = [
 			'product_id' => $product_id,
@@ -121,9 +123,11 @@ class Collection extends Base_Controller {
 			'added_at' => time()
 		];
 		$this->collection_model->addFilm($paramsCollection);
+		
 		if ($collection_id == 5) {
 			redirect('collection/carousel');
 		}else {
+			$this->product_model->update(['image' => $promo_image], $product_id);
 			redirect('collection/trending');
 		}
 	}
@@ -288,7 +292,7 @@ class Collection extends Base_Controller {
 	public function trending() {
 		$this->load->model("product_model");
 		$this->load->library('hash');
-		$trending_products =  $this->product_model->getListProductByCollection(COLLECTION_ID_CAROUSEL);
+		$trending_products =  $this->product_model->getListProductByCollection(COLLECTION_ID_TRENDING);
 		if ($trending_products == null) {
 			$params['page_index'] = 'empty_trending';
 		} else {
@@ -337,8 +341,9 @@ class Collection extends Base_Controller {
 	}
 
 	public function searchProductWithoutCollection() {
-		$collection_id = $this->input->post('collection_id');
 		$key = $this->input->post('key');
+		$collection_id = $this->input->post('collection_id');
+
 		$carousel_products = $this->collection_model->getProductByCollection($collection_id);
 		$product_ids = Hash::combine($carousel_products,'{n}.product_id','{n}.product_id');
 		$other_products = $this->collection_model->getOtherProduct($key, $product_ids);
