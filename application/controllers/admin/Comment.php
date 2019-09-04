@@ -305,7 +305,7 @@ class Comment extends Base_Controller {
 		$this->redirect('comment/reports');
 	}
 
-	public function comments($episode_id,$page = 1){
+	public function comments($episode_id = '',$page = 1){
         $conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
         $this->load->library('pagination');
@@ -357,6 +357,7 @@ class Comment extends Base_Controller {
         $title_episode = $this->comment_model->getEpisodeName($episode_id);
 
         $comments = $this->comment_model->getComments($episode_id,$conditions,$page - 1);
+
 
 
         $params['headers'] = $headers;

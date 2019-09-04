@@ -8,9 +8,12 @@ class User extends Base_Controller {
 		parent::__construct();
 		$this->verifyAdmin();
         $this->load->library('hash');
-	}
+        $this->load->model('comment_model');
+
+    }
 
 	public function index($page = 1) {
+
         $this->customJs[] = '';
         $conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
@@ -758,5 +761,26 @@ class User extends Base_Controller {
 	    $this->user_model->saveRemoveReport($report_id);
         $this->ajaxSuccess();
 
+    }
+
+    function showCommentList($ep_id,$comment_id){
+
+        $page = 0;
+
+        while (true) {
+            $comments = $this->comment_model->getComments($ep_id,[],$page);
+
+            if (count($comments) == 0) {
+                break;
+            }
+            foreach ($comments as $key=>$comment){
+                if ($comment_id = $comment['comment_id']) {
+                    break;
+                }
+            }
+            $page++;
+        }
+
+        $this->ajaxSuccess(['page' =>$page]);
     }
 }

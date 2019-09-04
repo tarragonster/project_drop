@@ -895,7 +895,7 @@ class User_model extends BaseModel {
     }
 
     public function getUserComments($user_id, $isMe = true) {
-        $this->db->select('c.*,e.*,s.product_id,pv.name as film_name, c.status as comment_status,cr.report_id as comment_reportId');
+        $this->db->select('c.*,e.*,e.episode_id as ep_id,s.product_id,pv.name as film_name, c.status as comment_status,cr.report_id as comment_reportId');
         $this->db->from('comments c');
         $this->db->where('c.user_id', $user_id);
         $this->db->join('comment_reports cr','c.comment_id = cr.comment_id','LEFT');
@@ -1225,5 +1225,9 @@ class User_model extends BaseModel {
     public function saveRemoveReport($report_id){
         $this->db->where('report_id',$report_id);
         $this->db->update('user_reports',['status'=>'rejected']);
+    }
+
+    public function rankCommentList($ep_id){
+
     }
 }
