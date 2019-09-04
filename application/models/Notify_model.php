@@ -115,7 +115,7 @@ class Notify_model extends BaseModel {
 		'54' => [
 			'setting_key' => NOTIFICATION_COMMENT_REPLIES,
 			'formatted' => "replied to you",
-			'alert_formatted' => "<<username>> replied to you on <<block_name>> of <<story_name>>",
+			'alert_formatted' => "<<username>> replied to your comment on <<block_name>> of <<story_name>>",
 			'delay_seconds' => 2 * 60, // Delay 2min
 		],
 		'55' => [
