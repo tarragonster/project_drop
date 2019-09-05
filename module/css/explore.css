@@ -462,12 +462,19 @@
     background-color: #dfdfdf;
 }
 /*End Modal*/
-
+.table .display-flex {
+    margin-left: 0;
+}
+.table > thead > tr > th {
+    padding-left: 10px !important;
+}
 .table > thead > tr > th:first-child {
     width: 5%;
+    padding-left: 0 !important;
 }
 .table > thead > tr > th:nth-child(2) {
     width: 100px;
+    padding-left: 0 !important;
 }
 .table > thead > tr > th:nth-child(3) {
     width: 9%;
@@ -513,6 +520,40 @@
     width: 13%;
 }
 .preview_table > thead > tr > th:nth-child(8) {
+    width: 60px;
+}
+
+.carousel_table .display-flex {
+    margin-left: 10px;
+}
+.carousel_table > thead > tr > th {
+    padding-left: 10px !important;
+}
+.carousel_table > .display-flex {
+    margin-left: 10px;
+}
+.carousel_table > thead > tr > th:first-child {
+    width: 5%;
+}
+.carousel_table > thead > tr > th:nth-child(2) {
+    width: 100px;
+}
+.carousel_table > thead > tr > th:nth-child(3) {
+    width: 7.5%;
+}
+.carousel_table > thead > tr > th:nth-child(4) {
+    width: 23%;
+}
+.carousel_table > thead > tr > th:nth-child(5) {
+    width: 18%;
+}
+.carousel_table > thead > tr > th:nth-child(6) {
+    width: 20%;
+}
+.carousel_table > thead > tr > th:nth-child(7) {
+    width: 13%;
+}
+.carousel_table > thead > tr > th:nth-child(8) {
     width: 60px;
 }
 

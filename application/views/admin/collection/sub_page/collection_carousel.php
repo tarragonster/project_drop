@@ -1,5 +1,5 @@
 <div class="table-responsive " style="width: 100%; border: 0;overflow: unset;">
-	<table class="table dataTable preview_table">
+	<table class="table dataTable carousel_table">
 		<thead>
 			<tr class="display-flex">
 				<th class="flex-item"></th>

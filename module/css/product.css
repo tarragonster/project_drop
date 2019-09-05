@@ -364,6 +364,8 @@ hr {
     margin-top: 20px;
     margin-bottom: 20px;
     overflow-y: unset;
+    margin-left: 167px;
+    position: unset;
 }
 .err-format, .err-size {
     color: #E70808; 

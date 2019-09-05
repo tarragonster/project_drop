@@ -1032,9 +1032,11 @@ table, th, td {
 .section-content {
     /*background-color: #fff;*/
     border-radius: 5px;
-    margin-top: 10px; 
     overflow-y: unset;
+    margin-top: 10px;
     margin-bottom: 50px;
+    margin-left: 167px;
+    position: unset;
 }
 .edit-popup .dropdown-arrow {
     left: 315px;
@@ -1145,8 +1147,8 @@ table.dataTable thead .sorting_desc_disabled:before {
 /*end icon sorting*/
 
 .table thead {
-    position: absolute;
-    top: 0;
+    /*position: absolute;*/
+    /*top: 0;*/
     width: 100%;
 }
 .display-flex {
