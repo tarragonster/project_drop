@@ -8,9 +8,12 @@ class User extends Base_Controller {
 		parent::__construct();
 		$this->verifyAdmin();
         $this->load->library('hash');
-	}
+        $this->load->model('comment_model');
+
+    }
 
 	public function index($page = 1) {
+
         $this->customJs[] = '';
         $conditions = array();
         parse_str($_SERVER['QUERY_STRING'], $conditions);
@@ -427,7 +430,7 @@ class User extends Base_Controller {
 		$layoutParams['your_picks'] = $this->user_model->getUserPicks($user_id, -1);
 		$layoutParams['user_likes'] = $this->user_model->getUserLikes($user_id, -1);
 		$layoutParams['user_comments'] = $this->user_model->getUserComments($user_id, -1);
-		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
+		$layoutParams['watch_list'] = $this->user_model->getSeriesWatchList($user_id, -1);
 		$layoutParams['like_product'] = $this->user_model->getProductThumbUpList($user_id, -1);
 		$layoutParams['like_episode'] = $this->user_model->getEpisodeThumbUpList($user_id, -1);
 		$layoutParams['like_comment'] = $this->user_model->getCommentThumbUpList($user_id, -1);
@@ -758,5 +761,26 @@ class User extends Base_Controller {
 	    $this->user_model->saveRemoveReport($report_id);
         $this->ajaxSuccess();
 
+    }
+
+    function showCommentList($ep_id,$comment_id){
+
+        $page = 0;
+
+        while (true) {
+            $comments = $this->comment_model->getComments($ep_id,[],$page);
+
+            if (count($comments) == 0) {
+                break;
+            }
+            foreach ($comments as $key=>$comment){
+                if ($comment_id = $comment['comment_id']) {
+                    break;
+                }
+            }
+            $page++;
+        }
+
+        $this->ajaxSuccess(['page' =>$page]);
     }
 }

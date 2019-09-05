@@ -18,6 +18,9 @@ class User extends BR_Controller {
 		if ($dtype_id == '' || $device_id == '' || $reg_id == '') {
 			$this->create_error(-1);
 		}
+		if ($this->user_id != 0) {
+			$user_id = $this->user_id;
+		}
 
 		if (!$this->user_model->checkDeviceId($device_id)) {
 			$q = [
@@ -458,7 +461,7 @@ class User extends BR_Controller {
 		
 		$this->load->model('episode_model');
 		$this->load->model('notify_model');
-		$this->episode_model->addRecentlyWatched($this->user_id, $product_id);
+		$this->episode_model->addRecentlyWatched($this->user_id, $product_id, $episode_id);
 
 		$episode_id = $this->post('episode_id') * 1;
 		$time = $this->c_getNotNull('time');

@@ -25,7 +25,7 @@
 										<div class="sortable-move"><i class="icon-menu"></i></div>
 									</div>
 									<div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px;width: 80px">
-										<?php echo image_mask($row['promo_image'], 'assets/images/trending_mark.png', 37, 'border-radius:5px')?>
+										<?php echo image_mask(media_thumbnail($row['promo_image'], 53), 'assets/images/trending_mark.png', 37, 'border-radius:5px', 'lozad')?>
 									</div>
 									<div class="col-sm-3 col-lg-1 sortable-box width-7" style="padding: 0px">
 										<?php echo $row['product_id']?>
@@ -45,7 +45,7 @@
 											<span>DISABLED</span>
 										<?php else: ?>
 											<i class="fa fa-circle text-success icon-size"></i>&nbsp;&nbsp;
-											<span>ENABLE</span>
+											<span>ENABLED</span>
 										<?php endif;?>
 									</div>
 									<div class="col-sm-3 col-lg-1 sortable-box width-5" style="width: 60px">

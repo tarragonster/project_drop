@@ -26,7 +26,7 @@
 		                            <div class="sortable-move"><i class="icon-menu"></i></div>
 		                        </div>
 		                        <div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px;width: 100px">
-	                               <?php echo image_mask($row['avatar'], 'assets/images/genre_mark.png', 50, 'height:50px;border-radius:50%')?>
+	                               <?php echo image_mask(media_thumbnail($row['avatar'], 50), 'assets/images/genre_mark.png', 50, 'height:50px;border-radius:50%', 'lozad')?>
 		                        </div>
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-9" style="padding: 0px">
 	                                <?php echo $row['user_id']?>

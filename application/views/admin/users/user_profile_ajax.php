@@ -209,7 +209,7 @@
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
                                                         <i class="fa fa-ellipsis-h" style="color: #d8d8d8"></i></span>
                                                 <ul class="dropdown-menu" id="customDropdown">
-                                                    <li class="text-uppercase" data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowCommentReplies(this)"><a class="drp-items"><span>View</span><img
+                                                    <li class="text-uppercase" data-ep_id="<?= $row['ep_id'] ?>" data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowCommentList(this)"><a class="drp-items"><span>View</span><img
                                                                     src="<?= base_url('assets/images/pencil.svg') ?>" alt=""></a>
                                                     </li>
                                                     <li class="text-uppercase" data-comment_id="<?= $row['comment_id'] ?>" onclick="ShowRemoveComment(this)"><a  class="drp-items"><span>Delete</span><img
@@ -352,7 +352,7 @@
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;">
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumps Up</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumbs Up</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">
@@ -380,9 +380,9 @@
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
                                     <?php if($row['status'] == 1){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumps Up</td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumbs Up</td>
                                     <?php }elseif($row['status'] == 0){ ?>
-                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumps Down</td>
+                                        <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumbs Down</td>
                                     <?php } ?>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
@@ -410,7 +410,7 @@
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 500;">
                                         <?php echo date('m/d/Y h:iA',$row['added_at']) ?>
                                     </td>
-                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumps Up</td>
+                                    <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;font-weight: 600;letter-spacing: 0.73px;">Thumbs Up</td>
                                     <td class="header-item-content item-style modal-items" style="padding: 0!important;height: 50px!important;">
                                         <div class="dropdown">
                                                 <span class="btnAction dropdown-toggle" data-toggle="dropdown">

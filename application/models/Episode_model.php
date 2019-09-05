@@ -122,7 +122,8 @@ class Episode_model extends BaseModel {
 		$this->db->update('user_watch', $params);
 	}
 
-	public function addRecentlyWatched($user_id, $product_id) {
+	public function addRecentlyWatched($user_id, $product_id, $episode_id = 0) {
+		// Adding product to watched list
 		$this->db->where('user_id', $user_id);
 		$this->db->where('product_id', $product_id);
 		$item = $this->db->get('watched')->first_row();
@@ -133,6 +134,26 @@ class Episode_model extends BaseModel {
 		} else {
 			$this->db->insert('watched', ['user_id' => $user_id, 'product_id' => $product_id, 'updated_at' => time()]);
 		}
+
+		if (empty($episode_id) || $episode_id == 0 || !is_numeric($episode_id)) {
+			return;
+		}
+
+		// Adding episode to watched list
+		$item = $this->getUserWatchedEpisode($user_id, $episode_id);
+		if ($item != null) {
+			$this->db->where('user_id', $user_id);
+			$this->db->where('episode_id', $episode_id);
+			$this->db->update('user_watched_episodes', ['updated_at' => time()]);
+		} else {
+			$this->db->insert('user_watched_episodes', ['user_id' => $user_id, 'episode_id' => $episode_id, 'updated_at' => time()]);
+		}
+	}
+
+	public function getUserWatchedEpisode($user_id, $episode_id = 0) {
+		$this->db->where('user_id', $user_id);
+		$this->db->where('episode_id', $episode_id);
+		return $this->db->get('user_watched_episodes')->first_row();
 	}
 
 	public function up($season_id, $position, $episode_id) {
