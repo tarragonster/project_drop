@@ -34,6 +34,7 @@ class User{
     productLike_id:number;
     commentLike_id:number;
     note:string;
+    ep_id:number;
 
     sendAjaxRequest(_callback) {
 
@@ -393,10 +394,14 @@ class User{
         })
     }
 
-    ShowReportedCommentUser(){
+    showCommentList(){
+        this.url = '/user/showCommentList/' + this.ep_id + '/' + this.comment_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
 
+            window.location.replace('/comment/comments/' + model.ep_id + '/' +data.page)
+        })
     }
-
 }
 
 let model = User.object;
@@ -930,4 +935,9 @@ function ShowReportedCommentUser(event){
     model.user_id = $(event).data('user_id');
     model.showCommentUser()
     $('#view-replies-popup').modal('show');
+}
+
+function ShowCommentList(event){
+    model.ep_id = $(event).data('ep_id')
+    model.showCommentList()
 }

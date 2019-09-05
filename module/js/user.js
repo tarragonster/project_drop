@@ -327,7 +327,12 @@ var User = /** @class */ (function () {
             $('#delete-comment-like').modal('hide');
         });
     };
-    User.prototype.ShowReportedCommentUser = function () {
+    User.prototype.showCommentList = function () {
+        this.url = '/user/showCommentList/' + this.ep_id + '/' + this.comment_id;
+        this.typereq = 'GET';
+        this.sendAjaxRequest(function (data) {
+            window.location.replace('/comment/comments/' + model.ep_id + '/' + data.page);
+        });
     };
     User.object = new User();
     return User;
@@ -769,4 +774,8 @@ function ShowReportedCommentUser(event) {
     model.user_id = $(event).data('user_id');
     model.showCommentUser();
     $('#view-replies-popup').modal('show');
+}
+function ShowCommentList(event) {
+    model.ep_id = $(event).data('ep_id');
+    model.showCommentList();
 }
