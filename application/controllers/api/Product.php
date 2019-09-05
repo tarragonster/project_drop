@@ -344,7 +344,11 @@ class Product extends BR_Controller {
 		}
 
 		$episode['need_open_paywall'] = 0;
-		if (isset($episode['product_paywall_episode'])) {
+		$episode['user_has_watched_episode'] = 0;
+		if ($this->user_id > 0 && $this->episode_model->getUserWatchedEpisode($this->user_id, $episode['episode_id'])) {
+			$episode['user_has_watched_episode'] = 1;
+		}
+		if ($episode['user_has_watched_episode'] != 1 && isset($episode['product_paywall_episode'])) {
 			if ($episode['product_paywall_episode'] > 0) {
 				$episodes = $this->product_model->getEpisodeSeasons($episode['product_id']);
 				if ($episodes != null && count($episodes) > 0) {

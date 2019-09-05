@@ -461,7 +461,7 @@ class User extends BR_Controller {
 		
 		$this->load->model('episode_model');
 		$this->load->model('notify_model');
-		$this->episode_model->addRecentlyWatched($this->user_id, $product_id);
+		$this->episode_model->addRecentlyWatched($this->user_id, $product_id, $episode_id);
 
 		$episode_id = $this->post('episode_id') * 1;
 		$time = $this->c_getNotNull('time');
