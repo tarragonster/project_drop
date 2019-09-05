@@ -13,7 +13,8 @@ class Setting extends MY_Controller {
 			'page_index' => 'general_settings'
 		];
 		$this->customCss[] = 'module/css/submenu.css';
-		$this->render('/setting/setting_page', $params, 5);
+		$this->customCss[] = 'module/css/genre.css';
+		$this->render('/setting/setting_page', $params, 0, 0);
 	}
 
 	public function changeEmail() {

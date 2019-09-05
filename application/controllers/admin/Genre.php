@@ -44,6 +44,7 @@ class Genre extends My_Controller {
 		$this->customCss[] = 'module/css/submenu.css';
 		$this->customCss[] = 'module/css/genre.css';
 		$this->customCss[] = 'module/css/genre-sorting.css';
+		$this->customJs[] = 'assets/js/jquery.validate.js';
 		$this->customJs[] = 'module/js/coreTable.js';
 		$this->customJs[] = 'module/js/setting-action.js';
 		$this->render('/setting/setting_page', $params, 5, 51);
