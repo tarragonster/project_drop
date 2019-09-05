@@ -175,12 +175,12 @@ class Product extends BR_Controller {
 		if (!$episode) {
 			$this->create_error(-77);
 		}
-		if ($this->user_id) {
-			$productWatch = $this->episode_model->getWatchProduct($this->user_id, $episode['product_id']);
-			if ($productWatch == null || $productWatch['episode_id'] != $episode_id) {
-				$this->episode_model->updateOrAddUserWatch($this->user_id, $episode['product_id'], $episode_id, '0.001');
-			}
-		}
+//		if ($this->user_id) {
+//			$productWatch = $this->episode_model->getWatchProduct($this->user_id, $episode['product_id']);
+//			if ($productWatch == null || $productWatch['episode_id'] != $episode_id) {
+//				$this->episode_model->updateOrAddUserWatch($this->user_id, $episode['product_id'], $episode_id, '0.001');
+//			}
+//		}
 		$episode = $this->loadEpisode($episode);
 		$this->create_success(array('episode' => $episode));
 	}
