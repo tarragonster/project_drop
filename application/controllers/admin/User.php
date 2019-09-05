@@ -430,7 +430,7 @@ class User extends Base_Controller {
 		$layoutParams['your_picks'] = $this->user_model->getUserPicks($user_id, -1);
 		$layoutParams['user_likes'] = $this->user_model->getUserLikes($user_id, -1);
 		$layoutParams['user_comments'] = $this->user_model->getUserComments($user_id, -1);
-		$layoutParams['watch_list'] = $this->user_model->getListWatching($user_id, -1);
+		$layoutParams['watch_list'] = $this->user_model->getSeriesWatchList($user_id, -1);
 		$layoutParams['like_product'] = $this->user_model->getProductThumbUpList($user_id, -1);
 		$layoutParams['like_episode'] = $this->user_model->getEpisodeThumbUpList($user_id, -1);
 		$layoutParams['like_comment'] = $this->user_model->getCommentThumbUpList($user_id, -1);

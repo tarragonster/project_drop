@@ -360,7 +360,7 @@ class BR_Controller extends REST_Controller {
 			$profile['continue_watching'] = [];
 		}
 		if (!$publicProfile || $configs['watch_enabled'] == 1) {
-			$profile['watch_list'] =  $this->user_model->getListWatching($user_id, -1, !$publicProfile);
+			$profile['watch_list'] =  $this->user_model->getSeriesWatchList($user_id, -1, !$publicProfile);
 		} else {
 			$profile['watch_list'] = [];
 		}
