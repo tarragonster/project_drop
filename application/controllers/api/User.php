@@ -498,7 +498,7 @@ class User extends BR_Controller {
 					}
 				}
 			}
-			if (abs($time - $episode['total_time']) < 1) {
+			if (abs($time - $episode['total_time']) < 1 && $episode['position'] % 2 == 1) {
 				$this->notify_model->createNotify($this->user_id, 64, ['episode_id' => $episode_id, 'product_id' => $product_id]);
 			}
 		} else {
