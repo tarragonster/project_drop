@@ -36,13 +36,20 @@ class BR_Controller extends REST_Controller {
 		}
 
 		$this->validate_authorization(1);
+
+		$meta = [];
+		array_push($meta, $this->get());
+		$headers = [
+			'User Agent' => $_SERVER['HTTP_USER_AGENT']
+		];
+		array_push($meta, $headers);
 		$this->db->insert('aa_manager_api', [
 			'api_name' => uri_string(),
 			'post' => json_encode($this->post()),
-			'user_agent' => $app_data . ' | ' . $_SERVER['HTTP_USER_AGENT'],
+			'user_agent' => $app_data,
 			'image' => json_encode($_FILES),
-			'get' => json_encode($this->get()),
-			'access_token' => $this->user_id . ' | ' . $this->access_token,
+			'get' => json_encode($meta),
+			'access_token' => $this->user_id . '|' . $this->access_token,
 			'ctime' => time()
 		]);
 	}
