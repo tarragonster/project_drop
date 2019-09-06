@@ -538,6 +538,7 @@ class User extends BR_Controller {
 			$this->user_model->removeFollow($this->user_id, $follower_id);
 			$this->load->model('notify_model');
 			$this->notify_model->removeNotify($follower_id, 51, array('user_id' => $this->user_id));
+			$this->notify_model->removeFollowingNotify($this->user_id, $follower_id);
 		} else {
 			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
 			$this->load->model('notify_model');

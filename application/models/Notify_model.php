@@ -245,6 +245,13 @@ class Notify_model extends BaseModel {
 		$this->db->delete('user_notify');
 	}
 
+	public function removeFollowingNotify($user_id, $following_user_id) {
+		$this->db->where('type <', 50);
+		$this->db->where('user_id', $user_id);
+		$this->db->like('data', '"user_id":' . $following_user_id, 'both');
+		$this->db->delete('user_notify');
+	}
+
 	public function updateNotify($user_id, $type, $data = null, $params) {
 		$this->db->where('type', $type);
 		if ($data != null)
