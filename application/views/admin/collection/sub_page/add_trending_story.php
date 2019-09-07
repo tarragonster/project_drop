@@ -23,7 +23,7 @@
 	    <div class="form-group" style="padding-right: 0;margin-top: 50px;">
             <label>Poster Image</label>
             <div class="row" style="padding-left: 10px">
-                <img id='trending_image' width='70' height='100' src="<?php echo base_url('assets/images/borders/233x346@3x.png')?>"/>
+                <img class="load_img" id='trending_image' width='70' height='100' src="<?php echo base_url('assets/images/borders/233x346@3x.png')?>"/>
                 <div class='mess_err' id="ex_err1"></div>
                 <div class='mess_err' id="ex_err2"></div>
                 <div class="mess_err" id="img_err"></div>
