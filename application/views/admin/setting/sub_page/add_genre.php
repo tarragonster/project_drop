@@ -5,7 +5,7 @@
 				<h1 class="modal-title-name">Add Genre</h1>
 			</div>
 			<div class="col-md-4 col-lg-4">
-	            <button type="button" class="btn btn-header" id="create-genre-btn" onclick="saveGenre('add')">Create</button>
+	            <button type="submit" class="btn btn-header" id="create-genre-btn" >Create</button>
 	        </div>
 		</div>
 	</div>

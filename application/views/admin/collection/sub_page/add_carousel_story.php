@@ -23,7 +23,7 @@
 	    <div class="form-group" style="padding-right: 0;margin-top: 50px;">
             <label>Carousel Banner</label>
             <div class="row" style="padding-left: 10px">
-                <img id='explore_image' width='170' height='100' src="<?php echo base_url('assets/images/borders/667x440@3x.png')?>"/>
+                <img class="load_img" id='explore_image' width='170' height='100' src="<?php echo base_url('assets/images/borders/667x440@3x.png')?>"/>
                 <div class='mess_err' id="ex_err1"></div>
                 <div class='mess_err' id="ex_err2"></div>
                 <div class="mess_err" id="img_err"></div>

@@ -76,24 +76,24 @@ $(".sortable").sortable({
 	},
 }).disableSelection();
 
-function saveGenre(key) {
-	var genre_name = $('#genre_name').val()
-	var genre_image = $('#genre_image').attr('src')
-	if(genre_name == '') {
-        $('#name_err').text('Genre name must not be empty')
-    }else {
-        $('#name_err').text('')
-    }
-    if(genre_image == BASE_APP_URL + 'assets/images/borders/369x214.svg') {
-        $('#genre_err').text('Genre image must not be empty')
-    }else {
-        $('#genre_err').text('')
-    }
-    if($('#name_err').text() == '' && $('#genre_err').text() == '' && $('#genre_err1').text() == '' && $('#genre_err2').text() == '') {
-    	if(key == 'add') {
-			$('#genre-form-add').submit();
-    	}else {
-			$('#genre-form-edit').submit();
-    	}
-	}
-}
+// function saveGenre(key) {
+// 	var genre_name = $('#genre_name').val()
+// 	var genre_image = $('#genre_image').attr('src')
+// 	if(genre_name == '') {
+//         $('#name_err').text('Genre name must not be empty')
+//     }else {
+//         $('#name_err').text('')
+//     }
+//     if(genre_image == BASE_APP_URL + 'assets/images/borders/369x214.svg') {
+//         $('#genre_err').text('Genre image must not be empty')
+//     }else {
+//         $('#genre_err').text('')
+//     }
+//     if($('#name_err').text() == '' && $('#genre_err').text() == '' && $('#genre_err1').text() == '' && $('#genre_err2').text() == '') {
+//     	if(key == 'add') {
+// 			$('#genre-form-add').submit();
+//     	}else {
+// 			$('#genre-form-edit').submit();
+//     	}
+// 	}
+// }

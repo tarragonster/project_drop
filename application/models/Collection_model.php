@@ -108,11 +108,10 @@ class Collection_model extends BaseModel {
 		return $this->db->insert_id();
 	}
 
-	public function editPromo($collection_id, $product_id, $promo_image) {
+	public function editPromo($collection_id, $product_id, $paramsUpdate) {
 		$this->db->where('collection_id', $collection_id);
 		$this->db->where('product_id', $product_id);
-		$this->db->set('promo_image', $promo_image);
-		$this->db->update('collection_product');
+		$this->db->update('collection_product', $paramsUpdate);
 	}
 
 	public function getProductsInCollection($product_id) {
@@ -133,6 +132,13 @@ class Collection_model extends BaseModel {
 		return $this->db->get('collection_product')->result_array();
 	}
 
+    public function getActiveCarouselProduct($collection_id) {
+        $this->db->select('product_id');
+        $this->db->where('collection_id', $collection_id);
+        $this->db->where('status', 1);
+        return $this->db->get('collection_product')->result_array();
+    }
+
 	public function getOtherProduct($key, $product_ids) {
 		$this->db->select('p.product_id, p.name, p.image');
 		$this->db->from('product p');
@@ -141,6 +147,18 @@ class Collection_model extends BaseModel {
 		$this->db->limit(10);
 		return $this->db->get()->result_array();
 	}
+
+    public function getOtherCarouselProduct($key, $product_ids) {
+        $this->db->select('p.product_id, p.name, cp.promo_image');
+        $this->db->from('product p');
+        $this->db->join('collection_product cp', 'p.product_id = cp.product_id');
+        $this->db->where('cp.collection_id', 5);
+        $this->db->where('p.name like "%' . $key . '%"');
+        $this->db->where_not_in('p.product_id', $product_ids);
+        $this->db->limit(10);
+        return $this->db->get()->result_array();
+    }
+
 	public function disableCarousel($product_id){
 	    $this->db->where('product_id',$product_id);
 	    $this->db->update('collection_product',['status'=>0]);

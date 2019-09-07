@@ -192,6 +192,7 @@ class Product extends Base_Controller {
 					'collection_id' => $collection_id,
 					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
 					'promo_image' => $path,
+                    'status' => 0,
 					'added_at' => time()
 				];
 				$this->collection_model->addFilm($data_collection);
@@ -308,11 +309,16 @@ class Product extends Base_Controller {
 						'collection_id' => $collection_id,
 						'product_id' => $product_id,
 						'promo_image' => $carousel_path,
-						'priority' => $this->collection_model->getMaxFilm($collection_id) + 1
+						'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
+                        'status' => 0,
+                        'added_at' => time()
 					);
 					$this->collection_model->addFilm($data_collection);
 				} else {
-					$this->collection_model->editPromo($collection_id, $product_id, $carousel_path);
+                    $paramsUpdate = array(
+                        'promo_image' => $carousel_path
+                    );
+					$this->collection_model->editPromo($collection_id, $product_id, $paramsUpdate);
 				}
 			}
 			$this->product_model->update($params, $product_id);

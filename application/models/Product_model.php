@@ -140,7 +140,7 @@ class Product_model extends BaseModel {
 		$this->db->from('collection_product cp');
 		$this->db->join('product_view p', 'p.product_id = cp.product_id');
 		$this->db->where('cp.collection_id', $collection_id);
-//		$this->db->where('p.status', 1);
+		$this->db->where('cp.status', 1);
 		$this->db->order_by('cp.priority', 'asc');
 		if ($page >= 0) {
 			$this->db->limit($limit, $limit * $page);
