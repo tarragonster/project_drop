@@ -74,6 +74,7 @@ class User_model extends BaseModel {
 			$this->db->where('u.user_type', $user_type);
 		}
 		$this->db->where('u.status', 1);
+		$this->db->where('u.is_deleted', 0);
 		$this->db->where('(user_name like "%' . $user_name . '%" or full_name like "%' . $user_name . '%")');
 		$this->db->group_by('u.user_id');
 		$this->db->order_by('followers', 'desc');
@@ -93,6 +94,7 @@ class User_model extends BaseModel {
 			$this->db->where('u.user_type', $user_type);
 		}
 		$this->db->where('u.status', 1);
+		$this->db->where('u.is_deleted', 0);
 		$this->db->group_by('u.user_id');
 		$this->db->order_by('followers', 'desc');
 		$this->db->order_by('user_name');
