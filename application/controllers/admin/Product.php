@@ -165,13 +165,22 @@ class Product extends Base_Controller {
                 $path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
                 $this->file_model->saveFile($explore_img, $path);
                 $params['explore_image'] = $path;
-//                $this->preview_model->addFilm($product_id, $path);
             }
 
-			$product_id = $this->product_model->insert($params);
+            $product_id = $this->product_model->insert($params);
 
-			$this->load->model('notify_model');
+            $this->preview_model->addFilm($product_id, $path);
+
+            $this->load->model('notify_model');
 			$this->notify_model->sendToAllUser(58, ['story_name' => $params['name'], 'product_id' => $product_id]);
+
+            $explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
+            if ($explore_img != null && $explore_img['error'] == 0) {
+                $path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+                $this->file_model->saveFile($explore_img, $path);
+                $params['explore_image'] = $path;
+                $this->preview_model->addFilm($product_id, $path);
+            }
 
 			if(!empty($genres)) {
 				foreach ($genres as $item) {
@@ -294,11 +303,11 @@ class Product extends Base_Controller {
 				$explore_path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
 				$this->file_model->saveFile($explore_img, $explore_path);
                 $params['explore_image'] = $explore_path;
-//				if($explore_product == null) {
-//					$this->preview_model->addFilm($product_id, $explore_path);
-//				} else {
-//					$this->preview_model->editPromo($product_id, $explore_path) ;
-//				}
+                if($explore_product == null) {
+                    $this->preview_model->addFilm($product_id, $explore_path);
+				} else {
+					$this->preview_model->editPromo($product_id, $explore_path);
+				}
 			}
 
 			$carousel_img = isset($_FILES['carousel_img']) ? $_FILES['carousel_img'] : null;
