@@ -175,7 +175,7 @@ function searchStory() {
 					var obj = JSON.parse(data);
 					html += "<ul id='result-search'>"
 					obj.forEach(function(item){
-						html += "<li class='result-item' data-id='" + item.product_id + "' data-value='" + item.name + "'>"
+						html += "<li class='result-item' data-id='" + item.product_id + "' data-value='" + item.name + "' data-image='" + item.explore_image + "'>"
 						html += "<a href='#' class='result-value'>" + item.name + "</a></li>"
 					})
 					html += "</ul>"
@@ -192,11 +192,17 @@ function searchStory() {
 $(document).on('click','.result-item',function(){
 	$('.uploader').css('display', 'block')
 
-	var product_id = $(this).data('id')
-	var product_name = $(this).data('value')
+    var product_id = $(this).data('id')
+    var product_name = $(this).data('value')
+	var explore_image = $(this).data('image')
 
-	$('#story_key').val(product_name)
-	$('#product_id').val(product_id)
+    $('#story_key').val(product_name)
+    $('#product_id').val(product_id)
+    if(explore_image != '') {
+        $('#explore_image').attr('src', BASE_APP_URL + explore_image)
+    }else {
+        $('#explore_image').attr('src', BASE_APP_URL + 'assets/images/borders/650x688@3x.png')
+    }
 	$('#other_story').html('')
 });
 

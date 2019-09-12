@@ -160,17 +160,19 @@ class Product extends Base_Controller {
 				$params['background_img'] = $path;
 			}
 
+            $explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
+            if ($explore_img != null && $explore_img['error'] == 0) {
+                $path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+                $this->file_model->saveFile($explore_img, $path);
+                $params['explore_image'] = $path;
+//                $this->preview_model->addFilm($product_id, $path);
+            }
+
 			$product_id = $this->product_model->insert($params);
 
 			$this->load->model('notify_model');
 			$this->notify_model->sendToAllUser(58, ['story_name' => $params['name'], 'product_id' => $product_id]);
 
-			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
-			if ($explore_img != null && $explore_img['error'] == 0) {
-				$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
-				$this->file_model->saveFile($explore_img, $path);
-				$this->preview_model->addFilm($product_id, $path);
-			}
 			if(!empty($genres)) {
 				foreach ($genres as $item) {
 					$paramsGenre = array(
@@ -291,11 +293,12 @@ class Product extends Base_Controller {
 			if ($explore_img != null && $explore_img['error'] == 0) {
 				$explore_path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
 				$this->file_model->saveFile($explore_img, $explore_path);
-				if($explore_product == null) {
-					$this->preview_model->addFilm($product_id, $explore_path);
-				} else {
-					$this->preview_model->editPromo($product_id, $explore_path) ;
-				}
+                $params['explore_image'] = $explore_path;
+//				if($explore_product == null) {
+//					$this->preview_model->addFilm($product_id, $explore_path);
+//				} else {
+//					$this->preview_model->editPromo($product_id, $explore_path) ;
+//				}
 			}
 
 			$carousel_img = isset($_FILES['carousel_img']) ? $_FILES['carousel_img'] : null;
@@ -327,7 +330,6 @@ class Product extends Base_Controller {
 
 		$product['rates'] = $this->product_model->getRates();
 		$product['episodes'] = $this->product_model->getEpisodeSeasons($product_id);
-		$product['explore_img'] = $explore_product['promo_image'];
 		$product['carousel_img'] = $this->collection_model->getCollectionProducts(5,$product_id)['promo_image'];
 		if ($product['paywall_episode'] != 0) {
 			$episode = $this->episode_model->getEpisodeById($product['paywall_episode']);

@@ -105,7 +105,7 @@ class Product_model extends BaseModel {
 
 	public function getProductForAdmin($product_id) {
 		$this->db->select('p.*');
-		$this->db->from('product_view p');
+		$this->db->from('product p');
 		$this->db->where('p.product_id', $product_id);
 		$query = $this->db->get();
 		return $query->num_rows() > 0 ? $query->first_row('array') : null;
