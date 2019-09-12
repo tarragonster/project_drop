@@ -142,7 +142,7 @@
                                 <div class="col-md-12 portlets m-b-30" style="padding-right: 0;">
                                     <label>Explore Preview Image</label>
                                     <div class="row">
-                                        <img id='explore_image' src="<?php echo (!empty($product['explore_img'])) ? base_url($product['explore_img']) : base_url('assets/images/borders/650x688@3x.png')?>"/>
+                                        <img id='explore_image' src="<?php echo (!empty($product['explore_image'])) ? base_url($product['explore_image']) : base_url('assets/images/borders/650x688@3x.png')?>"/>
                                         <div class="mess_err" id="ex_err"></div>
                                         <div class="uploader" onclick="$('#exploreImg').click()">
                                             <button type="button" class="btn  ">Upload</button>

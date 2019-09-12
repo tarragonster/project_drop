@@ -1,0 +1,1 @@
+ALTER TABLE `product` ADD `explore_image` VARCHAR(255) NOT NULL AFTER `trailler_image`;
