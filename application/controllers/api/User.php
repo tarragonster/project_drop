@@ -452,18 +452,18 @@ class User extends BR_Controller {
 			$this->create_error(-10);
 		}
 		$product_id = $this->c_getNotNull('product_id') * 1;
+		$episode_id = $this->post('episode_id') * 1;
 		$this->load->model('product_model');
 		$product = $this->product_model->checkProduct($product_id);
 
 		if ($product == null) {
 			$this->create_error(-17, 'Unknown resource');
 		}
-		
+
 		$this->load->model('episode_model');
 		$this->load->model('notify_model');
-		$this->episode_model->addRecentlyWatched($this->user_id, $product_id);
+		$this->episode_model->addRecentlyWatched($this->user_id, $product_id, $episode_id);
 
-		$episode_id = $this->post('episode_id') * 1;
 		$time = $this->c_getNotNull('time');
 		if ($episode_id != 0) {
 			//update for episode
@@ -498,7 +498,7 @@ class User extends BR_Controller {
 					}
 				}
 			}
-			if (abs($time - $episode['total_time']) < 1) {
+			if (abs($time - $episode['total_time']) < 1 && $episode['position'] % 2 == 1) {
 				$this->notify_model->createNotify($this->user_id, 64, ['episode_id' => $episode_id, 'product_id' => $product_id]);
 			}
 		} else {
@@ -538,6 +538,7 @@ class User extends BR_Controller {
 			$this->user_model->removeFollow($this->user_id, $follower_id);
 			$this->load->model('notify_model');
 			$this->notify_model->removeNotify($follower_id, 51, array('user_id' => $this->user_id));
+			$this->notify_model->removeFollowingNotify($this->user_id, $follower_id);
 		} else {
 			$this->user_model->addFollow(array('user_id' => $this->user_id, 'follower_id' => $follower_id, 'timestamp' => time()));
 			$this->load->model('notify_model');

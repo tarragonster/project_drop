@@ -160,17 +160,28 @@ class Product extends Base_Controller {
 				$params['background_img'] = $path;
 			}
 
-			$product_id = $this->product_model->insert($params);
+            $explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
+            if ($explore_img != null && $explore_img['error'] == 0) {
+                $path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+                $this->file_model->saveFile($explore_img, $path);
+                $params['explore_image'] = $path;
+            }
 
-			$this->load->model('notify_model');
+            $product_id = $this->product_model->insert($params);
+
+            $this->preview_model->addFilm($product_id, $path);
+
+            $this->load->model('notify_model');
 			$this->notify_model->sendToAllUser(58, ['story_name' => $params['name'], 'product_id' => $product_id]);
 
-			$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
-			if ($explore_img != null && $explore_img['error'] == 0) {
-				$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
-				$this->file_model->saveFile($explore_img, $path);
-				$this->preview_model->addFilm($product_id, $path);
-			}
+            $explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
+            if ($explore_img != null && $explore_img['error'] == 0) {
+                $path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+                $this->file_model->saveFile($explore_img, $path);
+                $params['explore_image'] = $path;
+                $this->preview_model->addFilm($product_id, $path);
+            }
+
 			if(!empty($genres)) {
 				foreach ($genres as $item) {
 					$paramsGenre = array(
@@ -192,6 +203,7 @@ class Product extends Base_Controller {
 					'collection_id' => $collection_id,
 					'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
 					'promo_image' => $path,
+                    'status' => 0,
 					'added_at' => time()
 				];
 				$this->collection_model->addFilm($data_collection);
@@ -290,10 +302,11 @@ class Product extends Base_Controller {
 			if ($explore_img != null && $explore_img['error'] == 0) {
 				$explore_path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
 				$this->file_model->saveFile($explore_img, $explore_path);
-				if($explore_product == null) {
-					$this->preview_model->addFilm($product_id, $explore_path);
+                $params['explore_image'] = $explore_path;
+                if($explore_product == null) {
+                    $this->preview_model->addFilm($product_id, $explore_path);
 				} else {
-					$this->preview_model->editPromo($product_id, $explore_path) ;
+					$this->preview_model->editPromo($product_id, $explore_path);
 				}
 			}
 
@@ -308,11 +321,16 @@ class Product extends Base_Controller {
 						'collection_id' => $collection_id,
 						'product_id' => $product_id,
 						'promo_image' => $carousel_path,
-						'priority' => $this->collection_model->getMaxFilm($collection_id) + 1
+						'priority' => $this->collection_model->getMaxFilm($collection_id) + 1,
+                        'status' => 0,
+                        'added_at' => time()
 					);
 					$this->collection_model->addFilm($data_collection);
 				} else {
-					$this->collection_model->editPromo($collection_id, $product_id, $carousel_path);
+                    $paramsUpdate = array(
+                        'promo_image' => $carousel_path
+                    );
+					$this->collection_model->editPromo($collection_id, $product_id, $paramsUpdate);
 				}
 			}
 			$this->product_model->update($params, $product_id);
@@ -321,7 +339,6 @@ class Product extends Base_Controller {
 
 		$product['rates'] = $this->product_model->getRates();
 		$product['episodes'] = $this->product_model->getEpisodeSeasons($product_id);
-		$product['explore_img'] = $explore_product['promo_image'];
 		$product['carousel_img'] = $this->collection_model->getCollectionProducts(5,$product_id)['promo_image'];
 		if ($product['paywall_episode'] != 0) {
 			$episode = $this->episode_model->getEpisodeById($product['paywall_episode']);

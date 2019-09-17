@@ -26,7 +26,7 @@ class Notify_model extends BaseModel {
 			'setting_key' => NOTIFICATION_NEW_THUMBS_UP,
 			'formatted' => "wants to watch",
 			'alert_formatted' => "<<username>> added <<story_name>> to their watch list.",
-			'delay_seconds' => 5 * 60,
+			'delay_seconds' => 60// 5 * 60,
 		],
 		'5' => [
 			'setting_key' => NOTIFICATION_COMMENT_LIKES,
@@ -128,7 +128,7 @@ class Notify_model extends BaseModel {
 			'setting_key' => NOTIFICATION_TRENDING,
 			'formatted' => "Welcome to 10 Block! Add a few stories to your watch list for a quick start.",
 			'alert_formatted' => "Welcome to 10 Block! Add a few stories to your watch list for a quick start.",
-			'delay_seconds' => 3 * 3600, // Delay 3hr
+			'delay_seconds' => 10 * 60// 3 * 3600, // Delay 3hr
 		],
 		'57' => [
 			'setting_key' => NOTIFICATION_NEW_WATCHLIST,
@@ -152,25 +152,25 @@ class Notify_model extends BaseModel {
 			'setting_key' => NOTIFICATION_NEW_WATCHLIST,
 			'formatted' => "Add to <<story_name>> your watch list.",
 			'alert_formatted' => "Add to <<story_name>> your watch list.",
-			'delay_seconds' => 3600,
+			'delay_seconds' => 10 * 60// 3600,
 		],
 		'61' => [
 			'setting_key' => NOTIFICATION_NEW_PICKS,
 			'formatted' => "Pick up <<story_name>> where you left off.",
 			'alert_formatted' => "Pick up <<story_name>> where you left off.",
-			'delay_seconds' => 3600,
+			'delay_seconds' => 30 * 60// 3600,
 		],
 		'62' => [
 			'setting_key' => NOTIFICATION_NEW_PICKS,
 			'formatted' => "Did you enjoy that? Add <<story_name>> to your thumbs up.",
 			'alert_formatted' => "Did you enjoy that? Add <<story_name>> to your thumbs up.",
-			'delay_seconds' => 12 * 3600,
+			'delay_seconds' => 2 * 60// 12 * 3600,
 		],
 		'64' => [
 			'setting_key' => NOTIFICATION_NEW_PICKS,
 			'formatted' => "Let your friends know what you think of <<story_name>>.",
 			'alert_formatted' => "Let your friends know what you think of <<story_name>>.",
-			'delay_seconds' => 20 * 60,
+			'delay_seconds' => 5 * 60//20 * 60,
 		],
 	);
 
@@ -242,6 +242,13 @@ class Notify_model extends BaseModel {
 		if ($user_id != 0) {
 			$this->db->where('user_id', $user_id);
 		}
+		$this->db->delete('user_notify');
+	}
+
+	public function removeFollowingNotify($user_id, $following_user_id) {
+		$this->db->where('type <', 50);
+		$this->db->where('user_id', $user_id);
+		$this->db->like('data', '"user_id":' . $following_user_id, 'both');
 		$this->db->delete('user_notify');
 	}
 

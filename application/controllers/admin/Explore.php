@@ -197,13 +197,16 @@ class Explore extends Base_Controller {
 
 	public function addPreviewStory() {
 		$product_id = $this->input->post('product_id');
-		$explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
-		if ($explore_img != null && $explore_img['error'] == 0) {
-			$path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
-			$this->file_model->saveFile($explore_img, $path);
-			$promo_image = $path;
-		}
-		$max_priority = $this->preview_model->getMaxFilm();
+		$product = $this->product_model->get($product_id);
+        $explore_img = isset($_FILES['explore_img']) ? $_FILES['explore_img'] : null;
+        if ($explore_img != null && $explore_img['error'] == 0) {
+            $path = $this->file_model->createFileName($explore_img, 'media/films/', 'explore');
+            $this->file_model->saveFile($explore_img, $path);
+            $promo_image = $path;
+        }else {
+            $promo_image = $product['explore_image'];
+        }
+        $max_priority = $this->preview_model->getMaxFilm();
 		$params = array(
 			'product_id' => $product_id,
 			'promo_image' => $promo_image,
@@ -212,6 +215,11 @@ class Explore extends Base_Controller {
 			'status' => 1
 		);
 		$this->preview_model->insert($params);
+        //Update explore_image in product
+        $paramUpdate = array(
+            'explore_image' => $promo_image,
+        );
+        $this->product_model->update($paramUpdate, $product_id);
 		$this->redirect('explore/managePreviews');
 	}
 

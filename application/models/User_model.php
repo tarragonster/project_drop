@@ -74,6 +74,7 @@ class User_model extends BaseModel {
 			$this->db->where('u.user_type', $user_type);
 		}
 		$this->db->where('u.status', 1);
+		$this->db->where('u.is_deleted', 0);
 		$this->db->where('(user_name like "%' . $user_name . '%" or full_name like "%' . $user_name . '%")');
 		$this->db->group_by('u.user_id');
 		$this->db->order_by('followers', 'desc');
@@ -93,6 +94,7 @@ class User_model extends BaseModel {
 			$this->db->where('u.user_type', $user_type);
 		}
 		$this->db->where('u.status', 1);
+		$this->db->where('u.is_deleted', 0);
 		$this->db->group_by('u.user_id');
 		$this->db->order_by('followers', 'desc');
 		$this->db->order_by('user_name');
@@ -925,18 +927,18 @@ class User_model extends BaseModel {
 		return $query->result_array();
 	}
 
-	public function getListWatching($user_id, $page = -1, $isMe = true) {
-		$this->db->select('w.id, w.user_id, p.*, w.is_hidden,w.update_time');
-		$this->db->from('user_watch w');
-		$this->db->join('product_view p', 'p.product_id = w.product_id');
-		$this->db->where('w.user_id', $user_id);
+	public function getSeriesWatchList($user_id, $page = -1, $isMe = true) {
+		$this->db->select('wl.id, wl.user_id, p.*, wl.is_hidden');
+		$this->db->from('watch_list wl');
+		$this->db->join('product_view p', 'p.product_id = wl.product_id');
+		$this->db->where('wl.user_id', $user_id);
 		if (!$isMe) {
-			$this->db->where('w.is_hidden', 0);
+			$this->db->where('wl.is_hidden', 0);
 		}
 		if ($page >= 0) {
 			$this->db->limit(10, 10 * $page);
 		}
-		$this->db->order_by('w.id', 'desc');
+		$this->db->order_by('wl.id', 'desc');
 		$query = $this->db->get();
 		return $query->result_array();
 	}

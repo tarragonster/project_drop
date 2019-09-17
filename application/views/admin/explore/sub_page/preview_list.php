@@ -21,10 +21,10 @@
 						<li id="user_<?php echo $row['product_id']; ?>" data-id="<?php echo $row['product_id']; ?>">
 		                    <input type="hidden" name="positions[<?php echo $row['product_id']?>]" value="1">
 		                    <div class="card-box card-sorting row">
-		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="padding: 0px">
+		                        <div class="col-sm-3 col-lg-1 sortable-box width-5" style="padding: 0px;width: 50px">
 		                            <div class="sortable-move"><i class="icon-menu"></i></div>
 		                        </div>
-		                        <div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px;width: 80px">
+		                        <div class="col-sm-3 col-lg-2 sortable-box width-13" style="padding: 0px;width: 95px">
 	                               <?php echo image_mask(media_thumbnail($row['promo_image'], 50), 'assets/images/genre_mark.png', 50, 'height:50px;border-radius:10%', 'lozad')?>
 		                        </div>
 		                        <div class="col-sm-3 col-lg-1 sortable-box width-7" style="padding: 0px">

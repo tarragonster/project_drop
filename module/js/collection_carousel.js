@@ -68,7 +68,7 @@ function searchStory() {
 					var obj = JSON.parse(data);
 					html += "<ul id='result-search'>"
 					obj.forEach(function(item){
-						html += "<li class='result-item' data-id='" + item.product_id + "' data-value='" + item.name + "'>"
+						html += "<li class='result-item' data-id='" + item.product_id + "' data-value='" + item.name + "' data-image='" + item.promo_image + "'>"
 						html += "<a href='#' class='result-value'>" + item.name + "</a></li>"
 					})
 					html += "</ul>"
@@ -125,7 +125,7 @@ $(document).on('click','.result-item',function(){
 
 	$('#story_key').val(product_name)
 	$('#product_id').val(product_id)
-	$('#trending_image').attr('src', BASE_APP_URL + product_image)
+	$('.load_img').attr('src', BASE_APP_URL + product_image)
 	$('#other_story').html('')
 })
 
