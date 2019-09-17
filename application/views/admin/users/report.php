@@ -72,15 +72,16 @@
                                                     <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;
                                                     <span class="text-uppercase">Report Removed</span>
                                                 </td>
-                                            <?php }elseif ($row['user_status'] == 1){ $row_status = 'Report Removed'; ?>
-                                                <td class="header-item-content item-style status-tb">
-                                                    <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;
-                                                    <span class="text-uppercase">Report Removed</span>
-                                                </td>
-                                            <?php }else{ $row_status = 'Pending'; ?>
+                                            <?php }elseif($row['report_status'] == 'pending'){ $row_status = 'Pending'; ?>
                                                 <td class="header-item-content item-style status-tb">
                                                     <img src="<?= base_url('assets/imgs/warning.svg') ?>" alt="orange">&nbsp;
                                                     <span class="text-uppercase">Pending</span>
+                                                </td>
+
+                                            <?php }else{ $row_status = 'Report Removed' ?>
+                                                <td class="header-item-content item-style status-tb">
+                                                    <img src="<?= base_url('assets/imgs/green.svg') ?>" alt="green">&nbsp;
+                                                    <span class="text-uppercase">Report Removed</span>
                                                 </td>
                                             <?php } ?>
                                             <td class="header-item-content item-style">
@@ -122,7 +123,7 @@
                                                                 </li>
                                                             <?php }else{ ?>
                                                                 <li class="text-uppercase"
-                                                                    data-user_id="<?= $row['user_id'] ?>" onclick="ShowEnableUserReported(this)">
+                                                                    data-user_id="<?= $row['user_id'] ?>" data-report_id="<?= $row['report_id'] ?>" onclick="ShowEnableUserReported(this)">
                                                                     <a class="drp-items"><span>
                                                                 Enable User
                                                             </span></a>

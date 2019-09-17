@@ -294,7 +294,7 @@ class User{
         })
     }
     saveEnableUserReported(){
-        this.url = '/user/enableUserReported/' + this.user_id;
+        this.url = '/user/enableUserReported/' + this.user_id + '/' + this.report_id;
         this.typereq = 'POST';
         this.sendAjaxRequest(function (data) {
             location.reload()
@@ -768,6 +768,7 @@ function SaveDisableUserReported(){
 
 function ShowEnableUserReported(event){
     model.user_id = $(event).data('user_id');
+    model.report_id = $(event).data('report_id');
     $('#enable-user-reported').modal('show');
 
 }

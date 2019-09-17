@@ -1151,9 +1151,11 @@ class User_model extends BaseModel {
 	    $this->db->update('user', array('status'=>0));
     }
 
-    public function enableReported($user_id){
+    public function enableReported($user_id,$report_id){
         $this->db->where('user_id',$user_id);
         $this->db->update('user', array('status'=>1));
+        $this->db->where('report_id',$report_id);
+        $this->db->update('user_reports', array('status'=>'rejected'));
     }
 
     public function deleteUserStatus($user_id){
